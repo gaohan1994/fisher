@@ -27,3 +27,14 @@ export function createArchive(
   };
   return archive;
 }
+
+/**
+ * useArchive hook
+ * Archive 模块
+ *
+ * @export
+ * @return {*}
+ */
+export function useArchive() {
+  return {};
+}
