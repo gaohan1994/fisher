@@ -13,6 +13,10 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.20.2",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.16",
+    "@mui/styled-engine-sc": "^5.10.16",
     "invariant": "^2.2.4",
     "jsdom": "^20.0.3",
     "mobx": "^6.7.0",
@@ -20,6 +24,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
+    "styled-components": "^5.3.6",
     "vite-tsconfig-paths": "^3.6.0"
   },
   "devDependencies": {
