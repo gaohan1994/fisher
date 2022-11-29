@@ -19,7 +19,8 @@
     "mobx-react": "^7.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "vite-tsconfig-paths": "^3.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
