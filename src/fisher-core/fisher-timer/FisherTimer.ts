@@ -1,5 +1,7 @@
 import { makeAutoObservable, reaction } from 'mobx';
 
+type Timer = ReturnType<typeof setTimeout>;
+
 interface IFisherTimerAction {
   (): void;
 }
@@ -17,7 +19,7 @@ interface IFisherTimer {
  * @class FisherTimer
  */
 export class FisherTimer {
-  public timerId?: number;
+  public timerId?: Timer;
   public action: IFisherTimerAction;
   public actionInterval?: number;
   public active = false;
