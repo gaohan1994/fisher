@@ -7,7 +7,20 @@ interface IFisherTimerAction {
 }
 
 interface IFisherTimer {
+  /**
+   * 计时器要执行的action
+   *
+   * @type {IFisherTimerAction}
+   * @memberof IFisherTimer
+   */
   action: IFisherTimerAction;
+  /**
+   * 是否立即执行一次
+   * 默认开启
+   * @type {boolean}
+   * @memberof IFisherTimer
+   */
+  fireImmediately?: boolean;
 }
 
 /**
@@ -20,13 +33,15 @@ interface IFisherTimer {
  */
 export class FisherTimer {
   public timerId?: Timer;
+  public active = false;
   public action: IFisherTimerAction;
   public actionInterval?: number;
-  public active = false;
+  public fireImmediately: boolean;
 
-  constructor({ action }: IFisherTimer) {
+  constructor({ action, fireImmediately }: IFisherTimer) {
     makeAutoObservable(this);
     this.action = action;
+    this.fireImmediately = fireImmediately ?? true;
     reaction(() => this.active, this.timerActiveReaction);
   }
 
@@ -62,6 +77,7 @@ export class FisherTimer {
     if (isActive) {
       this.timerId && clearInterval(this.timerId);
       this.timerId = setInterval(() => this.action(), this.actionInterval);
+      this.fireImmediately && this.action();
     } else {
       this.timerId && clearInterval(this.timerId);
     }
