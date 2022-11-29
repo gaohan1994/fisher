@@ -1,3 +1,2 @@
-export * from './Launcher';
 export * from './Dev';
-export * from './Demo';
+export * from './FisherCoreDemo';
