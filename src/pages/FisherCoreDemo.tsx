@@ -9,6 +9,9 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import { FisherTimer } from '@FisherCore';
+import { prefixLogger } from '@FisherLogger';
+
+const logger = prefixLogger('FisherCoreDemo');
 
 const FisherTimerDemo: FC = observer(() => {
   const [sum, setSum] = useState(0);
@@ -26,6 +29,7 @@ const FisherTimerDemo: FC = observer(() => {
   }, [fireImmediately]);
 
   useEffect(() => {
+    logger.info('initialize timer demo');
     return () => {
       timer.stopTimer();
     };
