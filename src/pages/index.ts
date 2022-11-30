@@ -1,2 +1,2 @@
 export * from './Dev';
-export * from './FisherCoreDemo';
+export * from './demo/FisherCoreDemo';

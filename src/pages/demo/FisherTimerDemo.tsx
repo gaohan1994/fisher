@@ -1,19 +1,13 @@
 import { useEffect, useState, FC } from 'react';
 import { observer } from 'mobx-react';
-import {
-  Button,
-  Stack,
-  Box,
-  Paper,
-  Checkbox,
-  FormControlLabel,
-} from '@mui/material';
+import { Button, Stack, Checkbox, FormControlLabel } from '@mui/material';
 import { FisherTimer } from '@FisherCore';
 import { prefixLogger } from '@FisherLogger';
+import { DemoLayout } from './DemoLayout';
 
 const logger = prefixLogger('FisherCoreDemo');
 
-const FisherTimerDemo: FC = observer(() => {
+export const FisherTimerDemo: FC = observer(() => {
   const [sum, setSum] = useState(0);
   const [fireImmediately, setFireImmediately] = useState(true);
 
@@ -36,8 +30,7 @@ const FisherTimerDemo: FC = observer(() => {
   }, []);
 
   return (
-    <div>
-      <h3>FisherTimerDemo</h3>
+    <DemoLayout title="FisherTimerDemo">
       <div>Timer status: {timer.active ? 'active' : 'inActive'}</div>
       <div>sum: {sum}</div>
       <FormControlLabel
@@ -57,26 +50,6 @@ const FisherTimerDemo: FC = observer(() => {
           stopTimer
         </Button>
       </Stack>
-    </div>
+    </DemoLayout>
   );
 });
-
-export const FisherCoreDemo: FC = () => {
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          p: 1,
-          minWidth: 200,
-        },
-      }}
-    >
-      <Paper>
-        <FisherTimerDemo />
-      </Paper>
-    </Box>
-  );
-};
