@@ -19,7 +19,8 @@
     "jsx": "react-jsx",
     "paths": {
       "@": ["./src"],
-      "@FisherCore": ["./src/fisher-core"]
+      "@FisherCore": ["./src/fisher-core"],
+      "@FisherLogger": ["./src/fisher-logger"]
     }
   },
   "include": ["src"],
