@@ -7,7 +7,7 @@ export const prefixLogger = (...prefixes: Array<string>): PrefixLogger =>
   mainLogger.byPrefix(prefixes.join(':'));
 
 export const prefixes = {
-  PAGES: 'pages',
-  COMPONENTS: 'components',
-  FISHER_CORE: 'fisher_core',
+  PAGES: 'Pages',
+  COMPONENTS: 'Components',
+  FISHER_CORE: 'FisherCore',
 };

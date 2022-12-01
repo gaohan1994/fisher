@@ -10,7 +10,7 @@ export const DemoLayout: FC<PropsWithChildren<DemoLayoutProps>> = ({
   desc,
   children,
 }) => (
-  <div>
+  <div style={{ padding: 8 }}>
     {title && <h3>{title}</h3>}
     {desc &&
       (typeof desc === 'string' ? (
