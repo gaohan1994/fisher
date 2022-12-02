@@ -123,7 +123,7 @@ export class FisherBackpack {
         success = true;
         logger.info(
           `Success update ${item.name} x ${quantity} to backpack, `,
-          `current quantity: ${currentFisherBackpackItem.quantity + quantity}`
+          `current quantity: ${currentFisherBackpackItem.quantity}`
         );
       }
     } else {
