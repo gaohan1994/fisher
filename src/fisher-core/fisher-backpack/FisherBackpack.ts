@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import { FisherItem } from '@FisherCore';
 import { FisherBackpackItem } from './FisherBackpackItem';
-import { calculateItemPrice, isFisherItem } from './Utils';
+import { calculateItemPrice } from './Utils';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBackpack');
@@ -132,8 +132,10 @@ export class FisherBackpack {
     }
 
     if (success) {
+      logger.info(`Success add ${item.name} x ${quantity} to backpack`);
       return 'success';
     }
+    logger.info(`Fail add ${item.name} x ${quantity} to backpack`);
     return 'fail';
   };
 
@@ -158,9 +160,11 @@ export class FisherBackpack {
       backpackItem !== undefined,
       'Fail to reduce backpackItem quantity, backpackItem undefined'
     );
+    logger.info(`Success reduce ${item.name} x ${quantity} to backpack`);
     backpackItem.quantity -= quantity;
     // 如果减少之后物品数量 <= 0 则删除该物品
     if (backpackItem.quantity <= 0) {
+      logger.info(`Delete backpack ${item.name}, quantity <= 0`);
       this.items.delete(item);
     }
   };
@@ -199,6 +203,9 @@ export class FisherBackpack {
     const totalPrice = calculateItemPrice(item, sellQuantity);
     fisher.fisherGold.receiveGold(totalPrice);
     this.reduceItem(item.item, sellQuantity);
+    logger.info(
+      `Success sell ${item.item.name} x ${quantity}, price: ${item.item.price}, totalPrice: ${totalPrice}`
+    );
   };
 
   /**

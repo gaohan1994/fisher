@@ -1,4 +1,7 @@
 import { makeAutoObservable } from 'mobx';
+import { prefixLogger, prefixes } from '@FisherLogger';
+
+const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherGold');
 
 interface IFisherGold {
   gold?: number;
@@ -30,6 +33,7 @@ export class FisherGold {
    */
   public receiveGold = (value: number) => {
     this.gold += value;
+    logger.info(`Receive gold: ${value}, current: ${this.gold}`);
     return this;
   };
 }
