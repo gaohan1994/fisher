@@ -3,6 +3,7 @@ import { Paper, Stack } from '@mui/material';
 import { FisherTimerDemo } from './FisherTimerDemo';
 import { FisherGoldDemo } from './FisherGoldDemo';
 import { FisherBackpackDemo } from './FisherBackpackDemo';
+import { FisherRewardDemo } from './FisherRewardDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -24,6 +25,9 @@ const FisherCoreDemo: FC = () => (
       </Paper>
       <Paper>
         <FisherGoldDemo />
+      </Paper>
+      <Paper>
+        <FisherRewardDemo />
       </Paper>
     </DemoStack>
     <DemoStack>

@@ -11,7 +11,7 @@ import {
 import { FisherBackpackItem, FisherItem, FisherItemType } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
-const createTestBackpackItemPayload = (index: string) => ({
+export const createTestBackpackItemPayload = (index: string) => ({
   id: 'Test:Backpack:' + index,
   name: 'Test:BackpackItemName' + index,
   price: 10,
