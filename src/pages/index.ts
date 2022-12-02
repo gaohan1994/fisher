@@ -1,1 +1,1 @@
-export * from './demo/FisherCoreDemo';
+export * from './demo/FisherLauncher';

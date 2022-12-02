@@ -1,12 +1,11 @@
 import { FC, useState } from 'react';
 import { observer } from 'mobx-react';
-import { FisherGold } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 import { Button, TextField } from '@mui/material';
 
 export const FisherGoldDemo: FC = observer(() => {
-  const [fisherGold] = useState(new FisherGold({}));
   const [receiveGoldNumber, setReceiveGoldNumber] = useState('');
+  const { fisherGold } = fisher;
 
   return (
     <DemoLayout title="FisherGoldDemo">

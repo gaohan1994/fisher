@@ -1,4 +1,4 @@
-import { FC, Fragment, useRef, useState } from 'react';
+import { FC, Fragment, useRef } from 'react';
 import { observer } from 'mobx-react';
 import {
   Button,
@@ -8,12 +8,7 @@ import {
   ListItemText,
   Stack,
 } from '@mui/material';
-import {
-  FisherBackpack,
-  FisherBackpackItem,
-  FisherItem,
-  FisherItemType,
-} from '@FisherCore';
+import { FisherBackpackItem, FisherItem, FisherItemType } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
 const createTestBackpackItemPayload = (index: string) => ({
@@ -26,7 +21,7 @@ const createTestBackpackItemPayload = (index: string) => ({
 });
 
 export const FisherBackpackDemo: FC = observer(() => {
-  const [fisherBackpack] = useState(() => new FisherBackpack());
+  const { fisherBackpack } = fisher;
   const testItemIndex = useRef(1);
 
   const addNewItem = () => {
