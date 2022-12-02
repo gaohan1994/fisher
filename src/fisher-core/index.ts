@@ -4,3 +4,4 @@ export * from './fisher-item';
 export * from './fisher-backpack';
 export * from './fisher-gold';
 export * from './fisher-core';
+export * from './fisher-reward';
