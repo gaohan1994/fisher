@@ -1,4 +1,8 @@
+import { makeAutoObservable } from 'mobx';
 import { FisherItem } from '@FisherCore';
+import { prefixLogger, prefixes } from '@FisherLogger';
+
+const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherReward');
 
 /**
  * 添加物品奖励
@@ -69,6 +73,10 @@ export class FisherReward {
    */
   public rewardGold: number = 0;
 
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   /**
    * 添加物品奖励
    *
@@ -84,10 +92,18 @@ export class FisherReward {
       // 奖励物品数量 + quantity
       const rewardItemQuantity = this.rewardItems.get(item) ?? 0;
       this.rewardItems.set(item, rewardItemQuantity + quantity);
+      logger.info(
+        'Success update reward item: ' + item.name,
+        'quantity: ' + quantity,
+        'current reward item quantity: ' + rewardItemQuantity + quantity
+      );
     } else {
       // 如果不存在要添加的奖励物品
       // 则插入
       this.rewardItems.set(item, quantity);
+      logger.info(
+        `Success add reward item: ${item.name}, quantity: ${quantity}`
+      );
     }
     return this;
   };
@@ -101,6 +117,10 @@ export class FisherReward {
    */
   public addRewardGold: IFisherRewardAddRewardGold<this> = (gold) => {
     this.rewardGold += gold;
+    logger.info(
+      'Success add reward gold: ' + gold,
+      'current total reward gold: ' + this.rewardGold
+    );
     return this;
   };
 
@@ -123,10 +143,15 @@ export class FisherReward {
    */
   public executeRewards: IFisherRewardsExecuteRewards = () => {
     if (this.rewardGold > 0) {
+      logger.info('Execute reward gold: ' + this.rewardGold);
       fisher.fisherGold.receiveGold(this.rewardGold);
     }
     if (this.rewardItems.size > 0) {
       this.rewardItems.forEach((quantity, rewardItem) => {
+        logger.info(
+          'Execute reward item: ' + rewardItem.name,
+          'quantity: ' + quantity
+        );
         fisher.fisherBackpack.addItem(rewardItem, quantity);
       });
     }
