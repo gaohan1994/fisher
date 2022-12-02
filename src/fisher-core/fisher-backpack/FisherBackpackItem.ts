@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import { FisherItem } from '@FisherCore';
 
 interface IFisherBackpackItem {
@@ -28,6 +29,7 @@ export class FisherBackpackItem {
    */
   public quantity: number;
   constructor({ item, quantity }: IFisherBackpackItem) {
+    makeAutoObservable(this);
     this.item = item;
     this.quantity = quantity;
   }

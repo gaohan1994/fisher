@@ -118,21 +118,25 @@ export class FisherBackpack {
       // 如果背包中存在物品则添加相应数量
       const currentFisherBackpackItem = this.items.get(item);
       if (currentFisherBackpackItem !== undefined) {
-        this.items.set(item, {
-          ...currentFisherBackpackItem,
-          quantity: currentFisherBackpackItem.quantity + quantity,
-        });
+        currentFisherBackpackItem.quantity += quantity;
+        this.items.set(item, currentFisherBackpackItem);
         success = true;
+        logger.info(
+          `Success update ${item.name} x ${quantity} to backpack, `,
+          `current quantity: ${currentFisherBackpackItem.quantity + quantity}`
+        );
       }
     } else {
       // 如果背包中不存在该物品则新建物品类并保存
       const fisherBackpackItem = new FisherBackpackItem({ item, quantity });
       this.items.set(item, fisherBackpackItem);
+      logger.info(
+        `Success add new item: ${item.name} x ${quantity} to backpack`
+      );
       success = true;
     }
 
     if (success) {
-      logger.info(`Success add ${item.name} x ${quantity} to backpack`);
       return 'success';
     }
     logger.info(`Fail add ${item.name} x ${quantity} to backpack`);
@@ -150,22 +154,27 @@ export class FisherBackpack {
    * @memberof FisherBackpack
    */
   public reduceItem: IFisherBackpackReduceItem = (item, quantity) => {
-    // 减少物品的数量 > 0
     invariant(
       quantity > 0,
       'Fail to reduce backpack item, quantity should > 0'
     );
+
     const backpackItem = this.items.get(item);
     invariant(
       backpackItem !== undefined,
       'Fail to reduce backpackItem quantity, backpackItem undefined'
     );
-    logger.info(`Success reduce ${item.name} x ${quantity} to backpack`);
+
     backpackItem.quantity -= quantity;
-    // 如果减少之后物品数量 <= 0 则删除该物品
     if (backpackItem.quantity <= 0) {
-      logger.info(`Delete backpack ${item.name}, quantity <= 0`);
       this.items.delete(item);
+      logger.info(`Delete backpack ${item.name}, quantity <= 0`);
+    } else {
+      this.items.set(item, backpackItem);
+      logger.info(
+        `Success reduce ${item.name} x ${quantity} to backpack, `,
+        `current quantity: ${backpackItem.quantity}`
+      );
     }
   };
 
@@ -204,7 +213,8 @@ export class FisherBackpack {
     fisher.fisherGold.receiveGold(totalPrice);
     this.reduceItem(item.item, sellQuantity);
     logger.info(
-      `Success sell ${item.item.name} x ${quantity}, price: ${item.item.price}, totalPrice: ${totalPrice}`
+      `Success sell ${item.item.name} x ${quantity}, `,
+      `price: ${item.item.price}, totalPrice: ${totalPrice}`
     );
   };
 
