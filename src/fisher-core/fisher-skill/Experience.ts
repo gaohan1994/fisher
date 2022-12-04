@@ -1,3 +1,5 @@
+import invariant from 'invariant';
+
 const SKILL_MAX_LEVEL = 99;
 
 class ExperienceConfig {
@@ -39,7 +41,6 @@ class ExperienceConfig {
         // y = 40 * x^2 + 360 * x
         const currentExperience = 40 * Math.pow(index, 2) + 360 * index;
         this.config.push(currentExperience);
-      } else if (index <= 80) {
       }
     }
   };
@@ -69,6 +70,10 @@ export function calculateExperienceToLevel(experience: number): number {
  */
 export function calculateLevelToExperience(level: number): number {
   const { config } = experienceConfig;
+  invariant(
+    level <= config.length - 1,
+    'Fail to calculate level, out of max level 99: ' + level
+  );
   return config[level];
 }
 
