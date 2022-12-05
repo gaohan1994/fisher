@@ -56,7 +56,7 @@ export const experienceConfig = ExperienceConfig.instance();
  */
 export function calculateExperienceToLevel(experience: number): number {
   let level = 1;
-  while (calculateLevelToExperience(level) < experience) {
+  while (calculateLevelToExperience(level) <= experience) {
     level++;
   }
   return level;
@@ -77,32 +77,28 @@ export function calculateLevelToExperience(level: number): number {
   return config[level];
 }
 
-interface NextLevelExperienceConfig {
-  currentLevel: number;
-  currentLevelExperience: number;
-  nextLevel: number;
-  nextLevelExperience: number;
-  // 当前等级到下一等级的经验值
-  remainingExperience: number;
+export interface LevelExperienceInfo {
+  level: number;
+  // 当前等级升级到下一级需要的总经验
+  totalExperienceToLevelUp: number;
+  // 当前经验升到下一等级还需要的经验值
+  remainingExperienceToLevelUp: number;
 }
 
 /**
- * 计算下一等级需要的技能配置
+ * 计算技能经验等级相关信息
  *
  * @param {number} currentLevel
  */
-export function calculateNextLevelExperienceConfig(
-  currentLevel: number
-): NextLevelExperienceConfig {
-  const nextLevel = currentLevel + 1;
-  const currentLevelExperience = calculateLevelToExperience(currentLevel);
-  const nextLevelExperience = calculateLevelToExperience(nextLevel);
-  const remainingExperience = nextLevelExperience - currentLevelExperience;
+export function calculateLevelExperienceInfo(
+  experience: number
+): LevelExperienceInfo {
+  const level = calculateExperienceToLevel(experience);
+  const totalExperienceToLevelUp = calculateLevelToExperience(level);
+  const remainingExperienceToLevelUp = totalExperienceToLevelUp - experience;
   return {
-    currentLevel,
-    currentLevelExperience,
-    nextLevel,
-    nextLevelExperience,
-    remainingExperience,
+    level,
+    totalExperienceToLevelUp,
+    remainingExperienceToLevelUp,
   };
 }

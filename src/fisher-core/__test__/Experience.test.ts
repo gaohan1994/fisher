@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import {
   calculateLevelToExperience,
   calculateExperienceToLevel,
-  calculateNextLevelExperienceConfig,
+  calculateLevelExperienceInfo,
 } from '../fisher-skill/Experience';
 
 describe('Experience', () => {
@@ -18,16 +18,16 @@ describe('Experience', () => {
 
   test('should success calculate experience', () => {
     expect(calculateExperienceToLevel(319)).toBe(2);
-    expect(calculateExperienceToLevel(320)).toBe(2);
+    expect(calculateExperienceToLevel(320)).toBe(3);
     expect(calculateExperienceToLevel(321)).toBe(3);
   });
 
   test('should success calculate next level experience', () => {
-    expect(calculateNextLevelExperienceConfig(2).currentLevel).toBe(2);
-    expect(calculateNextLevelExperienceConfig(2).nextLevel).toBe(3);
-    expect(calculateNextLevelExperienceConfig(2).currentLevelExperience).toBe(
-      320
-    );
-    expect(calculateNextLevelExperienceConfig(2).nextLevelExperience).toBe(540);
+    const currentSkillExperience = 20;
+    const { level, totalExperienceToLevelUp, remainingExperienceToLevelUp } =
+      calculateLevelExperienceInfo(currentSkillExperience);
+    expect(level).toBe(1);
+    expect(totalExperienceToLevelUp).toBe(140);
+    expect(remainingExperienceToLevelUp).toBe(140 - currentSkillExperience);
   });
 });
