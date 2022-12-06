@@ -7,6 +7,7 @@ interface IFisherTimerAction {
 }
 
 interface IFisherTimer {
+  id?: string;
   /**
    * 计时器要执行的action
    *
@@ -32,14 +33,16 @@ interface IFisherTimer {
  * @class FisherTimer
  */
 export class FisherTimer {
+  public id: string;
   public timerId?: Timer;
   public active = false;
   public action: IFisherTimerAction;
   public actionInterval?: number;
   public fireImmediately: boolean;
 
-  constructor({ action, fireImmediately }: IFisherTimer) {
+  constructor({ id, action, fireImmediately }: IFisherTimer) {
     makeAutoObservable(this);
+    this.id = 'FisherTimer:' + (id ?? 'DefaultTimer');
     this.action = action;
     this.fireImmediately = fireImmediately ?? true;
     reaction(() => this.active, this.timerActiveReaction);

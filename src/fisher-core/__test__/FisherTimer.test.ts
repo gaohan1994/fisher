@@ -8,7 +8,12 @@ describe('FisherTimer', () => {
   test('action should called in timer', () => {
     vi.useFakeTimers();
     const action = vi.fn();
-    const fisherTimer = new FisherTimer({ action, fireImmediately: false });
+    const fisherTimer = new FisherTimer({
+      id: 'Test',
+      action,
+      fireImmediately: false,
+    });
+    expect(fisherTimer.id).toBe('FisherTimer:Test');
     fisherTimer.startTimer(50);
     vi.advanceTimersByTime(150);
     expect(action).toBeCalledTimes(3);
