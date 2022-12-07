@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { FisherItem } from '@FisherCore';
+import { FisherItem, FisherSkill } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherReward');
@@ -13,6 +13,8 @@ interface IFisherRewardAddRewardItem<This> {
   (item: FisherItem, quantity: number): This;
 }
 
+type IFisherRewardSetRewardItem<T> = IFisherRewardAddRewardItem<T>;
+
 /**
  * 添加金钱奖励
  *
@@ -21,6 +23,20 @@ interface IFisherRewardAddRewardItem<This> {
 interface IFisherRewardAddRewardGold<This> {
   (gold: number): This;
 }
+
+type IFisherRewardSetRewardGold<T> = IFisherRewardAddRewardGold<T>;
+
+/**
+ * 添加技能经验奖励
+ *
+ * @interface IFisherRewardAddRewardGold
+ */
+interface IFisherRewardAddRewardSkillExperience<This> {
+  (skill: FisherSkill, experience: number): This;
+}
+
+type IFisherRewardSetRewardSkillExperience<T> =
+  IFisherRewardAddRewardSkillExperience<T>;
 
 /**
  * 执行奖励
@@ -73,6 +89,14 @@ export class FisherReward {
    */
   public rewardGold: number = 0;
 
+  /**
+   * 技能经验奖励
+   *
+   * @type {Map<FisherSkill, number>}
+   * @memberof FisherReward
+   */
+  public rewardSkillExperience: Map<FisherSkill, number> = new Map();
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -108,6 +132,12 @@ export class FisherReward {
     return this;
   };
 
+  public setRewardItem: IFisherRewardSetRewardItem<this> = (item, quantity) => {
+    logger.info(`Success set reward item: ${item.name}, quantity: ${quantity}`);
+    this.rewardItems.set(item, quantity);
+    return this;
+  };
+
   /**
    * 添加金钱奖励
    *
@@ -124,6 +154,59 @@ export class FisherReward {
     return this;
   };
 
+  public setRewardGold: IFisherRewardSetRewardGold<this> = (gold) => {
+    logger.info(
+      'Success set reward gold: ' + gold,
+      'current total reward gold: ' + this.rewardGold
+    );
+    this.rewardGold = gold;
+    return this;
+  };
+
+  /**
+   * 添加技能经验奖励
+   *
+   * @param {*} skill
+   * @param {*} experience
+   * @type {IFisherRewardAddRewardSkillExperience<this>}
+   * @memberof FisherReward
+   */
+  public addRewardSkill: IFisherRewardAddRewardSkillExperience<this> = (
+    skill,
+    experience
+  ) => {
+    const hasRewardSkill = this.rewardSkillExperience.has(skill);
+    if (hasRewardSkill) {
+      // 如果要添加的技能已经存在
+      // 奖励技能经验 + experience
+      const rewardExperience = this.rewardSkillExperience.get(skill) ?? 0;
+      this.rewardSkillExperience.set(skill, rewardExperience + experience);
+      logger.info(
+        'Success update reward skill experience: ' + skill.name,
+        'experience: ' + experience,
+        'current reward skill experience: ' + rewardExperience + experience
+      );
+    } else {
+      // 如果不存在要添加的技能
+      this.rewardSkillExperience.set(skill, experience);
+      logger.info(
+        `Success add reward skill experience: ${skill.name}, experience: ${experience}`
+      );
+    }
+    return this;
+  };
+
+  public setRewardSkill: IFisherRewardSetRewardSkillExperience<this> = (
+    skill,
+    experience
+  ) => {
+    logger.info(
+      `Success set reward skill experience: ${skill.name}, experience: ${experience}`
+    );
+    this.rewardSkillExperience.set(skill, experience);
+    return this;
+  };
+
   /**
    * 清空所有奖励
    *
@@ -133,6 +216,8 @@ export class FisherReward {
   public resetRewards: IFisherRewardResetRewards = () => {
     this.rewardGold = 0;
     this.rewardItems.clear();
+    this.rewardSkillExperience.clear();
+    logger.info('Success reset rewards.');
   };
 
   /**
@@ -153,6 +238,15 @@ export class FisherReward {
           'quantity: ' + quantity
         );
         fisher.fisherBackpack.addItem(rewardItem, quantity);
+      });
+    }
+    if (this.rewardSkillExperience.size > 0) {
+      this.rewardSkillExperience.forEach((experience, rewardSkill) => {
+        logger.info(
+          'Execute reward skill experience: ' + rewardSkill.name,
+          'experience: ' + experience
+        );
+        rewardSkill.addExperience(experience);
       });
     }
   };
