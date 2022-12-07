@@ -5,6 +5,7 @@ import { FisherGoldDemo } from './FisherGoldDemo';
 import { FisherBackpackDemo } from './FisherBackpackDemo';
 import { FisherRewardDemo } from './FisherRewardDemo';
 import { ExperienceDemo } from './ExperienceDemo';
+import { ActionControlDemo } from './ActionControlDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -32,6 +33,11 @@ const FisherCoreDemo: FC = () => (
       </Paper>
       <Paper>
         <ExperienceDemo />
+      </Paper>
+    </DemoStack>
+    <DemoStack>
+      <Paper>
+        <ActionControlDemo />
       </Paper>
     </DemoStack>
     <DemoStack>
