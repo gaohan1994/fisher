@@ -54,6 +54,10 @@ export class ActionControl {
     this.disposes.push(actionControlDispose);
   }
 
+  public dispose = () => {
+    this.disposes.forEach((disposeCallback) => disposeCallback());
+  };
+
   public setActionActive = () => {
     fisher.setActiveActionId(this.actionId);
   };
