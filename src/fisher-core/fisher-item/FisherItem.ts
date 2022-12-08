@@ -1,14 +1,36 @@
-interface IFisherItem {
+export interface IFisherBaseItem {
   id: string;
   name: string;
-  price: number;
   media: string;
   desc: string;
+}
+
+/**
+ * 物品基类
+ *
+ * @class FisherBaseItem
+ */
+export class FisherBaseItem {
+  public id: string;
+  public name: string;
+  public desc: string;
+  public media: string;
+  constructor({ id, name, desc, media }: IFisherBaseItem) {
+    this.id = id;
+    this.name = name;
+    this.desc = desc;
+    this.media = media;
+  }
+}
+
+export interface IFisherItem extends IFisherBaseItem {
+  price: number;
   type: FisherItemType;
 }
 
 export enum FisherItemType {
   Test = 'Test',
+  Mining = 'Mining',
 }
 
 /**
@@ -20,20 +42,13 @@ export enum FisherItemType {
  * @export
  * @class FisherItem
  */
-export class FisherItem {
-  public id: string;
-  public name: string;
+export class FisherItem extends FisherBaseItem {
   public price: number;
-  public desc: string;
-  public media: string;
   public type: FisherItemType;
 
-  constructor({ id, name, price, desc, media, type }: IFisherItem) {
-    this.id = id;
-    this.name = name;
-    this.price = price;
-    this.desc = desc;
-    this.media = media;
-    this.type = type;
+  constructor(options: IFisherItem) {
+    super(options);
+    this.price = options.price;
+    this.type = options.type;
   }
 }
