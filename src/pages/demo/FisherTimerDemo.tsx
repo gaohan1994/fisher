@@ -1,7 +1,13 @@
 import { useEffect, useState, FC } from 'react';
 import { observer } from 'mobx-react';
-import { Button, Stack, Checkbox, FormControlLabel } from '@mui/material';
-import { FisherTimer } from '@FisherCore';
+import {
+  Button,
+  Stack,
+  Checkbox,
+  FormControlLabel,
+  LinearProgress,
+} from '@mui/material';
+import { FisherProgressTimer } from '@FisherCore';
 import { prefixLogger } from '@FisherLogger';
 import { DemoLayout } from './DemoLayout';
 
@@ -12,15 +18,10 @@ export const FisherTimerDemo: FC = observer(() => {
   const [fireImmediately, setFireImmediately] = useState(true);
 
   const [timer] = useState(
-    new FisherTimer({
+    new FisherProgressTimer({
       action: () => setSum((prevSum) => ++prevSum),
-      fireImmediately,
     })
   );
-
-  useEffect(() => {
-    timer.fireImmediately = fireImmediately;
-  }, [fireImmediately]);
 
   useEffect(() => {
     logger.info('initialize timer demo');
@@ -33,6 +34,7 @@ export const FisherTimerDemo: FC = observer(() => {
     <DemoLayout title="FisherTimerDemo">
       <div>Timer status: {timer.active ? 'active' : 'inActive'}</div>
       <div>sum: {sum}</div>
+      <LinearProgress variant="determinate" value={timer.progress} />
       <FormControlLabel
         label={`fireImmediately: ${fireImmediately ? 'open' : 'false'}`}
         control={
@@ -43,7 +45,7 @@ export const FisherTimerDemo: FC = observer(() => {
         }
       />
       <Stack direction="row" spacing={1}>
-        <Button variant="contained" onClick={() => timer.startTimer(1000)}>
+        <Button variant="contained" onClick={() => timer.startTimer(3000)}>
           startTimer
         </Button>
         <Button variant="contained" onClick={() => timer.stopTimer()}>
