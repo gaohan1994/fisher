@@ -1,0 +1,29 @@
+{
+    "type": "Collection",
+    "moduleName": "Mining",
+    "data": {
+        "items" : [
+            {
+                "id": "LowSpritMine",
+                "name": "低灵矿",
+                "desc": "一种很常见的矿石，灵气和纯度较低",
+                "media": "",
+                "type": "Mining",
+                "price": 5
+            }
+        ],
+        "recipes": [
+            { 
+                "id": "Mining:Recipe:LowSpritMine",
+                "name": "采矿",
+                "desc": "采集低灵矿",
+                "media": "",
+                "interval": 3000,
+                "unlockLevel": 1, 
+                "rewardExperience": 5,
+                "rewardItemId": "LowSpritMine",
+                "rewardQuantity": 1
+            }
+        ]
+    }
+}
