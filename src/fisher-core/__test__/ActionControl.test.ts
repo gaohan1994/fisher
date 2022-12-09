@@ -14,11 +14,12 @@ describe('ActionControl', () => {
   test('should run callback when set active action id equal current action id', () => {
     const onActionStartMock = vi.fn();
     const onActionStopMock = vi.fn();
-    const actionControl = new ActionControl({
-      actionId: testActionId,
-      onActionStart: onActionStartMock,
-      onActionStop: onActionStopMock,
-    });
+    const skill = {
+      id: testActionId,
+      startAction: onActionStartMock,
+      stopAction: onActionStopMock,
+    };
+    const actionControl = new ActionControl(skill);
     actionControl.setActionActive();
     expect(fisher.activeActionId).toBe(testActionId);
     expect(onActionStartMock).toBeCalled();

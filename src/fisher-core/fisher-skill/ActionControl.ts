@@ -4,47 +4,43 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'ActionControl');
 
-interface IActionControl {
-  actionId: string;
-  onActionStart: () => void;
-  onActionStop: () => void;
+interface FisherActionControlComponent {
+  id: string;
+  startAction: () => void;
+  stopAction: () => void;
 }
 
 /**
  * action 开关
  * 当全局 activeActionId 等于当前 action id 时触发 start 回调，否则触发 stop 回调
  *
- *
  * @export
  * @class ActionControl
- * @extends {FisherBase}
+ * @template T
  */
-export class ActionControl {
+export class ActionControl<T extends FisherActionControlComponent> {
   public actionId: string;
-  public onActionStart: () => void;
-  public onActionStop: () => void;
+  public controller: T;
   public disposes: IReactionDisposer[] = [];
 
-  constructor({ actionId, onActionStart, onActionStop }: IActionControl) {
+  constructor(controller: T) {
     makeAutoObservable(this);
 
     invariant(
-      !!actionId,
+      !!controller,
       'Fail to initialize ActionControl please set actionId'
     );
-    this.actionId = actionId;
+    this.controller = controller;
+    this.actionId = controller.id;
 
     invariant(
-      typeof onActionStart === 'function',
-      'Fail to initialize ActionControl please set onActionStart'
+      typeof controller.startAction === 'function',
+      'Fail to initialize ActionControl please set startAction'
     );
-    this.onActionStart = onActionStart;
-
     invariant(
-      typeof onActionStop === 'function',
-      'Fail to initialize ActionControl please set onActionStop'
+      typeof controller.stopAction === 'function',
+      'Fail to initialize ActionControl please set stopAction'
     );
-    this.onActionStop = onActionStop;
 
     const actionControlDispose = reaction(
       () => fisher.activeActionId === this.actionId,
@@ -69,10 +65,10 @@ export class ActionControl {
   private _actionControlMethod = (isCurrentActionActive: boolean) => {
     if (isCurrentActionActive) {
       logger.info(`Action ${this.actionId} start!`);
-      this.onActionStart();
+      this.controller.startAction();
     } else {
       logger.info(`Action ${this.actionId} stop!`);
-      this.onActionStop();
+      this.controller.stopAction();
     }
   };
 }
