@@ -6,3 +6,5 @@ export * from './fisher-gold';
 export * from './fisher-core';
 export * from './fisher-reward';
 export * from './fisher-skill';
+export * from './fisher-collection';
+export * from './fisher-packages';
