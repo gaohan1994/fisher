@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import { FisherItem, FisherSkillRecipe } from '@FisherCore';
+import { FisherItem, FisherSkillRecipe, FisherItemType } from '@FisherCore';
 
 /**
  * 根据 id 查找物品
@@ -17,6 +17,25 @@ export function findFisherItemById(fisherItemId: string): FisherItem {
     'Could not find fisherItem id: ' + fisherItemId
   );
   return fisherItem;
+}
+
+/**
+ * 查找某一类型的物品
+ *
+ * @export
+ * @param {FisherItemType} fisherItemType
+ * @return {*}  {FisherItem[]}
+ */
+export function findFisherItemsByType(
+  fisherItemType: FisherItemType
+): FisherItem[] {
+  const fisherItems: FisherItem[] = [];
+  fisher.packagesData.items.map((item) => {
+    if (item.type === fisherItemType) {
+      fisherItems.push(item);
+    }
+  });
+  return fisherItems;
 }
 
 /**

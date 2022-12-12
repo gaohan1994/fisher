@@ -13,6 +13,10 @@ export interface IFisherPackagesData {
   recipes: FisherSkillRecipe[];
 }
 
+interface IFisherComponentWithPackagesData {
+  packagesData: IFisherPackagesData;
+}
+
 interface IFisherRecipePackageJsonData {
   id: string;
   name: string;
@@ -34,6 +38,7 @@ interface IFisherRecipePackageJsonData {
 export function launchFisherGamePackagesData(fisherCore: FisherCore) {
   // 初始化采矿数据
   launchMiningPackagesData(fisherCore);
+  launchMiningPackagesData(fisherCore.mining);
 }
 
 /**
@@ -42,16 +47,18 @@ export function launchFisherGamePackagesData(fisherCore: FisherCore) {
  * @export
  * @param {FisherCore} fisherCore
  */
-export function launchMiningPackagesData(fisherCore: FisherCore) {
+export function launchMiningPackagesData<
+  T extends IFisherComponentWithPackagesData
+>(fisherComponent: T) {
   const fisherItems = launchPackagesFisherItems(
     miningDataJson.data.items as IFisherItem[]
   );
-  fisherCore.packagesData.items.push(...fisherItems);
+  fisherComponent.packagesData.items.push(...fisherItems);
   const recipes = launchPackagesRecipes(
     miningDataJson.data.recipes,
-    fisherCore
+    fisherComponent
   );
-  fisherCore.packagesData.recipes.push(...recipes);
+  fisherComponent.packagesData.recipes.push(...recipes);
 }
 
 /**
@@ -75,12 +82,11 @@ export function launchPackagesFisherItems(dataSource: IFisherItem[]) {
  * @param {IFisherRecipePackageJsonData[]} dataSource
  * @return {*}
  */
-export function launchPackagesRecipes(
-  dataSource: IFisherRecipePackageJsonData[],
-  fisherCore: FisherCore
-) {
+export function launchPackagesRecipes<
+  T extends IFisherComponentWithPackagesData
+>(dataSource: IFisherRecipePackageJsonData[], fisherComponent: T) {
   const recipes = dataSource.map((item) => {
-    const rewardItem = fisherCore.packagesData.items.find(
+    const rewardItem = fisherComponent.packagesData.items.find(
       (fisherItem) => fisherItem.id === item.rewardItemId
     );
     invariant(
