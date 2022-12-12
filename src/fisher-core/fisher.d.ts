@@ -9,4 +9,5 @@ declare module fisher {
   const fisherGold: import('./fisher-gold').FisherGold;
   const fisherBackpack: import('./fisher-backpack').FisherBackpack;
   const mining: import('./fisher-collection').Mining;
+  const fisherActionControl: import('./fisher-action-control').FisherActionControl;
 }

@@ -8,3 +8,4 @@ export * from './fisher-reward';
 export * from './fisher-skill';
 export * from './fisher-collection';
 export * from './fisher-packages';
+export * from './fisher-action-control';

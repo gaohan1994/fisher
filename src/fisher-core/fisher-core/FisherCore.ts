@@ -1,9 +1,10 @@
 import {
   IFisherPackagesData,
+  launchFisherGamePackagesData,
   Mining,
   FisherGold,
   FisherBackpack,
-  launchFisherGamePackagesData,
+  FisherActionControl,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { makeAutoObservable } from 'mobx';
@@ -11,14 +12,50 @@ import { makeAutoObservable } from 'mobx';
 const logger = prefixLogger(prefixes.FISHER_CORE);
 
 export class FisherCore {
-  public activeActionId: string = '';
+  /**
+   * 背包
+   *
+   * @type {FisherBackpack}
+   * @memberof FisherCore
+   */
   public fisherBackpack: FisherBackpack;
+
+  /**
+   * 货币
+   *
+   * @type {FisherGold}
+   * @memberof FisherCore
+   */
   public fisherGold: FisherGold;
+
+  /**
+   * AC action 管理
+   *
+   * @type {FisherActionControl<any>}
+   * @memberof FisherCore
+   */
+  public fisherActionControl: FisherActionControl<any>;
+
+  /**
+   * 采矿
+   *
+   * @type {Mining}
+   * @memberof FisherCore
+   */
+  public mining: Mining;
+
+  /**
+   * 游戏数据
+   * - items 基础物品
+   * - recipes 采集物品配方
+   *
+   * @type {IFisherPackagesData}
+   * @memberof FisherCore
+   */
   public packagesData: IFisherPackagesData = {
     items: [],
     recipes: [],
   };
-  public mining: Mining;
 
   /**
    * Creates an instance of FisherCore.
@@ -31,27 +68,22 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-    // 初始化背包系统
+
     this.fisherBackpack = new FisherBackpack();
-    // 初始化金币系统
     this.fisherGold = new FisherGold({});
-    // 初始化采矿系统
     this.mining = new Mining();
-    // 初始化游戏数据
     launchFisherGamePackagesData(this);
+
+    // 配置受控的 action 系统
+    this.fisherActionControl = new FisherActionControl();
+    this.fisherActionControl.addActionControlComponents([this.mining]);
+  }
+
+  public get activeActionId() {
+    return this.fisherActionControl.activeActionId;
   }
 
   public setActiveActionId = (value: string) => {
-    this.activeActionId = value;
+    this.fisherActionControl.setActiveActionId(value);
   };
-}
-
-export function fisherLaunch() {
-  logger.info('Fisher launch!');
-  const fisher = new FisherCore();
-
-  logger.info('Inject fisherCore into window object');
-  typeof window !== undefined && (window.fisher = fisher);
-
-  return fisher;
 }
