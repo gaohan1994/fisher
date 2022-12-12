@@ -5,7 +5,7 @@ import { FisherGoldDemo } from './FisherGoldDemo';
 import { FisherBackpackDemo } from './FisherBackpackDemo';
 import { FisherRewardDemo } from './FisherRewardDemo';
 import { ExperienceDemo } from './ExperienceDemo';
-import { ActionControlDemo } from './ActionControlDemo';
+import { MiningDemo } from './MiningDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -36,11 +36,6 @@ const FisherCoreDemo: FC = () => (
       </Paper>
     </DemoStack>
     <DemoStack>
-      <Paper>
-        <ActionControlDemo />
-      </Paper>
-    </DemoStack>
-    <DemoStack>
       <Paper
         elevation={2}
         sx={{
@@ -48,6 +43,9 @@ const FisherCoreDemo: FC = () => (
         }}
       >
         <FisherBackpackDemo />
+      </Paper>
+      <Paper>
+        <MiningDemo />
       </Paper>
     </DemoStack>
   </Stack>
