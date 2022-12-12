@@ -1,4 +1,3 @@
-export * from './fisher-base';
 export * from './fisher-timer';
 export * from './fisher-item';
 export * from './fisher-backpack';
@@ -6,6 +5,6 @@ export * from './fisher-gold';
 export * from './fisher-core';
 export * from './fisher-reward';
 export * from './fisher-skill';
-export * from './fisher-collection';
+export * from './fisher-modules';
 export * from './fisher-packages';
 export * from './fisher-action-control';
