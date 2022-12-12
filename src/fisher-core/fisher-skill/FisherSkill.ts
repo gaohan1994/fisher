@@ -1,13 +1,12 @@
-import { IReactionDisposer, makeAutoObservable, reaction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
+import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { FisherTimer, FisherReward } from '@FisherCore';
+import { FisherProgressTimer as FisherTimer, FisherReward } from '@FisherCore';
 import {
-  calculateExperienceToLevel,
   calculateLevelExperienceInfo,
   LevelExperienceInfo,
 } from './Experience';
 import { FisherSkillRecipe } from './FisherSkillRecipe';
-import invariant from 'invariant';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherSkill');
 
@@ -35,7 +34,7 @@ interface IFisherSkillSetExperience {
   (value: number): void;
 }
 
-type CalculateActionRewardCondition = [Set<FisherSkillRecipe>];
+type IFisherSkillLevelInfo = LevelExperienceInfo;
 
 /**
  * 技能模块
@@ -49,18 +48,26 @@ export class FisherSkill {
   public id: string;
   public name: string;
   public experience: number;
-  public selectedRecipes: Set<FisherSkillRecipe> = new Set();
-  public disposes: IReactionDisposer[] = [];
 
-  private timer: FisherTimer;
-  private timerInterval: number;
   /**
-   * 技能奖励
+   * 选中的配方
    *
-   * @type {FisherReward}
+   * @type {FisherSkillRecipe}
    * @memberof FisherSkill
    */
-  private fisherReward: FisherReward = new FisherReward();
+  public activeRecipe?: FisherSkillRecipe;
+
+  /**
+   * - timer 执行任务的定时器
+   * - timerInterval 执行任务间隔
+   * - actionRewards 每次执行任务发放的奖励
+   *
+   * @type {FisherTimer}
+   * @memberof FisherSkill
+   */
+  public timer: FisherTimer;
+  public timerInterval: number = 0;
+  public actionRewards: FisherReward = new FisherReward();
 
   constructor({ id, name, experience }: IFisherSkill) {
     makeAutoObservable(this);
@@ -68,22 +75,10 @@ export class FisherSkill {
     this.id = id;
     this.name = name;
     this.experience = experience ?? 0;
-    this.timer = new FisherTimer({ id: this.id, action: () => this.action() });
-    this.timerInterval = -Infinity;
-
-    const calculateSkillActionRewardsDispose = reaction(
-      () => [this.selectedRecipes] as CalculateActionRewardCondition,
-      this._calculateSkillActionRewards
-    );
-    this.disposes.push(calculateSkillActionRewardsDispose);
-  }
-
-  public dispose = () => {
-    this.disposes.forEach((disposeCallback) => disposeCallback());
-  };
-
-  public get level(): number {
-    return calculateExperienceToLevel(this.experience);
+    this.timer = new FisherTimer({
+      id: this.id,
+      action: () => this.action(),
+    });
   }
 
   /**
@@ -93,8 +88,18 @@ export class FisherSkill {
    * @type {LevelExperienceInfo}
    * @memberof FisherSkill
    */
-  public get levelExpInfo(): LevelExperienceInfo {
+  public get levelInfo(): IFisherSkillLevelInfo {
     return calculateLevelExperienceInfo(this.experience);
+  }
+
+  /**
+   * 技能进度
+   *
+   * @readonly
+   * @memberof FisherSkill
+   */
+  public get progress() {
+    return this.timer.progress;
   }
 
   public addExperience: IFisherSkillAddExperience = (value: number) => {
@@ -105,16 +110,33 @@ export class FisherSkill {
     this.experience = value;
   };
 
-  public addSelectedRecipe = (value: FisherSkillRecipe) => {
-    if (this.selectedRecipes.has(value)) {
-      logger.info(`FisherSkill: ${this.id} already have recipe: ${value.name}`);
+  /**
+   * 更新选中的配方
+   * - 如果没有选中配方则设置为选中配方
+   * - 如果当前已经有选中配方则替换
+   *
+   * @param {FisherSkillRecipe} value
+   * @memberof FisherSkill
+   */
+  public updateActiveRecipe = (value: FisherSkillRecipe) => {
+    if (this.activeRecipe !== undefined) {
+      logger.info(`FisherSkill: ${this.id} replace recipe: ${value.name}`);
     }
-    this.selectedRecipes.add(value);
+    this.activeRecipe = value;
+  };
+
+  /**
+   * 重置选中配方
+   *
+   * @memberof FisherSkill
+   */
+  public resetActiveRecipe = () => {
+    this.activeRecipe = undefined;
   };
 
   public action = () => {
-    logger.info(`Run skill action ${this.id}`);
-    this.fisherReward.executeRewards();
+    logger.info(`Execute action ${this.id}`);
+    this.actionRewards.executeRewards();
   };
 
   /**
@@ -123,12 +145,12 @@ export class FisherSkill {
    * @memberof FisherSkill
    */
   public startAction = () => {
-    logger.info(`Start skill ${this.id}`);
-    invariant(
-      this.timerInterval > 0,
-      `Fail to start skill ${this.id}, skill interval must > 0`
-    );
+    this._initializeTimerAndRewards();
     this.timer.startTimer(this.timerInterval);
+    logger.info(
+      'Start skill: ' + this.id,
+      'timer interval: ' + this.timerInterval
+    );
   };
 
   /**
@@ -142,20 +164,21 @@ export class FisherSkill {
   };
 
   /**
-   * 计算出每次执行技能之后的奖励
+   * 计算出 action 和 timer 执行的奖励和间隔
    *
    * @readonly
    * @memberof FisherSkill
    */
-  private _calculateSkillActionRewards = ([
-    selectedRecipes,
-  ]: CalculateActionRewardCondition) => {
-    let interval = 0;
-    selectedRecipes.forEach((recipe) => {
-      this.fisherReward.addRewardItem(recipe.rewardItem, recipe.rewardQuantity);
-      this.fisherReward.addRewardSkill(this, recipe.rewardExperience);
-      interval += recipe.interval;
-    });
-    this.timerInterval = interval;
+  private _initializeTimerAndRewards = () => {
+    invariant(
+      this.activeRecipe !== undefined,
+      'Fail to initialize skill action, please set recipe!'
+    );
+    this.actionRewards.setRewardItem(
+      this.activeRecipe.rewardItem,
+      this.activeRecipe.rewardQuantity
+    );
+    this.actionRewards.setRewardSkill(this, this.activeRecipe.rewardExperience);
+    this.timerInterval = this.activeRecipe.interval;
   };
 }
