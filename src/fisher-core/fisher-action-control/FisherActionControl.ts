@@ -37,8 +37,8 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
   constructor() {
     makeAutoObservable(this);
 
-    const actionControlDispose = reaction<boolean>(
-      () => this.componentMap.has(this.activeActionId),
+    const actionControlDispose = reaction<string>(
+      () => this.activeActionId,
       this._actionControlMethod
     );
     this.disposes.push(actionControlDispose);
@@ -87,7 +87,8 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
    *   ]
    * @memberof FisherActionControl
    */
-  private _actionControlMethod = (isSomeActionActive: boolean) => {
+  private _actionControlMethod = (currentActiveActionId: string) => {
+    const isSomeActionActive = this.componentMap.has(currentActiveActionId);
     if (!isSomeActionActive) return this._stopAllComponents();
 
     this.componentMap.forEach((component) => {
