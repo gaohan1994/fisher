@@ -79,6 +79,7 @@ export function calculateLevelToExperience(level: number): number {
 
 export interface LevelExperienceInfo {
   level: number;
+  experience: number;
   // 当前等级升级到下一级需要的总经验
   totalExperienceToLevelUp: number;
   // 当前经验升到下一等级还需要的经验值
@@ -98,6 +99,7 @@ export function calculateLevelExperienceInfo(
   const remainingExperienceToLevelUp = totalExperienceToLevelUp - experience;
   return {
     level,
+    experience,
     totalExperienceToLevelUp,
     remainingExperienceToLevelUp,
   };

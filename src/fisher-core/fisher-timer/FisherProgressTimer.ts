@@ -2,7 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx';
 
 type Timer = ReturnType<typeof setTimeout>;
 
-const FisherTimerProgressInterval = 500;
+const FisherTimerProgressInterval = 300;
 const FisherTimerProgressThreshold = 100;
 
 interface IFisherTimerAction {

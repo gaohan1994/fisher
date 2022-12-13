@@ -59,8 +59,12 @@ export class Mining {
     });
   }
 
-  public get selectedRecipes() {
-    return this.skill.selectedRecipes;
+  public get activeRecipe() {
+    return this.skill.activeRecipe;
+  }
+
+  public get levelInfo() {
+    return this.skill.levelInfo;
   }
 
   public start = (value: FisherSkillRecipe) => {
@@ -68,15 +72,19 @@ export class Mining {
       (item) => item.id === value.id
     );
     invariant(recipe !== undefined, 'Can not find selected recipe ' + value.id);
+
+    this.skill.updateActiveRecipe(recipe);
     logger.info('Add selected recipe: ', recipe);
-    fisher.setActiveActionId(this.id);
-    this.skill.addSelectedRecipe(recipe);
+
     this.skill.startAction();
     this.setIsActive(true);
+
+    fisher.setActiveActionId(this.id);
   };
 
   public stop = () => {
     this.skill.stopAction();
+    this.skill.resetActiveRecipe();
     this.setIsActive(false);
   };
 
