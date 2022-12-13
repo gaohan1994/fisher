@@ -9,10 +9,10 @@ vi.stubGlobal('fisher', fisher);
 describe('Reiki', () => {
   test('should success initialize Reiki', () => {
     const fisherCore = new FisherCore();
-    expect(fisherCore.mining.id).toBe('Reiki');
-    expect(fisherCore.mining.name).toBe('灵气');
-    expect(fisherCore.mining.skill.id).toBe('Reiki:Skill');
-    expect(fisherCore.mining.skill.experience).toBe(0);
+    expect(fisherCore.reiki.id).toBe('Reiki');
+    expect(fisherCore.reiki.name).toBe('灵气');
+    expect(fisherCore.reiki.skill.id).toBe('Reiki:Skill');
+    expect(fisherCore.reiki.skill.experience).toBe(0);
   });
 
   test('should set active id when start Reiki', () => {
