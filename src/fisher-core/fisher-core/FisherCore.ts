@@ -5,6 +5,7 @@ import {
   FisherGold,
   FisherBackpack,
   FisherActionControl,
+  Reiki,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { makeAutoObservable } from 'mobx';
@@ -45,6 +46,14 @@ export class FisherCore {
   public mining: Mining;
 
   /**
+   * 灵气
+   *
+   * @type {Reiki}
+   * @memberof FisherCore
+   */
+  public reiki: Reiki;
+
+  /**
    * 游戏数据
    * - items 基础物品
    * - recipes 采集物品配方
@@ -72,11 +81,15 @@ export class FisherCore {
     this.fisherBackpack = new FisherBackpack();
     this.fisherGold = new FisherGold({});
     this.mining = new Mining();
+    this.reiki = new Reiki();
     launchFisherGamePackagesData(this);
 
     // 配置受控的 action 系统
     this.fisherActionControl = new FisherActionControl();
-    this.fisherActionControl.addActionControlComponents([this.mining]);
+    this.fisherActionControl.addActionControlComponents([
+      this.mining,
+      this.reiki,
+    ]);
   }
 
   public get activeActionId() {

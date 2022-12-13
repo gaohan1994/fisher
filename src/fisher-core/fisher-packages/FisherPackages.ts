@@ -7,11 +7,15 @@ import {
   FisherSkillRecipe,
 } from '@FisherCore';
 import miningDataJson from './data/MiningData.json';
+import reikiDataJson from './data/ReikiData.json';
 
 export interface IFisherPackagesData {
   items: FisherItem[];
   recipes: FisherSkillRecipe[];
+  recipePartMap?: RecipePartMap;
 }
+
+type RecipePartMap = Map<string, FisherSkillRecipe[]>;
 
 interface IFisherComponentWithPackagesData {
   packagesData: IFisherPackagesData;
@@ -37,25 +41,25 @@ interface IFisherRecipePackageJsonData {
  */
 export function launchFisherGamePackagesData(fisherCore: FisherCore) {
   // 初始化采矿数据
-  launchMiningPackagesData(fisherCore);
-  launchMiningPackagesData(fisherCore.mining);
+  launchPackagesJsonData(fisherCore, miningDataJson);
+  launchPackagesJsonData(fisherCore.mining, miningDataJson);
+
+  // 初始化灵气数据
+  launchPackagesJsonData(fisherCore, reikiDataJson);
+  launchPackagesJsonData(fisherCore.reiki, reikiDataJson);
+  makeRecipePartMap(fisherCore.reiki);
 }
 
-/**
- * 初始化采矿模块数据
- *
- * @export
- * @param {FisherCore} fisherCore
- */
-export function launchMiningPackagesData<
-  T extends IFisherComponentWithPackagesData
->(fisherComponent: T) {
+function launchPackagesJsonData<T extends IFisherComponentWithPackagesData>(
+  fisherComponent: T,
+  dataSource: any
+) {
   const fisherItems = launchPackagesFisherItems(
-    miningDataJson.data.items as IFisherItem[]
+    dataSource.data.items as IFisherItem[]
   );
   fisherComponent.packagesData.items.push(...fisherItems);
   const recipes = launchPackagesRecipes(
-    miningDataJson.data.recipes,
+    dataSource.data.recipes,
     fisherComponent
   );
   fisherComponent.packagesData.recipes.push(...recipes);
@@ -107,4 +111,27 @@ export function launchPackagesRecipes<
     });
   });
   return recipes;
+}
+
+/**
+ * 整合重名的配方
+ *
+ * @param {FisherSkillRecipe[]} recipes
+ * @return {*}  {RecipePartMap}
+ */
+function makeRecipePartMap<T extends IFisherComponentWithPackagesData>(
+  fisherComponent: T
+) {
+  const result = new Map();
+  fisherComponent.packagesData.recipes.forEach((item) => {
+    if (result.has(item.name)) {
+      const prevRecipeValue = result.get(item.name);
+      invariant(prevRecipeValue !== undefined, 'Fail to add recipe to map');
+      prevRecipeValue.push(item);
+      result.set(item.name, prevRecipeValue);
+    } else {
+      result.set(item.name, [item]);
+    }
+  });
+  fisherComponent.packagesData.recipePartMap = result;
 }
