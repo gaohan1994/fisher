@@ -5,7 +5,7 @@ const logger = prefixLogger(prefixes.FISHER_CORE, 'ActionControl');
 
 interface FisherActionControlComponent {
   id: string;
-  stopAction: () => void;
+  stop: () => void;
 }
 
 /**
@@ -105,7 +105,7 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
   };
 
   private _stopComponent = (component: FisherActionControlComponent) => {
-    component.stopAction();
+    component.stop();
     logger.info(`Action ${component.id} stop!`);
   };
 }

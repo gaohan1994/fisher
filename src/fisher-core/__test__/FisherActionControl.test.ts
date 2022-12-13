@@ -12,7 +12,7 @@ describe('FisherActionControl', () => {
     const FAC = new FisherActionControl();
     const testSkill = {
       id: 'Test:Skill',
-      stopAction: vi.fn(),
+      stop: vi.fn(),
     };
     FAC.addActionControlComponent(testSkill);
     expect(FAC.componentMap.size).toBe(1);
@@ -23,12 +23,12 @@ describe('FisherActionControl', () => {
     const id1 = 'Test:Skill1';
     const testSkill1 = {
       id: id1,
-      stopAction: vi.fn(),
+      stop: vi.fn(),
     };
     const id2 = 'Test:Skill2';
     const testSkill2 = {
       id: id2,
-      stopAction: vi.fn(),
+      stop: vi.fn(),
     };
     FAC.addActionControlComponents([testSkill1, testSkill2]);
     expect(FAC.componentMap.size).toBe(2);
@@ -36,6 +36,6 @@ describe('FisherActionControl', () => {
     expect(FAC.activeActionId).toBe(id1);
     FAC.setActiveActionId(id2);
     expect(FAC.activeActionId).toBe(id2);
-    expect(testSkill1.stopAction).toBeCalled();
+    expect(testSkill1.stop).toBeCalled();
   });
 });
