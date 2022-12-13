@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import {
   FisherSkill,
-  IFisherPackagesData,
   FisherSkillRecipe,
+  IFisherMiningPackagesData,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import invariant from 'invariant';
@@ -42,7 +42,7 @@ export class Mining {
   public name: string;
   public skill: FisherSkill;
   public isActive: boolean = false;
-  public packagesData: IFisherPackagesData = {
+  public packagesData: IFisherMiningPackagesData = {
     items: [],
     recipes: [],
   };

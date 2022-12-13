@@ -11,13 +11,37 @@ import reikiDataJson from './data/ReikiData.json';
 export interface IFisherPackagesData {
   items: FisherItem[];
   recipes: FisherSkillRecipe[];
-  recipePartMap?: RecipePartMap;
+  recipePartMap: RecipePartMap;
 }
 
 type RecipePartMap = Map<string, FisherSkillRecipe[]>;
 
+type IFisherCollectionPackageItemsAndRecipes = Pick<
+  IFisherPackagesData,
+  'items' | 'recipes'
+>;
+
+export type IFisherMiningPackagesData = IFisherCollectionPackageItemsAndRecipes;
+
 interface IFisherComponentWithPackagesData {
   packagesData: IFisherPackagesData;
+}
+
+interface PackageCollectionJsonDataSource {
+  moduleName: string;
+  data: {
+    items: IFisherItemPackageJsonDatga[];
+    recipes: IFisherRecipePackageJsonData[];
+  };
+}
+
+interface IFisherItemPackageJsonDatga {
+  id: string;
+  name: string;
+  desc: string;
+  media: string;
+  type: string;
+  price: number;
 }
 
 interface IFisherRecipePackageJsonData {
@@ -40,54 +64,41 @@ interface IFisherRecipePackageJsonData {
  */
 export function launchFisherGamePackagesData(fisherCore: FisherCore) {
   // 初始化采矿数据
-  launchPackagesJsonData(fisherCore, miningDataJson);
-  launchPackagesJsonData(fisherCore.mining, miningDataJson);
+  const { items: miningItems, recipes: miningRecipes } =
+    makePackageCollectionDataSource(miningDataJson);
+  fisherCore.mining.packagesData.items.push(...miningItems);
+  fisherCore.mining.packagesData.recipes.push(...miningRecipes);
 
   // 初始化灵气数据
-  launchPackagesJsonData(fisherCore, reikiDataJson);
-  launchPackagesJsonData(fisherCore.reiki, reikiDataJson);
+  const { items: reikiItems, recipes: reikiRecipes } =
+    makePackageCollectionDataSource(reikiDataJson);
+  fisherCore.reiki.packagesData.items.push(...reikiItems);
+  fisherCore.reiki.packagesData.recipes.push(...reikiRecipes);
+
+  fisherCore.packagesData.items.push(...miningItems, ...reikiItems);
+  fisherCore.packagesData.recipes.push(...miningRecipes, ...reikiRecipes);
+
+  // 根据 recipe name 划分配方
   makeRecipePartMap(fisherCore.reiki);
-}
-
-function launchPackagesJsonData<T extends IFisherComponentWithPackagesData>(
-  fisherComponent: T,
-  dataSource: any
-) {
-  const fisherItems = launchPackagesFisherItems(
-    dataSource.data.items as IFisherItem[]
-  );
-  fisherComponent.packagesData.items.push(...fisherItems);
-  const recipes = launchPackagesRecipes(
-    dataSource.data.recipes,
-    fisherComponent
-  );
-  fisherComponent.packagesData.recipes.push(...recipes);
+  makeRecipePartMap(fisherCore);
 }
 
 /**
- * 初始化普通物品
+ * 根据 JSON 初始化游戏数据
  *
- * @export
- * @param {IFisherItem[]} dataSource
- * @return {*}
+ * @param {PackageCollectionJsonDataSource} dataSource
+ * @return {*}  {IFisherCollectionPackageItemsAndRecipes}
  */
-export function launchPackagesFisherItems(dataSource: IFisherItem[]) {
-  const fisherItems = dataSource.map((item) => new FisherItem({ ...item }));
-  return fisherItems;
-}
+function makePackageCollectionDataSource(
+  dataSource: PackageCollectionJsonDataSource
+): IFisherCollectionPackageItemsAndRecipes {
+  const {
+    data: { items: itemsJson, recipes: recipesJson },
+  } = dataSource;
+  const items = launchPackagesFisherItems(itemsJson as IFisherItem[]);
 
-/**
- * 初始化技能配方
- *
- * @export
- * @param {IFisherRecipePackageJsonData[]} dataSource
- * @return {*}
- */
-export function launchPackagesRecipes<
-  T extends IFisherComponentWithPackagesData
->(dataSource: IFisherRecipePackageJsonData[], fisherComponent: T) {
-  const recipes = dataSource.map((item) => {
-    const rewardItem = fisherComponent.packagesData.items.find(
+  const recipes = recipesJson.map((item) => {
+    const rewardItem = items.find(
       (fisherItem) => fisherItem.id === item.rewardItemId
     );
     invariant(
@@ -107,7 +118,21 @@ export function launchPackagesRecipes<
       rewardQuantity: item.rewardQuantity,
     });
   });
-  return recipes;
+  return { items, recipes };
+}
+
+/**
+ * 初始化普通物品
+ *
+ * @export
+ * @param {IFisherItem[]} dataSource
+ * @return {*}
+ */
+function launchPackagesFisherItems(itemsJson: IFisherItemPackageJsonDatga[]) {
+  const fisherItems = itemsJson.map(
+    (item) => new FisherItem({ ...(item as IFisherItem) })
+  );
+  return fisherItems;
 }
 
 /**

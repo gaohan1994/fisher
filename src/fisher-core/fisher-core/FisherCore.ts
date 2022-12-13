@@ -64,6 +64,7 @@ export class FisherCore {
   public packagesData: IFisherPackagesData = {
     items: [],
     recipes: [],
+    recipePartMap: new Map(),
   };
 
   /**
