@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import { PrefixLogger } from './PrefixLogger';
 import { LoggerMonitor } from './LoggerMonitor';
 import { ILoggerConfig, LoggerLevel, LoggerColorMap } from './type';
@@ -18,6 +19,7 @@ export class Logger {
   private _LoggerMonitor: LoggerMonitor;
 
   constructor(initialOptions: ILoggerConfig = loggerDefaultOptions) {
+    makeAutoObservable(this);
     this.level = initialOptions.level;
     this._LoggerMonitor = new LoggerMonitor();
   }
@@ -44,6 +46,10 @@ export class Logger {
    */
   public byPrefix = (prefix: string) =>
     new PrefixLogger({ baseLog: this.log, prefix });
+
+  public setLevel = (level: LoggerLevel) => {
+    this.level = level;
+  };
 
   /**
    * 返回优先级比对接口

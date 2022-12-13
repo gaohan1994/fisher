@@ -11,3 +11,5 @@ export const prefixes = {
   COMPONENTS: 'Components',
   FISHER_CORE: 'FisherCore',
 };
+
+(window as any).logger = mainLogger;
