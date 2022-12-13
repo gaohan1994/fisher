@@ -1,47 +1,47 @@
 {
-    "moduleName": "Mining",
-    "data": {
-        "items" : [
-            {
-                "id": "LowSpiritMine",
-                "name": "低灵矿",
-                "desc": "一种很常见的矿石，灵气和纯度较低",
-                "media": "",
-                "type": "Mining",
-                "price": 5
-            },
-            {
-                "id": "FiveElementsStone",
-                "name": "五行晶石",
-                "desc": "蕴含金木水火土五种灵力的晶石",
-                "media": "",
-                "type": "Mining",
-                "price": 5
-            }
-        ],
-        "recipes": [
-            { 
-                "id": "Mining:Recipe:LowSpiritMine",
-                "name": "低灵矿",
-                "desc": "采集低灵矿",
-                "media": "",
-                "interval": 1000,
-                "unlockLevel": 1, 
-                "rewardExperience": 20,
-                "rewardItemId": "LowSpiritMine",
-                "rewardQuantity": 1
-            },
-            { 
-                "id": "Mining:Recipe:FiveElementsStone",
-                "name": "五行晶石",
-                "desc": "采集五行晶石",
-                "media": "",
-                "interval": 5000,
-                "unlockLevel": 1, 
-                "rewardExperience": 10,
-                "rewardItemId": "FiveElementsStone",
-                "rewardQuantity": 1
-            }
-        ]
-    }
+  "moduleName": "Mining",
+  "data": {
+    "items": [
+      {
+        "id": "LowSpiritMine",
+        "name": "低灵矿",
+        "desc": "一种很常见的矿石，灵气和纯度较低",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      },
+      {
+        "id": "FiveElementsStone",
+        "name": "五行晶石",
+        "desc": "蕴含金木水火土五种灵力的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      }
+    ],
+    "recipes": [
+      {
+        "id": "Mining:Recipe:LowSpiritMine",
+        "name": "低灵矿",
+        "desc": "采集低灵矿",
+        "media": "",
+        "interval": 1000,
+        "unlockLevel": 1,
+        "rewardExperience": 20,
+        "rewardItemId": "LowSpiritMine",
+        "rewardQuantity": 1
+      },
+      {
+        "id": "Mining:Recipe:FiveElementsStone",
+        "name": "五行晶石",
+        "desc": "采集五行晶石",
+        "media": "",
+        "interval": 5000,
+        "unlockLevel": 1,
+        "rewardExperience": 10,
+        "rewardItemId": "FiveElementsStone",
+        "rewardQuantity": 1
+      }
+    ]
+  }
 }

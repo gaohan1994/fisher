@@ -3,7 +3,6 @@ import {
   FisherCore,
   FisherItem,
   IFisherItem,
-  FisherItemType,
   FisherSkillRecipe,
 } from '@FisherCore';
 import miningDataJson from './data/MiningData.json';
@@ -73,9 +72,7 @@ function launchPackagesJsonData<T extends IFisherComponentWithPackagesData>(
  * @return {*}
  */
 export function launchPackagesFisherItems(dataSource: IFisherItem[]) {
-  const fisherItems = dataSource.map(
-    (item) => new FisherItem({ ...item, type: FisherItemType.Mining })
-  );
+  const fisherItems = dataSource.map((item) => new FisherItem({ ...item }));
   return fisherItems;
 }
 
