@@ -120,6 +120,7 @@ export class FisherPersonEquipment {
     const prevEquipment = this.equipment;
     const prevQuantity = this.quantity;
     this.equipment = this.emptyEquipment;
+    this.quantity = 0;
     return { prevEquipment, prevQuantity };
   };
 
