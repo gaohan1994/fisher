@@ -31,6 +31,7 @@ export interface IFisherItem extends IFisherBaseItem {
 export enum FisherItemType {
   Test = 'Test',
   Mining = 'Mining',
+  Equipment = 'Equipment',
 }
 
 /**
