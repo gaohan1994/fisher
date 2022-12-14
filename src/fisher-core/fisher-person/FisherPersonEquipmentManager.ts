@@ -64,7 +64,7 @@ export class FisherPersonEquipmentManager {
 
     // 如果之前该部位装备并不是空的
     // 则把淘汰下来的装备重新放入背包中
-    if (prevCurrentSlotEquipmentIsEmpty) {
+    if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
     logger.info(
@@ -92,7 +92,7 @@ export class FisherPersonEquipmentManager {
 
     // 如果之前该部位装备并不是空的
     // 则把卸下来的装备重新放入背包中
-    if (prevCurrentSlotEquipmentIsEmpty) {
+    if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
     logger.info(
