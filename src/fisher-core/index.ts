@@ -8,3 +8,4 @@ export * from './fisher-skill';
 export * from './fisher-modules';
 export * from './fisher-packages';
 export * from './fisher-action-control';
+export * from './fisher-person';
