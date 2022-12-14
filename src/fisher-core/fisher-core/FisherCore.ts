@@ -6,6 +6,7 @@ import {
   FisherBackpack,
   FisherActionControl,
   Reiki,
+  FisherPerson,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { makeAutoObservable } from 'mobx';
@@ -54,6 +55,14 @@ export class FisherCore {
   public reiki: Reiki;
 
   /**
+   * 玩家
+   *
+   * @type {FisherPerson}
+   * @memberof FisherCore
+   */
+  public master: FisherPerson;
+
+  /**
    * 游戏数据
    * - items 基础物品
    * - recipes 采集物品配方
@@ -83,6 +92,7 @@ export class FisherCore {
     this.fisherGold = new FisherGold({});
     this.mining = new Mining();
     this.reiki = new Reiki();
+    this.master = new FisherPerson();
     launchFisherGamePackagesData(this);
 
     // 配置受控的 action 系统

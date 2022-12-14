@@ -5,6 +5,7 @@ interface IFisherSetActiveActionId {
 declare module fisher {
   const activeActionId: string;
   const setActiveActionId: IFisherSetActiveActionId;
+  const master: import('./fisher-person').FisherPerson;
   const packagesData: import('./fisher-packages').IFisherPackagesData;
   const fisherGold: import('./fisher-gold').FisherGold;
   const fisherBackpack: import('./fisher-backpack').FisherBackpack;

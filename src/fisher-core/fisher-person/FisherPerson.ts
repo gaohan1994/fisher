@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import invariant from 'invariant';
 import { FisherEquipmentSlot } from '@FisherCore';
 import {
   FisherPersonEquipmentManager,
@@ -28,9 +29,11 @@ export class FisherPerson {
   }
 
   public get Helmet() {
-    return this.fisherPersonEquipmentManager.equipmentMap.get(
+    const result = this.fisherPersonEquipmentManager.equipmentMap.get(
       FisherEquipmentSlot.Helmet
     );
+    invariant(result !== undefined, 'Fail get Helmet');
+    return result;
   }
 
   public useEquipment: IFisherPersonUseEquipment = (...rest) => {
