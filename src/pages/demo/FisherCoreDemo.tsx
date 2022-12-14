@@ -7,6 +7,7 @@ import { FisherRewardDemo } from './FisherRewardDemo';
 import { ExperienceDemo } from './ExperienceDemo';
 import { MiningDemo } from './MiningDemo';
 import { ReikiDemo } from './ReikiDemo';
+import { FisherPersonDemo } from './FisherPersonDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -23,6 +24,9 @@ const DemoStack: FC<PropsWithChildren> = ({ children }) => (
 const FisherCoreDemo: FC = () => (
   <Stack direction="column" spacing={2}>
     <DemoStack>
+      <Paper>
+        <FisherPersonDemo />
+      </Paper>
       <Paper>
         <MiningDemo />
       </Paper>
