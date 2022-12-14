@@ -1,0 +1,37 @@
+{
+  "moduleName": "Equipment",
+  "data": {
+    "emptyEquipment": {
+      "id": "EmptyEquipment",
+      "name": "空",
+      "desc": "",
+      "media": "",
+      "type": "Equipment",
+      "price": 0,
+      "slots": ["Helmet"]
+    },
+    "items": [
+      {
+        "id": "ClothHat",
+        "name": "布帽",
+        "desc": "用布织成的帽子，可以遮风挡雨",
+        "media": "",
+        "type": "Equipment",
+        "price": 5,
+        "slots": ["Helmet"],
+        "attributes": [{ "key": "", "value": 1 }]
+      },
+      {
+        "id": "JadeCloudHairpin",
+        "name": "流云白玉簪",
+        "desc": "雕工上乘，玉质极佳，但不是什么法器",
+        "media": "",
+        "type": "Equipment",
+        "price": 5,
+        "slots": ["Helmet"],
+        "requirements": [],
+        "attributes": [{ "key": "", "value": 1 }]
+      }
+    ]
+  }
+}
