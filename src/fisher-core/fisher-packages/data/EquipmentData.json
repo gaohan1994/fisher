@@ -30,7 +30,7 @@
         "price": 5,
         "slots": ["Helmet"],
         "requirements": [],
-        "attributes": [{ "key": "", "value": 1 }]
+        "attributes": [{ "key": "Defense", "value": 1 }]
       }
     ]
   }

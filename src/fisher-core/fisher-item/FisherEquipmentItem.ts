@@ -1,3 +1,4 @@
+import { IAttributeKeys } from '@FisherCore';
 import { FisherItem, IFisherItem } from './FisherItem';
 
 export interface IFisherEquipmentItem extends IFisherItem {
@@ -18,7 +19,10 @@ interface IEquipmentRequirement {}
  *
  * @interface IEquipmentAttribute
  */
-interface IEquipmentAttribute {}
+interface IEquipmentAttribute {
+  key: IAttributeKeys;
+  value: number;
+}
 
 /**
  * 可装备槽位
