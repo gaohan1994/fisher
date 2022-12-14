@@ -1,5 +1,14 @@
 import invariant from 'invariant';
-import { FisherItem, FisherSkillRecipe, FisherItemType } from '@FisherCore';
+import {
+  FisherItem,
+  FisherSkillRecipe,
+  FisherItemType,
+  FisherEquipmentItem,
+} from '@FisherCore';
+
+type IFindItemReturnType<T> = T extends FisherEquipmentItem
+  ? FisherEquipmentItem
+  : FisherItem;
 
 /**
  * 根据 id 查找物品
@@ -8,7 +17,7 @@ import { FisherItem, FisherSkillRecipe, FisherItemType } from '@FisherCore';
  * @param {string} fisherItemId
  * @return {*}
  */
-export function findFisherItemById(fisherItemId: string): FisherItem {
+export function findFisherItemById<T>(fisherItemId: string) {
   const fisherItem = fisher.packagesData.items.find(
     (item) => item.id === fisherItemId
   );
@@ -16,7 +25,7 @@ export function findFisherItemById(fisherItemId: string): FisherItem {
     fisherItem !== undefined,
     'Could not find fisherItem id: ' + fisherItemId
   );
-  return fisherItem;
+  return fisherItem as IFindItemReturnType<T>;
 }
 
 /**
@@ -24,18 +33,16 @@ export function findFisherItemById(fisherItemId: string): FisherItem {
  *
  * @export
  * @param {FisherItemType} fisherItemType
- * @return {*}  {FisherItem[]}
+ * @return {*}
  */
-export function findFisherItemsByType(
-  fisherItemType: FisherItemType
-): FisherItem[] {
+export function findFisherItemsByType<T>(fisherItemType: FisherItemType) {
   const fisherItems: FisherItem[] = [];
   fisher.packagesData.items.map((item) => {
     if (item.type === fisherItemType) {
       fisherItems.push(item);
     }
   });
-  return fisherItems;
+  return fisherItems as IFindItemReturnType<T>[];
 }
 
 /**

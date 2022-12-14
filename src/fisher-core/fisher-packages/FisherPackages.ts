@@ -12,7 +12,7 @@ import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
 
 export interface IFisherPackagesData {
-  items: FisherItem[];
+  items: Array<FisherItem | FisherEquipmentItem>;
   recipes: FisherSkillRecipe[];
   recipePartMap: RecipePartMap;
 }
