@@ -31,6 +31,7 @@ interface IEquipmentAttribute {
  * @enum {number}
  */
 export enum FisherEquipmentSlot {
+  Weapon = 'Weapon',
   Helmet = 'Helmet',
 }
 
