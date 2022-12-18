@@ -1,0 +1,23 @@
+{
+  "moduleName": "PersonLevel",
+  "data": {
+    "GasRefiningEarly": {
+      "state": "炼气期",
+      "label": "炼气前期",
+      "coefficient": 1,
+      "nextLevel": "GasRefiningMiddle"
+    },
+    "GasRefiningMiddle": {
+      "state": "炼气期",
+      "label": "炼气中期",
+      "coefficient": 2,
+      "nextLevel": "GasRefiningLater"
+    },
+    "GasRefiningLater": {
+      "state": "炼气期",
+      "label": "炼气后期",
+      "coefficient": 3,
+      "nextLevel": ""
+    }
+  }
+}
