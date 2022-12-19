@@ -17,7 +17,8 @@
       "state": "炼气期",
       "label": "炼气后期",
       "coefficient": 3,
-      "nextLevel": ""
+      "nextLevel": "",
+      "levelUpRequirementTasks": [1]
     }
   }
 }

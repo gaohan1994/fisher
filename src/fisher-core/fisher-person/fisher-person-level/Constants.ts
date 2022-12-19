@@ -22,3 +22,13 @@ export enum PersonLevel {
 }
 
 export const BaseLevelUpBattleTimes = 1000;
+
+/**
+ * 等级提升方式
+ *
+ * @enum {number}
+ */
+export enum IPersonLevelUpMethods {
+  Auto = 'Auto',
+  Manual = 'Manual',
+}
