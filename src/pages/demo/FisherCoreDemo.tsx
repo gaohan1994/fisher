@@ -8,6 +8,7 @@ import { ExperienceDemo } from './ExperienceDemo';
 import { MiningDemo } from './MiningDemo';
 import { ReikiDemo } from './ReikiDemo';
 import { FisherPersonDemo } from './FisherPersonDemo';
+import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -45,6 +46,9 @@ const FisherCoreDemo: FC = () => (
       </Paper>
     </DemoStack>
     <DemoStack>
+      <Paper>
+        <FisherPersonLevelDemo />
+      </Paper>
       <Paper>
         <FisherTimerDemo />
       </Paper>
