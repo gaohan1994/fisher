@@ -7,6 +7,7 @@ import {
   FisherActionControl,
   Reiki,
   FisherPerson,
+  PersonLevel,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { makeAutoObservable } from 'mobx';
@@ -92,7 +93,11 @@ export class FisherCore {
     this.fisherGold = new FisherGold({});
     this.mining = new Mining();
     this.reiki = new Reiki();
-    this.master = new FisherPerson();
+    this.master = new FisherPerson({
+      id: 'Master',
+      name: 'Harper Gao',
+      level: PersonLevel.GasRefiningEarly,
+    });
     launchFisherGamePackagesData(this);
 
     // 配置受控的 action 系统
