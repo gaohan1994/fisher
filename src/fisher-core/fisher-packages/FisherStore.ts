@@ -1,22 +1,19 @@
+import invariant from 'invariant';
+import { FisherEquipmentItem, FisherItem, FisherRecipeItem } from '@FisherCore';
+import { prefixes, prefixLogger } from '@FisherLogger';
 import {
-  FisherEquipmentItem,
-  FisherItem,
-  FisherRecipeItem,
   IFisherMiningPackagesData,
   IFisherReikiPackagesData,
   makeEquipmentPackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
-} from '@FisherCore';
-import { prefixes, prefixLogger } from '@FisherLogger';
-import invariant from 'invariant';
-
+} from './FisherPackages';
 /**
  * 游戏模块数据库
  *
  * @class FisherStore
  */
-class FisherStore {
+export class FisherStore {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherStore');
 
   public static instance: FisherStore;

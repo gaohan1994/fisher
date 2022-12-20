@@ -12,7 +12,7 @@ export const ReikiDemo: FC = observer(() => {
     isActive,
     start,
     stop,
-    packagesData: { recipePartMap },
+    packages: { recipePartMap },
   } = reiki;
 
   const renderRecipeParts: React.ReactNode[] = [];

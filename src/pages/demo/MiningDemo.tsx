@@ -12,7 +12,7 @@ export const MiningDemo: FC = observer(() => {
     isActive,
     start,
     stop,
-    packagesData: { recipes },
+    packages: { recipes },
   } = mining;
   return (
     <DemoLayout title="采矿Demo">
