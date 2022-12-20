@@ -1,6 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { FisherEquipmentItem, FisherEquipmentSlot } from '@FisherCore';
+import {
+  FisherEquipmentItem,
+  FisherEquipmentSlot,
+  IFisherPersonAttributesAffected,
+} from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { FisherPersonEquipment } from './FisherPersonEquipment';
 
@@ -30,6 +34,11 @@ export class FisherPersonEquipmentManager {
   constructor() {
     makeAutoObservable(this);
 
+    // 初始化武器
+    this.equipmentMap.set(
+      FisherEquipmentSlot.Weapon,
+      new FisherPersonEquipment({ slot: FisherEquipmentSlot.Weapon })
+    );
     // 初始化头盔
     this.equipmentMap.set(
       FisherEquipmentSlot.Helmet,
@@ -38,8 +47,31 @@ export class FisherPersonEquipmentManager {
   }
 
   /**
-   * 使用装备
+   * 返回所有装备的属性加成
    *
+   * @readonly
+   * @type {IFisherPersonAttributesAffected}
+   * @memberof FisherPersonEquipmentManager
+   */
+  public get equipmentAttributes(): IFisherPersonAttributesAffected {
+    const result: IFisherPersonAttributesAffected = {
+      MaxHp: 0,
+      AttackPower: 0,
+    };
+    this.equipmentMap.forEach(({ equipment }) => {
+      const { attributes } = equipment;
+      attributes.length > 0 &&
+        attributes.forEach(({ key, value }) => {
+          result[key] += value;
+        });
+    });
+    return result;
+  }
+
+  /**
+   * 使用装备
+   * 如果之前该部位装备并不是空的
+   * 则把淘汰下来的装备重新放入背包中
    * @type {IFisherPersonUseEquipment}
    * @memberof FisherPersonEquipment
    */
@@ -62,8 +94,6 @@ export class FisherPersonEquipmentManager {
       currentSlotEquipment.updateEquipment(equipment, 1);
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
-    // 如果之前该部位装备并不是空的
-    // 则把淘汰下来的装备重新放入背包中
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
@@ -74,7 +104,8 @@ export class FisherPersonEquipmentManager {
 
   /**
    * 卸下装备
-   *
+   * 如果之前该部位装备并不是空的
+   * 则把卸下来的装备重新放入背包中
    * @param {*} equipmentSlot
    * @type {IFisherPersonRemoveEquipment}
    * @memberof FisherPersonEquipmentManager
@@ -90,8 +121,6 @@ export class FisherPersonEquipmentManager {
       currentSlotEquipment.removeEquipment();
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
-    // 如果之前该部位装备并不是空的
-    // 则把卸下来的装备重新放入背包中
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
