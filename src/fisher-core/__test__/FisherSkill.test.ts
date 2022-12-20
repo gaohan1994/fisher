@@ -30,7 +30,6 @@ describe('FisherSkill', () => {
     const skill = new FisherSkill(payload);
     expect(skill.levelInfo.level).toBe(1);
     expect(skill.id).toMatch('Mining');
-    expect(skill.name).toMatch('采矿');
     expect(skill.activeRecipe).toBeUndefined();
   });
 

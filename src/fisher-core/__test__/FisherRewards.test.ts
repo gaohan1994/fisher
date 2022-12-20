@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherItem, FisherItemType } from '../fisher-item';
+import { FisherItemType, FisherNormalItem } from '../fisher-item';
 import { FisherReward } from '../fisher-reward';
 import { FisherSkill } from '../fisher-skill';
 
@@ -45,7 +45,7 @@ describe('FisherRewards', () => {
 
   test('should success set reward items to reward', () => {
     const fisherReward = new FisherReward();
-    const testFisherItem = new FisherItem(testItemPayload);
+    const testFisherItem = new FisherNormalItem(testItemPayload);
     fisherReward.addRewardItem(testFisherItem, 1);
     expect(fisherReward.rewardItems.size).toBe(1);
     expect(fisherReward.rewardItems.has(testFisherItem)).toBeTruthy();
@@ -70,7 +70,7 @@ describe('FisherRewards', () => {
 
   test('should success set correct value if use set method ', () => {
     const fisherReward = new FisherReward();
-    const testFisherItem = new FisherItem(testItemPayload);
+    const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward.setRewardItem(testFisherItem, 10);
     fisherReward.setRewardItem(testFisherItem, 100);
@@ -87,7 +87,7 @@ describe('FisherRewards', () => {
 
   test('should execute rewards', () => {
     const fisherReward = new FisherReward();
-    const testFisherItem = new FisherItem(testItemPayload);
+    const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
       .addRewardItem(testFisherItem, 1)
@@ -105,7 +105,7 @@ describe('FisherRewards', () => {
 
   test('should clear rewards after reset reward data', () => {
     const fisherReward = new FisherReward();
-    const testFisherItem = new FisherItem(testItemPayload);
+    const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
       .addRewardItem(testFisherItem, 1)
