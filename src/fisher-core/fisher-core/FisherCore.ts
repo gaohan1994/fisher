@@ -1,6 +1,6 @@
 import {
   IFisherPackagesData,
-  launchFisherGamePackagesData,
+  registerGamePackagesData,
   Mining,
   FisherGold,
   FisherBackpack,
@@ -98,7 +98,7 @@ export class FisherCore {
       name: 'Harper Gao',
       level: PersonLevel.GasRefiningEarly,
     });
-    launchFisherGamePackagesData(this);
+    registerGamePackagesData(this);
 
     // 配置受控的 action 系统
     this.fisherActionControl = new FisherActionControl();

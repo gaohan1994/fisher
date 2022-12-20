@@ -62,7 +62,7 @@ type PackageEquipmentJsonDataSource = PackageJsonDataSource<{
  * @export
  * @param {FisherCore} fisherCore
  */
-export function launchFisherGamePackagesData(fisherCore: FisherCore) {
+export function registerGamePackagesData(fisherCore: FisherCore) {
   // 初始化采矿数据
   const { items: miningItems, recipes: miningRecipes } =
     makePackageCollectionDataSource(
