@@ -1,12 +1,11 @@
-interface IFisherSetActiveActionId {
-  (value: string): void;
+interface ISetActiveComponent<T> {
+  (component: T): void;
 }
 
 declare module fisher {
-  const activeActionId: string;
-  const setActiveActionId: IFisherSetActiveActionId;
+  const activeComponentId: string;
+  const setActiveComponent: ISetActiveComponent;
   const master: import('./fisher-person').FisherPerson;
-  const packagesData: import('./fisher-packages').IFisherPackagesData;
   const fisherGold: import('./fisher-gold').FisherGold;
   const fisherBackpack: import('./fisher-backpack').FisherBackpack;
   const fisherActionControl: import('./fisher-action-control').FisherActionControl;
