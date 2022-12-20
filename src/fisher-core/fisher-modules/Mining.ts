@@ -1,4 +1,3 @@
-import { makeAutoObservable } from 'mobx';
 import {
   FisherSkill,
   FisherRecipeItem,
@@ -6,6 +5,7 @@ import {
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import invariant from 'invariant';
+import { CollectionModule, CollectionTypes } from './CollectionModule';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'Mining');
 
@@ -37,35 +37,18 @@ const logger = prefixLogger(prefixes.FISHER_CORE, 'Mining');
  * @export
  * @class Mining
  */
-export class Mining {
-  public id: string;
-  public name: string;
-  public skill: FisherSkill;
-  public isActive: boolean = false;
+export class Mining extends CollectionModule {
+  public id = CollectionTypes.Mining;
+  public name = '采矿';
+  public isActive = false;
+  public skill = new FisherSkill({
+    id: this.id + ':Skill',
+    experience: 0,
+  });
   public packagesData: IFisherMiningPackagesData = {
     items: [],
     recipes: [],
   };
-
-  constructor() {
-    makeAutoObservable(this);
-    this.id = 'Mining';
-    this.name = '采矿';
-
-    this.skill = new FisherSkill({
-      id: this.id + ':Skill',
-      name: this.name,
-      experience: 0,
-    });
-  }
-
-  public get activeRecipe() {
-    return this.skill.activeRecipe;
-  }
-
-  public get levelInfo() {
-    return this.skill.levelInfo;
-  }
 
   public start = (value: FisherRecipeItem) => {
     const recipe = this.packagesData.recipes.find(
@@ -77,7 +60,7 @@ export class Mining {
     logger.info('Add selected recipe: ', recipe);
 
     this.skill.startAction();
-    this.setIsActive(true);
+    this.isActive = true;
 
     fisher.setActiveActionId(this.id);
   };
@@ -85,10 +68,6 @@ export class Mining {
   public stop = () => {
     this.skill.stopAction();
     this.skill.resetActiveRecipe();
-    this.setIsActive(false);
-  };
-
-  public setIsActive = (value: boolean) => {
-    this.isActive = value;
+    this.isActive = false;
   };
 }

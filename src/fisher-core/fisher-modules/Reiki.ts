@@ -1,4 +1,3 @@
-import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import {
   FisherSkill,
@@ -6,6 +5,7 @@ import {
   FisherRecipeItem,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { CollectionModule, CollectionTypes } from './CollectionModule';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'Reiki');
 /**
@@ -15,36 +15,19 @@ const logger = prefixLogger(prefixes.FISHER_CORE, 'Reiki');
  * @export
  * @class Reiki
  */
-export class Reiki {
-  public id: string;
-  public name: string;
-  public skill: FisherSkill;
-  public isActive: boolean = false;
+export class Reiki extends CollectionModule {
+  public id = CollectionTypes.Reiki;
+  public name = '灵气';
+  public isActive = false;
+  public skill = new FisherSkill({
+    id: this.id + ':Skill',
+    experience: 0,
+  });
   public packagesData: IFisherPackagesData = {
     items: [],
     recipes: [],
     recipePartMap: new Map(),
   };
-
-  constructor() {
-    makeAutoObservable(this);
-    this.id = 'Reiki';
-    this.name = '灵气';
-
-    this.skill = new FisherSkill({
-      id: this.id + ':Skill',
-      name: this.name,
-      experience: 0,
-    });
-  }
-
-  public get activeRecipe() {
-    return this.skill.activeRecipe;
-  }
-
-  public get levelInfo() {
-    return this.skill.levelInfo;
-  }
 
   public start = (value: FisherRecipeItem) => {
     const recipe = this.packagesData.recipes.find(
@@ -56,7 +39,7 @@ export class Reiki {
     logger.info('Add selected recipe: ', recipe);
 
     this.skill.startAction();
-    this.setIsActive(true);
+    this.isActive = true;
 
     fisher.setActiveActionId(this.id);
   };
@@ -64,10 +47,6 @@ export class Reiki {
   public stop = () => {
     this.skill.stopAction();
     this.skill.resetActiveRecipe();
-    this.setIsActive(false);
-  };
-
-  public setIsActive = (value: boolean) => {
-    this.isActive = value;
+    this.isActive = false;
   };
 }

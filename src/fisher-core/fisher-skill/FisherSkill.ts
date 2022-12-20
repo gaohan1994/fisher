@@ -15,7 +15,6 @@ const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherSkill');
 
 interface IFisherSkill {
   id: string;
-  name: string;
   experience?: number;
 }
 
@@ -49,7 +48,6 @@ type IFisherSkillLevelInfo = LevelExperienceInfo;
  */
 export class FisherSkill {
   public id: string;
-  public name: string;
   public experience: number;
 
   /**
@@ -72,11 +70,10 @@ export class FisherSkill {
   public timerInterval: number = 0;
   public actionRewards: FisherReward = new FisherReward();
 
-  constructor({ id, name, experience }: IFisherSkill) {
+  constructor({ id, experience }: IFisherSkill) {
     makeAutoObservable(this);
     logger.info('Initialize FisherSkill ', id);
     this.id = id;
-    this.name = name;
     this.experience = experience ?? 0;
     this.timer = new FisherTimer({
       id: this.id,
