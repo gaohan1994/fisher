@@ -1,5 +1,5 @@
 import { IFisherPersonAttributesAffectedKeys } from '@FisherCore';
-import { FisherItem, IFisherItem } from './FisherItem';
+import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
 
 export interface IFisherEquipmentItem extends IFisherItem {
   slots: FisherEquipmentSlot[];
@@ -43,6 +43,7 @@ export enum FisherEquipmentSlot {
  * @extends {FisherItem}
  */
 export class FisherEquipmentItem extends FisherItem {
+  type = FisherItemType.Equipment;
   public requirements: IEquipmentRequirement[];
   public slots: FisherEquipmentSlot[];
   public attributes: IEquipmentAttribute[];

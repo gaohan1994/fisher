@@ -1,37 +1,16 @@
-export interface IFisherBaseItem {
-  id: string;
-  name: string;
-  media: string;
-  desc: string;
-}
-
-/**
- * 物品基类
- *
- * @class FisherBaseItem
- */
-export class FisherBaseItem {
-  public id: string;
-  public name: string;
-  public desc: string;
-  public media: string;
-  constructor({ id, name, desc, media }: IFisherBaseItem) {
-    this.id = id;
-    this.name = name;
-    this.desc = desc;
-    this.media = media;
-  }
-}
-
-export interface IFisherItem extends IFisherBaseItem {
-  price: number;
-  type: FisherItemType;
-}
-
 export enum FisherItemType {
   Test = 'Test',
-  Mining = 'Mining',
+  Normal = 'Normal',
+  Recipe = 'Recipe',
   Equipment = 'Equipment',
+}
+
+export interface IFisherItem {
+  readonly id: string;
+  readonly name: string;
+  readonly desc: string;
+  readonly media: string;
+  readonly price?: number;
 }
 
 /**
@@ -43,13 +22,48 @@ export enum FisherItemType {
  * @export
  * @class FisherItem
  */
-export class FisherItem extends FisherBaseItem {
-  public price: number;
-  public type: FisherItemType;
+export abstract class FisherItem implements IFisherItem {
+  abstract readonly type: FisherItemType;
+  public id = '';
+
+  public name = '';
+
+  public desc = '';
+
+  public media = '';
+
+  public price = 0;
 
   constructor(options: IFisherItem) {
+    this.id = options.id;
+
+    this.name = options.name;
+
+    this.desc = options.desc;
+
+    this.media = options.media;
+
+    if (typeof options.price === 'number') {
+      this.price = options.price;
+    }
+  }
+
+  public useItem() {
+    throw new Error('Not implemented!');
+  }
+}
+
+interface IFisherTestItem extends IFisherItem {}
+export class FisherTestItem extends FisherItem {
+  type = FisherItemType.Test;
+  constructor(options: IFisherTestItem) {
     super(options);
-    this.price = options.price;
-    this.type = options.type;
+  }
+}
+
+export class FisherNormalItem extends FisherItem {
+  type = FisherItemType.Normal;
+  constructor(options: IFisherTestItem) {
+    super(options);
   }
 }
