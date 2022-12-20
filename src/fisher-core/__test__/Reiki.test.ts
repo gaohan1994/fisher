@@ -9,9 +9,9 @@ vi.stubGlobal('fisher', fisher);
 describe('Reiki', () => {
   test('should success initialize Reiki', () => {
     const fisherCore = new FisherCore();
-    expect(fisherCore.reiki.id).toBe('Reiki');
+    expect(fisherCore.reiki.id).toBe('Collection:Reiki');
     expect(fisherCore.reiki.name).toBe('灵气');
-    expect(fisherCore.reiki.skill.id).toBe('Reiki:Skill');
+    expect(fisherCore.reiki.skill.id).toBe('Reiki');
     expect(fisherCore.reiki.skill.experience).toBe(0);
   });
 

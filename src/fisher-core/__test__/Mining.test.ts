@@ -9,9 +9,9 @@ vi.stubGlobal('fisher', fisher);
 describe('Mining', () => {
   test('should success initialize Mining', () => {
     const fisherCore = new FisherCore();
-    expect(fisherCore.mining.id).toBe('Mining');
+    expect(fisherCore.mining.id).toBe('Collection:Mining');
     expect(fisherCore.mining.name).toBe('采矿');
-    expect(fisherCore.mining.skill.id).toBe('Mining:Skill');
+    expect(fisherCore.mining.skill.id).toBe('Mining');
     expect(fisherCore.mining.skill.experience).toBe(0);
   });
 

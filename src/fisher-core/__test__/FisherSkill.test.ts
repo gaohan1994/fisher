@@ -3,7 +3,7 @@ import { FisherNormalItem, FisherRecipeItem } from '../fisher-item';
 import { FisherSkill } from '../fisher-skill';
 
 const payload = {
-  id: 'Mining',
+  id: 'Mining' as any,
   name: '采矿',
 };
 const testRewardItem = new FisherNormalItem({

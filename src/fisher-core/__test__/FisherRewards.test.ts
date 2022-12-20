@@ -13,7 +13,7 @@ const testItemPayload = {
 };
 
 const testSkillPayload = {
-  id: 'Test:RewardSkill',
+  id: 'Test:RewardSkill' as any,
   name: 'Test:RewardSkill',
   experience: 0,
 };
