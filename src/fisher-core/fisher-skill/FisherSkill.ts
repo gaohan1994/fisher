@@ -10,11 +10,15 @@ import {
   calculateLevelExperienceInfo,
   LevelExperienceInfo,
 } from './Experience';
+import {
+  FisherCollectionSkillInfo,
+  FisherCollectionSkillTypes,
+} from './Constants';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherSkill');
 
-interface IFisherSkill {
-  id: string;
+export interface IFisherSkill {
+  id: FisherCollectionSkillTypes;
   experience?: number;
 }
 
@@ -47,7 +51,8 @@ type IFisherSkillLevelInfo = LevelExperienceInfo;
  * @class FisherSkill
  */
 export class FisherSkill {
-  public id: string;
+  public id: FisherCollectionSkillTypes;
+  public name: string;
   public experience: number;
 
   /**
@@ -74,6 +79,7 @@ export class FisherSkill {
     makeAutoObservable(this);
     logger.info('Initialize FisherSkill ', id);
     this.id = id;
+    this.name = FisherCollectionSkillInfo[this.id]?.name ?? 'UnknowName';
     this.experience = experience ?? 0;
     this.timer = new FisherTimer({
       id: this.id,
