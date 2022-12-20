@@ -1,9 +1,9 @@
 import { describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { FisherEquipmentItem, FisherEquipmentSlot } from '../fisher-item';
-import { emptyEquipment } from '../fisher-packages';
+import { fisherStore } from '../fisher-packages';
 import { FisherPersonEquipment } from '../fisher-person';
-
+const emptyEquipment = fisherStore.EmptyEquipment;
 const fisher = new FisherCore();
 vi.stubGlobal('fisher', fisher);
 

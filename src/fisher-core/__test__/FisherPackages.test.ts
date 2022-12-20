@@ -1,23 +1,20 @@
-import { describe, expect, test, vi } from 'vitest';
-import { FisherCore } from '../fisher-core';
-import { FisherItem, FisherItemType, FisherRecipeItem } from '../fisher-item';
+import { describe, expect, test } from 'vitest';
+import { FisherItem, FisherRecipeItem } from '../fisher-item';
 import {
   findFisherItemById,
-  findFisherItemsByType,
   findRecipeById,
+  fisherStore,
 } from '../fisher-packages';
 import miningDataJson from '../fisher-packages/data/MiningData.json';
 
-const fisher = new FisherCore();
-
-vi.stubGlobal('fisher', fisher);
-
 describe('FisherPackages', () => {
   test('should launch packages data', () => {
-    expect(fisher.packagesData.items.length).toBeGreaterThan(0);
-    expect(fisher.packagesData.recipes.length).toBeGreaterThan(0);
-    expect(fisher.mining.packagesData.items.length).toBeGreaterThan(0);
-    expect(fisher.mining.packagesData.recipes.length).toBeGreaterThan(0);
+    expect(fisherStore.items.length).toBeGreaterThan(0);
+    expect(fisherStore.Mining.items.length).toBeGreaterThan(0);
+    expect(fisherStore.Mining.recipes.length).toBeGreaterThan(0);
+    expect(fisherStore.Reiki.items.length).toBeGreaterThan(0);
+    expect(fisherStore.Reiki.recipes.length).toBeGreaterThan(0);
+    expect(fisherStore.Reiki.recipePartMap.size).toBeGreaterThan(0);
   });
 });
 
@@ -39,13 +36,7 @@ describe('FisherPackagesInterface', () => {
     );
 
     expect(() => findRecipeById('WrongTestId')).toThrowError(
-      'Could not find recipe id: WrongTestId'
-    );
-  });
-
-  test('should find fisher items by item type', () => {
-    expect(findFisherItemsByType(FisherItemType.Normal).length).toBeGreaterThan(
-      0
+      'Could not find fisherItem id: WrongTestId'
     );
   });
 });

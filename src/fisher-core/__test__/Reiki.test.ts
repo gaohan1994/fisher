@@ -18,6 +18,6 @@ describe('Reiki', () => {
   test('should set active id when start Reiki', () => {
     const activeRecipe = findRecipeById('Reiki:Recipe:BlackWoodCliff:Part1');
     fisher.reiki.start(activeRecipe);
-    expect(fisher.activeActionId).toBe(fisher.reiki.id);
+    expect(fisher.activeComponentId).toBe(fisher.reiki.id);
   });
 });

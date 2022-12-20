@@ -18,6 +18,6 @@ describe('Mining', () => {
   test('should set active id when start mining', () => {
     const activeRecipe = findRecipeById('Mining:Recipe:LowSpiritMine');
     fisher.mining.start(activeRecipe);
-    expect(fisher.activeActionId).toBe(fisher.mining.id);
+    expect(fisher.activeComponentId).toBe(fisher.mining.id);
   });
 });

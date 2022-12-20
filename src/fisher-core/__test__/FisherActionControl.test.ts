@@ -5,7 +5,7 @@ describe('FisherActionControl', () => {
   test('should initialize FisherActionControl', () => {
     const FAC = new FisherActionControl();
     expect(FAC.componentMap.size).toBe(0);
-    expect(FAC.activeActionId).toBe('');
+    expect(FAC.activeComponentId).toBe(undefined);
   });
 
   test('should success add action control components', () => {
@@ -32,10 +32,10 @@ describe('FisherActionControl', () => {
     };
     FAC.addActionControlComponents([testSkill1, testSkill2]);
     expect(FAC.componentMap.size).toBe(2);
-    FAC.setActiveActionId(id1);
-    expect(FAC.activeActionId).toBe(id1);
-    FAC.setActiveActionId(id2);
-    expect(FAC.activeActionId).toBe(id2);
+    FAC.setActiveComponent(testSkill1 as any);
+    expect(FAC.activeComponentId).toBe(id1);
+    FAC.setActiveComponent(testSkill2 as any);
+    expect(FAC.activeComponentId).toBe(id2);
     expect(testSkill1.stop).toBeCalled();
   });
 });
