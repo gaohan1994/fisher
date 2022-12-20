@@ -1,10 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import {
-  FisherEquipmentItem,
-  FisherEquipmentSlot,
-  FisherItemType,
-} from '../fisher-item';
+import { FisherEquipmentItem, FisherEquipmentSlot } from '../fisher-item';
 import { emptyEquipment } from '../fisher-packages';
 import { FisherPersonEquipment } from '../fisher-person';
 
@@ -16,7 +12,6 @@ const testEquipmentData = {
   name: '流云白玉簪',
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
-  type: FisherItemType.Equipment,
   price: 5,
   slots: [FisherEquipmentSlot.Helmet],
   requirements: [],

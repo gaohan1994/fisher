@@ -1,17 +1,16 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherItem, FisherItemType } from '../fisher-item';
-import { FisherSkill, FisherSkillRecipe } from '../fisher-skill';
+import { FisherNormalItem, FisherRecipeItem } from '../fisher-item';
+import { FisherSkill } from '../fisher-skill';
 
 const payload = {
   id: 'Mining',
   name: '采矿',
 };
-const testRewardItem = new FisherItem({
+const testRewardItem = new FisherNormalItem({
   id: 'LowSpiritMine',
   name: '低灵矿',
   desc: '一种很常见的矿石，灵气和纯度较低',
   media: '',
-  type: FisherItemType.Mining,
   price: 5,
 });
 const testRecipeData = {
@@ -66,7 +65,7 @@ describe('FisherSkill', () => {
   test('should success update active recipe when called updateActiveRecipe', () => {
     const skill = new FisherSkill(payload);
     expect(skill.activeRecipe).toBeUndefined();
-    const testRecipe = new FisherSkillRecipe(testRecipeData);
+    const testRecipe = new FisherRecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
@@ -75,11 +74,11 @@ describe('FisherSkill', () => {
     const skill = new FisherSkill(payload);
     expect(skill.activeRecipe).toBeUndefined();
 
-    const testRecipe = new FisherSkillRecipe(testRecipeData);
+    const testRecipe = new FisherRecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
-    const testRecipeReplace = new FisherSkillRecipe({
+    const testRecipeReplace = new FisherRecipeItem({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
@@ -91,7 +90,7 @@ describe('FisherSkill', () => {
     vi.useFakeTimers();
 
     const skill = new FisherSkill(payload);
-    const testRecipe = new FisherSkillRecipe(testRecipeData);
+    const testRecipe = new FisherRecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     skill.startAction();
     expect(skill.actionRewards.rewardItems.has(testRewardItem)).toBeTruthy();

@@ -1,7 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { FisherItem, FisherItemType } from '../fisher-item';
-import { FisherSkillRecipe } from '../fisher-skill';
+import { FisherItem, FisherItemType, FisherRecipeItem } from '../fisher-item';
 import {
   findFisherItemById,
   findFisherItemsByType,
@@ -30,7 +29,7 @@ describe('FisherPackagesInterface', () => {
 
     expect(
       findRecipeById(miningDataJson.data.recipes[0].id) instanceof
-        FisherSkillRecipe
+        FisherRecipeItem
     ).toBeTruthy();
   });
 
@@ -45,7 +44,7 @@ describe('FisherPackagesInterface', () => {
   });
 
   test('should find fisher items by item type', () => {
-    expect(findFisherItemsByType(FisherItemType.Mining).length).toBeGreaterThan(
+    expect(findFisherItemsByType(FisherItemType.Normal).length).toBeGreaterThan(
       0
     );
   });

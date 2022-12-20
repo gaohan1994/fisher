@@ -3,7 +3,7 @@
  */
 import { describe, expect, test, vi } from 'vitest';
 import { FisherBackpack } from '../fisher-backpack';
-import { FisherItem, FisherItemType } from '../fisher-item';
+import { FisherTestItem } from '../fisher-item';
 
 const fisherGold = {
   receiveGold: vi.fn(),
@@ -17,7 +17,6 @@ const testBackpackItemPayload = {
   price: 10,
   media: '',
   desc: 'Test:BackpackItemDesc',
-  type: FisherItemType.Test,
 };
 
 describe('FisherBackpack', () => {
@@ -29,7 +28,7 @@ describe('FisherBackpack', () => {
   test('should throw error when item quantity <= 0', () => {
     const handler = () => {
       const backpack = new FisherBackpack();
-      const item = new FisherItem(testBackpackItemPayload);
+      const item = new FisherTestItem(testBackpackItemPayload);
       backpack.addItem(item, 0);
     };
     expect(() => handler()).toThrowError(
@@ -39,7 +38,7 @@ describe('FisherBackpack', () => {
 
   test('should success add new item to backpack', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     expect(backpack.items.size).toBe(1);
     expect(backpack.items.get(item)?.quantity).toBe(10);
@@ -47,7 +46,7 @@ describe('FisherBackpack', () => {
 
   test('should add item quantity when item already in backpack', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     expect(backpack.items.get(item)?.quantity).toBe(10);
     backpack.addItem(item, 10);
@@ -57,7 +56,7 @@ describe('FisherBackpack', () => {
   test('should throw error when reduce item quantity <= 0', () => {
     const handler = () => {
       const backpack = new FisherBackpack();
-      const item = new FisherItem(testBackpackItemPayload);
+      const item = new FisherTestItem(testBackpackItemPayload);
       backpack.addItem(item, 10);
       backpack.reduceItem(item, 0);
     };
@@ -69,7 +68,7 @@ describe('FisherBackpack', () => {
   test('should throw error when reduce item does not exist', () => {
     const handler = () => {
       const backpack = new FisherBackpack();
-      const item = new FisherItem(testBackpackItemPayload);
+      const item = new FisherTestItem(testBackpackItemPayload);
       backpack.reduceItem(item, 10);
     };
     expect(() => handler()).toThrowError(
@@ -79,7 +78,7 @@ describe('FisherBackpack', () => {
 
   test('should success reduce item in backpack', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     expect(backpack.items.get(item)?.quantity).toBe(10);
     backpack.reduceItem(item, 9);
@@ -88,7 +87,7 @@ describe('FisherBackpack', () => {
 
   test('should delete item when reduce quantity >= backpack item quantity', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     expect(backpack.items.get(item)?.quantity).toBe(10);
     backpack.reduceItem(item, 11);
@@ -97,7 +96,7 @@ describe('FisherBackpack', () => {
 
   test('should success sell item and reduce backpack item', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     const backpackItem = backpack.items.get(item);
     if (!backpackItem) return;
@@ -109,7 +108,7 @@ describe('FisherBackpack', () => {
 
   test('should delete item when sell backpack item all quantity', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     const backpackItem = backpack.items.get(item);
     if (!backpackItem) return;
@@ -120,8 +119,8 @@ describe('FisherBackpack', () => {
 
   test('should success sell items and reduce backpack item', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
-    const item2 = new FisherItem({
+    const item = new FisherTestItem(testBackpackItemPayload);
+    const item2 = new FisherTestItem({
       ...testBackpackItemPayload,
       id: 'Test:Backpack:2',
     });
@@ -135,7 +134,7 @@ describe('FisherBackpack', () => {
 
   test('should set selected item', () => {
     const backpack = new FisherBackpack();
-    const item = new FisherItem(testBackpackItemPayload);
+    const item = new FisherTestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
     const backpackItem = backpack.items.get(item);
     if (!backpackItem) return;
