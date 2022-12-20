@@ -3,9 +3,10 @@ import {
   FisherCore,
   FisherItem,
   IFisherItem,
-  FisherSkillRecipe,
+  FisherRecipeItem,
   FisherEquipmentItem,
   IFisherEquipmentItem,
+  FisherNormalItem,
 } from '@FisherCore';
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
@@ -13,11 +14,11 @@ import equipmentDataJson from './data/EquipmentData.json';
 
 export interface IFisherPackagesData {
   items: Array<FisherItem | FisherEquipmentItem>;
-  recipes: FisherSkillRecipe[];
+  recipes: FisherRecipeItem[];
   recipePartMap: RecipePartMap;
 }
 
-type RecipePartMap = Map<string, FisherSkillRecipe[]>;
+type RecipePartMap = Map<string, FisherRecipeItem[]>;
 
 type IFisherCollectionPackageItemsAndRecipes = Pick<
   IFisherPackagesData,
@@ -119,7 +120,7 @@ function makePackageCollectionDataSource(
       'Fail to launch packages data, undefined reward item id' +
         item.rewardItemId
     );
-    return new FisherSkillRecipe({
+    return new FisherRecipeItem({
       id: item.id,
       name: item.name,
       desc: item.desc,
@@ -158,7 +159,9 @@ function makePackageEquipmentDataSource(
  * @return {*}
  */
 function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
-  return itemsJson.map((item) => new FisherItem({ ...(item as IFisherItem) }));
+  return itemsJson.map(
+    (item) => new FisherNormalItem({ ...(item as IFisherItem) })
+  );
 }
 
 function generatePackagesEquipments(itemsJson: IFisherEquipmentItem[]) {

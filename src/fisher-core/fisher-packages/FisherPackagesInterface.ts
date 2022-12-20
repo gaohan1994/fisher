@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import {
   FisherItem,
-  FisherSkillRecipe,
+  FisherRecipeItem,
   FisherItemType,
   FisherEquipmentItem,
 } from '@FisherCore';
@@ -52,7 +52,7 @@ export function findFisherItemsByType<T>(fisherItemType: FisherItemType) {
  * @param {string} recipeId
  * @return {*}
  */
-export function findRecipeById(recipeId: string): FisherSkillRecipe {
+export function findRecipeById(recipeId: string): FisherRecipeItem {
   const recipe = fisher.packagesData.recipes.find(
     (item) => item.id === recipeId
   );

@@ -2,10 +2,10 @@ import { FC, ReactNode, useState } from 'react';
 import { observer } from 'mobx-react';
 import { DemoLayout } from './DemoLayout';
 import { Button, Stack } from '@mui/material';
-import { FisherItem, FisherReward } from '@FisherCore';
+import { FisherNormalItem, FisherReward } from '@FisherCore';
 import { createTestBackpackItemPayload } from './FisherBackpackDemo';
 
-const testFisherItem = new FisherItem(createTestBackpackItemPayload(''));
+const testFisherItem = new FisherNormalItem(createTestBackpackItemPayload(''));
 
 export const FisherRewardDemo: FC = observer(() => {
   const [fisherReward] = useState(() => new FisherReward());

@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import {
   FisherSkill,
-  FisherSkillRecipe,
+  FisherRecipeItem,
   IFisherMiningPackagesData,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
@@ -67,7 +67,7 @@ export class Mining {
     return this.skill.levelInfo;
   }
 
-  public start = (value: FisherSkillRecipe) => {
+  public start = (value: FisherRecipeItem) => {
     const recipe = this.packagesData.recipes.find(
       (item) => item.id === value.id
     );

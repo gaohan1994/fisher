@@ -3,7 +3,7 @@ import invariant from 'invariant';
 import {
   FisherSkill,
   IFisherPackagesData,
-  FisherSkillRecipe,
+  FisherRecipeItem,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
@@ -46,7 +46,7 @@ export class Reiki {
     return this.skill.levelInfo;
   }
 
-  public start = (value: FisherSkillRecipe) => {
+  public start = (value: FisherRecipeItem) => {
     const recipe = this.packagesData.recipes.find(
       (item) => item.id === value.id
     );

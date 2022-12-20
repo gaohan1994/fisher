@@ -8,7 +8,7 @@ import {
   ListItemText,
   Stack,
 } from '@mui/material';
-import { FisherBackpackItem, FisherItem, FisherItemType } from '@FisherCore';
+import { FisherBackpackItem, FisherNormalItem } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
 export const createTestBackpackItemPayload = (index: string) => ({
@@ -17,7 +17,6 @@ export const createTestBackpackItemPayload = (index: string) => ({
   price: 10,
   media: '',
   desc: 'Test:BackpackItemDesc',
-  type: FisherItemType.Test,
 });
 
 export const FisherBackpackDemo: FC = observer(() => {
@@ -25,7 +24,7 @@ export const FisherBackpackDemo: FC = observer(() => {
   const testItemIndex = useRef(1);
 
   const addNewItem = () => {
-    const item = new FisherItem(
+    const item = new FisherNormalItem(
       createTestBackpackItemPayload(`${testItemIndex.current++}`)
     );
     fisherBackpack.addItem(item, 1);
