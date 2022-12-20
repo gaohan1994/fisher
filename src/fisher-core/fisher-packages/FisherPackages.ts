@@ -1,12 +1,12 @@
 import invariant from 'invariant';
 import {
-  FisherCore,
   FisherItem,
   IFisherItem,
   FisherRecipeItem,
   FisherEquipmentItem,
   IFisherEquipmentItem,
   FisherNormalItem,
+  IFisherRecipeItem,
 } from '@FisherCore';
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
@@ -15,21 +15,13 @@ import equipmentDataJson from './data/EquipmentData.json';
 export interface IFisherPackagesData {
   items: Array<FisherItem | FisherEquipmentItem>;
   recipes: FisherRecipeItem[];
-  recipePartMap: RecipePartMap;
 }
 
-type RecipePartMap = Map<string, FisherRecipeItem[]>;
+export type IFisherMiningPackagesData = IFisherPackagesData;
 
-type IFisherCollectionPackageItemsAndRecipes = Pick<
-  IFisherPackagesData,
-  'items' | 'recipes'
->;
-
-export type IFisherMiningPackagesData = IFisherCollectionPackageItemsAndRecipes;
-
-interface IFisherComponentWithPackagesData {
-  packagesData: IFisherPackagesData;
-}
+export type IFisherReikiPackagesData = IFisherPackagesData & {
+  recipePartMap: Map<string, FisherRecipeItem[]>;
+};
 
 interface PackageJsonDataSource<T> {
   moduleName: string;
@@ -54,47 +46,41 @@ interface IFisherRecipePackageJsonData {
 }
 
 type PackageEquipmentJsonDataSource = PackageJsonDataSource<{
+  emptyEquipment: IFisherEquipmentItem;
   items: IFisherEquipmentItem[];
 }>;
 
+export function makeMiningPackagesData(): IFisherMiningPackagesData {
+  return makePackageCollectionDataSource(
+    miningDataJson as PackageCollectionJsonDataSource
+  );
+}
+export function makeReikiPackagesData(): IFisherReikiPackagesData {
+  const { items, recipes } = makePackageCollectionDataSource(
+    reikiDataJson as PackageCollectionJsonDataSource
+  );
+  return {
+    items,
+    recipes,
+    recipePartMap: makeRecipePartMap(recipes),
+  };
+}
+
 /**
- * 初始化游戏数据
+ * 生成装备数据
  *
- * @export
- * @param {FisherCore} fisherCore
+ * @param {PackageEquipmentJsonDataSource} dataSource
+ * @return {*}
  */
-export function registerGamePackagesData(fisherCore: FisherCore) {
-  // 初始化采矿数据
-  const { items: miningItems, recipes: miningRecipes } =
-    makePackageCollectionDataSource(
-      miningDataJson as PackageCollectionJsonDataSource
-    );
-  fisherCore.mining.packagesData.items.push(...miningItems);
-  fisherCore.mining.packagesData.recipes.push(...miningRecipes);
-
-  // 初始化灵气数据
-  const { items: reikiItems, recipes: reikiRecipes } =
-    makePackageCollectionDataSource(
-      reikiDataJson as PackageCollectionJsonDataSource
-    );
-  fisherCore.reiki.packagesData.items.push(...reikiItems);
-  fisherCore.reiki.packagesData.recipes.push(...reikiRecipes);
-
-  // 初始化装备数据
-  const equipments = makePackageEquipmentDataSource(
-    equipmentDataJson as PackageEquipmentJsonDataSource
-  );
-
-  fisherCore.packagesData.items.push(
-    ...miningItems,
-    ...reikiItems,
-    ...equipments
-  );
-  fisherCore.packagesData.recipes.push(...miningRecipes, ...reikiRecipes);
-
-  // 根据 recipe name 划分配方
-  makeRecipePartMap(fisherCore.reiki);
-  makeRecipePartMap(fisherCore);
+export function makeEquipmentPackagesData() {
+  const {
+    data: { emptyEquipment: emptyEquipmentJson, items: itemsJson },
+  } = equipmentDataJson as PackageEquipmentJsonDataSource;
+  const [emptyEquipment, ...equipments] = generatePackagesEquipments([
+    emptyEquipmentJson,
+    ...itemsJson,
+  ]);
+  return { emptyEquipment, equipments };
 }
 
 /**
@@ -105,13 +91,13 @@ export function registerGamePackagesData(fisherCore: FisherCore) {
  */
 function makePackageCollectionDataSource(
   dataSource: PackageCollectionJsonDataSource
-): IFisherCollectionPackageItemsAndRecipes {
+) {
   const {
     data: { items: itemsJson, recipes: recipesJson },
   } = dataSource;
   const items = generatePackagesFisherItems(itemsJson);
 
-  const recipes = recipesJson.map((item) => {
+  const fisherRecipeDataJson = recipesJson.map((item) => {
     const rewardItem = items.find(
       (fisherItem) => fisherItem.id === item.rewardItemId
     );
@@ -120,7 +106,7 @@ function makePackageCollectionDataSource(
       'Fail to launch packages data, undefined reward item id' +
         item.rewardItemId
     );
-    return new FisherRecipeItem({
+    return {
       id: item.id,
       name: item.name,
       desc: item.desc,
@@ -130,42 +116,42 @@ function makePackageCollectionDataSource(
       rewardItem,
       rewardExperience: item.rewardExperience,
       rewardQuantity: item.rewardQuantity,
-    });
+    };
   });
+
+  const recipes = generatePackagesFisherRecipeItems(fisherRecipeDataJson);
   return { items, recipes };
 }
 
 /**
- * 生成装备数据
- *
- * @param {PackageEquipmentJsonDataSource} dataSource
- * @return {*}
- */
-function makePackageEquipmentDataSource(
-  dataSource: PackageEquipmentJsonDataSource
-) {
-  const {
-    data: { items: itemsJson },
-  } = dataSource;
-  const equipments = generatePackagesEquipments(itemsJson);
-  return equipments;
-}
-
-/**
- * 初始化普通物品
+ * 生成普通物品
  *
  * @export
  * @param {IFisherItem[]} dataSource
  * @return {*}
  */
 function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
-  return itemsJson.map(
-    (item) => new FisherNormalItem({ ...(item as IFisherItem) })
-  );
+  return itemsJson.map((item) => new FisherNormalItem(item));
 }
 
+/**
+ * 生成配方
+ *
+ * @param {IFisherRecipeItem[]} itemsJson
+ * @return {*}
+ */
+function generatePackagesFisherRecipeItems(itemsJson: IFisherRecipeItem[]) {
+  return itemsJson.map((item) => new FisherRecipeItem(item));
+}
+
+/**
+ * 生成装备物品
+ *
+ * @param {IFisherEquipmentItem[]} itemsJson
+ * @return {*}
+ */
 function generatePackagesEquipments(itemsJson: IFisherEquipmentItem[]) {
-  return itemsJson.map((item) => new FisherEquipmentItem({ ...item }));
+  return itemsJson.map((item) => new FisherEquipmentItem(item));
 }
 
 /**
@@ -174,11 +160,9 @@ function generatePackagesEquipments(itemsJson: IFisherEquipmentItem[]) {
  * @param {FisherSkillRecipe[]} recipes
  * @return {*}  {RecipePartMap}
  */
-function makeRecipePartMap<T extends IFisherComponentWithPackagesData>(
-  fisherComponent: T
-) {
+function makeRecipePartMap(recipes: FisherRecipeItem[]) {
   const result = new Map();
-  fisherComponent.packagesData.recipes.forEach((item) => {
+  recipes.forEach((item) => {
     if (result.has(item.name)) {
       const prevRecipeValue = result.get(item.name);
       invariant(prevRecipeValue !== undefined, 'Fail to add recipe to map');
@@ -188,10 +172,5 @@ function makeRecipePartMap<T extends IFisherComponentWithPackagesData>(
       result.set(item.name, [item]);
     }
   });
-  fisherComponent.packagesData.recipePartMap = result;
+  return result;
 }
-
-const [emptyEquipment] = generatePackagesEquipments([
-  equipmentDataJson.data.emptyEquipment,
-] as IFisherEquipmentItem[]);
-export { emptyEquipment };

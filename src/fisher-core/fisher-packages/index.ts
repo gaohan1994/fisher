@@ -1,2 +1,2 @@
 export * from './FisherPackages';
-export * from './FisherPackagesInterface';
+export * from './FisherStore';

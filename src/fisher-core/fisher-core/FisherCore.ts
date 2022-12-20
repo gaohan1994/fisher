@@ -1,20 +1,18 @@
+import { makeAutoObservable } from 'mobx';
 import {
-  IFisherPackagesData,
-  registerGamePackagesData,
   Mining,
+  Reiki,
   FisherGold,
   FisherBackpack,
   FisherActionControl,
-  Reiki,
   FisherPerson,
   PersonLevel,
+  FisherComponent,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { makeAutoObservable } from 'mobx';
-
-const logger = prefixLogger(prefixes.FISHER_CORE);
 
 export class FisherCore {
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
   /**
    * 背包
    *
@@ -64,20 +62,6 @@ export class FisherCore {
   public master: FisherPerson;
 
   /**
-   * 游戏数据
-   * - items 基础物品
-   * - recipes 采集物品配方
-   *
-   * @type {IFisherPackagesData}
-   * @memberof FisherCore
-   */
-  public packagesData: IFisherPackagesData = {
-    items: [],
-    recipes: [],
-    recipePartMap: new Map(),
-  };
-
-  /**
    * Creates an instance of FisherCore.
    *
    * - 初始化各个模块如
@@ -88,7 +72,6 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-
     this.fisherBackpack = new FisherBackpack();
     this.fisherGold = new FisherGold({});
     this.mining = new Mining();
@@ -98,8 +81,6 @@ export class FisherCore {
       name: 'Harper Gao',
       level: PersonLevel.GasRefiningEarly,
     });
-    registerGamePackagesData(this);
-
     // 配置受控的 action 系统
     this.fisherActionControl = new FisherActionControl();
     this.fisherActionControl.addActionControlComponents([
@@ -108,11 +89,11 @@ export class FisherCore {
     ]);
   }
 
-  public get activeActionId() {
-    return this.fisherActionControl.activeActionId;
+  public get activeComponentId() {
+    return this.fisherActionControl.activeComponentId;
   }
 
-  public setActiveActionId = (value: string) => {
-    this.fisherActionControl.setActiveActionId(value);
+  public setActiveComponent = (component: FisherComponent) => {
+    this.fisherActionControl.setActiveComponent(component);
   };
 }

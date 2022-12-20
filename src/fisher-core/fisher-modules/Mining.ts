@@ -1,4 +1,8 @@
-import { FisherCollectionSkillTypes } from '@FisherCore';
+import {
+  FisherCollectionSkillTypes,
+  IFisherMiningPackagesData,
+  useModulePackage,
+} from '@FisherCore';
 import { CollectionModule } from './CollectionModule';
 
 /**
@@ -9,6 +13,8 @@ import { CollectionModule } from './CollectionModule';
  * @extends {CollectionModule}
  */
 export class Mining extends CollectionModule {
+  override packages = useModulePackage('Mining') as IFisherMiningPackagesData;
+
   constructor() {
     super({ id: FisherCollectionSkillTypes.Mining });
   }

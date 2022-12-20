@@ -1,7 +1,9 @@
 import { IReactionDisposer, makeAutoObservable, reaction } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { CollectionModule } from '../fisher-modules';
+import invariant from 'invariant';
 
-const logger = prefixLogger(prefixes.FISHER_CORE, 'ActionControl');
+export type FisherComponent = CollectionModule | undefined;
 
 interface FisherActionControlComponent {
   id: string;
@@ -18,15 +20,17 @@ interface FisherActionControlComponent {
  * @template T
  */
 export class FisherActionControl<T extends FisherActionControlComponent> {
+  public static logger = prefixLogger(prefixes.FISHER_CORE, 'ActionControl');
+
   /**
-   * 当前处于活跃状态的 action id
+   * 当前处于激活状态的组件
    *
-   * @type {string}
+   * @type {FisherComponent}
    * @memberof FisherActionControl
    */
-  public activeActionId: string = '';
+  public activeComponent: FisherComponent = undefined;
   /**
-   * 所有受控的 action map
+   * 所有受控的模块
    *
    * @type {Map<string, T>}
    * @memberof FisherActionControl
@@ -37,22 +41,16 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
   constructor() {
     makeAutoObservable(this);
 
-    const actionControlDispose = reaction<string>(
-      () => this.activeActionId,
+    const actionControlDispose = reaction(
+      () => this.activeComponentId,
       this._actionControlMethod
     );
     this.disposes.push(actionControlDispose);
   }
 
-  /**
-   * 设置当前活跃状态的 action id
-   *
-   * @param {string} value
-   * @memberof FisherActionControl
-   */
-  public setActiveActionId = (value: string) => {
-    this.activeActionId = value;
-  };
+  public get activeComponentId() {
+    return this.activeComponent?.id;
+  }
 
   /**
    * 添加受控组件列表
@@ -73,7 +71,7 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
    * @memberof FisherActionControl
    */
   public addActionControlComponent = (component: T) => {
-    logger.info(`Add component ${component.id} to AC`);
+    FisherActionControl.logger.info(`Add component ${component.id} to AC`);
     this.componentMap.set(component.id, component);
   };
 
@@ -83,16 +81,18 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
    * @private
    * @param {IActionControlCondition} [
    *     isSomeActionActive,
-   *     currentActiveActionId,
+   *     currentActiveComponentId,
    *   ]
    * @memberof FisherActionControl
    */
-  private _actionControlMethod = (currentActiveActionId: string) => {
-    const isSomeActionActive = this.componentMap.has(currentActiveActionId);
+  private _actionControlMethod = (currentActiveComponentId?: string) => {
+    const isSomeActionActive =
+      currentActiveComponentId !== undefined &&
+      this.componentMap.has(currentActiveComponentId);
     if (!isSomeActionActive) return this._stopAllComponents();
 
     this.componentMap.forEach((component) => {
-      if (component.id !== this.activeActionId) {
+      if (component.id !== currentActiveComponentId) {
         this._stopComponent(component);
       }
     });
@@ -106,6 +106,21 @@ export class FisherActionControl<T extends FisherActionControlComponent> {
 
   private _stopComponent = (component: FisherActionControlComponent) => {
     component.stop();
-    logger.info(`Action ${component.id} stop!`);
+    FisherActionControl.logger.info(`Action ${component.id} stop!`);
+  };
+
+  /**
+   * 设置激活的组件
+   *
+   * @param {FisherComponent} component
+   * @memberof FisherActionControl
+   */
+  public setActiveComponent = (component: FisherComponent) => {
+    invariant(
+      component !== undefined,
+      'Tried setting active component to undefined!'
+    );
+    this.activeComponent = component;
+    FisherActionControl.logger.info(`Set active component ${component.id}`);
   };
 }

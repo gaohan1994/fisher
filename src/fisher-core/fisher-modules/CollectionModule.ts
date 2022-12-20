@@ -1,15 +1,14 @@
-import invariant from 'invariant';
 import {
-  FisherRecipeItem,
   FisherSkill,
+  FisherRecipeItem,
+  FisherCollectionSkillTypes,
   IFisherPackagesData,
-  IFisherSkill,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
-const logger = prefixLogger(prefixes.FISHER_CORE, 'CollectionModule');
-
-interface ICollectionModule extends IFisherSkill {}
+interface ICollectionModule {
+  id: FisherCollectionSkillTypes;
+}
 
 /**
  * 采集模块抽象类
@@ -40,13 +39,14 @@ interface ICollectionModule extends IFisherSkill {}
  * @class CollectionModule
  */
 export abstract class CollectionModule {
+  private static readonly logger = prefixLogger(
+    prefixes.FISHER_CORE,
+    'CollectionModule'
+  );
+
   public isActive = false;
-  public packagesData: IFisherPackagesData = {
-    items: [],
-    recipes: [],
-    recipePartMap: new Map(),
-  };
-  public skill: FisherSkill;
+  public readonly skill: FisherSkill;
+  public abstract readonly packages: IFisherPackagesData;
 
   /**
    * Creates an instance of CollectionModule.
@@ -55,8 +55,8 @@ export abstract class CollectionModule {
    * @param {ICollectionModule} options
    * @memberof CollectionModule
    */
-  constructor(options: ICollectionModule) {
-    this.skill = new FisherSkill(options);
+  constructor({ id }: ICollectionModule) {
+    this.skill = new FisherSkill({ id });
   }
 
   public get id() {
@@ -82,19 +82,12 @@ export abstract class CollectionModule {
    * @param {FisherRecipeItem} value
    * @memberof CollectionModule
    */
-  public start = (value: FisherRecipeItem) => {
-    const recipe = this.packagesData.recipes.find(
-      (item) => item.id === value.id
-    );
-    invariant(recipe !== undefined, 'Can not find selected recipe ' + value.id);
-
+  public start = (recipe: FisherRecipeItem) => {
+    CollectionModule.logger.info(`start collection module ${this.id}`);
     this.skill.updateActiveRecipe(recipe);
-    logger.info('Add selected recipe: ', recipe);
-
     this.skill.startAction();
     this.isActive = true;
-
-    fisher.setActiveActionId(this.id);
+    fisher.setActiveComponent(this);
   };
 
   /**
@@ -104,6 +97,7 @@ export abstract class CollectionModule {
    * @memberof CollectionModule
    */
   public stop = () => {
+    CollectionModule.logger.info(`stop collection module ${this.id}`);
     this.skill.stopAction();
     this.skill.resetActiveRecipe();
     this.isActive = false;

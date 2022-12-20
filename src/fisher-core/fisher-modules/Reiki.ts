@@ -1,4 +1,8 @@
-import { FisherCollectionSkillTypes } from '@FisherCore';
+import {
+  FisherCollectionSkillTypes,
+  IFisherReikiPackagesData,
+  useModulePackage,
+} from '@FisherCore';
 import { CollectionModule } from './CollectionModule';
 
 /**
@@ -9,6 +13,8 @@ import { CollectionModule } from './CollectionModule';
  * @extends {CollectionModule}
  */
 export class Reiki extends CollectionModule {
+  override packages = useModulePackage('Reiki') as IFisherReikiPackagesData;
+
   constructor() {
     super({ id: FisherCollectionSkillTypes.Reiki });
   }

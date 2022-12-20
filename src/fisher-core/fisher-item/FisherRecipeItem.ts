@@ -1,6 +1,6 @@
 import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
 
-interface IFisherRecipeItem extends IFisherItem {
+export interface IFisherRecipeItem extends IFisherItem {
   interval: number;
   unlockLevel: number;
   rewardExperience: number;

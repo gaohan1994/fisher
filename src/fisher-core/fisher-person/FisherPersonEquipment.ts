@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import {
-  emptyEquipment,
+  fisherStore,
   FisherEquipmentItem,
   FisherEquipmentSlot,
 } from '@FisherCore';
@@ -71,8 +71,8 @@ export class FisherPersonEquipment {
 
   constructor({ slot, equipment, quantity }: IFisherEquipment) {
     makeAutoObservable(this);
-    this.emptyEquipment = emptyEquipment;
-    this.equipment = equipment ?? emptyEquipment;
+    this.emptyEquipment = fisherStore.EmptyEquipment;
+    this.equipment = equipment ?? fisherStore.EmptyEquipment;
     this.quantity = quantity ?? 0;
     this.slot = slot;
   }
