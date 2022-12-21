@@ -92,7 +92,7 @@ export class FisherPerson {
    * @memberof FisherPerson
    */
   public initializeBattleAttributes = () => {
-    this.Hp = Math.min(this.Hp, this.attributePanel.finalMaxHp);
+    this.Hp = Math.min(this.Hp, this.attributePanel.MaxHp);
   };
 
   /**

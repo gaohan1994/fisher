@@ -126,8 +126,8 @@ export const FisherPersonDemo: FC = observer(() => {
       <Typography>属性面板</Typography>
       <Typography>{name}</Typography>
       <Box>
-        <Typography>生命值：{attributePanel.finalMaxHp}</Typography>
-        <Typography>攻击：{attributePanel.finalAttackPower}</Typography>
+        <Typography>生命值：{attributePanel.MaxHp}</Typography>
+        <Typography>攻击：{attributePanel.AttackPower}</Typography>
       </Box>
       <Level personLevel={personLevel} />
       <Equipment equipment={Weapon} />
