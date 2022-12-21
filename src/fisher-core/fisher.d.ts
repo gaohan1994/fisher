@@ -8,7 +8,6 @@ declare module fisher {
   const master: import('./fisher-person').FisherPerson;
   const fisherGold: import('./fisher-gold').FisherGold;
   const fisherBackpack: import('./fisher-backpack').FisherBackpack;
-  const fisherActionControl: import('./fisher-action-control').FisherActionControl;
   const mining: import('./fisher-modules').Mining;
   const reiki: import('./fisher-modules').Reiki;
 }

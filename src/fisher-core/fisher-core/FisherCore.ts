@@ -4,62 +4,36 @@ import {
   Reiki,
   FisherGold,
   FisherBackpack,
-  FisherActionControl,
   FisherPerson,
   PersonLevel,
-  FisherComponent,
+  CollectionModule,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import invariant from 'invariant';
+
+type FisherComponent = CollectionModule | undefined;
 
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
-  /**
-   * 背包
-   *
-   * @type {FisherBackpack}
-   * @memberof FisherCore
-   */
-  public fisherBackpack: FisherBackpack;
+  // 背包
+  public readonly fisherBackpack: FisherBackpack = new FisherBackpack();
 
-  /**
-   * 货币
-   *
-   * @type {FisherGold}
-   * @memberof FisherCore
-   */
-  public fisherGold: FisherGold;
+  // 货币
+  public readonly fisherGold: FisherGold = new FisherGold({});
 
-  /**
-   * AC action 管理
-   *
-   * @type {FisherActionControl<any>}
-   * @memberof FisherCore
-   */
-  public fisherActionControl: FisherActionControl<any>;
+  // 玩家
+  public readonly master: FisherPerson;
 
-  /**
-   * 采矿
-   *
-   * @type {Mining}
-   * @memberof FisherCore
-   */
-  public mining: Mining;
+  public readonly mining = new Mining();
 
-  /**
-   * 灵气
-   *
-   * @type {Reiki}
-   * @memberof FisherCore
-   */
-  public reiki: Reiki;
+  public readonly reiki = new Reiki();
 
-  /**
-   * 玩家
-   *
-   * @type {FisherPerson}
-   * @memberof FisherCore
-   */
-  public master: FisherPerson;
+  // 当前处于激活状态的组件
+  public activeComponent: FisherComponent = undefined;
+
+  public get activeComponentId() {
+    return this.activeComponent?.id;
+  }
 
   /**
    * Creates an instance of FisherCore.
@@ -72,28 +46,31 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-    this.fisherBackpack = new FisherBackpack();
-    this.fisherGold = new FisherGold({});
-    this.mining = new Mining();
-    this.reiki = new Reiki();
     this.master = new FisherPerson({
       id: 'Master',
       name: 'Harper Gao',
       level: PersonLevel.GasRefiningEarly,
     });
-    // 配置受控的 action 系统
-    this.fisherActionControl = new FisherActionControl();
-    this.fisherActionControl.addActionControlComponents([
-      this.mining,
-      this.reiki,
-    ]);
   }
 
-  public get activeComponentId() {
-    return this.fisherActionControl.activeComponentId;
-  }
-
+  /**
+   * 设置激活的组件
+   * 如果当前激活组件不等于传入的组件
+   * 设置激活组件为传入组件
+   * 如果当前激活的组件不为空则关闭当前组件
+   *
+   * @param {FisherComponent} component
+   * @memberof FisherCore
+   */
   public setActiveComponent = (component: FisherComponent) => {
-    this.fisherActionControl.setActiveComponent(component);
+    invariant(
+      component !== undefined,
+      'Tried setting active component to undefined!'
+    );
+    if (this.activeComponent !== component) {
+      this.activeComponent?.stop();
+      this.activeComponent = component;
+      FisherCore.logger.info(`Set active component ${component.id}`);
+    }
   };
 }
