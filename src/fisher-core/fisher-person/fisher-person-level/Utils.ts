@@ -1,3 +1,4 @@
+import { IPersonLevelUpRequirements } from './FisherPersonLevel';
 import personLevelDataJson from './PersonLevelData.json';
 import {
   BaseLevelUpBattleTimes,
@@ -30,15 +31,11 @@ export function findPersonLevelData(personLevel: PersonLevel): PersonLevelData {
  * - battleTimes 战斗胜利次数
  * - tasks 任务
  *
- * @interface IFisherPersonLevelUpRequirements
+ * @interface  IPersonLevelUpRequirements
  */
-export interface IFisherPersonLevelUpRequirements {
-  battleTimes: number;
-  tasks: any[];
-}
 
 type IFisherInitializedPersonLevelData = {
-  levelUpRequirements: IFisherPersonLevelUpRequirements;
+  levelUpRequirements: IPersonLevelUpRequirements;
 } & PersonLevelData;
 
 /**

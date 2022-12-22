@@ -32,3 +32,10 @@ export enum IPersonLevelUpMethods {
   Auto = 'Auto',
   Manual = 'Manual',
 }
+
+export const EmptyLevelUpRequirements = {
+  battleTimes: Infinity,
+  tasks: [],
+};
+
+export const EmptyRequirementsCompletion = { battleTimes: 0 };

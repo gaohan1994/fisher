@@ -5,12 +5,18 @@ import { Button, Stack, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 
 export const FisherPersonLevelDemo = observer(() => {
-  const [level] = useState(
-    () => new FisherPersonLevel({ level: PersonLevel.GasRefiningEarly })
-  );
+  const [level] = useState(() => new FisherPersonLevel());
+
   return (
     <DemoLayout title="FisherPersonLevelDemo">
       <div>等级组件</div>
+      <Button
+        onClick={() =>
+          level.initialize({ level: PersonLevel.GasRefiningEarly })
+        }
+      >
+        初始化
+      </Button>
       <Typography>境界：{level.state}</Typography>
       <Typography>等级：{level.label}</Typography>
       <Typography>

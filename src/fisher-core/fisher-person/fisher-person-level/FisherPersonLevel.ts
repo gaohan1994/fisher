@@ -1,50 +1,32 @@
 import invariant from 'invariant';
 import { autorun, makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { IPersonLevelUpMethods, PersonLevel } from './Constants';
 import {
-  IFisherPersonLevelUpRequirements,
+  EmptyLevelUpRequirements,
+  EmptyRequirementsCompletion,
+  IPersonLevelUpMethods,
+  PersonLevel,
+} from './Constants';
+import {
   initializePersonLevelData,
   isAutoPersonLevelUp,
   isManualPersonLevelUp,
 } from './Utils';
 
-const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPersonLevel');
-
 interface IFisherPersonLevel {
-  /**
-   * 初始等级
-   *
-   * @type {PersonLevel}
-   * @memberof IFisherPersonLevel
-   */
   level: PersonLevel;
-  levelUpRequirementsCompletion?: IFisherPersonLevelUpRequirementsCompletion;
+  levelUpRequirementsCompletion?: IPersonLevelUpRequirementsCompletion;
 }
 
-/**
- * 人物已完成的升级所需要的前置条件
- *
- * @interface IFisherPersonLevelUpRequirementsCompletion
- */
-interface IFisherPersonLevelUpRequirementsCompletion {
-  /**
-   * 战斗胜利次数
-   *
-   * @type {number}
-   * @memberof IFisherPersonLevel
-   */
+export interface IPersonLevelUpRequirements {
+  battleTimes: number;
+  tasks: any[];
+}
+
+interface IPersonLevelUpRequirementsCompletion {
   battleTimes: number;
 }
 
-const EmptyRequirementsCompletion: IFisherPersonLevelUpRequirementsCompletion =
-  { battleTimes: 0 };
-
-/**
- * 人物升级前置条件完成情况
- *
- * @interface ILevelUpCompletionStatus
- */
 interface ILevelUpCompletionStatus {
   /**
    * 是否满足所有前置条件
@@ -55,7 +37,7 @@ interface ILevelUpCompletionStatus {
   meetLevelUpRequirements: boolean;
 
   /**
-   * 人物等级提升方式
+   * 人物等级提升方式 手动 / 自动
    *
    * @type {IPersonLevelUpMethods}
    * @memberof ILevelUpCompletionStatus
@@ -78,78 +60,68 @@ interface ILevelUpCompletionStatus {
  * @class FisherPersonLevel
  */
 export class FisherPersonLevel {
+  static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPersonLevel');
+
+  public initialized = false;
   /**
    * 人物境界
    *
    * @type {string}
    * @memberof FisherPersonLevel
    */
-  public state: string;
+  public state?: string = undefined;
+
+  public label?: string = undefined;
+
+  public level?: PersonLevel = undefined;
+
+  public nextLevel?: PersonLevel = undefined;
 
   /**
-   * 人物等级描述
-   *
-   * @type {string}
-   * @memberof FisherPersonLevel
-   */
-  public label: string;
-
-  /**
-   * 人物境界中的具体等级
-   *
-   * @type {PersonLevel}
-   * @memberof FisherPersonLevel
-   */
-  public level: PersonLevel;
-
-  /**
-   * 人物等级系数
+   * 等级属性系数
    *
    * @type {number}
    * @memberof FisherPersonLevel
    */
-  public coefficient: number;
+  public coefficient = 1;
 
-  /**
-   * 人物下一等级
-   *
-   * @type {PersonLevel}
-   * @memberof FisherPersonLevel
-   */
-  public nextLevel: PersonLevel;
   /**
    * 人物升级前置条件
    *
-   * @type {IFisherPersonLevelUpRequirements}
+   * @type { IPersonLevelUpRequirements}
    * @memberof FisherPersonLevel
    */
-  public levelUpRequirements: IFisherPersonLevelUpRequirements;
+  public levelUpRequirements: IPersonLevelUpRequirements =
+    EmptyLevelUpRequirements;
 
   /**
    * 人物升级前置条件完成情况
    *
-   * @type {IFisherPersonLevelUpRequirementsCompletion}
+   * @type { IPersonLevelUpRequirementsCompletion}
    * @memberof FisherPersonLevel
    */
-  public levelUpRequirementsCompletion: IFisherPersonLevelUpRequirementsCompletion;
+  public levelUpRequirementsCompletion: IPersonLevelUpRequirementsCompletion =
+    EmptyRequirementsCompletion;
 
-  constructor({ level, levelUpRequirementsCompletion }: IFisherPersonLevel) {
+  constructor() {
     makeAutoObservable(this);
-    this.level = level;
-    this.levelUpRequirementsCompletion =
-      levelUpRequirementsCompletion ?? EmptyRequirementsCompletion;
-
-    const { state, label, nextLevel, coefficient, levelUpRequirements } =
-      initializePersonLevelData(level);
-    this.state = state;
-    this.label = label;
-    this.nextLevel = nextLevel;
-    this.coefficient = coefficient;
-    this.levelUpRequirements = levelUpRequirements;
-
     autorun(() => this.requirementsCompletionProgress());
     reaction(() => this.level, this.levelChangeReaction);
   }
+
+  public initialize = ({
+    level,
+    levelUpRequirementsCompletion,
+  }: IFisherPersonLevel) => {
+    if (this.initialized) {
+      FisherPersonLevel.logger.error('Already initialized level');
+      return;
+    }
+    this.level = level;
+    this.levelUpRequirementsCompletion =
+      levelUpRequirementsCompletion ?? EmptyRequirementsCompletion;
+    this.initialized = true;
+  };
 
   /**
    * 是否可以升级
@@ -176,12 +148,11 @@ export class FisherPersonLevel {
     };
   }
 
-  /**
-   * 手动升级
-   *
-   * @memberof FisherPersonLevel
-   */
   public manualLevelUp = () => {
+    invariant(
+      this.initialized === true,
+      'Tried manual level up when person level does not initialized!'
+    );
     invariant(
       isManualPersonLevelUp(this.levelUpCompletionStatus.levelUpMethod),
       `Fail to manual level up, current level ${this.level} should level up automaticaly`
@@ -194,11 +165,6 @@ export class FisherPersonLevel {
     this.level = this.nextLevel;
   };
 
-  /**
-   * 自动升级
-   *
-   * @memberof FisherPersonLevel
-   */
   public autoLevelUp = () => {
     invariant(
       isAutoPersonLevelUp(this.levelUpCompletionStatus.levelUpMethod),
@@ -219,6 +185,10 @@ export class FisherPersonLevel {
    * @memberof FisherPersonLevel
    */
   public updateBattleTimes = (quantity: number) => {
+    invariant(
+      this.initialized === true,
+      'Tried updateBattleTimes when person level does not initialized!'
+    );
     this.levelUpRequirementsCompletion.battleTimes += quantity;
   };
 
@@ -254,13 +224,16 @@ export class FisherPersonLevel {
    * @memberof FisherPersonLevel
    */
   private levelChangeReaction = () => {
+    if (!this.level) return;
+
     const { state, label, nextLevel, coefficient, levelUpRequirements } =
       initializePersonLevelData(this.level);
-    logger.info(`Success change level  to ${this.level}`);
+
     this.state = state;
     this.label = label;
     this.nextLevel = nextLevel;
     this.coefficient = coefficient;
     this.levelUpRequirements = levelUpRequirements;
+    FisherPersonLevel.logger.info(`Success change level  to ${this.level}`);
   };
 }
