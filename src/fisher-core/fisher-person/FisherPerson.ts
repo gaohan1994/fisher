@@ -10,10 +10,13 @@ import {
 import { AttributePanel } from './AttributePanel';
 import { FisherPersonLevel, PersonLevel } from './fisher-person-level';
 
-const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPerson');
+enum PersonMode {
+  Master = 'Master',
+  Enemy = 'Enemy',
+}
 
 interface IFisherPerson {
-  id: string;
+  mode: PersonMode;
   name: string;
   level: PersonLevel;
 }
@@ -26,44 +29,42 @@ interface IFisherPerson {
  * @class FisherPerson
  */
 export class FisherPerson {
-  public id: string;
-  public name: string;
-  public personLevel: FisherPersonLevel;
-  /**
-   * 生命值
-   *
-   * @type {number}
-   * @memberof FisherPerson
-   */
+  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPerson');
+  public static readonly Mode = PersonMode;
+  public static readonly Level = PersonLevel;
+
+  public initialized: boolean = false;
+
+  public mode?: PersonMode = undefined;
+
+  public name: string = 'DefaultName';
+
   public Hp: number = Infinity;
 
-  /**
-   * 装备模块
-   *
-   * @type {FisherPersonEquipmentManager}
-   * @memberof FisherPerson
-   */
-  public fisherPersonEquipmentManager: FisherPersonEquipmentManager;
+  public personLevel: FisherPersonLevel = new FisherPersonLevel();
 
-  /**
-   * 属性面板
-   *
-   * @type {AttributePanel}
-   * @memberof FisherPerson
-   */
-  public attributePanel: AttributePanel;
+  public personEquipmentManager: FisherPersonEquipmentManager =
+    new FisherPersonEquipmentManager();
 
-  constructor({ id, name, level }: IFisherPerson) {
+  public attributePanel: AttributePanel = new AttributePanel(this);
+
+  constructor() {
     makeAutoObservable(this);
-    this.id = id;
-    this.name = name;
-    this.personLevel = new FisherPersonLevel({ level });
-    this.fisherPersonEquipmentManager = new FisherPersonEquipmentManager();
-    this.attributePanel = new AttributePanel(this);
   }
 
+  public initialize = ({ mode, name, level }: IFisherPerson) => {
+    if (this.initialized) {
+      FisherPerson.logger.error(`Already initialized person ${this.name}`);
+      return;
+    }
+    this.mode = mode;
+    this.name = name;
+    this.personLevel.initialize({ level });
+    this.initialized = true;
+  };
+
   public get Weapon() {
-    const result = this.fisherPersonEquipmentManager.equipmentMap.get(
+    const result = this.personEquipmentManager.equipmentMap.get(
       FisherEquipmentSlot.Weapon
     );
     invariant(result !== undefined, 'Fail get Weapon');
@@ -71,7 +72,7 @@ export class FisherPerson {
   }
 
   public get Helmet() {
-    const result = this.fisherPersonEquipmentManager.equipmentMap.get(
+    const result = this.personEquipmentManager.equipmentMap.get(
       FisherEquipmentSlot.Helmet
     );
     invariant(result !== undefined, 'Fail get Helmet');
@@ -79,11 +80,11 @@ export class FisherPerson {
   }
 
   public useEquipment: IFisherPersonUseEquipment = (...rest) => {
-    this.fisherPersonEquipmentManager.useEquipment(...rest);
+    this.personEquipmentManager.useEquipment(...rest);
   };
 
   public removeEquipment: IFisherPersonRemoveEquipment = (...rest) => {
-    this.fisherPersonEquipmentManager.removeEquipment(...rest);
+    this.personEquipmentManager.removeEquipment(...rest);
   };
 
   /**
@@ -101,6 +102,15 @@ export class FisherPerson {
    * @memberof FisherPerson
    */
   public personDeath = () => {
-    logger.info(`Person ${this.id} death`);
+    FisherPerson.logger.info(`${this?.mode} ${this.name} death`);
   };
+
+  /**
+   * 攻击动作
+   * 对 target 攻击
+   *
+   * @param {FisherPerson} target
+   * @memberof FisherPerson
+   */
+  public attackAction = () => {};
 }

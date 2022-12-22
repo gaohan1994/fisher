@@ -1,10 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import {
-  FisherEquipmentItem,
-  FisherEquipmentSlot,
-  IFisherPersonAttributesAffected,
-} from '@FisherCore';
+import { FisherEquipmentItem, FisherEquipmentSlot } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { FisherPersonEquipment } from './FisherPersonEquipment';
 
@@ -46,26 +42,8 @@ export class FisherPersonEquipmentManager {
     );
   }
 
-  /**
-   * 返回所有装备的属性加成
-   *
-   * @readonly
-   * @type {IFisherPersonAttributesAffected}
-   * @memberof FisherPersonEquipmentManager
-   */
-  public get equipmentAttributes(): IFisherPersonAttributesAffected {
-    const result: IFisherPersonAttributesAffected = {
-      MaxHp: 0,
-      AttackPower: 0,
-    };
-    this.equipmentMap.forEach(({ equipment }) => {
-      const { attributes } = equipment;
-      attributes.length > 0 &&
-        attributes.forEach(({ key, value }) => {
-          result[key] += value;
-        });
-    });
-    return result;
+  public get equipments() {
+    return [...this.equipmentMap.values()];
   }
 
   /**

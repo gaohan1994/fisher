@@ -9,12 +9,12 @@ export enum IAttributeKeys {
   // Defense = 'Defense',
 }
 
-export type IFisherPersonAttributesAffectedKeys =
+export type IBonusEquipmentsAttributesKeys =
   | IAttributeKeys.AttackPower
   | IAttributeKeys.MaxHp;
 
-export type IFisherPersonAttributesAffected = {
-  [key in IFisherPersonAttributesAffectedKeys]: number;
+export type IBonusEquipmentsAttributes = {
+  [key in IBonusEquipmentsAttributesKeys]: number;
 };
 
 export type IFisherPersonAttributes = {

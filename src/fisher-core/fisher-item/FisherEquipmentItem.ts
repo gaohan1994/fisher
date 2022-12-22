@@ -1,4 +1,4 @@
-import { IFisherPersonAttributesAffectedKeys } from '@FisherCore';
+import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
 import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
 
 export interface IFisherEquipmentItem extends IFisherItem {
@@ -20,7 +20,7 @@ interface IEquipmentRequirement {}
  * @interface IEquipmentAttribute
  */
 interface IEquipmentAttribute {
-  key: IFisherPersonAttributesAffectedKeys;
+  key: IBonusEquipmentsAttributesKeys;
   value: number;
 }
 

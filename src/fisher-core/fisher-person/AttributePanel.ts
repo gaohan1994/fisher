@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { IBonusEquipmentsAttributes } from './Attributes';
 import { FisherPersonLevel } from './fisher-person-level';
 import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
 
@@ -9,17 +10,38 @@ const BaseAttributeData = {
 
 interface IAttributePanel {
   personLevel: FisherPersonLevel;
-  fisherPersonEquipmentManager: FisherPersonEquipmentManager;
+  personEquipmentManager: FisherPersonEquipmentManager;
 }
 
 export class AttributePanel {
-  public personLevel: FisherPersonLevel;
-  public equipmentManager: FisherPersonEquipmentManager;
+  private personLevel: FisherPersonLevel;
+  private equipmentManager: FisherPersonEquipmentManager;
 
-  constructor({ personLevel, fisherPersonEquipmentManager }: IAttributePanel) {
+  constructor({ personLevel, personEquipmentManager }: IAttributePanel) {
     makeAutoObservable(this);
     this.personLevel = personLevel;
-    this.equipmentManager = fisherPersonEquipmentManager;
+    this.equipmentManager = personEquipmentManager;
+  }
+
+  /**
+   * 装备属性
+   *
+   * @readonly
+   * @memberof AttributePanel
+   */
+  public get BonusEquipmentsAttributes() {
+    const result: IBonusEquipmentsAttributes = {
+      MaxHp: 0,
+      AttackPower: 0,
+    };
+    this.equipmentManager.equipments.map(({ equipment }) => {
+      const { attributes } = equipment;
+      attributes.length &&
+        attributes.forEach(({ key, value }) => {
+          result[key] += value;
+        });
+    });
+    return result;
   }
 
   /**
@@ -44,14 +66,13 @@ export class AttributePanel {
   }
 
   /**
-   * 攻击力加成
-   * - 装备加成
+   * 奖励攻击力 = 装备攻击力
    *
    * @readonly
    * @memberof AttributePanel
    */
   public get BonusAttackPower() {
-    return this.equipmentManager.equipmentAttributes.AttackPower;
+    return this.BonusEquipmentsAttributes.AttackPower;
   }
 
   /**
@@ -92,7 +113,7 @@ export class AttributePanel {
   }
 
   /**
-   * 攻击伤害 = 最终攻击力 * 攻击伤害系数
+   * 攻击伤害 = 最终攻击力 x 攻击伤害系数
    *
    * @readonly
    * @memberof AttributePanel
@@ -102,7 +123,7 @@ export class AttributePanel {
   }
 
   /**
-   * 基础血量
+   * 基础血量 = 等级系数 x 每级血量
    *
    * @readonly
    * @memberof AttributePanel
@@ -112,12 +133,22 @@ export class AttributePanel {
   }
 
   /**
-   * 生命值上限 = 基础生命值上限 + 装备加成生命值上限
+   * 加成血量 = 装备血量
+   *
+   * @readonly
+   * @memberof AttributePanel
+   */
+  public get BonusMaxHp() {
+    return this.BonusEquipmentsAttributes.MaxHp;
+  }
+
+  /**
+   * 生命值上限 = 基础生命值上限 + 装备生命值
    *
    * @readonly
    * @memberof AttributePanel
    */
   public get MaxHp() {
-    return this.BaseMaxHp + this.equipmentManager.equipmentAttributes.MaxHp;
+    return this.BaseMaxHp + this.BonusMaxHp;
   }
 }

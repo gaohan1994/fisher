@@ -3,9 +3,8 @@ import {
   Mining,
   Reiki,
   FisherGold,
-  FisherBackpack,
   FisherPerson,
-  PersonLevel,
+  FisherBackpack,
   CollectionModule,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
@@ -16,13 +15,13 @@ type FisherComponent = CollectionModule | undefined;
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
   // 背包
-  public readonly fisherBackpack: FisherBackpack = new FisherBackpack();
+  public readonly fisherBackpack = new FisherBackpack();
 
   // 货币
-  public readonly fisherGold: FisherGold = new FisherGold({});
+  public readonly fisherGold = new FisherGold({});
 
   // 玩家
-  public readonly master: FisherPerson;
+  public readonly master = new FisherPerson();
 
   public readonly mining = new Mining();
 
@@ -46,10 +45,10 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-    this.master = new FisherPerson({
-      id: 'Master',
-      name: 'Harper Gao',
-      level: PersonLevel.GasRefiningEarly,
+    this.master.initialize({
+      name: '李逍遥',
+      mode: FisherPerson.Mode.Master,
+      level: FisherPerson.Level.GasRefiningEarly,
     });
   }
 
