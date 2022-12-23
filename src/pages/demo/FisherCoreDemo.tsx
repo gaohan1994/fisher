@@ -9,6 +9,7 @@ import { MiningDemo } from './MiningDemo';
 import { ReikiDemo } from './ReikiDemo';
 import { FisherPersonDemo } from './FisherPersonDemo';
 import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
+import { FisherBattleDemo } from './FisherBattleDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -26,16 +27,19 @@ const FisherCoreDemo: FC = () => (
   <Stack direction="column" spacing={2}>
     <DemoStack>
       <Paper>
-        <FisherPersonDemo />
+        <FisherPersonDemo person={fisher.master} />
       </Paper>
+      <Paper>
+        <FisherBattleDemo />
+      </Paper>
+    </DemoStack>
+    <DemoStack>
       <Paper>
         <MiningDemo />
       </Paper>
       <Paper>
         <ReikiDemo />
       </Paper>
-    </DemoStack>
-    <DemoStack>
       <Paper
         elevation={2}
         sx={{

@@ -11,7 +11,7 @@ function launchFisherGame(): Promise<FisherCore> {
   const fisher = new FisherCore();
 
   logger.info('Inject fisherCore into window object');
-  typeof window !== undefined && (window.fisher = fisher);
+  typeof window !== undefined && ((window as any).fisher = fisher);
 
   return Promise.resolve(fisher);
 }

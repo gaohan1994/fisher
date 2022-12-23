@@ -1,13 +1,20 @@
 import { FC, Fragment, useCallback, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Box, Button, Popover, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  LinearProgress,
+  Popover,
+  Stack,
+  Typography,
+} from '@mui/material';
 import {
   findFisherItemById,
   FisherEquipmentItem,
   FisherEquipmentSlot,
+  FisherPerson,
   FisherPersonEquipment,
   FisherPersonLevel,
-  IPersonLevelUpMethods,
 } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
@@ -108,46 +115,69 @@ const Level: FC<LevelProps> = observer(({ personLevel }) => {
   );
 });
 
-export const FisherPersonDemo: FC = observer(() => {
-  const { master } = fisher;
-  const { Weapon, Helmet, useEquipment, attributePanel, name, personLevel } =
-    master;
+interface FisherPersonDemoProps {
+  person: FisherPerson;
+}
 
-  const useEquipmentBySlot = useCallback(
-    (slot: FisherEquipmentSlot, equipmentId: string) => {
-      const equipment = findFisherItemById<FisherEquipmentItem>(equipmentId);
-      useEquipment(slot, equipment);
-    },
-    [findFisherItemById, useEquipment]
-  );
+export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
+  ({ person }) => {
+    const {
+      Weapon,
+      Helmet,
+      useEquipment,
+      attributePanel,
+      name,
+      personLevel,
+      Hp,
+      actionManager,
+    } = person;
 
-  return (
-    <DemoLayout title="玩家模块">
-      <Typography>属性面板</Typography>
-      <Typography>{name}</Typography>
-      <Box>
-        <Typography>生命值：{attributePanel.MaxHp}</Typography>
-        <Typography>攻击：{attributePanel.AttackPower}</Typography>
-      </Box>
-      <Level personLevel={personLevel} />
-      <Equipment equipment={Weapon} />
-      <Equipment equipment={Helmet} />
-      <div>
-        <Button
-          onClick={() =>
-            useEquipmentBySlot(FisherEquipmentSlot.Weapon, 'WoodSword')
-          }
-        >
-          使用武器
-        </Button>
-        <Button
-          onClick={() =>
-            useEquipmentBySlot(FisherEquipmentSlot.Helmet, 'JadeCloudHairpin')
-          }
-        >
-          使用头盔
-        </Button>
-      </div>
-    </DemoLayout>
-  );
-});
+    const useEquipmentBySlot = useCallback(
+      (slot: FisherEquipmentSlot, equipmentId: string) => {
+        const equipment = findFisherItemById<FisherEquipmentItem>(equipmentId);
+        useEquipment(slot, equipment);
+      },
+      [findFisherItemById, useEquipment]
+    );
+
+    return (
+      <DemoLayout title="玩家模块">
+        <Typography>{name}</Typography>
+        <Box>
+          <Typography>
+            生命值 {Hp} / {attributePanel.MaxHp}
+          </Typography>
+          <Typography>攻击：{attributePanel.AttackPower}</Typography>
+          {actionManager.attackActions.map((action) => (
+            <Fragment key={`${person.name}${action.id}`}>
+              <Typography>{action.name}</Typography>
+              <LinearProgress
+                variant="determinate"
+                value={action.timer.progress}
+              />
+            </Fragment>
+          ))}
+        </Box>
+        <Level personLevel={personLevel} />
+        <Equipment equipment={Weapon} />
+        <Equipment equipment={Helmet} />
+        <div>
+          <Button
+            onClick={() =>
+              useEquipmentBySlot(FisherEquipmentSlot.Weapon, 'WoodSword')
+            }
+          >
+            使用武器
+          </Button>
+          <Button
+            onClick={() =>
+              useEquipmentBySlot(FisherEquipmentSlot.Helmet, 'JadeCloudHairpin')
+            }
+          >
+            使用头盔
+          </Button>
+        </div>
+      </DemoLayout>
+    );
+  }
+);
