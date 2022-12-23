@@ -97,10 +97,6 @@ export class FisherReward {
    */
   public rewardSkillExperience: Map<FisherSkill, number> = new Map();
 
-  constructor() {
-    makeAutoObservable(this);
-  }
-
   public get rewardItems() {
     const result: { item: FisherItem; quantity: number }[] = [];
     this.rewardItemMap.forEach((rewardQuantity, rewardItem) =>
