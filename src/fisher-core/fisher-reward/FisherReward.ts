@@ -79,7 +79,7 @@ export class FisherReward {
    * @type {Map<FisherItem, number>}
    * @memberof FisherReward
    */
-  public rewardItems: Map<FisherItem, number> = new Map();
+  public rewardItemMap: Map<FisherItem, number> = new Map();
 
   /**
    * 金币奖励
@@ -101,6 +101,14 @@ export class FisherReward {
     makeAutoObservable(this);
   }
 
+  public get rewardItems() {
+    const result: { item: FisherItem; quantity: number }[] = [];
+    this.rewardItemMap.forEach((rewardQuantity, rewardItem) =>
+      result.push({ item: rewardItem, quantity: rewardQuantity })
+    );
+    return result;
+  }
+
   /**
    * 添加物品奖励
    *
@@ -110,12 +118,12 @@ export class FisherReward {
    * @memberof FisherReward
    */
   public addRewardItem: IFisherRewardAddRewardItem<this> = (item, quantity) => {
-    const hasRewardItem = this.rewardItems.has(item);
+    const hasRewardItem = this.rewardItemMap.has(item);
     if (hasRewardItem) {
       // 如果要添加的奖励物品已经存在
       // 奖励物品数量 + quantity
-      const rewardItemQuantity = this.rewardItems.get(item) ?? 0;
-      this.rewardItems.set(item, rewardItemQuantity + quantity);
+      const rewardItemQuantity = this.rewardItemMap.get(item) ?? 0;
+      this.rewardItemMap.set(item, rewardItemQuantity + quantity);
       logger.info(
         'Success update reward item: ' + item.name,
         'quantity: ' + quantity,
@@ -124,7 +132,7 @@ export class FisherReward {
     } else {
       // 如果不存在要添加的奖励物品
       // 则插入
-      this.rewardItems.set(item, quantity);
+      this.rewardItemMap.set(item, quantity);
       logger.info(
         `Success add reward item: ${item.name}, quantity: ${quantity}`
       );
@@ -134,7 +142,7 @@ export class FisherReward {
 
   public setRewardItem: IFisherRewardSetRewardItem<this> = (item, quantity) => {
     logger.info(`Success set reward item: ${item.name}, quantity: ${quantity}`);
-    this.rewardItems.set(item, quantity);
+    this.rewardItemMap.set(item, quantity);
     return this;
   };
 
@@ -215,7 +223,7 @@ export class FisherReward {
    */
   public resetRewards: IFisherRewardResetRewards = () => {
     this.rewardGold = 0;
-    this.rewardItems.clear();
+    this.rewardItemMap.clear();
     this.rewardSkillExperience.clear();
     logger.info('Success reset rewards.');
   };
@@ -231,8 +239,8 @@ export class FisherReward {
       logger.info('Execute reward gold: ' + this.rewardGold);
       fisher.fisherGold.receiveGold(this.rewardGold);
     }
-    if (this.rewardItems.size > 0) {
-      this.rewardItems.forEach((quantity, rewardItem) => {
+    if (this.rewardItemMap.size > 0) {
+      this.rewardItemMap.forEach((quantity, rewardItem) => {
         logger.info(
           'Execute reward item: ' + rewardItem.name,
           'quantity: ' + quantity
