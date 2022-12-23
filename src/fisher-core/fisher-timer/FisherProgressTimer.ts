@@ -17,7 +17,7 @@ interface IFisherTimer {
    * @type {IFisherTimerAction}
    * @memberof IFisherTimer
    */
-  action: IFisherTimerAction;
+  action?: IFisherTimerAction;
 }
 
 /**
@@ -57,10 +57,16 @@ export class FisherTimer {
   constructor({ id, action }: IFisherTimer) {
     makeAutoObservable(this);
     this.id = 'FisherTimer:' + (id ?? 'DefaultTimer');
-    this.action = action;
+    const emptyAction = () => {};
+    this.action = action ?? emptyAction;
     reaction(() => this.active, this.timerActiveReaction);
     reaction(() => this.progress, this.triggerAction);
   }
+
+  public setAction = (action: IFisherTimerAction) => {
+    this.action = action;
+    return this;
+  };
 
   /**
    * 停止计时器任务
