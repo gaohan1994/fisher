@@ -92,8 +92,8 @@ describe('FisherSkill', () => {
     const testRecipe = new FisherRecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     skill.startAction();
-    expect(skill.actionRewards.rewardItems.has(testRewardItem)).toBeTruthy();
-    expect(skill.actionRewards.rewardItems.get(testRewardItem)).toBe(
+    expect(skill.actionRewards.rewardItemMap.has(testRewardItem)).toBeTruthy();
+    expect(skill.actionRewards.rewardItemMap.get(testRewardItem)).toBe(
       testRecipe.rewardQuantity
     );
     expect(skill.timerInterval).toBe(testRecipe.interval);
