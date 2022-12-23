@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { IBonusEquipmentsAttributes } from './Attributes';
 import { FisherPersonLevel } from './fisher-person-level';
+import { FisherPerson } from './FisherPerson';
 import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
 
 const BaseAttributeData = {
@@ -8,17 +9,14 @@ const BaseAttributeData = {
   BaseAttackPower: 4,
 };
 
-interface IAttributePanel {
-  personLevel: FisherPersonLevel;
-  personEquipmentManager: FisherPersonEquipmentManager;
-}
-
 export class AttributePanel {
+  private target?: FisherPerson;
   private personLevel: FisherPersonLevel;
   private equipmentManager: FisherPersonEquipmentManager;
 
-  constructor({ personLevel, personEquipmentManager }: IAttributePanel) {
+  constructor({ personLevel, target, personEquipmentManager }: FisherPerson) {
     makeAutoObservable(this);
+    this.target = target;
     this.personLevel = personLevel;
     this.equipmentManager = personEquipmentManager;
   }
@@ -103,7 +101,7 @@ export class AttributePanel {
 
   /**
    * 攻击倍率
-   * @todo 与护甲有关,暂时为1
+   * @todo 与目标护甲有关,暂时为1
    *
    * @readonly
    * @memberof AttributePanel
@@ -120,6 +118,16 @@ export class AttributePanel {
    */
   public get AttackDamage() {
     return this.AttackPower * this.AttackDamageMultiplier;
+  }
+
+  /**
+   * 攻速单位 ms
+   *
+   * @readonly
+   * @memberof AttributePanel
+   */
+  public get AttackSpeed() {
+    return 2000;
   }
 
   /**
