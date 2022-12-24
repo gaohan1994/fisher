@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx';
+import invariant from 'invariant';
 import {
+  master,
   Mining,
   Reiki,
   FisherGold,
@@ -8,20 +10,20 @@ import {
   CollectionModule,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import invariant from 'invariant';
 
 type FisherComponent = CollectionModule | undefined;
 
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
+
+  // 玩家
+  public readonly master = master;
+
   // 背包
   public readonly fisherBackpack = new FisherBackpack();
 
   // 货币
   public readonly fisherGold = new FisherGold({});
-
-  // 玩家
-  public readonly master = new FisherPerson();
 
   public readonly mining = new Mining();
 
@@ -47,8 +49,7 @@ export class FisherCore {
     makeAutoObservable(this);
     this.master.initialize({
       name: '李逍遥',
-      mode: FisherPerson.Mode.Master,
-      level: FisherPerson.Level.GasRefiningEarly,
+      level: FisherPerson.Level.GasRefiningLater,
     });
   }
 
