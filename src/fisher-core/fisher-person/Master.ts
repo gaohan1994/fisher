@@ -1,4 +1,4 @@
-import { override } from 'mobx';
+import { action, override } from 'mobx';
 import { PersonLevel } from './fisher-person-level';
 import { FisherPerson } from './FisherPerson';
 
@@ -32,6 +32,11 @@ export class Master extends FisherPerson {
     this.personLevel.initialize({ level });
     this.initialized = true;
   }
+
+  @action
+  public deathPenalty = () => {
+    FisherPerson.logger.info('master death');
+  };
 }
 
 export const master = Master.getInstance();
