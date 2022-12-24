@@ -1,26 +1,21 @@
 import { findFisherItemById } from '../fisher-packages';
+import { checkHitProbability } from '../utils';
 import { FisherReward } from './FisherReward';
 
 interface ICreateReward {
   gold?: number;
+  itemId?: string;
   itemIds?: string[];
   itemQuantity?: number;
 }
 
 /**
  * 创建奖励
- *
- * @export
- * @param {ICreateReward} [{
- *   gold,
- *   items = [],
- *   itemIds = [],
- *   itemQuantity = 1,
- * }={}]
  * @return {*}  {FisherReward}
  */
 export function createReward({
   gold,
+  itemId = undefined,
   itemIds = [],
   itemQuantity = 1,
 }: ICreateReward = {}): FisherReward {
@@ -30,12 +25,41 @@ export function createReward({
     reward.addRewardGold(gold);
   }
 
+  if (itemId !== undefined) {
+    const item = findFisherItemById(itemId);
+    item && reward.addRewardItem(item, itemQuantity);
+  }
+
   if (itemIds.length > 0) {
-    itemIds.forEach((itemId) => {
-      const item = findFisherItemById(itemId);
-      reward.addRewardItem(item, itemQuantity);
+    itemIds.forEach((id) => {
+      const item = findFisherItemById(id);
+      item && reward.addRewardItem(item, itemQuantity);
     });
   }
 
   return reward;
+}
+
+interface IProvideProbabilityReward {
+  gold?: number;
+  itemId: string;
+  probability: number;
+  itemQuantity?: number;
+}
+
+/**
+ * roll 点决定是否生成奖励
+ *
+ * @param {string} itemId 奖励物品id
+ * @param {number} itemQuantity 物品奖励数量默认 1
+ * @param {number} probability 概率 0 - 100
+ */
+export function provideProbabilityReward({
+  gold = 0,
+  itemId,
+  probability = 100,
+  itemQuantity = 1,
+}: IProvideProbabilityReward): FisherReward | undefined {
+  if (!checkHitProbability(probability)) return undefined;
+  return createReward({ gold, itemIds: [itemId], itemQuantity });
 }

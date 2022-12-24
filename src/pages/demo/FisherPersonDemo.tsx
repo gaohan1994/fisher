@@ -145,7 +145,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
         <Typography>{name}</Typography>
         <Box>
           <Typography>
-            生命值 {Hp} / {attributePanel.MaxHp}
+            生命值 {Hp < 0 ? '0' : Hp} / {attributePanel.MaxHp}
           </Typography>
           <Typography>攻击：{attributePanel.AttackPower}</Typography>
           {actionManager.attackActions.map((action) => (

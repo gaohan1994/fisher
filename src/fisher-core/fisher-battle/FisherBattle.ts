@@ -1,22 +1,34 @@
-import { FisherPerson } from '@FisherCore';
+import { makeAutoObservable, reaction } from 'mobx';
+import { Enemy, FisherPerson, FisherReward, master, Master } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { makeAutoObservable, reaction, when } from 'mobx';
 
 interface IFisherBattle {
-  master: FisherPerson;
-  enemy: FisherPerson;
+  enemy: Enemy;
 }
 
 export class FisherBattle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBattle');
+
   public inBattle = false;
-  public master?: FisherPerson = undefined;
-  public enemy?: FisherPerson = undefined;
+
+  public enemyIndex = 0;
+
+  public master = master;
+
+  public enemy?: Enemy = undefined;
+
+  /**
+   * 奖励池
+   *
+   * @type {FisherReward[]}
+   * @memberof FisherBattle
+   */
+  public rewardPool: FisherReward[] = [];
 
   constructor() {
     makeAutoObservable(this);
 
-    when(
+    reaction(
       () => this.master !== undefined && this.master.Hp <= 0,
       this.onMasterDeath
     );
@@ -27,16 +39,17 @@ export class FisherBattle {
     );
   }
 
-  public initialize = ({ master, enemy }: IFisherBattle) => {
-    this.master = master;
+  public initialize = ({ enemy }: IFisherBattle) => {
     this.enemy = enemy;
     this.master.setTarget(this.enemy);
     this.enemy.setTarget(this.master);
   };
 
   public start = () => {
-    this.master?.startBattle();
-    this.enemy?.startBattle();
+    if (!this.enemy)
+      return FisherBattle.logger.error('Try to start battle without enemy');
+    this.master.startBattle();
+    this.enemy.startBattle();
     this.inBattle = true;
   };
 
@@ -56,15 +69,24 @@ export class FisherBattle {
    *
    * @memberof FisherBattle
    */
-  public onMasterDeath = () => {};
+  public onMasterDeath = () => {
+    this.stop();
+    this.master.deathPenalty();
+  };
 
   /**
    * 敌人死亡
    * - 停止战斗
-   * - 发放奖励
+   * - 奖励池更新奖励
    * - 初始化下一个敌人
+   * - 再次进入战斗
    *
    * @memberof FisherBattle
    */
-  public onEnemyDeath = () => {};
+  public onEnemyDeath = () => {
+    if (!this.enemy)
+      return FisherBattle.logger.error('Enemy death but undefined');
+    this.stop();
+    this.rewardPool.push(...this.enemy.provideRewards());
+  };
 }

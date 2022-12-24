@@ -1,20 +1,18 @@
-import { describe, expect, test, vi } from 'vitest';
-import { FisherCore } from '../fisher-core';
+import { describe, expect, test } from 'vitest';
 import { FisherEquipmentSlot } from '../fisher-item';
 import {
+  master,
+  Enemy,
   FisherPerson,
   FisherPersonEquipmentManager,
   FisherPersonLevel,
 } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
 
-const fisher = new FisherCore();
-vi.stubGlobal('fisher', fisher);
-
 describe('FisherPerson', () => {
   test('should success constructor FisherPerson', () => {
     const fisherPerson = new FisherPerson();
-    expect(fisherPerson.mode).toBeUndefined();
+    expect(fisherPerson.mode).toBe('');
     expect(fisherPerson.initialized).toBeFalsy();
     expect(fisherPerson.name).toBe('DefaultName');
     expect(fisherPerson.personLevel instanceof FisherPersonLevel).toBeTruthy();
@@ -31,10 +29,8 @@ describe('FisherPerson', () => {
     expect(fisherPerson.attributePanel instanceof AttributePanel).toBeTruthy();
   });
 
-  test('should initialize person', () => {
-    const master = new FisherPerson();
+  test('should initialize master', () => {
     master.initialize({
-      mode: FisherPerson.Mode.Master,
       name: '玩家',
       level: FisherPerson.Level.GasRefiningEarly,
     });
@@ -43,5 +39,18 @@ describe('FisherPerson', () => {
     expect(master.mode).toBe(FisherPerson.Mode.Master);
     expect(master.personLevel.level).toBe(FisherPerson.Level.GasRefiningEarly);
     expect(master.personLevel.label).toBe('炼气前期');
+  });
+
+  test('should initialize enemy', () => {
+    const enemy = new Enemy();
+    enemy.initialize({
+      name: '敌对',
+      level: FisherPerson.Level.GasRefiningLater,
+    });
+    expect(enemy.name).toBe('敌对');
+    expect(enemy.initialized).toBeTruthy();
+    expect(enemy.mode).toBe(FisherPerson.Mode.Enemy);
+    expect(enemy.personLevel.level).toBe(FisherPerson.Level.GasRefiningLater);
+    expect(enemy.personLevel.label).toBe('炼气后期');
   });
 });
