@@ -11,6 +11,13 @@ import {
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
+import battleDataJson from './data/BattleData.json';
+import {
+  IFisherBattleAreaItem,
+  FisherBattleAreaItem,
+  FisherBattleEnemyItem,
+  IFisherBattleEnemyItem,
+} from '../fisher-item';
 
 export interface IFisherPackagesData {
   items: Array<FisherItem | FisherEquipmentItem>;
@@ -84,6 +91,35 @@ export function makeEquipmentPackagesData() {
 }
 
 /**
+ * 生成战斗模块数据
+ *
+ * @export
+ * @return {*}
+ */
+export function makeBattlePackageData() {
+  const { area: areaJson, enemy: enemyJson } = battleDataJson;
+  const battleEnemies = generatePackagesBattleEnemies(
+    enemyJson as IFisherBattleEnemyItem[]
+  );
+  const battleAreas = areaJson.map((area) => {
+    const areaEnemis: FisherBattleEnemyItem[] = [];
+    area.enemies.forEach((enemyId) => {
+      const enemy = battleEnemies.find((enemy) => enemy.id === enemyId);
+      if (!enemy) {
+        throw new Error(`Cannt find enemy id: ${enemyId}`);
+      }
+      areaEnemis.push(enemy);
+    });
+    return new FisherBattleAreaItem({
+      ...area,
+      enemies: areaEnemis,
+    } as IFisherBattleAreaItem);
+  });
+
+  return { battleAreas, battleEnemies };
+}
+
+/**
  * 根据 JSON 初始化游戏数据
  *
  * @param {PackageCollectionJsonDataSource} dataSource
@@ -125,10 +161,6 @@ function makePackageCollectionDataSource(
 
 /**
  * 生成普通物品
- *
- * @export
- * @param {IFisherItem[]} dataSource
- * @return {*}
  */
 function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
   return itemsJson.map((item) => new FisherNormalItem(item));
@@ -136,9 +168,6 @@ function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
 
 /**
  * 生成配方
- *
- * @param {IFisherRecipeItem[]} itemsJson
- * @return {*}
  */
 function generatePackagesFisherRecipeItems(itemsJson: IFisherRecipeItem[]) {
   return itemsJson.map((item) => new FisherRecipeItem(item));
@@ -146,12 +175,16 @@ function generatePackagesFisherRecipeItems(itemsJson: IFisherRecipeItem[]) {
 
 /**
  * 生成装备物品
- *
- * @param {IFisherEquipmentItem[]} itemsJson
- * @return {*}
  */
 function generatePackagesEquipments(itemsJson: IFisherEquipmentItem[]) {
   return itemsJson.map((item) => new FisherEquipmentItem(item));
+}
+
+/**
+ * 生成敌人数据
+ */
+function generatePackagesBattleEnemies(itemsJson: IFisherBattleEnemyItem[]) {
+  return itemsJson.map((item) => new FisherBattleEnemyItem(item));
 }
 
 /**

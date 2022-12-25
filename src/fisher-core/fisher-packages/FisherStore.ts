@@ -1,9 +1,16 @@
 import invariant from 'invariant';
-import { FisherEquipmentItem, FisherItem, FisherRecipeItem } from '@FisherCore';
+import {
+  FisherBattleAreaItem,
+  FisherBattleEnemyItem,
+  FisherEquipmentItem,
+  FisherItem,
+  FisherRecipeItem,
+} from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   IFisherMiningPackagesData,
   IFisherReikiPackagesData,
+  makeBattlePackageData,
   makeEquipmentPackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
@@ -18,13 +25,17 @@ export class FisherStore {
 
   public static instance: FisherStore;
 
-  public Mining: IFisherMiningPackagesData;
+  public readonly Mining: IFisherMiningPackagesData;
 
-  public Reiki: IFisherReikiPackagesData;
+  public readonly Reiki: IFisherReikiPackagesData;
 
-  public EmptyEquipment: FisherEquipmentItem;
+  public readonly EmptyEquipment: FisherEquipmentItem;
 
-  public Equipments: FisherEquipmentItem[];
+  public readonly Equipments: FisherEquipmentItem[];
+
+  public readonly BattleAreas: FisherBattleAreaItem[] = [];
+
+  public readonly BattleEnemies: FisherBattleEnemyItem[] = [];
 
   public get items() {
     return [
@@ -34,6 +45,8 @@ export class FisherStore {
       ...this.Reiki.recipes,
       this.EmptyEquipment,
       ...this.Equipments,
+      ...this.BattleAreas,
+      ...this.BattleEnemies,
     ];
   }
 
@@ -53,6 +66,11 @@ export class FisherStore {
     this.EmptyEquipment = emptyEquipment;
     this.Equipments = equipments;
     FisherStore.logger.info('initialize Equipments data');
+
+    const { battleAreas, battleEnemies } = makeBattlePackageData();
+    this.BattleAreas = battleAreas;
+    this.BattleEnemies = battleEnemies;
+    FisherStore.logger.info('initialize BattleArea and BattleEnemies data');
   }
 
   /**
@@ -87,14 +105,12 @@ type IFindItemReturnType<T> = T extends FisherEquipmentItem
   ? FisherEquipmentItem
   : T extends FisherRecipeItem
   ? FisherRecipeItem
+  : T extends FisherBattleEnemyItem
+  ? FisherBattleEnemyItem
   : FisherItem;
 
 /**
  * 根据 id 查找物品
- *
- * @export
- * @param {string} fisherItemId
- * @return {*}
  */
 export function findFisherItemById<T>(fisherItemId: string) {
   const fisherItem = fisherStore.items.find((item) => item.id === fisherItemId);
@@ -107,10 +123,6 @@ export function findFisherItemById<T>(fisherItemId: string) {
 
 /**
  * 根据 id 查找配方
- *
- * @export
- * @param {string} recipeId
- * @return {*}
  */
 export function findRecipeById(id: string) {
   return findFisherItemById<FisherRecipeItem>(id);
@@ -118,11 +130,14 @@ export function findRecipeById(id: string) {
 
 /**
  * 根据 id 查找装备
- *
- * @export
- * @param {string} id
- * @return {*}
  */
 export function findEquipmentById(id: string) {
   return findFisherItemById<FisherEquipmentItem>(id);
+}
+
+/**
+ * 根据 id 查找敌人
+ */
+export function findEnemyById(id: string) {
+  return findFisherItemById<FisherBattleEnemyItem>(id);
 }
