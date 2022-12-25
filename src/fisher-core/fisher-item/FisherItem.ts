@@ -3,6 +3,8 @@ export enum FisherItemType {
   Normal = 'Normal',
   Recipe = 'Recipe',
   Equipment = 'Equipment',
+  BattleArea = 'BattleArea',
+  BattleEnemy = 'BattleEnemy',
 }
 
 export interface IFisherItem {
