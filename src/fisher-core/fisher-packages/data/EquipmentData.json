@@ -19,7 +19,7 @@
         "type": "Equipment",
         "price": 5,
         "slots": ["Weapon"],
-        "attributes": [{ "key": "AttackPower", "value": 2 }]
+        "attributes": [{ "key": "AttackPower", "value": 40 }]
       },
       {
         "id": "ClothHat",
@@ -34,7 +34,7 @@
       {
         "id": "JadeCloudHairpin",
         "name": "流云白玉簪",
-        "desc": "雕工上乘，玉质极佳，但不是什么法器",
+        "desc": "雕工上乘，玉质极佳",
         "media": "",
         "type": "Equipment",
         "price": 5,
