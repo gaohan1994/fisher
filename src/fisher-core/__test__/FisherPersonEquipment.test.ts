@@ -1,11 +1,26 @@
-import { describe, expect, test, vi } from 'vitest';
+/**
+ * @vitest-environment jsdom
+ */
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { FisherEquipmentItem, FisherEquipmentSlot } from '../fisher-item';
-import { fisherStore } from '../fisher-packages';
+import { createFisherStore } from '../fisher-packages';
 import { FisherPersonEquipment } from '../fisher-person';
-const emptyEquipment = fisherStore.EmptyEquipment;
+
+const emptyEquipment = new FisherEquipmentItem({
+  id: 'EmptyEquipment',
+  name: '空',
+  desc: '',
+  media: '',
+  price: 0,
+  slots: [FisherEquipmentSlot.Helmet, FisherEquipmentSlot.Weapon],
+});
 const fisher = new FisherCore();
 vi.stubGlobal('fisher', fisher);
+
+beforeEach(async () => {
+  await createFisherStore();
+});
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -24,8 +39,8 @@ describe('FisherPersonEquipment', () => {
       slot: FisherEquipmentSlot.Helmet,
     });
     expect(personEquipment.slot).toBe(FisherEquipmentSlot.Helmet);
-    expect(personEquipment.emptyEquipment).toBe(emptyEquipment);
-    expect(personEquipment.equipment).toBe(emptyEquipment);
+    expect(personEquipment.emptyEquipment).toStrictEqual(emptyEquipment);
+    expect(personEquipment.equipment).toStrictEqual(emptyEquipment);
     expect(personEquipment.isEmpty).toBeTruthy();
   });
 
@@ -40,7 +55,7 @@ describe('FisherPersonEquipment', () => {
       equip,
       2
     );
-    expect(prevEquipment).toBe(emptyEquipment);
+    expect(prevEquipment).toStrictEqual(emptyEquipment);
     expect(prevQuantity).toBe(0);
     expect(personEquipment.equipment).toBe(equip);
     expect(personEquipment.quantity).toBe(2);
@@ -83,7 +98,7 @@ describe('FisherPersonEquipment', () => {
     const { prevEquipment, prevQuantity } = personEquipment.removeEquipment();
     expect(prevEquipment).toBe(equip);
     expect(prevQuantity).toBe(1);
-    expect(personEquipment.equipment).toBe(emptyEquipment);
+    expect(personEquipment.equipment).toStrictEqual(emptyEquipment);
     expect(personEquipment.quantity).toBe(0);
   });
 });

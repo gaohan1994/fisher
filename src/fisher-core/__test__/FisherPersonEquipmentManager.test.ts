@@ -1,11 +1,19 @@
-import { describe, expect, test, vi } from 'vitest';
+/**
+ * @vitest-environment jsdom
+ */
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import {
   FisherEquipmentItem,
   FisherEquipmentSlot,
   FisherItemType,
 } from '../fisher-item';
+import { createFisherStore } from '../fisher-packages';
 import { FisherPersonEquipmentManager } from '../fisher-person';
+
+beforeEach(async () => {
+  await createFisherStore();
+});
 
 const fisher = new FisherCore();
 vi.stubGlobal('fisher', fisher);
