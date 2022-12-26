@@ -32,7 +32,7 @@ describe('FisherPersonLevel', () => {
 
   test('should initialize PersonLevl', () => {
     const personLevel = new FisherPersonLevel();
-    personLevel.initialize({ level: PersonLevel.GasRefiningEarly });
+    personLevel.initialize(PersonLevel.GasRefiningEarly);
     expect(personLevel.state).toBe('炼气期');
     expect(personLevel.level).toBe(PersonLevel.GasRefiningEarly);
     expect(personLevel.label).toBe('炼气前期');
@@ -52,7 +52,7 @@ describe('FisherPersonLevel', () => {
 
   test('should auto level up', () => {
     const personLevel = new FisherPersonLevel();
-    personLevel.initialize({ level: PersonLevel.GasRefiningEarly });
+    personLevel.initialize(PersonLevel.GasRefiningEarly);
     const nextLevel = personLevel.nextLevel;
     personLevel.updateBattleTimes(
       personLevel.coefficient * BaseLevelUpBattleTimes
@@ -63,7 +63,7 @@ describe('FisherPersonLevel', () => {
   });
   test('should reset completion when level up', () => {
     const personLevel = new FisherPersonLevel();
-    personLevel.initialize({ level: PersonLevel.GasRefiningEarly });
+    personLevel.initialize(PersonLevel.GasRefiningEarly);
     personLevel.updateBattleTimes(
       personLevel.coefficient * BaseLevelUpBattleTimes
     );

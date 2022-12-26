@@ -1,3 +1,4 @@
+export * from './EmptyEquipment';
 export * from './FisherStore';
 export type {
   IFisherMiningPackagesData,

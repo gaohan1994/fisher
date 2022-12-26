@@ -1,10 +1,10 @@
+import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import {
-  fisherStore,
+  EmptyEquipment,
   FisherEquipmentItem,
   FisherEquipmentSlot,
 } from '@FisherCore';
-import invariant from 'invariant';
 
 interface IFisherEquipment {
   slot: FisherEquipmentSlot;
@@ -71,8 +71,8 @@ export class FisherPersonEquipment {
 
   constructor({ slot, equipment, quantity }: IFisherEquipment) {
     makeAutoObservable(this);
-    this.emptyEquipment = fisherStore.EmptyEquipment;
-    this.equipment = equipment ?? fisherStore.EmptyEquipment;
+    this.emptyEquipment = EmptyEquipment;
+    this.equipment = equipment ?? EmptyEquipment;
     this.quantity = quantity ?? 0;
     this.slot = slot;
   }

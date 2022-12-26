@@ -21,10 +21,15 @@ export class ActionManager {
   }
 
   public registerActionMap = () => {
-    if (this.person.target === undefined) return;
+    if (this.person.target === undefined)
+      return ActionManager.logger.error(
+        'Try to register action map but target was undefined'
+      );
     const attackActions = [new NormalAttackAction(this.person)];
     this.actionMap.set(ActionMode.Attack, attackActions);
-    ActionManager.logger.debug('Success register action map');
+    ActionManager.logger.debug(
+      `Success register action map ${this.person.name}`
+    );
   };
 
   /**
@@ -43,7 +48,8 @@ export class ActionManager {
     }
     actions.forEach((action) => {
       const actionDispose = action.execute();
-      actionDispose && this.actionDisposeMap.set(action.id, actionDispose);
+      actionDispose &&
+        this.actionDisposeMap.set(action.id, () => actionDispose());
     });
   };
 
