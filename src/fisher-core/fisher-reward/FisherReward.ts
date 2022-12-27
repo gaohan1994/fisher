@@ -1,4 +1,3 @@
-import { makeAutoObservable } from 'mobx';
 import { FisherItem, FisherSkill } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
@@ -81,6 +80,10 @@ export class FisherReward {
    */
   public rewardItemMap: Map<FisherItem, number> = new Map();
 
+  public get hasRewardItems() {
+    return this.rewardItemMap.size > 0;
+  }
+
   /**
    * 金币奖励
    *
@@ -88,6 +91,10 @@ export class FisherReward {
    * @memberof FisherReward
    */
   public rewardGold: number = 0;
+
+  public get hasRewardGold() {
+    return this.rewardGold > 0;
+  }
 
   /**
    * 技能经验奖励
@@ -115,29 +122,21 @@ export class FisherReward {
    */
   public addRewardItem: IFisherRewardAddRewardItem<this> = (item, quantity) => {
     const hasRewardItem = this.rewardItemMap.has(item);
+
     if (hasRewardItem) {
       // 如果要添加的奖励物品已经存在
       // 奖励物品数量 + quantity
       const rewardItemQuantity = this.rewardItemMap.get(item) ?? 0;
       this.rewardItemMap.set(item, rewardItemQuantity + quantity);
-      logger.info(
-        'Success update reward item: ' + item.name,
-        'quantity: ' + quantity,
-        'current reward item quantity: ' + rewardItemQuantity + quantity
-      );
     } else {
       // 如果不存在要添加的奖励物品
       // 则插入
       this.rewardItemMap.set(item, quantity);
-      logger.info(
-        `Success add reward item: ${item.name}, quantity: ${quantity}`
-      );
     }
     return this;
   };
 
   public setRewardItem: IFisherRewardSetRewardItem<this> = (item, quantity) => {
-    logger.info(`Success set reward item: ${item.name}, quantity: ${quantity}`);
     this.rewardItemMap.set(item, quantity);
     return this;
   };
@@ -151,18 +150,10 @@ export class FisherReward {
    */
   public addRewardGold: IFisherRewardAddRewardGold<this> = (gold) => {
     this.rewardGold += gold;
-    logger.info(
-      'Success add reward gold: ' + gold,
-      'current total reward gold: ' + this.rewardGold
-    );
     return this;
   };
 
   public setRewardGold: IFisherRewardSetRewardGold<this> = (gold) => {
-    logger.info(
-      'Success set reward gold: ' + gold,
-      'current total reward gold: ' + this.rewardGold
-    );
     this.rewardGold = gold;
     return this;
   };
@@ -180,22 +171,15 @@ export class FisherReward {
     experience
   ) => {
     const hasRewardSkill = this.rewardSkillExperience.has(skill);
+
     if (hasRewardSkill) {
       // 如果要添加的技能已经存在
       // 奖励技能经验 + experience
       const rewardExperience = this.rewardSkillExperience.get(skill) ?? 0;
       this.rewardSkillExperience.set(skill, rewardExperience + experience);
-      logger.info(
-        'Success update reward skill experience: ' + skill.name,
-        'experience: ' + experience,
-        'current reward skill experience: ' + rewardExperience + experience
-      );
     } else {
       // 如果不存在要添加的技能
       this.rewardSkillExperience.set(skill, experience);
-      logger.info(
-        `Success add reward skill experience: ${skill.name}, experience: ${experience}`
-      );
     }
     return this;
   };
@@ -204,9 +188,6 @@ export class FisherReward {
     skill,
     experience
   ) => {
-    logger.info(
-      `Success set reward skill experience: ${skill.name}, experience: ${experience}`
-    );
     this.rewardSkillExperience.set(skill, experience);
     return this;
   };
@@ -221,7 +202,8 @@ export class FisherReward {
     this.rewardGold = 0;
     this.rewardItemMap.clear();
     this.rewardSkillExperience.clear();
-    logger.info('Success reset rewards.');
+
+    logger.debug('Success reset rewards.');
   };
 
   /**
@@ -232,24 +214,29 @@ export class FisherReward {
    */
   public executeRewards: IFisherRewardsExecuteRewards = () => {
     if (this.rewardGold > 0) {
-      logger.info('Execute reward gold: ' + this.rewardGold);
+      logger.debug('Execute reward gold: ' + this.rewardGold);
+
       fisher.fisherGold.receiveGold(this.rewardGold);
     }
+
     if (this.rewardItemMap.size > 0) {
       this.rewardItemMap.forEach((quantity, rewardItem) => {
-        logger.info(
+        logger.debug(
           'Execute reward item: ' + rewardItem.name,
           'quantity: ' + quantity
         );
+
         fisher.fisherBackpack.addItem(rewardItem, quantity);
       });
     }
+
     if (this.rewardSkillExperience.size > 0) {
       this.rewardSkillExperience.forEach((experience, rewardSkill) => {
-        logger.info(
+        logger.debug(
           'Execute reward skill experience: ' + rewardSkill.name,
           'experience: ' + experience
         );
+
         rewardSkill.addExperience(experience);
       });
     }
