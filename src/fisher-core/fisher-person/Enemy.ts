@@ -1,70 +1,72 @@
-import { action, observable, override } from 'mobx';
+import { action, computed, observable, override } from 'mobx';
 import {
   createReward,
   FisherReward,
   provideProbabilityReward,
 } from '../fisher-reward';
+import {
+  EnemyItemReward,
+  EnemyProbabilityReward,
+  IFisherBattleEnemyItem,
+} from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
-import { PersonLevel } from './fisher-person-level';
-
-interface EnemyGoldReward {
-  gold: number;
-}
-
-interface EnemyItemReward {
-  itemId: string;
-  itemQuantity?: number;
-}
-
-interface EnemyProbabilityReward {
-  gold?: number;
-  itemId: string;
-  probability: number;
-  itemQuantity?: number;
-}
-
-interface InitializeEnemyPayload {
-  name: string;
-  level: PersonLevel;
-  goldReward?: EnemyGoldReward;
-  itemRewards?: EnemyItemReward[];
-  probabilityRewards?: EnemyProbabilityReward[];
-}
 
 export class Enemy extends FisherPerson {
+  @observable
+  public id: string = '';
+
   public override readonly mode = FisherPerson.Mode.Enemy;
 
   @observable
-  public goldReward?: EnemyGoldReward;
+  public goldReward = 0;
+
+  @computed
+  public get hasGoldReward() {
+    return typeof this.goldReward === 'number' && this.goldReward >= 0;
+  }
 
   @observable
-  public itemRewards?: EnemyItemReward[];
+  public itemRewards: EnemyItemReward[] = [];
+
+  @computed
+  public get hasItemRewards() {
+    return this.itemRewards && this.itemRewards.length > 0;
+  }
 
   @observable
-  public probabilityRewards?: EnemyProbabilityReward[];
+  public probabilityRewards: EnemyProbabilityReward[] = [];
 
-  /**
-   * 初始化敌人信息
-   * 初始化敌人奖励
-   * 初始化完成
-   *
-   * @param {InitializeEnemyPayload}
-   * @memberof Enemy
-   */
-  @override
-  public initialize({
-    name,
-    level,
-    goldReward,
-    itemRewards,
-    probabilityRewards,
-  }: InitializeEnemyPayload): void {
+  @computed
+  public get hasProbabilityRewards() {
+    return this.probabilityRewards && this.probabilityRewards.length > 0;
+  }
+
+  constructor(id: string = '', enemyInfo: IFisherBattleEnemyItem) {
+    super();
+    const {
+      id: enemyInfoId,
+      name,
+      level,
+      goldReward,
+      itemRewards,
+      probabilityRewards,
+    } = enemyInfo;
+
+    this.id = id ?? enemyInfoId;
     this.name = name;
-    this.personLevel.initialize({ level });
-    this.goldReward = goldReward;
-    this.itemRewards = itemRewards;
-    this.probabilityRewards = probabilityRewards;
+
+    if (goldReward) this.goldReward = goldReward;
+    if (itemRewards) this.itemRewards = itemRewards;
+    if (probabilityRewards) this.probabilityRewards = probabilityRewards;
+
+    this.personLevel.initialize(level);
     this.initialized = true;
+    FisherPerson.logger.debug(`Success initialize Enemy ${this.name}`);
+  }
+
+  @override
+  public initialize() {
+    FisherPerson.logger.error('Should not call initialize in Enemy class');
   }
 
   /**
@@ -77,19 +79,36 @@ export class Enemy extends FisherPerson {
   @action
   public provideRewards = (): FisherReward[] => {
     const result: FisherReward[] = [];
-    if (this.goldReward) {
-      result.push(createReward({ gold: this.goldReward.gold }));
+    if (this.hasGoldReward) {
+      result.push(this.createGoldReward());
     }
-    if (this.itemRewards && this.itemRewards.length > 0) {
-      const _itemRewards = this.itemRewards.map(createReward);
-      result.push(..._itemRewards);
+
+    if (this.hasItemRewards) {
+      result.push(...this.createItemRewards());
     }
-    if (this.probabilityRewards && this.probabilityRewards.length > 0) {
-      const _probabilityRewards = this.probabilityRewards
-        .map(provideProbabilityReward)
-        .filter(Boolean) as FisherReward[];
-      result.push(..._probabilityRewards);
+
+    if (this.hasProbabilityRewards) {
+      result.push(...this.createProbabilityRewards());
     }
+
+    FisherPerson.logger.debug(`Provide Enemy:${this.id} rewards`);
     return result;
+  };
+
+  @action
+  private createGoldReward = () => {
+    return createReward({ gold: this.goldReward });
+  };
+
+  @action
+  private createProbabilityRewards = () => {
+    return this.probabilityRewards
+      .map(provideProbabilityReward)
+      .filter(Boolean) as FisherReward[];
+  };
+
+  @action
+  private createItemRewards = () => {
+    return this.itemRewards.map(createReward);
   };
 }

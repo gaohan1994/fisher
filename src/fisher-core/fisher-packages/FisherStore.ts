@@ -89,6 +89,10 @@ export class FisherStore {
 
 export const fisherStore = FisherStore.getInstance();
 
+export function createFisherStore(): Promise<FisherStore> {
+  return new Promise((resolve) => resolve(fisherStore));
+}
+
 /**
  * 使用模块数据
  *
