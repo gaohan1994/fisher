@@ -15,6 +15,8 @@ describe('FisherPackages', () => {
     expect(fisherStore.Reiki.items.length).toBeGreaterThan(0);
     expect(fisherStore.Reiki.recipes.length).toBeGreaterThan(0);
     expect(fisherStore.Reiki.recipePartMap.size).toBeGreaterThan(0);
+    expect(fisherStore.BattleAreas.length).toBeGreaterThan(0);
+    expect(fisherStore.BattleEnemies.length).toBeGreaterThan(0);
   });
 });
 
