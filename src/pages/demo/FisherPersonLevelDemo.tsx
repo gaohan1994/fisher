@@ -10,11 +10,7 @@ export const FisherPersonLevelDemo = observer(() => {
   return (
     <DemoLayout title="FisherPersonLevelDemo">
       <div>等级组件</div>
-      <Button
-        onClick={() =>
-          level.initialize({ level: PersonLevel.GasRefiningEarly })
-        }
-      >
+      <Button onClick={() => level.initialize(PersonLevel.GasRefiningEarly)}>
         初始化
       </Button>
       <Typography>境界：{level.state}</Typography>

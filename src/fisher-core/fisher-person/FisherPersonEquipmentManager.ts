@@ -4,11 +4,6 @@ import { FisherEquipmentItem, FisherEquipmentSlot } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { FisherPersonEquipment } from './FisherPersonEquipment';
 
-const logger = prefixLogger(
-  prefixes.FISHER_CORE,
-  'FisherPersonEquipmentManager'
-);
-
 export interface IFisherPersonUseEquipment {
   (equipmentSlot: FisherEquipmentSlot, equipment: FisherEquipmentItem): void;
 }
@@ -24,6 +19,8 @@ export interface IFisherPersonRemoveEquipment {
  * @class FisherPersonEquipmentManager
  */
 export class FisherPersonEquipmentManager {
+  static logger = prefixLogger(prefixes.FISHER_CORE, 'FPEquipmentManager');
+
   public equipmentMap: Map<FisherEquipmentSlot, FisherPersonEquipment> =
     new Map();
 
@@ -75,7 +72,7 @@ export class FisherPersonEquipmentManager {
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
-    logger.info(
+    FisherPersonEquipmentManager.logger.debug(
       `use equipment, slot: ${equipmentSlot} equipmentId ${equipment.id}`
     );
   };
@@ -102,7 +99,7 @@ export class FisherPersonEquipmentManager {
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
-    logger.info(
+    FisherPersonEquipmentManager.logger.debug(
       `remove equipment, slot: ${equipmentSlot} equipmentId ${prevEquipment.id}`
     );
   };

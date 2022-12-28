@@ -37,6 +37,7 @@ describe('FisherRewards', () => {
 
   test('should success set rewardGold to reward', () => {
     const fisherReward = new FisherReward();
+    expect(fisherReward.hasRewardGold).toBeFalsy();
     fisherReward.addRewardGold(50);
     expect(fisherReward.rewardGold).toBe(50);
     fisherReward.addRewardGold(50);
@@ -45,6 +46,7 @@ describe('FisherRewards', () => {
 
   test('should success set reward items to reward', () => {
     const fisherReward = new FisherReward();
+    expect(fisherReward.hasRewardItems).toBeFalsy();
     const testFisherItem = new FisherNormalItem(testItemPayload);
     fisherReward.addRewardItem(testFisherItem, 1);
     expect(fisherReward.rewardItemMap.size).toBe(1);
