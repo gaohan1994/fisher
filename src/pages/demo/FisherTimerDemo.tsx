@@ -7,7 +7,7 @@ import {
   FormControlLabel,
   LinearProgress,
 } from '@mui/material';
-import { FisherProgressTimer } from '@FisherCore';
+import { FisherProgressTimer, FisherTimer } from '@FisherCore';
 import { prefixLogger } from '@FisherLogger';
 import { DemoLayout } from './DemoLayout';
 
@@ -21,6 +21,17 @@ export const FisherTimerDemo: FC = observer(() => {
     new FisherProgressTimer({
       action: () => setSum((prevSum) => ++prevSum),
     })
+  );
+
+  const [onceTimer] = useState(
+    () =>
+      new FisherTimer(
+        'FisherTimerDemo',
+        () => {
+          console.log('hello');
+        },
+        { fireImmediately: false, once: true }
+      )
   );
 
   useEffect(() => {
@@ -52,6 +63,7 @@ export const FisherTimerDemo: FC = observer(() => {
           stopTimer
         </Button>
       </Stack>
+      <Button onClick={() => onceTimer.startTimer(1000)}>Once Timer</Button>
     </DemoLayout>
   );
 });

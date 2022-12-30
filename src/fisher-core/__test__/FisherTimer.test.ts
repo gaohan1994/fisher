@@ -8,9 +8,7 @@ describe('FisherTimer', () => {
   test('action should called in timer', () => {
     vi.useFakeTimers();
     const action = vi.fn();
-    const fisherTimer = new FisherTimer({
-      id: 'Test',
-      action,
+    const fisherTimer = new FisherTimer('Test', action, {
       fireImmediately: false,
     });
     expect(fisherTimer.id).toBe('FisherTimer:Test');
@@ -23,7 +21,9 @@ describe('FisherTimer', () => {
   test('action should called in timer immediately', () => {
     vi.useFakeTimers();
     const action = vi.fn();
-    const fisherTimer = new FisherTimer({ action, fireImmediately: true });
+    const fisherTimer = new FisherTimer('Test', action, {
+      fireImmediately: true,
+    });
     fisherTimer.startTimer(50);
     expect(action).toBeCalled();
     vi.clearAllTimers();
@@ -32,10 +32,22 @@ describe('FisherTimer', () => {
   test('timer fireImmediately called', () => {
     vi.useFakeTimers();
     const action = vi.fn();
-    const fisherTimer = new FisherTimer({ action, fireImmediately: true });
+    const fisherTimer = new FisherTimer('Test', action, {
+      fireImmediately: true,
+    });
     fisherTimer.startTimer(50);
     vi.advanceTimersByTime(150);
     expect(action).toBeCalledTimes(4);
+    vi.clearAllTimers();
+  });
+
+  test('should success run action once', () => {
+    vi.useFakeTimers();
+    const action = vi.fn();
+    const fisherTimer = new FisherTimer('Test', action, { once: true });
+    fisherTimer.startTimer(50);
+    vi.advanceTimersByTime(150);
+    expect(action).toBeCalledTimes(1);
     vi.clearAllTimers();
   });
 });

@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from 'mobx';
+import { autorun, makeAutoObservable } from 'mobx';
 
 type Timer = ReturnType<typeof setTimeout>;
 
@@ -6,15 +6,7 @@ interface IFisherTimerAction {
   (): void;
 }
 
-interface IFisherTimer {
-  id?: string;
-  /**
-   * 计时器要执行的action
-   *
-   * @type {IFisherTimerAction}
-   * @memberof IFisherTimer
-   */
-  action: IFisherTimerAction;
+interface IFisherTimerOptions {
   /**
    * 是否立即执行一次
    * 默认开启
@@ -22,6 +14,14 @@ interface IFisherTimer {
    * @memberof IFisherTimer
    */
   fireImmediately?: boolean;
+
+  /**
+   * 是否执行一次即销毁
+   *
+   * @type {boolean}
+   * @memberof IFisherTimerOptions
+   */
+  once?: boolean;
 }
 
 /**
@@ -34,18 +34,35 @@ interface IFisherTimer {
  */
 export class FisherTimer {
   public id: string;
-  public timerId?: Timer;
+
+  public timerId: Timer | undefined = undefined;
+
   public active = false;
+
   public action: IFisherTimerAction;
+
   public actionInterval?: number;
+
   public fireImmediately: boolean;
 
-  constructor({ id, action, fireImmediately }: IFisherTimer) {
+  public once: boolean;
+
+  constructor(
+    id: string,
+    action: IFisherTimerAction,
+    { fireImmediately, once }: IFisherTimerOptions = {}
+  ) {
     makeAutoObservable(this);
     this.id = 'FisherTimer:' + (id ?? 'DefaultTimer');
-    this.action = action;
     this.fireImmediately = fireImmediately ?? true;
-    reaction(() => this.active, this.timerActiveReaction);
+    this.once = once ?? false;
+    this.action = this.once
+      ? () => {
+          this.stopTimer();
+          action();
+        }
+      : action;
+    autorun(() => this.timerActive());
   }
 
   /**
@@ -69,15 +86,11 @@ export class FisherTimer {
   };
 
   /**
-   * 如果当前timer处于激活状态则执行action
-   * 如果当前timer处于未激活状态则清空timer
-   *
-   * @private
-   * @param {boolean} isActive
-   * @memberof FisherTimer
+   * 如果当前 timer 处于激活状态则执行 action
+   * 如果当前 timer 处于未激活状态则清空 timer
    */
-  private timerActiveReaction = (isActive: boolean) => {
-    if (isActive) {
+  private timerActive = () => {
+    if (this.active) {
       this.timerId && clearInterval(this.timerId);
       this.timerId = setInterval(() => this.action(), this.actionInterval);
       this.fireImmediately && this.action();
