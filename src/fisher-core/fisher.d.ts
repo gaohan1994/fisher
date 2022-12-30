@@ -10,4 +10,5 @@ declare module fisher {
   const fisherBackpack: import('./fisher-backpack').FisherBackpack;
   const mining: import('./fisher-modules').Mining;
   const reiki: import('./fisher-modules').Reiki;
+  const fisherPrompt: import('./fisher-prompt').FisherPrompt;
 }
