@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { Paper, Stack } from '@mui/material';
+import { Container, Paper, Stack, Typography } from '@mui/material';
 import { FisherTimerDemo } from './FisherTimerDemo';
 import { FisherGoldDemo } from './FisherGoldDemo';
 import { FisherBackpackDemo } from './FisherBackpackDemo';
@@ -10,6 +10,7 @@ import { ReikiDemo } from './ReikiDemo';
 import { FisherPersonDemo } from './FisherPersonDemo';
 import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
+import { FisherPromptDemo } from './FisherPromptDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -66,6 +67,7 @@ const FisherCoreDemo: FC = () => (
         <ExperienceDemo />
       </Paper>
     </DemoStack>
+    <FisherPromptDemo />
   </Stack>
 );
 export default FisherCoreDemo;

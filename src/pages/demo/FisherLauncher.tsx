@@ -1,17 +1,18 @@
 import { useEffect, FC, useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import { FisherCore } from '@FisherCore';
+import { createFisherStore, FisherCore } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import FisherCoreDemo from './FisherCoreDemo';
 
 const logger = prefixLogger(prefixes.COMPONENTS, 'Launcher');
 
-function launchFisherGame(): Promise<FisherCore> {
+async function launchFisherGame(): Promise<FisherCore> {
   logger.info('Fisher launch!');
-  const fisher = new FisherCore();
+  await createFisherStore();
 
-  logger.info('Inject fisherCore into window object');
+  const fisher = new FisherCore();
   typeof window !== undefined && ((window as any).fisher = fisher);
+  logger.info('Inject fisherCore into window object');
 
   return Promise.resolve(fisher);
 }
