@@ -1,12 +1,6 @@
 import { useEffect, useState, FC } from 'react';
 import { observer } from 'mobx-react';
-import {
-  Button,
-  Stack,
-  Checkbox,
-  FormControlLabel,
-  LinearProgress,
-} from '@mui/material';
+import { Button, Stack, LinearProgress } from '@mui/material';
 import { FisherProgressTimer, FisherTimer } from '@FisherCore';
 import { prefixLogger } from '@FisherLogger';
 import { DemoLayout } from './DemoLayout';
@@ -15,7 +9,6 @@ const logger = prefixLogger('FisherCoreDemo');
 
 export const FisherTimerDemo: FC = observer(() => {
   const [sum, setSum] = useState(0);
-  const [fireImmediately, setFireImmediately] = useState(true);
 
   const [timer] = useState(
     new FisherProgressTimer({
@@ -23,14 +16,21 @@ export const FisherTimerDemo: FC = observer(() => {
     })
   );
 
+  const [unPorgressTimer] = useState(
+    () =>
+      new FisherTimer('FisherTimerDemo', () => {
+        console.log('unPorgressTimer');
+      })
+  );
+
   const [onceTimer] = useState(
     () =>
       new FisherTimer(
         'FisherTimerDemo',
         () => {
-          console.log('hello');
+          console.log('onceTimer');
         },
-        { fireImmediately: false, once: true }
+        { once: true }
       )
   );
 
@@ -46,15 +46,6 @@ export const FisherTimerDemo: FC = observer(() => {
       <div>Timer status: {timer.active ? 'active' : 'inActive'}</div>
       <div>sum: {sum}</div>
       <LinearProgress variant="determinate" value={timer.progress} />
-      <FormControlLabel
-        label={`fireImmediately: ${fireImmediately ? 'open' : 'false'}`}
-        control={
-          <Checkbox
-            checked={fireImmediately}
-            onChange={(event) => setFireImmediately(event.target.checked)}
-          />
-        }
-      />
       <Stack direction="row" spacing={1}>
         <Button variant="contained" onClick={() => timer.startTimer(3000)}>
           startTimer
@@ -63,6 +54,10 @@ export const FisherTimerDemo: FC = observer(() => {
           stopTimer
         </Button>
       </Stack>
+
+      <Button onClick={() => unPorgressTimer.startTimer(1000)}>
+        UnProgress Timer
+      </Button>
       <Button onClick={() => onceTimer.startTimer(1000)}>Once Timer</Button>
     </DemoLayout>
   );

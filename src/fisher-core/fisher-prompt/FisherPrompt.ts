@@ -50,7 +50,6 @@ export class FisherPrompt {
 
   private _shiftQuene = () => {
     const timer = new FisherTimer('FisherPrompt', () => this.quene.shift(), {
-      fireImmediately: false,
       once: true,
     });
 
