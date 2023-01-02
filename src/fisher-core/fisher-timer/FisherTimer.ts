@@ -1,12 +1,10 @@
-import { makeAutoObservable } from 'mobx';
-
 type Timer = ReturnType<typeof setTimeout>;
 
 interface IFisherTimerAction {
   (): void;
 }
 
-interface IFisherTimerOptions {
+export interface IFisherTimerOptions {
   /**
    * 是否执行一次即销毁
    *
@@ -29,26 +27,28 @@ export class FisherTimer {
 
   public id: string;
 
-  public timerId: Timer | undefined = undefined;
+  public once: boolean;
 
-  public once: boolean = false;
+  public timerId: Timer | undefined = undefined;
 
   public action: IFisherTimerAction = () => {};
 
   constructor(
     id: string,
-    action: IFisherTimerAction,
+    action: IFisherTimerAction = () => {},
     { once }: IFisherTimerOptions = {}
   ) {
     this.id = 'FisherTimer:' + (id ?? 'DefaultTimer');
+
     this.once = once ?? false;
-    this.action = this.once
-      ? () => {
-          this.stopTimer();
-          action();
-        }
-      : action;
+
+    this.action = this.once ? this.makeOnceAction(action) : action;
   }
+
+  public setAction = (action: IFisherTimerAction) => {
+    this.action = this.once ? this.makeOnceAction(action) : action;
+    return this;
+  };
 
   /**
    * 停止计时器任务
@@ -67,9 +67,17 @@ export class FisherTimer {
    */
   public startTimer = (actionInterval: number) => {
     this.timerId && clearInterval(this.timerId);
+
     this.timerId = setInterval(
       () => this.action(),
       actionInterval ?? FisherTimer.DefaultInterval
     );
+  };
+
+  private makeOnceAction = (action: IFisherTimerAction) => {
+    return () => {
+      this.stopTimer();
+      action();
+    };
   };
 }

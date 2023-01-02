@@ -11,9 +11,7 @@ export const FisherTimerDemo: FC = observer(() => {
   const [sum, setSum] = useState(0);
 
   const [timer] = useState(
-    new FisherProgressTimer({
-      action: () => setSum((prevSum) => ++prevSum),
-    })
+    new FisherProgressTimer('TestTimer', () => setSum((prevSum) => ++prevSum))
   );
 
   const [unPorgressTimer] = useState(

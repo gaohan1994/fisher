@@ -1,4 +1,5 @@
 import { makeAutoObservable, reaction } from 'mobx';
+import { IFisherTimerOptions } from './FisherTimer';
 
 type Timer = ReturnType<typeof setTimeout>;
 
@@ -7,17 +8,6 @@ const FisherTimerProgressThreshold = 100;
 
 interface IFisherTimerAction {
   (): void;
-}
-
-interface IFisherTimer {
-  id?: string;
-  /**
-   * 计时器要执行的action
-   *
-   * @type {IFisherTimerAction}
-   * @memberof IFisherTimer
-   */
-  action?: IFisherTimerAction;
 }
 
 /**
@@ -30,9 +20,14 @@ interface IFisherTimer {
  */
 export class FisherTimer {
   public id: string;
+
   public timerId?: Timer;
+
   public active = false;
+
   public action: IFisherTimerAction;
+
+  public once: boolean;
 
   /**
    * 每次执行任务需要的间隔
@@ -54,11 +49,24 @@ export class FisherTimer {
   public progress: number = 0;
   public progressIncrement: number = 0;
 
-  constructor({ id, action }: IFisherTimer) {
+  constructor(
+    id: string,
+    action: IFisherTimerAction,
+    { once }: IFisherTimerOptions = {}
+  ) {
     makeAutoObservable(this);
+
     this.id = 'FisherTimer:' + (id ?? 'DefaultTimer');
-    const emptyAction = () => {};
-    this.action = action ?? emptyAction;
+
+    this.once = once ?? false;
+
+    this.action = this.once
+      ? () => {
+          this.stopTimer();
+          action();
+        }
+      : action;
+
     reaction(() => this.active, this.timerActiveReaction);
     reaction(() => this.progress, this.triggerAction);
   }
