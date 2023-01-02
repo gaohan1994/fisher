@@ -81,10 +81,7 @@ export class FisherSkill {
     this.id = id;
     this.name = FisherCollectionSkillInfo[this.id]?.name ?? 'UnknowName';
     this.experience = experience ?? 0;
-    this.timer = new FisherTimer({
-      id: this.id,
-      action: () => this.action(),
-    });
+    this.timer = new FisherTimer(this.id, () => this.action());
   }
 
   /**
