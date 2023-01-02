@@ -1,8 +1,9 @@
-import { FisherProgressTimer as FisherTimer } from '../../fisher-timer';
+import { FisherProgressTimer, FisherTimer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 
 export enum ActionMode {
   Attack = 'Attack',
+  Dot = 'Dot',
 }
 
 interface IBaseAction {
@@ -10,12 +11,12 @@ interface IBaseAction {
 
   readonly mode: ActionMode;
 
-  timer: FisherTimer;
+  timer: FisherTimer | FisherProgressTimer;
 
   name: string;
 }
 
-interface IExecuteActionDispose {
+export interface IExecuteActionDispose {
   (): void;
 }
 
@@ -24,7 +25,7 @@ export abstract class BaseAction implements IBaseAction {
 
   abstract readonly mode: ActionMode;
 
-  abstract readonly timer: FisherTimer;
+  abstract readonly timer: FisherTimer | FisherProgressTimer;
 
   public person: FisherPerson;
 
@@ -38,6 +39,48 @@ export abstract class BaseAction implements IBaseAction {
    * 执行 action
    */
   public execute(): IExecuteActionDispose | undefined {
+    throw new Error('Not implemented!');
+  }
+}
+
+export abstract class DotAction extends BaseAction {
+  public readonly mode = ActionMode.Dot;
+
+  public abstract chance: number;
+
+  public abstract effectiveTimes: number;
+
+  public abstract totalEffectiveTimes: number;
+
+  public get effectiveInterval() {
+    return 0;
+  }
+
+  public get isFinished() {
+    return false;
+  }
+
+  /**
+   * 对 target 应用 dot
+   *
+   * @param {FisherPerson} target
+   * @memberof DotAction
+   */
+  public application(target?: FisherPerson) {
+    throw new Error('Not implemented!');
+  }
+
+  /**
+   * 生效 dot
+   *
+   * @param {FisherPerson} target
+   * @memberof DotAction
+   */
+  public effective() {
+    throw new Error('Not implemented!');
+  }
+
+  public damage(): number {
     throw new Error('Not implemented!');
   }
 }

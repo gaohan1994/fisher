@@ -1,3 +1,4 @@
+import { action, makeObservable, observable } from 'mobx';
 import { FisherProgressTimer as FisherTimer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 import { ActionMode, BaseAction } from './BaseActions';
@@ -9,20 +10,25 @@ export class NormalAttackAction extends BaseAction {
 
   public readonly mode = ActionMode.Attack;
 
-  public readonly timer = new FisherTimer({ id: this.id });
+  @observable
+  public readonly timer = new FisherTimer(this.id, () => this.action(), {
+    once: true,
+  });
 
   constructor(person: FisherPerson) {
     super(person);
+    makeObservable(this);
   }
 
+  @action
+  private action = () => {
+    if (!this.person.target) return;
+    this.person.target.hurt(this.person.attributePanel.AttackDamage);
+  };
+
+  @action
   public execute() {
-    const action = () => {
-      if (!this.person.target) return;
-      this.person.target.hurt(this.person.attributePanel.AttackDamage);
-    };
-    this.timer
-      .setAction(action)
-      .startTimer(this.person.attributePanel.AttackSpeed);
-    return () => this.timer.stopTimer();
+    this.timer.startTimer(this.person.attributePanel.AttackSpeed);
+    return void 0;
   }
 }
