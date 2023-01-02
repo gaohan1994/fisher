@@ -3,7 +3,7 @@ import { action, computed, makeObservable, observable } from 'mobx';
 import { FisherEquipmentSlot } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
-import { ActionManager, ActionMode } from './person-actions';
+import { ActionManager } from './person-actions';
 import { FisherPersonLevel, PersonLevel } from './fisher-person-level';
 import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
 import type {
@@ -24,7 +24,9 @@ enum PersonMode {
  */
 export class FisherPerson {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPerson');
+
   public static readonly Mode = PersonMode;
+
   public static readonly Level = PersonLevel;
 
   public readonly mode = '' as PersonMode;
@@ -37,6 +39,9 @@ export class FisherPerson {
 
   @observable
   public initializedForBattle = false;
+
+  @observable
+  public isAttacking = false;
 
   @observable
   public Hp = Infinity;
@@ -60,11 +65,17 @@ export class FisherPerson {
     makeObservable(this);
   }
 
+  @action
+  public dispose() {
+    this.actionManager.dispose();
+  }
+
   @computed
   public get Weapon() {
     const result = this.personEquipmentManager.equipmentMap.get(
       FisherEquipmentSlot.Weapon
     );
+
     invariant(result !== undefined, 'Fail get Weapon');
     return result;
   }
@@ -74,6 +85,7 @@ export class FisherPerson {
     const result = this.personEquipmentManager.equipmentMap.get(
       FisherEquipmentSlot.Helmet
     );
+
     invariant(result !== undefined, 'Fail get Helmet');
     return result;
   }
@@ -88,11 +100,6 @@ export class FisherPerson {
     this.personEquipmentManager.removeEquipment(...rest);
   };
 
-  /**
-   * 初始化人物，具体逻辑由子类实现
-   *
-   * @memberof FisherPerson
-   */
   @action
   public initialize(payload: any) {
     throw new Error('Not implemented!');
@@ -107,12 +114,12 @@ export class FisherPerson {
   @action
   public initializeForBattle = () => {
     this.Hp = this.attributePanel.MaxHp;
-    this.actionManager.registerActionMap();
   };
 
   @action
   public setTarget = (person: FisherPerson) => {
     this.target = person;
+
     if (!this.initializedForBattle) {
       this.initializeForBattle();
       this.initializedForBattle = true;
@@ -135,15 +142,30 @@ export class FisherPerson {
       return FisherPerson.logger.error(
         `Try to start battle before initialize, Please call initialize${this.mode} method first!`
       );
+
     if (!this.initializedForBattle)
       return FisherPerson.logger.error(
         'Try to start battle before initializedForBattle'
       );
-    this.actionManager.startActions(ActionMode.Attack);
+
+    this.startAttacking();
   };
 
   @action
   public stopBattle = () => {
-    this.actionManager.stopActions();
+    this.dispose();
+    this.stopAttacking();
+  };
+
+  @action
+  public startAttacking = () => {
+    this.isAttacking = true;
+    this.actionManager.startAttacking();
+  };
+
+  @action
+  public stopAttacking = () => {
+    this.isAttacking = false;
+    this.actionManager.stopAttacking();
   };
 }

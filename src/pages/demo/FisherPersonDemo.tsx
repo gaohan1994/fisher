@@ -148,15 +148,19 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
             生命值 {Hp < 0 ? '0' : Hp} / {attributePanel.MaxHp}
           </Typography>
           <Typography>攻击：{attributePanel.AttackPower}</Typography>
-          {actionManager.attackActions.map((action) => (
-            <Fragment key={`${person.name}${action.id}`}>
-              <Typography>{action.name}</Typography>
-              <LinearProgress
-                variant="determinate"
-                value={action.timer.progress}
-              />
-            </Fragment>
-          ))}
+          <Fragment>
+            {actionManager.activeDots.map((dot, index) => (
+              <Fragment key={`${dot.id}${index}`}>
+                <Typography>
+                  {dot.name}：每隔{dot.effectiveInterval}造成一次伤害
+                </Typography>
+              </Fragment>
+            ))}
+            <LinearProgress
+              variant="determinate"
+              value={actionManager.attackActionTimer.progress}
+            />
+          </Fragment>
         </Box>
         <Level personLevel={personLevel} />
         <Equipment equipment={Weapon} />

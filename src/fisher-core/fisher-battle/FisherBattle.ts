@@ -4,6 +4,7 @@ import {
   FisherBattleAreaItem,
   FisherBattleEnemyItem,
   FisherReward,
+  FisherTimerSpace,
   master,
   useModulePackage,
 } from '@FisherCore';
@@ -11,6 +12,8 @@ import { prefixes, prefixLogger } from '@FisherLogger';
 
 export class FisherBattle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBattle');
+
+  public static BaseBattleInterval = 2000;
 
   public readonly packages: FisherBattleAreaItem[] =
     useModulePackage('BattleAreas');
@@ -99,8 +102,11 @@ export class FisherBattle {
       return FisherBattle.logger.error('Try to start battle without enemy');
 
     await this.initializeEnemy(currentEnemy);
+    await FisherTimerSpace.space(FisherBattle.BaseBattleInterval);
+
     this.master.startBattle();
     this.enemy?.startBattle();
+
     this.setInBattle();
   };
 
