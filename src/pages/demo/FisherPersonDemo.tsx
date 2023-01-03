@@ -115,13 +115,13 @@ interface FisherPersonDemoProps {
 export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
   ({ person }) => {
     const {
+      Hp,
+      name,
       Weapon,
       Helmet,
       useEquipment,
       attributePanel,
-      name,
       personLevelManager,
-      Hp,
       actionManager,
     } = person;
 
@@ -145,7 +145,12 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
             {actionManager.activeDots.map((dot, index) => (
               <Fragment key={`${dot.id}${index}`}>
                 <Typography>
-                  {dot.name}：每隔{dot.effectiveInterval}造成一次伤害
+                  次数 {dot.effectiveTimes} / {dot.totalEffectiveTimes}
+                </Typography>
+                <Typography>{!dot.isFinished ? '生效中' : '已结束'}</Typography>
+                <Typography>
+                  {dot.name}：每隔{dot.effectiveInterval}造成{dot.damage()}
+                  伤害
                 </Typography>
               </Fragment>
             ))}
@@ -173,6 +178,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
           >
             使用头盔
           </Button>
+          <Button onClick={() => (person.Hp = 100000)}>debug</Button>
         </div>
       </DemoLayout>
     );
