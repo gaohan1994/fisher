@@ -12,7 +12,7 @@ import { ActionManager } from '../fisher-person/person-actions';
 describe('FisherPerson', () => {
   test('should success constructor FisherPerson', () => {
     const fisherPerson = new FisherPerson();
-    expect(fisherPerson.mode).toBe('');
+    expect(fisherPerson.mode).toBeUndefined();
     expect(fisherPerson.initialized).toBeFalsy();
     expect(fisherPerson.name).toBe('DefaultName');
     expect(fisherPerson.actionManager instanceof ActionManager).toBeTruthy();

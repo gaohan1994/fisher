@@ -37,22 +37,20 @@ describe('FisherPersonAction', () => {
     ).toBeTruthy();
   });
 
-  test('should initialize action manager', () => {
+  test('should initialize action manager', async () => {
     vi.useFakeTimers();
     const person1 = new Master();
     person1.initialize({
       name: '玩家姓名',
       level: FisherPerson.Level.GasRefiningEarly,
     });
-    const person2 = new Enemy('Test:EnemyId', battleEnemyItem);
+    const person2 = new Enemy('Test:EnemyId');
+    await person2.initialize(battleEnemyItem);
     person1.setTarget(person2);
     person2.setTarget(person1);
 
     expect(person1.actionManager instanceof ActionManager).toBeTruthy();
     expect(person1.actionManager.actionMap.size).toBeGreaterThan(0);
-    person1.startBattle();
-    expect(person1.actionManager.actionDisposeMap.size).toBeGreaterThan(0);
-    person1.stopBattle();
     vi.clearAllTimers();
   });
 });

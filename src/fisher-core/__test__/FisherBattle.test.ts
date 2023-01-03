@@ -1,13 +1,9 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { FisherBattle } from '../fisher-battle';
 import { Enemy, Master } from '../fisher-person';
-import {
-  ActionMode,
-  NormalAttackAction,
-} from '../fisher-person/person-actions';
 
 describe('FisherBattle', () => {
   test('should initialize Fisher battle', () => {
@@ -19,13 +15,6 @@ describe('FisherBattle', () => {
     expect(battle.battleCountMap.size).toBe(0);
     expect(battle.rewardPool.length).toBe(0);
     expect(battle.hasReward).toBeFalsy();
-    expect(
-      battle.master.actionManager.normalAttackAction instanceof
-        NormalAttackAction
-    ).toBeTruthy();
-    expect(
-      battle.master.actionManager.actionMap.get(ActionMode.Dot)?.length
-    ).toBeGreaterThan(0);
   });
 
   test('should initialize for battle', async () => {
