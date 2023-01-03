@@ -26,12 +26,13 @@ export class Master extends FisherPerson {
    * @param {InitializeMasterPayload} { name, level }
    * @memberof Master
    */
-  @override
-  public initialize({ name, level }: InitializeMasterPayload): void {
+  @action
+  public initialize = ({ name, level }: InitializeMasterPayload) => {
     this.name = name;
     this.personLevelManager.initialize(level);
+    this.actionManager.registerActionMap();
     this.initialized = true;
-  }
+  };
 
   @action
   public deathPenalty = () => {

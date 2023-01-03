@@ -10,11 +10,17 @@ import type {
   IFisherPersonUseEquipment,
 } from './FisherPersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
+import { random, roll } from '../utils';
 
 enum PersonMode {
   Master = 'Master',
   Enemy = 'Enemy',
 }
+
+interface IHurtOptions {
+  range: boolean;
+}
+
 /**
  * 人物类
  * 玩家和 NPC 都基于此类状态
@@ -29,7 +35,7 @@ export class FisherPerson {
 
   public static readonly Level = PersonLevel;
 
-  public readonly mode = '' as PersonMode;
+  public mode: PersonMode | undefined = undefined;
 
   @observable
   public name = 'DefaultName';
@@ -66,9 +72,7 @@ export class FisherPerson {
   }
 
   @action
-  public dispose() {
-    this.actionManager.dispose();
-  }
+  public dispose() {}
 
   @computed
   public get Weapon() {
@@ -100,11 +104,6 @@ export class FisherPerson {
     this.personEquipmentManager.removeEquipment(...rest);
   };
 
-  @action
-  public initialize(payload: any) {
-    throw new Error('Not implemented!');
-  }
-
   /**
    * 初始化战斗属性
    * 注册所有战斗 action
@@ -132,6 +131,21 @@ export class FisherPerson {
   };
 
   @action
+  public hurtRange = (value: number, range: number = 10) => {
+    const isRaiseCorrection = roll(50);
+    const correctionValue = Math.round(value * random(0, range) * 0.01);
+
+    let hurtValue = value;
+    if (isRaiseCorrection) {
+      hurtValue += correctionValue;
+    } else {
+      hurtValue -= correctionValue;
+    }
+
+    this.Hp -= hurtValue;
+  };
+
+  @action
   public heal = (value: number) => {
     this.Hp += value;
   };
@@ -155,6 +169,7 @@ export class FisherPerson {
   public stopBattle = () => {
     this.dispose();
     this.stopAttacking();
+    this.clearEffects();
   };
 
   @action
@@ -167,5 +182,10 @@ export class FisherPerson {
   public stopAttacking = () => {
     this.isAttacking = false;
     this.actionManager.stopAttacking();
+  };
+
+  @action
+  public clearEffects = () => {
+    this.actionManager.clearActiveDots();
   };
 }

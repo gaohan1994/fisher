@@ -23,7 +23,7 @@ export class NormalAttackAction extends BaseAction {
   @action
   private action = () => {
     if (!this.person.target) return;
-    this.person.target.hurt(this.person.attributePanel.AttackDamage);
+    this.person.target.hurtRange(this.person.attributePanel.AttackDamage);
   };
 
   @action

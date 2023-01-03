@@ -7,7 +7,7 @@ import {
 import {
   EnemyItemReward,
   EnemyProbabilityReward,
-  IFisherBattleEnemyItem,
+  FisherBattleEnemyItem,
 } from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
 
@@ -15,7 +15,7 @@ export class Enemy extends FisherPerson {
   @observable
   public id: string = '';
 
-  public override readonly mode = FisherPerson.Mode.Enemy;
+  public mode = FisherPerson.Mode.Enemy;
 
   @observable
   public goldReward = 0;
@@ -41,18 +41,16 @@ export class Enemy extends FisherPerson {
     return this.probabilityRewards && this.probabilityRewards.length > 0;
   }
 
-  constructor(id: string = '', enemyInfo: IFisherBattleEnemyItem) {
+  constructor(id: string) {
     super();
-    const {
-      id: enemyInfoId,
-      name,
-      level,
-      goldReward,
-      itemRewards,
-      probabilityRewards,
-    } = enemyInfo;
+    this.id = id;
+  }
 
-    this.id = id ?? enemyInfoId;
+  @action
+  public initialize = async (enemyInfo: FisherBattleEnemyItem) => {
+    const { name, level, goldReward, itemRewards, probabilityRewards } =
+      enemyInfo;
+
     this.name = name;
 
     if (goldReward) this.goldReward = goldReward;
@@ -60,14 +58,12 @@ export class Enemy extends FisherPerson {
     if (probabilityRewards) this.probabilityRewards = probabilityRewards;
 
     this.personLevelManager.initialize(level);
-    this.initialized = true;
-    FisherPerson.logger.debug(`Success initialize Enemy ${this.name}`);
-  }
+    this.actionManager.registerActionMap();
 
-  @override
-  public initialize() {
-    FisherPerson.logger.error('Should not call initialize in Enemy class');
-  }
+    this.initialized = true;
+
+    FisherPerson.logger.debug(`Success initialize Enemy ${this.name}`);
+  };
 
   /**
    * 生成金钱奖励

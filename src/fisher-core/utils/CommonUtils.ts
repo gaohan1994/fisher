@@ -9,6 +9,10 @@ export function checkHitProbability(probability: number): boolean {
   return probability >= random(0, 100);
 }
 
+export function roll(probability: number) {
+  return checkHitProbability(probability);
+}
+
 export function random(min: number, max: number): number {
   var rval = 0;
   var range = max - min;

@@ -3,13 +3,12 @@ import { FisherTimer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 import { DotAction } from './BaseActions';
 
-// 尝试不传入 dotInfo 而是全部写死在类里
 export class PersonStateDotAction extends DotAction {
   public override readonly id = 'PersonStateDotAction';
 
   public name = '内功气劲';
 
-  public chance = 50;
+  public chance = 30;
 
   public totalEffectiveTimes = 5;
 
@@ -19,15 +18,9 @@ export class PersonStateDotAction extends DotAction {
   @observable
   public timer: FisherTimer = new FisherTimer(this.id, () => this.action());
 
-  @observable
-  public override person: FisherPerson;
-
-  @observable
-  public target: FisherPerson | undefined;
-
   @computed
   public get effectiveInterval() {
-    return 2000;
+    return 500;
   }
 
   @computed
@@ -38,9 +31,6 @@ export class PersonStateDotAction extends DotAction {
   constructor(person: FisherPerson) {
     super(person);
     makeObservable(this);
-
-    this.person = person;
-    this.target = person.target;
   }
 
   @action
@@ -49,37 +39,39 @@ export class PersonStateDotAction extends DotAction {
   };
 
   @action
-  public application = (target?: FisherPerson) => {
-    const _target = target ?? this.target;
-
-    if (!_target)
-      return FisherPerson.logger.error(
-        'Try to application dot to undefined target'
-      );
-
-    this.target = _target;
-    this.target.actionManager.activeDotMap.set(this.id, this);
+  public application = () => {
+    this.resetDot();
   };
 
   @action
-  public effective() {
+  public effective = () => {
     this.timer.startTimer(this.effectiveInterval);
-    return () => this.timer.stopTimer();
-  }
+  };
+
+  @action
+  public abort = () => {
+    this.timer.stopTimer();
+  };
 
   @action
   private action = () => {
-    if (this.isFinished) {
-      FisherPerson.logger.debug(`Current Dot ${this.id} finished!`);
-      return this.timer.stopTimer();
-    }
-
-    if (this.target === undefined)
+    if (this.person.target === undefined)
       return FisherPerson.logger.error(
         'Try to effective dot to undefined target'
       );
 
+    if (this.isFinished) {
+      FisherPerson.logger.debug(`Current Dot ${this.id} finished. clear dot`);
+      this.person.target.actionManager.deleteDot(this.id);
+      return this.timer.stopTimer();
+    }
+
     this.effectiveTimes += 1;
-    this.target.hurt(this.damage());
+    this.person.target.hurt(this.damage());
+  };
+
+  @action
+  public resetDot = () => {
+    this.effectiveTimes = 0;
   };
 }

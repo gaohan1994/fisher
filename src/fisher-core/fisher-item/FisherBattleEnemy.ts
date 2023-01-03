@@ -1,5 +1,5 @@
-import { PersonLevel } from '../fisher-person';
 import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
+import { PersonLevel } from './FisherPersonLevelItem';
 
 export interface IFisherBattleEnemyItem extends IFisherItem {
   unlockLevel?: PersonLevel;

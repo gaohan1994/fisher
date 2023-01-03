@@ -13,7 +13,7 @@ import { prefixes, prefixLogger } from '@FisherLogger';
 export class FisherBattle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBattle');
 
-  public static BaseBattleInterval = 2000;
+  public static BaseBattleInterval = 1000;
 
   public readonly packages: FisherBattleAreaItem[] =
     useModulePackage('BattleAreas');
@@ -77,7 +77,8 @@ export class FisherBattle {
    */
   public initializeEnemy = async (enemyItem: FisherBattleEnemyItem) => {
     this.activeEnemyItem = enemyItem;
-    this.enemy = new Enemy(this.generateEnemyId(enemyItem.id), enemyItem);
+    this.enemy = new Enemy(this.generateEnemyId(enemyItem.id));
+    await this.enemy.initialize(enemyItem);
     this.enemy.setTarget(this.master);
     this.master.setTarget(this.enemy);
   };

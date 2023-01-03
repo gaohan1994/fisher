@@ -1,11 +1,7 @@
-import { autorun, makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
+import invariant from 'invariant';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import {
-  ActionMode,
-  BaseAction,
-  DotAction,
-  IExecuteActionDispose,
-} from './BaseActions';
+import { ActionMode, BaseAction, DotAction } from './BaseActions';
 import { NormalAttackAction } from './AttackActions';
 import { FisherPerson } from '../FisherPerson';
 import { PersonStateDotAction } from './DotActions';
@@ -23,9 +19,7 @@ export class ActionManager {
 
   public normalAttackAction: NormalAttackAction;
 
-  public actionDisposeMap = new Map();
-
-  public nextAttackAction: BaseAction | DotAction;
+  public nextAttackAction: BaseAction | DotAction | undefined = undefined;
 
   public attackActionTimer = new FisherProgressTimer(
     'attackActionTimer',
@@ -41,26 +35,8 @@ export class ActionManager {
     makeAutoObservable(this);
 
     this.person = person;
-
     this.normalAttackAction = new NormalAttackAction(this.person);
-    this.nextAttackAction = this.normalAttackAction;
-
-    this.registerActionMap();
-
-    const dotEffectiveDispose = autorun(() => this.activeDotListener());
-    this.setDispose('dotEffectiveDispose', dotEffectiveDispose);
   }
-
-  public dispose = () => {
-    this.actionDisposeMap.forEach((actionDispose) => {
-      actionDispose();
-    });
-    this.actionDisposeMap.clear();
-  };
-
-  public setDispose = (id: string, actionDispose: IExecuteActionDispose) => {
-    this.actionDisposeMap.set(id, () => actionDispose());
-  };
 
   /**
    * 开始进攻
@@ -77,9 +53,35 @@ export class ActionManager {
    * @memberof ActionManager
    */
   public stopAttacking = () => {
-    this.nextAttackAction.timer.stopTimer();
+    this.nextAttackAction = undefined;
     this.attackActionTimer.stopTimer();
     this.attackActionTimer.resetProgress();
+  };
+
+  /**
+   * 清空正在执行的dots
+   *
+   * @memberof ActionManager
+   */
+  public clearActiveDots = () => {
+    this.activeDotMap.forEach((dot) => dot.abort());
+    this.activeDotMap.clear();
+  };
+
+  public applicationDot = (dot: DotAction) => {
+    this.activeDotMap.set(dot.id, dot);
+    dot.effective();
+
+    ActionManager.logger.info(
+      `dot ${dot.id} application in ${this.person.mode}`
+    );
+  };
+
+  public deleteDot = (dotId: string) => {
+    this.activeDotMap.get(dotId)?.abort();
+    this.activeDotMap.delete(dotId);
+
+    ActionManager.logger.info(`dotId ${dotId} deleted in ${this.person.mode}`);
   };
 
   private attackActionHandler = () => {
@@ -88,7 +90,8 @@ export class ActionManager {
     }
 
     if (this.nextAttackAction instanceof PersonStateDotAction) {
-      this.nextAttackAction.application(this.person.target);
+      this.nextAttackAction.application();
+      this.person.target?.actionManager.applicationDot(this.nextAttackAction);
     }
 
     if (this.person.isAttacking) {
@@ -117,7 +120,7 @@ export class ActionManager {
     for (let index = 0; index < dots.length; index++) {
       const dot = dots[index];
 
-      if (checkHitProbability(dot.chance) && !this.dotIsExist(dot)) {
+      if (checkHitProbability(dot.chance) && !this.dotIsExistInTarget(dot)) {
         dotAction = dot;
         break;
       }
@@ -125,22 +128,15 @@ export class ActionManager {
     return dotAction;
   };
 
-  private dotIsExist = (dot: DotAction): boolean => {
-    return this.activeDotMap.has(dot.id);
+  private dotIsExistInTarget = (dot: DotAction): boolean => {
+    invariant(
+      this.person.target !== undefined,
+      'Try check dot is exist but target undefined'
+    );
+    return this.person.target.actionManager.activeDotMap.has(dot.id);
   };
 
-  private activeDotListener = () => {
-    for (let index = 0; index < this.activeDots.length; index++) {
-      const dot = this.activeDots[index];
-      if (dot.isFinished) {
-        this.actionDisposeMap.delete(dot.id);
-        continue;
-      }
-      dot.effective();
-    }
-  };
-
-  private registerActionMap = () => {
+  public registerActionMap = () => {
     const attackActions = [this.normalAttackAction];
     this.actionMap.set(ActionMode.Attack, attackActions);
 

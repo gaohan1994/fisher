@@ -66,19 +66,22 @@ export abstract class DotAction extends BaseAction {
    * @param {FisherPerson} target
    * @memberof DotAction
    */
-  public application(target?: FisherPerson) {
-    throw new Error('Not implemented!');
-  }
-
+  abstract application(target: FisherPerson): void;
   /**
    * 生效 dot
    *
    * @param {FisherPerson} target
    * @memberof DotAction
    */
-  public effective() {
-    throw new Error('Not implemented!');
-  }
+  abstract effective(): void;
+
+  /**
+   * 中止 dot
+   *
+   * @abstract
+   * @memberof DotAction
+   */
+  abstract abort(): void;
 
   public damage(): number {
     throw new Error('Not implemented!');
