@@ -16,9 +16,9 @@ export interface IFisherPersonRemoveEquipment {
  * 人物装备管理模块
  *
  * @export
- * @class FisherPersonEquipmentManager
+ * @class PersonEquipmentManager
  */
-export class FisherPersonEquipmentManager {
+export class PersonEquipmentManager {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'FPEquipmentManager');
 
   public equipmentMap: Map<FisherEquipmentSlot, FisherPersonEquipment> =
@@ -72,7 +72,7 @@ export class FisherPersonEquipmentManager {
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
-    FisherPersonEquipmentManager.logger.debug(
+    PersonEquipmentManager.logger.debug(
       `use equipment, slot: ${equipmentSlot} equipmentId ${equipment.id}`
     );
   };
@@ -83,7 +83,7 @@ export class FisherPersonEquipmentManager {
    * 则把卸下来的装备重新放入背包中
    * @param {*} equipmentSlot
    * @type {IFisherPersonRemoveEquipment}
-   * @memberof FisherPersonEquipmentManager
+   * @memberof PersonEquipmentManager
    */
   public removeEquipment: IFisherPersonRemoveEquipment = (equipmentSlot) => {
     const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
@@ -99,7 +99,7 @@ export class FisherPersonEquipmentManager {
     if (!prevCurrentSlotEquipmentIsEmpty) {
       this.putEquipmentToBackpack(prevEquipment, prevQuantity);
     }
-    FisherPersonEquipmentManager.logger.debug(
+    PersonEquipmentManager.logger.debug(
       `remove equipment, slot: ${equipmentSlot} equipmentId ${prevEquipment.id}`
     );
   };

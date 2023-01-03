@@ -3,7 +3,7 @@ import { FisherEquipmentSlot } from '../fisher-item';
 import {
   master,
   FisherPerson,
-  FisherPersonEquipmentManager,
+  PersonEquipmentManager,
   PersonLevelManager,
 } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
@@ -20,8 +20,7 @@ describe('FisherPerson', () => {
       fisherPerson.personLevelManager instanceof PersonLevelManager
     ).toBeTruthy();
     expect(
-      fisherPerson.personEquipmentManager instanceof
-        FisherPersonEquipmentManager
+      fisherPerson.personEquipmentManager instanceof PersonEquipmentManager
     ).toBeTruthy();
     expect(
       fisherPerson.personEquipmentManager.equipmentMap.has(

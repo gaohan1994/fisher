@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { IBonusEquipmentsAttributes } from './Attributes';
 import { FisherPerson } from './FisherPerson';
-import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
+import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
 
 const BaseAttributeData = {
@@ -12,7 +12,7 @@ const BaseAttributeData = {
 export class AttributePanel {
   private target?: FisherPerson;
   private personLevelManager: PersonLevelManager;
-  private equipmentManager: FisherPersonEquipmentManager;
+  private equipmentManager: PersonEquipmentManager;
 
   constructor({
     target,

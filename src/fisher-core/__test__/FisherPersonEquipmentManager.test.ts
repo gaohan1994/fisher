@@ -9,7 +9,7 @@ import {
   FisherItemType,
 } from '../fisher-item';
 import { createFisherStore } from '../fisher-packages';
-import { FisherPersonEquipmentManager } from '../fisher-person';
+import { PersonEquipmentManager } from '../fisher-person';
 
 beforeEach(async () => {
   await createFisherStore();
@@ -30,19 +30,19 @@ const testEquipmentData = {
   attributes: [],
 };
 
-describe('FisherPersonEquipmentManager', () => {
-  test('should success initialize FisherPersonEquipmentManager', () => {
-    const fisherPersonEquipmentManager = new FisherPersonEquipmentManager();
-    expect(fisherPersonEquipmentManager.equipmentMap.size).toBeGreaterThan(0);
+describe('PersonEquipmentManager', () => {
+  test('should success initialize PersonEquipmentManager', () => {
+    const personEquipmentManager = new PersonEquipmentManager();
+    expect(personEquipmentManager.equipmentMap.size).toBeGreaterThan(0);
   });
 });
 
-describe('FisherPersonEquipmentManager interfaces', () => {
+describe('PersonEquipmentManager interfaces', () => {
   test('should fail to useEquipment', () => {
-    const fisherPersonEquipmentManager = new FisherPersonEquipmentManager();
+    const personEquipmentManager = new PersonEquipmentManager();
     const equip = new FisherEquipmentItem(testEquipmentData);
     expect(() =>
-      fisherPersonEquipmentManager.useEquipment(
+      personEquipmentManager.useEquipment(
         'WrongSlotName' as FisherEquipmentSlot,
         equip
       )
@@ -50,18 +50,15 @@ describe('FisherPersonEquipmentManager interfaces', () => {
   });
 
   test('should success useEquipment', () => {
-    const fisherPersonEquipmentManager = new FisherPersonEquipmentManager();
+    const personEquipmentManager = new PersonEquipmentManager();
     const equip = new FisherEquipmentItem(testEquipmentData);
-    fisherPersonEquipmentManager.useEquipment(
-      FisherEquipmentSlot.Helmet,
-      equip
-    );
+    personEquipmentManager.useEquipment(FisherEquipmentSlot.Helmet, equip);
     expect(
-      fisherPersonEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
+      personEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
         ?.isEmpty
     ).toBeFalsy();
     expect(
-      fisherPersonEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
+      personEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
         ?.equipment
     ).toBe(equip);
   });

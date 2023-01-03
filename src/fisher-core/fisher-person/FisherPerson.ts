@@ -4,11 +4,11 @@ import { FisherEquipmentSlot, PersonLevel } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './person-actions';
-import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
+import { PersonEquipmentManager } from './PersonEquipmentManager';
 import type {
   IFisherPersonRemoveEquipment,
   IFisherPersonUseEquipment,
-} from './FisherPersonEquipmentManager';
+} from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
 import { random, roll } from '../utils';
 
@@ -59,7 +59,7 @@ export class FisherPerson {
   public personLevelManager = new PersonLevelManager();
 
   @observable
-  public personEquipmentManager = new FisherPersonEquipmentManager();
+  public personEquipmentManager = new PersonEquipmentManager();
 
   @observable
   public attributePanel = new AttributePanel(this);
