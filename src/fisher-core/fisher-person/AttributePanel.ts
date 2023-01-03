@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { IBonusEquipmentsAttributes } from './Attributes';
-import { FisherPersonLevel } from './fisher-person-level';
 import { FisherPerson } from './FisherPerson';
 import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
+import { PersonLevelManager } from './PersonLevelManager';
 
 const BaseAttributeData = {
   BaseMaxHp: 40,
@@ -11,13 +11,17 @@ const BaseAttributeData = {
 
 export class AttributePanel {
   private target?: FisherPerson;
-  private personLevel: FisherPersonLevel;
+  private personLevelManager: PersonLevelManager;
   private equipmentManager: FisherPersonEquipmentManager;
 
-  constructor({ personLevel, target, personEquipmentManager }: FisherPerson) {
+  constructor({
+    target,
+    personLevelManager,
+    personEquipmentManager,
+  }: FisherPerson) {
     makeAutoObservable(this);
     this.target = target;
-    this.personLevel = personLevel;
+    this.personLevelManager = personLevelManager;
     this.equipmentManager = personEquipmentManager;
   }
 
@@ -49,7 +53,9 @@ export class AttributePanel {
    * @memberof AttributePanel
    */
   public get BaseAttackPower() {
-    return this.personLevel.coefficient * BaseAttributeData.BaseAttackPower;
+    return (
+      this.personLevelManager.coefficient * BaseAttributeData.BaseAttackPower
+    );
   }
 
   /**
@@ -137,7 +143,7 @@ export class AttributePanel {
    * @memberof AttributePanel
    */
   public get BaseMaxHp() {
-    return this.personLevel.coefficient * BaseAttributeData.BaseMaxHp;
+    return this.personLevelManager.coefficient * BaseAttributeData.BaseMaxHp;
   }
 
   /**

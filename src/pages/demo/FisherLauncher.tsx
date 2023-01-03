@@ -8,7 +8,8 @@ const logger = prefixLogger(prefixes.COMPONENTS, 'Launcher');
 
 async function launchFisherGame(): Promise<FisherCore> {
   logger.info('Fisher launch!');
-  await createFisherStore();
+  const fisherStore = await createFisherStore();
+  typeof window !== undefined && ((window as any).fisherStore = fisherStore);
 
   const fisher = new FisherCore();
   typeof window !== undefined && ((window as any).fisher = fisher);

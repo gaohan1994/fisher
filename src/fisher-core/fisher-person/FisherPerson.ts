@@ -1,15 +1,15 @@
 import invariant from 'invariant';
 import { action, computed, makeObservable, observable } from 'mobx';
-import { FisherEquipmentSlot } from '@FisherCore';
+import { FisherEquipmentSlot, PersonLevel } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './person-actions';
-import { FisherPersonLevel, PersonLevel } from './fisher-person-level';
 import { FisherPersonEquipmentManager } from './FisherPersonEquipmentManager';
 import type {
   IFisherPersonRemoveEquipment,
   IFisherPersonUseEquipment,
 } from './FisherPersonEquipmentManager';
+import { PersonLevelManager } from './PersonLevelManager';
 
 enum PersonMode {
   Master = 'Master',
@@ -50,7 +50,7 @@ export class FisherPerson {
   public target: FisherPerson | undefined = undefined;
 
   @observable
-  public personLevel = new FisherPersonLevel();
+  public personLevelManager = new PersonLevelManager();
 
   @observable
   public personEquipmentManager = new FisherPersonEquipmentManager();

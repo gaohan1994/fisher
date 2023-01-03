@@ -1,36 +1,28 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react';
-import { FisherPersonLevel, PersonLevel } from '@FisherCore';
-import { Button, Stack, Typography } from '@mui/material';
+import { fisherStore, PersonLevelManager } from '@FisherCore';
+import { Button, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 
+const levels = [...fisherStore.personLevelMap.values()];
+
 export const FisherPersonLevelDemo = observer(() => {
-  const [level] = useState(() => new FisherPersonLevel());
+  const [levelManager] = useState(() => new PersonLevelManager());
 
   return (
     <DemoLayout title="FisherPersonLevelDemo">
       <div>等级组件</div>
-      <Button onClick={() => level.initialize(PersonLevel.GasRefiningEarly)}>
-        初始化
-      </Button>
-      <Typography>境界：{level.state}</Typography>
-      <Typography>等级：{level.label}</Typography>
-      <Typography>
-        获胜的战斗次数 / 升级所需获胜战斗次数：
-        {level.levelUpRequirementsCompletion.battleTimes} /{' '}
-        {level.levelUpRequirements.battleTimes}
-      </Typography>
-      <Typography>系数：{level.coefficient}</Typography>
-      <Stack>
+      <Typography>{levelManager.name}</Typography>
+      <Typography>系数：{levelManager.coefficient}</Typography>
+
+      {levels.map((item) => (
         <Button
-          onClick={() => {
-            level.updateBattleTimes(level.coefficient * 1000);
-          }}
+          key={item.level}
+          onClick={() => levelManager.initialize(item.level)}
         >
-          满进度
+          初始化{item.name}
         </Button>
-        <Button onClick={level.manualLevelUp}>提升境界</Button>
-      </Stack>
+      ))}
     </DemoLayout>
   );
 });

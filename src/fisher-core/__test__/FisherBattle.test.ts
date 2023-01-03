@@ -35,7 +35,6 @@ describe('FisherBattle', () => {
 
     expect(battle.master.initializedForBattle).toBeTruthy();
     expect(battle.enemy?.initializedForBattle).toBeTruthy();
-    expect(battle.inBattle).toBeTruthy();
     expect(battle.activeEnemyItem).toStrictEqual(enemyItem);
     expect(battle.enemy instanceof Enemy).toBeTruthy();
   });

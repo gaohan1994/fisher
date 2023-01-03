@@ -1,5 +1,5 @@
 import { action, override } from 'mobx';
-import { PersonLevel } from './fisher-person-level';
+import { PersonLevel } from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
 
 interface InitializeMasterPayload {
@@ -29,7 +29,7 @@ export class Master extends FisherPerson {
   @override
   public initialize({ name, level }: InitializeMasterPayload): void {
     this.name = name;
-    this.personLevel.initialize(level);
+    this.personLevelManager.initialize(level);
     this.initialized = true;
   }
 

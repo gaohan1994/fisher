@@ -14,9 +14,9 @@ import {
   FisherEquipmentSlot,
   FisherPerson,
   FisherPersonEquipment,
-  FisherPersonLevel,
 } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
+import { PersonLevelManager } from '../../fisher-core/fisher-person/PersonLevelManager';
 
 interface EquipmentProps {
   equipment: FisherPersonEquipment;
@@ -96,21 +96,14 @@ const Equipment: FC<EquipmentProps> = observer(({ equipment }) => {
 });
 
 interface LevelProps {
-  personLevel: FisherPersonLevel;
+  personLevelManager: PersonLevelManager;
 }
 
-const Level: FC<LevelProps> = observer(({ personLevel }) => {
+const Level: FC<LevelProps> = observer(({ personLevelManager }) => {
   return (
     <Box>
-      <Typography>境界：{personLevel.state}</Typography>
-      <Typography>{personLevel.label}</Typography>
-      <Button
-        onClick={() =>
-          personLevel.updateBattleTimes(personLevel.coefficient * 1000)
-        }
-      >
-        提升境界
-      </Button>
+      <Typography>境界：{personLevelManager.state}</Typography>
+      <Typography>{personLevelManager.name}</Typography>
     </Box>
   );
 });
@@ -127,7 +120,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
       useEquipment,
       attributePanel,
       name,
-      personLevel,
+      personLevelManager,
       Hp,
       actionManager,
     } = person;
@@ -162,7 +155,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
             />
           </Fragment>
         </Box>
-        <Level personLevel={personLevel} />
+        <Level personLevelManager={personLevelManager} />
         <Equipment equipment={Weapon} />
         <Equipment equipment={Helmet} />
         <div>

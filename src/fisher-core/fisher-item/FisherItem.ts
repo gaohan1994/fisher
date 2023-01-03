@@ -5,6 +5,7 @@ export enum FisherItemType {
   Equipment = 'Equipment',
   BattleArea = 'BattleArea',
   BattleEnemy = 'BattleEnemy',
+  PersonLevel = 'PersonLevel',
 }
 
 export interface IFisherItem {
@@ -13,6 +14,18 @@ export interface IFisherItem {
   readonly desc: string;
   readonly media: string;
   readonly price?: number;
+}
+
+export abstract class AbstractItem implements IFisherItem {
+  abstract readonly type: FisherItemType;
+
+  public id = '';
+
+  public name = '';
+
+  public desc = '';
+
+  public media = '';
 }
 
 /**

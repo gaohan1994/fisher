@@ -4,7 +4,7 @@ import {
   master,
   FisherPerson,
   FisherPersonEquipmentManager,
-  FisherPersonLevel,
+  PersonLevelManager,
 } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
 import { ActionManager } from '../fisher-person/person-actions';
@@ -16,8 +16,9 @@ describe('FisherPerson', () => {
     expect(fisherPerson.initialized).toBeFalsy();
     expect(fisherPerson.name).toBe('DefaultName');
     expect(fisherPerson.actionManager instanceof ActionManager).toBeTruthy();
-    expect(fisherPerson.personLevel instanceof FisherPersonLevel).toBeTruthy();
-    expect(fisherPerson.personLevel.initialized).toBeFalsy();
+    expect(
+      fisherPerson.personLevelManager instanceof PersonLevelManager
+    ).toBeTruthy();
     expect(
       fisherPerson.personEquipmentManager instanceof
         FisherPersonEquipmentManager
@@ -38,9 +39,9 @@ describe('FisherPerson', () => {
     expect(master.name).toBe('玩家');
     expect(master.initialized).toBeTruthy();
     expect(master.mode).toBe(FisherPerson.Mode.Master);
-    expect(master.personLevel.level).toBe(FisherPerson.Level.GasRefiningEarly);
-    expect(master.personLevel.label).toBe('炼气前期');
+    expect(master.personLevelManager.level).toBe(
+      FisherPerson.Level.GasRefiningEarly
+    );
+    expect(master.personLevelManager.name).toBe('炼气前期');
   });
-
-  test('should ', () => {});
 });

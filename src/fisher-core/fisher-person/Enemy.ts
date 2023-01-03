@@ -59,7 +59,7 @@ export class Enemy extends FisherPerson {
     if (itemRewards) this.itemRewards = itemRewards;
     if (probabilityRewards) this.probabilityRewards = probabilityRewards;
 
-    this.personLevel.initialize(level);
+    this.personLevelManager.initialize(level);
     this.initialized = true;
     FisherPerson.logger.debug(`Success initialize Enemy ${this.name}`);
   }

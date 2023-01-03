@@ -5,6 +5,8 @@ import {
   FisherEquipmentItem,
   FisherItem,
   FisherRecipeItem,
+  PersonLevel,
+  PersonLevelItem,
 } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -15,6 +17,7 @@ import {
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
+import { generatePersonLevelData } from './PersonLevel';
 /**
  * 游戏模块数据库
  *
@@ -36,6 +39,8 @@ export class FisherStore {
   public readonly BattleAreas: FisherBattleAreaItem[] = [];
 
   public readonly BattleEnemies: FisherBattleEnemyItem[] = [];
+
+  public personLevelMap: Map<PersonLevel, PersonLevelItem>;
 
   public get items() {
     return [
@@ -71,6 +76,9 @@ export class FisherStore {
     this.BattleAreas = battleAreas;
     this.BattleEnemies = battleEnemies;
     FisherStore.logger.info('initialize BattleArea and BattleEnemies data');
+
+    const personLevelMap = generatePersonLevelData();
+    this.personLevelMap = personLevelMap;
   }
 
   /**
@@ -144,4 +152,13 @@ export function findEquipmentById(id: string) {
  */
 export function findEnemyById(id: string) {
   return findFisherItemById<FisherBattleEnemyItem>(id);
+}
+
+/**
+ * 根据 level 查找具体等级
+ */
+export function findPersonLevelItem(level: PersonLevel) {
+  const result = fisherStore.personLevelMap.get(level);
+  invariant(result !== undefined, `Try to find ${level} but got undefined`);
+  return result;
 }

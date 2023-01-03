@@ -12,3 +12,8 @@ declare module fisher {
   const reiki: import('./fisher-modules').Reiki;
   const fisherPrompt: import('./fisher-prompt').FisherPrompt;
 }
+
+declare module window {
+  const fisherStore: import('./fisher-packages/FisherStore').FisherStore;
+  const fisher: fisher;
+}
