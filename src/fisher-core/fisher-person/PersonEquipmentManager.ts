@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import { FisherEquipmentItem, FisherEquipmentSlot } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { FisherPersonEquipment } from './FisherPersonEquipment';
+import { PersonEquipment } from './PersonEquipment';
 
 export interface IFisherPersonUseEquipment {
   (equipmentSlot: FisherEquipmentSlot, equipment: FisherEquipmentItem): void;
@@ -21,8 +21,7 @@ export interface IFisherPersonRemoveEquipment {
 export class PersonEquipmentManager {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'FPEquipmentManager');
 
-  public equipmentMap: Map<FisherEquipmentSlot, FisherPersonEquipment> =
-    new Map();
+  public equipmentMap: Map<FisherEquipmentSlot, PersonEquipment> = new Map();
 
   constructor() {
     makeAutoObservable(this);
@@ -30,12 +29,12 @@ export class PersonEquipmentManager {
     // 初始化武器
     this.equipmentMap.set(
       FisherEquipmentSlot.Weapon,
-      new FisherPersonEquipment({ slot: FisherEquipmentSlot.Weapon })
+      new PersonEquipment({ slot: FisherEquipmentSlot.Weapon })
     );
     // 初始化头盔
     this.equipmentMap.set(
       FisherEquipmentSlot.Helmet,
-      new FisherPersonEquipment({ slot: FisherEquipmentSlot.Helmet })
+      new PersonEquipment({ slot: FisherEquipmentSlot.Helmet })
     );
   }
 
@@ -48,7 +47,7 @@ export class PersonEquipmentManager {
    * 如果之前该部位装备并不是空的
    * 则把淘汰下来的装备重新放入背包中
    * @type {IFisherPersonUseEquipment}
-   * @memberof FisherPersonEquipment
+   * @memberof PersonEquipment
    */
   public useEquipment: IFisherPersonUseEquipment = (
     equipmentSlot,

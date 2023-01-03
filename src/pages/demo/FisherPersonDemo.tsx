@@ -13,13 +13,13 @@ import {
   FisherEquipmentItem,
   FisherEquipmentSlot,
   FisherPerson,
-  FisherPersonEquipment,
+  PersonEquipment,
 } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 import { PersonLevelManager } from '../../fisher-core/fisher-person/PersonLevelManager';
 
 interface EquipmentProps {
-  equipment: FisherPersonEquipment;
+  equipment: PersonEquipment;
 }
 const Equipment: FC<EquipmentProps> = observer(({ equipment }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);

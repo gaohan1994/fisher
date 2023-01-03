@@ -40,9 +40,9 @@ interface IFisherEquipmentRemove {
  * 人物装备
  *
  * @export
- * @class FisherPersonEquipment
+ * @class PersonEquipment
  */
-export class FisherPersonEquipment {
+export class PersonEquipment {
   /**
    * 没有佩戴装备时显示的空装备信息
    *

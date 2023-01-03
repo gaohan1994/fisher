@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { FisherEquipmentItem, FisherEquipmentSlot } from '../fisher-item';
 import { createFisherStore } from '../fisher-packages';
-import { FisherPersonEquipment } from '../fisher-person';
+import { PersonEquipment } from '../fisher-person';
 
 const emptyEquipment = new FisherEquipmentItem({
   id: 'EmptyEquipment',
@@ -33,9 +33,9 @@ const testEquipmentData = {
   attributes: [],
 };
 
-describe('FisherPersonEquipment', () => {
+describe('PersonEquipment', () => {
   test('should success initialize personEquipment', () => {
-    const personEquipment = new FisherPersonEquipment({
+    const personEquipment = new PersonEquipment({
       slot: FisherEquipmentSlot.Helmet,
     });
     expect(personEquipment.slot).toBe(FisherEquipmentSlot.Helmet);
@@ -45,7 +45,7 @@ describe('FisherPersonEquipment', () => {
   });
 
   test('should success updateEquipment when prev equipment was empty', () => {
-    const personEquipment = new FisherPersonEquipment({
+    const personEquipment = new PersonEquipment({
       slot: FisherEquipmentSlot.Helmet,
     });
     expect(personEquipment.isEmpty).toBeTruthy();
@@ -64,7 +64,7 @@ describe('FisherPersonEquipment', () => {
 
   test('should success updateEquipment when prev equipment was not empty', () => {
     const equip = new FisherEquipmentItem(testEquipmentData);
-    const personEquipment = new FisherPersonEquipment({
+    const personEquipment = new PersonEquipment({
       slot: FisherEquipmentSlot.Helmet,
       equipment: equip,
       quantity: 3,
@@ -80,7 +80,7 @@ describe('FisherPersonEquipment', () => {
   });
 
   test('should fail to remove equipment when prev equipment was empty', () => {
-    const personEquipment = new FisherPersonEquipment({
+    const personEquipment = new PersonEquipment({
       slot: FisherEquipmentSlot.Helmet,
     });
     expect(() => personEquipment.removeEquipment()).toThrow(
@@ -90,7 +90,7 @@ describe('FisherPersonEquipment', () => {
 
   test('should success to remove equipment when prev equipment was not empty', () => {
     const equip = new FisherEquipmentItem(testEquipmentData);
-    const personEquipment = new FisherPersonEquipment({
+    const personEquipment = new PersonEquipment({
       slot: FisherEquipmentSlot.Helmet,
       equipment: equip,
       quantity: 1,
