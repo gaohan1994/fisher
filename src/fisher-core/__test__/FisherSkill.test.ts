@@ -1,12 +1,12 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherNormalItem, RecipeItem } from '../fisher-item';
+import { NormalItem, RecipeItem } from '../fisher-item';
 import { FisherSkill } from '../fisher-skill';
 
 const payload = {
   id: 'Mining' as any,
   name: '采矿',
 };
-const testRewardItem = new FisherNormalItem({
+const testRewardItem = new NormalItem({
   id: 'LowSpiritMine',
   name: '低灵矿',
   desc: '一种很常见的矿石，灵气和纯度较低',

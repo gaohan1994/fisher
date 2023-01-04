@@ -2,11 +2,11 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { DemoLayout } from './DemoLayout';
 import { Button, Stack } from '@mui/material';
-import { FisherNormalItem, Reward } from '@FisherCore';
+import { NormalItem, Reward } from '@FisherCore';
 import { createTestBackpackItemPayload } from './FisherBackpackDemo';
 import { makeAutoObservable } from 'mobx';
 
-const testFisherItem = new FisherNormalItem(createTestBackpackItemPayload(''));
+const testFisherItem = new NormalItem(createTestBackpackItemPayload(''));
 const fisherReward = makeAutoObservable(new Reward());
 
 export const FisherRewardDemo: FC = observer(() => {

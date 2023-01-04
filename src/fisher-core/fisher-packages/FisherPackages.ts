@@ -5,7 +5,7 @@ import {
   RecipeItem,
   EquipmentItem,
   IEquipmentItem,
-  FisherNormalItem,
+  NormalItem,
   IFisherRecipeItem,
 } from '@FisherCore';
 import miningDataJson from './data/MiningData.json';
@@ -161,7 +161,7 @@ function makePackageCollectionDataSource(
  * 生成普通物品
  */
 function generatePackagesFisherItems(itemsJson: IItem[]) {
-  return itemsJson.map((item) => new FisherNormalItem(item));
+  return itemsJson.map((item) => new NormalItem(item));
 }
 
 /**

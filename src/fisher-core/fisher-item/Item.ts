@@ -69,18 +69,16 @@ export abstract class Item implements IItem {
   }
 }
 
-interface ITestItem extends IItem {}
-
 export class TestItem extends Item {
   type = ItemType.Test;
-  constructor(options: ITestItem) {
+  constructor(options: IItem) {
     super(options);
   }
 }
 
-export class FisherNormalItem extends Item {
+export class NormalItem extends Item {
   type = ItemType.Normal;
-  constructor(options: ITestItem) {
+  constructor(options: IItem) {
     super(options);
   }
 }

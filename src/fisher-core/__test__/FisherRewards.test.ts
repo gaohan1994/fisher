@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { ItemType, FisherNormalItem } from '../fisher-item';
+import { ItemType, NormalItem } from '../fisher-item';
 import { createReward, Reward } from '../fisher-reward';
 import { FisherSkill } from '../fisher-skill';
 
@@ -47,7 +47,7 @@ describe('FisherRewards', () => {
   test('should success set reward items to reward', () => {
     const fisherReward = new Reward();
     expect(fisherReward.hasRewardItems).toBeFalsy();
-    const testFisherItem = new FisherNormalItem(testItemPayload);
+    const testFisherItem = new NormalItem(testItemPayload);
     fisherReward.addRewardItem(testFisherItem, 1);
     expect(fisherReward.rewardItemMap.size).toBe(1);
     expect(fisherReward.rewardItemMap.has(testFisherItem)).toBeTruthy();
@@ -72,7 +72,7 @@ describe('FisherRewards', () => {
 
   test('should success set correct value if use set method ', () => {
     const fisherReward = new Reward();
-    const testFisherItem = new FisherNormalItem(testItemPayload);
+    const testFisherItem = new NormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward.setRewardItem(testFisherItem, 10);
     fisherReward.setRewardItem(testFisherItem, 100);
@@ -89,7 +89,7 @@ describe('FisherRewards', () => {
 
   test('should execute rewards', () => {
     const fisherReward = new Reward();
-    const testFisherItem = new FisherNormalItem(testItemPayload);
+    const testFisherItem = new NormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
       .addRewardItem(testFisherItem, 1)
@@ -107,7 +107,7 @@ describe('FisherRewards', () => {
 
   test('should clear rewards after reset reward data', () => {
     const fisherReward = new Reward();
-    const testFisherItem = new FisherNormalItem(testItemPayload);
+    const testFisherItem = new NormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
       .addRewardItem(testFisherItem, 1)
