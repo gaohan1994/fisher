@@ -1,15 +1,15 @@
-import { FisherItem, FisherBackpackItem } from '@FisherCore';
+import { Item, FisherBackpackItem } from '@FisherCore';
 
 /**
  * 计算传入的 item 的售价
  *
  * @export
- * @param {FisherItem} item
+ * @param {Item} item
  * @param {number} [quantity=1]
  * @return {*}
  */
 export function calculateItemPrice(
-  item: FisherItem | FisherBackpackItem,
+  item: Item | FisherBackpackItem,
   quantity: number = 1
 ) {
   let totalPrice = 0;
@@ -22,13 +22,11 @@ export function calculateItemPrice(
 }
 
 /**
- * 校验传入的 item 是否是 FisherItem
+ * 校验传入的 item 是否是 Item
  *
- * @param {(FisherItem | FisherBackpackItem)} item
- * @return {*}  {item is FisherItem}
+ * @param {(Item | FisherBackpackItem)} item
+ * @return {*}  {item is Item}
  */
-export function isFisherItem(
-  item: FisherItem | FisherBackpackItem
-): item is FisherItem {
-  return item instanceof FisherItem;
+export function isFisherItem(item: Item | FisherBackpackItem): item is Item {
+  return item instanceof Item;
 }

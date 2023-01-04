@@ -8,7 +8,7 @@ export enum ItemType {
   PersonLevel = 'PersonLevel',
 }
 
-export interface IFisherItem {
+export interface IItem {
   readonly id: string;
   readonly name: string;
   readonly desc: string;
@@ -16,7 +16,7 @@ export interface IFisherItem {
   readonly price?: number;
 }
 
-export abstract class AbstractItem implements IFisherItem {
+export abstract class AbstractItem implements IItem {
   abstract readonly type: ItemType;
 
   public id = '';
@@ -31,13 +31,13 @@ export abstract class AbstractItem implements IFisherItem {
 /**
  * Fisher 物品类
  * 只有物品才需要用该类创建
- * - 物品类应该是通用的即通过 FisherItem 创建
+ * - 物品类应该是通用的即通过 Item 创建
  * - 物品含有基础信息
  *
  * @export
- * @class FisherItem
+ * @class Item
  */
-export abstract class FisherItem implements IFisherItem {
+export abstract class Item implements IItem {
   abstract readonly type: ItemType;
 
   public id = '';
@@ -50,7 +50,7 @@ export abstract class FisherItem implements IFisherItem {
 
   public price = 0;
 
-  constructor(options: IFisherItem) {
+  constructor(options: IItem) {
     this.id = options.id;
 
     this.name = options.name;
@@ -69,17 +69,18 @@ export abstract class FisherItem implements IFisherItem {
   }
 }
 
-interface IFisherTestItem extends IFisherItem {}
-export class FisherTestItem extends FisherItem {
+interface ITestItem extends IItem {}
+
+export class TestItem extends Item {
   type = ItemType.Test;
-  constructor(options: IFisherTestItem) {
+  constructor(options: ITestItem) {
     super(options);
   }
 }
 
-export class FisherNormalItem extends FisherItem {
+export class FisherNormalItem extends Item {
   type = ItemType.Normal;
-  constructor(options: IFisherTestItem) {
+  constructor(options: ITestItem) {
     super(options);
   }
 }

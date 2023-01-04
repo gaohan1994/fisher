@@ -1,4 +1,4 @@
-import { FisherItem, FisherSkill } from '@FisherCore';
+import { Item, FisherSkill } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherReward');
@@ -9,7 +9,7 @@ const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherReward');
  * @interface IFisherRewardAddRewardItem
  */
 interface IFisherRewardAddRewardItem<This> {
-  (item: FisherItem, quantity: number): This;
+  (item: Item, quantity: number): This;
 }
 
 type IFisherRewardSetRewardItem<T> = IFisherRewardAddRewardItem<T>;
@@ -75,10 +75,10 @@ export class FisherReward {
   /**
    * 物品奖励
    *
-   * @type {Map<FisherItem, number>}
+   * @type {Map<Item, number>}
    * @memberof FisherReward
    */
-  public rewardItemMap: Map<FisherItem, number> = new Map();
+  public rewardItemMap: Map<Item, number> = new Map();
 
   public get hasRewardItems() {
     return this.rewardItemMap.size > 0;
@@ -105,7 +105,7 @@ export class FisherReward {
   public rewardSkillExperience: Map<FisherSkill, number> = new Map();
 
   public get rewardItems() {
-    const result: { item: FisherItem; quantity: number }[] = [];
+    const result: { item: Item; quantity: number }[] = [];
     this.rewardItemMap.forEach((rewardQuantity, rewardItem) =>
       result.push({ item: rewardItem, quantity: rewardQuantity })
     );

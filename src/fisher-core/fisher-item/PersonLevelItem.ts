@@ -1,4 +1,4 @@
-import { AbstractItem, ItemType } from './FisherItem';
+import { AbstractItem, ItemType } from './Item';
 
 export enum PersonLevel {
   GasRefiningEarly = 'GasRefiningEarly',

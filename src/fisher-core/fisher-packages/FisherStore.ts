@@ -3,7 +3,7 @@ import {
   BattleAreaItem,
   BattleEnemyItem,
   EquipmentItem,
-  FisherItem,
+  Item,
   RecipeItem,
   PersonLevel,
   PersonLevelItem,
@@ -119,18 +119,15 @@ type IFindItemReturnType<T> = T extends EquipmentItem
   ? RecipeItem
   : T extends BattleEnemyItem
   ? BattleEnemyItem
-  : FisherItem;
+  : Item;
 
 /**
  * 根据 id 查找物品
  */
 export function findFisherItemById<T>(fisherItemId: string) {
-  const fisherItem = fisherStore.items.find((item) => item.id === fisherItemId);
-  invariant(
-    fisherItem !== undefined,
-    'Could not find fisherItem id: ' + fisherItemId
-  );
-  return fisherItem as IFindItemReturnType<T>;
+  const Item = fisherStore.items.find((item) => item.id === fisherItemId);
+  invariant(Item !== undefined, 'Could not find Item id: ' + fisherItemId);
+  return Item as IFindItemReturnType<T>;
 }
 
 /**

@@ -1,10 +1,10 @@
-import { FisherItem, ItemType, IFisherItem } from './FisherItem';
+import { Item, ItemType, IItem } from './Item';
 
-export interface IFisherRecipeItem extends IFisherItem {
+export interface IFisherRecipeItem extends IItem {
   interval: number;
   unlockLevel: number;
   rewardExperience: number;
-  rewardItem: FisherItem;
+  rewardItem: Item;
   rewardQuantity?: number;
 }
 
@@ -13,9 +13,9 @@ export interface IFisherRecipeItem extends IFisherItem {
  *
  * @export
  * @class RecipeItem
- * @extends {FisherItem}
+ * @extends {Item}
  */
-export class RecipeItem extends FisherItem {
+export class RecipeItem extends Item {
   type = ItemType.Recipe;
 
   /**
@@ -44,7 +44,7 @@ export class RecipeItem extends FisherItem {
    */
   public rewardExperience: number;
   public rewardQuantity: number;
-  public rewardItem: FisherItem;
+  public rewardItem: Item;
 
   constructor(options: IFisherRecipeItem) {
     super(options);

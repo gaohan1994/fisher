@@ -1,7 +1,7 @@
 import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
-import { FisherItem, ItemType, IFisherItem } from './FisherItem';
+import { Item, ItemType, IItem } from './Item';
 
-export interface IEquipmentItem extends IFisherItem {
+export interface IEquipmentItem extends IItem {
   slots: EquipmentSlot[];
   requirements?: IEquipmentRequirement[];
   attributes?: IEquipmentAttribute[];
@@ -40,9 +40,9 @@ export enum EquipmentSlot {
  *
  * @export
  * @class EquipmentItem
- * @extends {FisherItem}
+ * @extends {Item}
  */
-export class EquipmentItem extends FisherItem {
+export class EquipmentItem extends Item {
   type = ItemType.Equipment;
 
   public requirements: IEquipmentRequirement[];

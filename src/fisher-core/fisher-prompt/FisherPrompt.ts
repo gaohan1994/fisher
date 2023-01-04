@@ -1,12 +1,12 @@
 import { makeAutoObservable } from 'mobx';
-import { FisherItem } from '../fisher-item';
+import { Item } from '../fisher-item';
 import { GoldItem } from '../fisher-packages';
 import { FisherTimer } from '../fisher-timer';
 
 interface IPromptItemOptions {}
 
 interface IPromptMessage {
-  item: FisherItem;
+  item: Item;
   quantity: number;
 }
 
@@ -35,7 +35,7 @@ export class FisherPrompt {
   }
 
   public promptItem = (
-    item: FisherItem,
+    item: Item,
     quantity = 1,
     {}: IPromptItemOptions = {}
   ) => {

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { FisherItem, fisherPrompt } from '@FisherCore';
+import { Item, fisherPrompt } from '@FisherCore';
 import { FisherBackpackItem } from './FisherBackpackItem';
 import { calculateItemPrice } from './Utils';
 import { prefixLogger, prefixes } from '@FisherLogger';
@@ -21,7 +21,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 export class FisherBackpack {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBackpack');
 
-  public items = new Map<FisherItem, FisherBackpackItem>();
+  public items = new Map<Item, FisherBackpackItem>();
 
   public selectedItems = new Set<FisherBackpackItem>();
 
@@ -40,7 +40,7 @@ export class FisherBackpack {
   /**
    * 添加物品到背包
    */
-  public addItem = (item: FisherItem, quantity: number) => {
+  public addItem = (item: Item, quantity: number) => {
     invariant(
       quantity > 0,
       'Fail to add item to backpack, quantity should > 0'
@@ -55,11 +55,11 @@ export class FisherBackpack {
   /**
    * 如果背包中不存在该物品则新建物品类并保存
    *
-   * @param {FisherItem} item
+   * @param {Item} item
    * @param {number} quantity
    * @memberof FisherBackpack
    */
-  public addNewItem = (item: FisherItem, quantity: number) => {
+  public addNewItem = (item: Item, quantity: number) => {
     const backpackItem = new FisherBackpackItem({ item, quantity });
     this.items.set(item, backpackItem);
 
@@ -69,11 +69,11 @@ export class FisherBackpack {
   /**
    * 如果背包中存在物品则添加相应数量
    *
-   * @param {FisherItem} item
+   * @param {Item} item
    * @param {number} quantity
    * @memberof FisherBackpack
    */
-  public addExistingItem = (item: FisherItem, quantity: number) => {
+  public addExistingItem = (item: Item, quantity: number) => {
     const backpackItem = this.items.get(item);
     if (backpackItem === undefined)
       return FisherBackpack.logger.error(
@@ -89,7 +89,7 @@ export class FisherBackpack {
   /**
    * 减少 quantity 个传入物品
    */
-  public reduceItem = (item: FisherItem, quantity: number) => {
+  public reduceItem = (item: Item, quantity: number) => {
     invariant(
       quantity > 0,
       'Fail to reduce backpack item, quantity should > 0'

@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
-import { FisherItem } from '@FisherCore';
+import { Item } from '@FisherCore';
 
 interface IFisherBackpackItem {
-  item: FisherItem;
+  item: Item;
   quantity: number;
 }
 
@@ -16,10 +16,10 @@ export class FisherBackpackItem {
   /**
    * 物品基本信息
    *
-   * @type {FisherItem}
+   * @type {Item}
    * @memberof FisherBackpackItem
    */
-  public item: FisherItem;
+  public item: Item;
 
   /**
    * 物品数量

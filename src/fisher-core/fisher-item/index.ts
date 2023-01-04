@@ -1,4 +1,4 @@
-export * from './FisherItem';
+export * from './Item';
 export * from './EquipmentItem';
 export * from './RecipeItem';
 export * from './BattleEnemy';

@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import {
-  FisherItem,
-  IFisherItem,
+  Item,
+  IItem,
   RecipeItem,
   EquipmentItem,
   IEquipmentItem,
@@ -20,7 +20,7 @@ import {
 } from '../fisher-item';
 
 export interface IFisherPackagesData {
-  items: Array<FisherItem | EquipmentItem>;
+  items: Array<Item | EquipmentItem>;
   recipes: RecipeItem[];
 }
 
@@ -36,7 +36,7 @@ interface PackageJsonDataSource<T> {
 }
 
 type PackageCollectionJsonDataSource = PackageJsonDataSource<{
-  items: IFisherItem[];
+  items: IItem[];
   recipes: IFisherRecipePackageJsonData[];
 }>;
 
@@ -134,9 +134,7 @@ function makePackageCollectionDataSource(
   const items = generatePackagesFisherItems(itemsJson);
 
   const fisherRecipeDataJson = recipesJson.map((item) => {
-    const rewardItem = items.find(
-      (fisherItem) => fisherItem.id === item.rewardItemId
-    );
+    const rewardItem = items.find((Item) => Item.id === item.rewardItemId);
     invariant(
       rewardItem !== undefined,
       'Fail to launch packages data, undefined reward item id' +
@@ -162,7 +160,7 @@ function makePackageCollectionDataSource(
 /**
  * 生成普通物品
  */
-function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
+function generatePackagesFisherItems(itemsJson: IItem[]) {
   return itemsJson.map((item) => new FisherNormalItem(item));
 }
 
