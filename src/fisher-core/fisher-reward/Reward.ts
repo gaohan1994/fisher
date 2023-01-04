@@ -119,7 +119,7 @@ export class Reward {
           'quantity: ' + quantity
         );
 
-        fisher.fisherBackpack.addItem(rewardItem, quantity);
+        fisher.backpack.addItem(rewardItem, quantity);
       });
     }
 

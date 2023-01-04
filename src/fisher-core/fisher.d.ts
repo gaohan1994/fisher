@@ -7,7 +7,7 @@ declare module fisher {
   const setActiveComponent: ISetActiveComponent;
   const master: import('./fisher-person').FisherPerson;
   const fisherGold: import('./fisher-gold').FisherGold;
-  const fisherBackpack: import('./fisher-backpack').FisherBackpack;
+  const backpack: import('./fisher-backpack').Backpack;
   const mining: import('./fisher-modules').Mining;
   const reiki: import('./fisher-modules').Reiki;
   const fisherPrompt: import('./fisher-prompt').FisherPrompt;

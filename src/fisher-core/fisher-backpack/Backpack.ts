@@ -1,8 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { Item, fisherPrompt } from '@FisherCore';
-import { FisherBackpackItem } from './FisherBackpackItem';
-import { calculateItemPrice } from './Utils';
+import { Item, BackpackItem, fisherPrompt } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 /**
@@ -18,21 +16,21 @@ import { prefixLogger, prefixes } from '@FisherLogger';
  * @export
  * @class Backpack
  */
-export class FisherBackpack {
-  static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBackpack');
+export class Backpack {
+  static logger = prefixLogger(prefixes.FISHER_CORE, 'Backpack');
 
-  public items = new Map<Item, FisherBackpackItem>();
+  public items = new Map<Item, BackpackItem>();
 
-  public selectedItems = new Set<FisherBackpackItem>();
+  public selectedItems = new Set<BackpackItem>();
 
   constructor() {
     makeAutoObservable(this);
   }
 
   public get backpackItems() {
-    const result: FisherBackpackItem[] = [];
-    this.items.forEach((fisherBackpackItem) => {
-      result.push(fisherBackpackItem);
+    const result: BackpackItem[] = [];
+    this.items.forEach((BackpackItem) => {
+      result.push(BackpackItem);
     });
     return result;
   }
@@ -57,10 +55,10 @@ export class FisherBackpack {
    *
    * @param {Item} item
    * @param {number} quantity
-   * @memberof FisherBackpack
+   * @memberof Backpack
    */
   public addNewItem = (item: Item, quantity: number) => {
-    const backpackItem = new FisherBackpackItem({ item, quantity });
+    const backpackItem = new BackpackItem({ item, quantity });
     this.items.set(item, backpackItem);
 
     fisherPrompt.promptItem(item, quantity);
@@ -71,12 +69,12 @@ export class FisherBackpack {
    *
    * @param {Item} item
    * @param {number} quantity
-   * @memberof FisherBackpack
+   * @memberof Backpack
    */
   public addExistingItem = (item: Item, quantity: number) => {
     const backpackItem = this.items.get(item);
     if (backpackItem === undefined)
-      return FisherBackpack.logger.error(
+      return Backpack.logger.error(
         'Try to add existing item to backpack but get undefined!',
         item
       );
@@ -112,7 +110,7 @@ export class FisherBackpack {
   /**
    * 添加/删除选中的物品
    */
-  public toggleSelectItem = (item: FisherBackpackItem) => {
+  public toggleSelectItem = (item: BackpackItem) => {
     if (this.selectedItems.has(item)) {
       this.selectedItems.delete(item);
     } else {
@@ -125,17 +123,17 @@ export class FisherBackpack {
    * 如果传入的卖出数量则使用传入的卖出数量
    * 如果没有传入卖出数量则全部卖出
    */
-  public sellItem = (item: FisherBackpackItem, quantity?: number) => {
-    // 找到要卖出的物品
+  public sellItem = (item: BackpackItem, quantity?: number) => {
     const sellItem = this.items.get(item.item);
     if (!sellItem) return;
-    // 计算卖出的价格,如果没有传入数量则全部卖出
+
     const sellQuantity = quantity ?? sellItem.quantity;
-    const totalPrice = calculateItemPrice(item, sellQuantity);
+    const totalPrice = item.calculatePrice(sellQuantity);
+
     fisher.fisherGold.receiveGold(totalPrice);
     this.reduceItem(item.item, sellQuantity);
 
-    FisherBackpack.logger.debug(
+    Backpack.logger.debug(
       `Success sell ${item.item.name} x ${quantity}, `,
       `price: ${item.item.price}, totalPrice: ${totalPrice}`
     );
@@ -144,7 +142,7 @@ export class FisherBackpack {
   /**
    * 卖出多个物品不用传入数量默认全部卖出
    */
-  public sellItems = (items: FisherBackpackItem[]) => {
+  public sellItems = (items: BackpackItem[]) => {
     items.forEach((item) => {
       this.sellItem(item);
     });
@@ -156,7 +154,7 @@ export class FisherBackpack {
    */
   public sellSelectedItems = () => {
     if (this.selectedItems.size <= 0) {
-      return FisherBackpack.logger.error(
+      return Backpack.logger.error(
         'Fail to sell selected items, selected items were empty'
       );
     }

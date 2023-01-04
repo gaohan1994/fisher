@@ -1,2 +1,1 @@
-export * from './FisherBackpack';
-export * from './FisherBackpackItem';
+export * from './Backpack';

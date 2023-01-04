@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   FisherCore,
-  FisherBackpack,
+  Backpack,
   FisherGold,
   Reiki,
   FisherPerson,
@@ -11,7 +11,7 @@ import {
 describe('FisherCore', () => {
   test('should initialize FisherCore', () => {
     const fisherCore = new FisherCore();
-    expect(fisherCore.fisherBackpack instanceof FisherBackpack).toBeTruthy();
+    expect(fisherCore.backpack instanceof Backpack).toBeTruthy();
     expect(fisherCore.fisherGold instanceof FisherGold).toBeTruthy();
     expect(fisherCore.mining instanceof Mining).toBeTruthy();
     expect(fisherCore.reiki instanceof Reiki).toBeTruthy();

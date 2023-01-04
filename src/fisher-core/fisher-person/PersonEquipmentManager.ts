@@ -104,6 +104,6 @@ export class PersonEquipmentManager {
     equipment: EquipmentItem,
     quantity: number
   ) => {
-    fisher.fisherBackpack.addItem(equipment, quantity);
+    fisher.backpack.addItem(equipment, quantity);
   };
 }

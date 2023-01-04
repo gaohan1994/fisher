@@ -8,7 +8,7 @@ import {
   ListItemText,
   Stack,
 } from '@mui/material';
-import { FisherBackpackItem, FisherNormalItem } from '@FisherCore';
+import { BackpackItem, FisherNormalItem } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
 export const createTestBackpackItemPayload = (index: string) => ({
@@ -20,33 +20,33 @@ export const createTestBackpackItemPayload = (index: string) => ({
 });
 
 export const FisherBackpackDemo: FC = observer(() => {
-  const { fisherBackpack } = fisher;
+  const { backpack } = fisher;
   const testItemIndex = useRef(1);
 
   const addNewItem = () => {
     const item = new FisherNormalItem(
       createTestBackpackItemPayload(`${testItemIndex.current++}`)
     );
-    fisherBackpack.addItem(item, 1);
+    backpack.addItem(item, 1);
   };
 
   return (
     <DemoLayout title="FisherBackpackDemo">
-      <div>current backpack size: {fisherBackpack.items.size}</div>
+      <div>current backpack size: {backpack.items.size}</div>
       <List>
-        {fisherBackpack.backpackItems.map((item: FisherBackpackItem) => (
+        {backpack.backpackItems.map((item: BackpackItem) => (
           <ListItem
             key={item.item.id}
             secondaryAction={
               <Stack>
                 <Button
-                  onClick={() => fisherBackpack.addItem(item.item, 1)}
+                  onClick={() => backpack.addItem(item.item, 1)}
                   sx={{ textTransform: 'none' }}
                 >
                   add 1
                 </Button>
                 <Button
-                  onClick={() => fisherBackpack.reduceItem(item.item, 1)}
+                  onClick={() => backpack.reduceItem(item.item, 1)}
                   sx={{ textTransform: 'none' }}
                 >
                   redeuce 1
@@ -58,8 +58,8 @@ export const FisherBackpackDemo: FC = observer(() => {
               primary={
                 <Fragment>
                   <Checkbox
-                    checked={fisherBackpack.selectedItems.has(item)}
-                    onChange={() => fisherBackpack.toggleSelectItem(item)}
+                    checked={backpack.selectedItems.has(item)}
+                    onChange={() => backpack.toggleSelectItem(item)}
                   />
                   {item.item.name}
                 </Fragment>
@@ -75,10 +75,10 @@ export const FisherBackpackDemo: FC = observer(() => {
         </Button>
         <Button
           variant="contained"
-          onClick={() => fisherBackpack.sellSelectedItems()}
-          disabled={fisherBackpack.selectedItems.size <= 0}
+          onClick={() => backpack.sellSelectedItems()}
+          disabled={backpack.selectedItems.size <= 0}
         >
-          Sell all selected items {fisherBackpack.selectedItems.size}
+          Sell all selected items {backpack.selectedItems.size}
         </Button>
       </Stack>
     </DemoLayout>

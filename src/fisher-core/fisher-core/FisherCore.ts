@@ -6,7 +6,7 @@ import {
   Reiki,
   FisherGold,
   FisherPerson,
-  FisherBackpack,
+  Backpack,
   CollectionModule,
   fisherPrompt,
 } from '@FisherCore';
@@ -23,7 +23,7 @@ export class FisherCore {
   public readonly master = master;
 
   // 背包
-  public readonly fisherBackpack = new FisherBackpack();
+  public readonly backpack = new Backpack();
 
   // 货币
   public readonly fisherGold = new FisherGold({});

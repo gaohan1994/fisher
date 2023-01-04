@@ -22,11 +22,11 @@ const fisherGold = {
   receiveGold: vi.fn(),
 };
 
-const fisherBackpack = {
+const backpack = {
   addItem: vi.fn(),
 };
 
-vi.stubGlobal('fisher', { fisherGold, fisherBackpack });
+vi.stubGlobal('fisher', { fisherGold, backpack });
 
 describe('FisherRewards', () => {
   test('should initialize Reward', () => {
@@ -97,11 +97,11 @@ describe('FisherRewards', () => {
       .addRewardSkill(testFisherSkill, 10);
     fisherReward.executeRewards();
     expect(fisher.fisherGold.receiveGold).toBeCalled();
-    expect(fisher.fisherBackpack.addItem).toBeCalled();
+    expect(fisher.backpack.addItem).toBeCalled();
     expect(testFisherSkill.experience).toBe(10);
     fisherReward.executeRewards();
     expect(fisher.fisherGold.receiveGold).toBeCalled();
-    expect(fisher.fisherBackpack.addItem).toBeCalled();
+    expect(fisher.backpack.addItem).toBeCalled();
     expect(testFisherSkill.experience).toBe(20);
   });
 
