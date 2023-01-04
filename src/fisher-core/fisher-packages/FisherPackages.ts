@@ -13,10 +13,10 @@ import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
 import battleDataJson from './data/BattleData.json';
 import {
-  IFisherBattleAreaItem,
-  FisherBattleAreaItem,
-  FisherBattleEnemyItem,
-  IFisherBattleEnemyItem,
+  IBattleAreaItem,
+  BattleAreaItem,
+  BattleEnemyItem,
+  IBattleEnemyItem,
 } from '../fisher-item';
 
 export interface IFisherPackagesData {
@@ -99,10 +99,10 @@ export function makeEquipmentPackagesData() {
 export function makeBattlePackageData() {
   const { area: areaJson, enemy: enemyJson } = battleDataJson;
   const battleEnemies = generatePackagesBattleEnemies(
-    enemyJson as IFisherBattleEnemyItem[]
+    enemyJson as IBattleEnemyItem[]
   );
   const battleAreas = areaJson.map((area) => {
-    const areaEnemis: FisherBattleEnemyItem[] = [];
+    const areaEnemis: BattleEnemyItem[] = [];
     area.enemies.forEach((enemyId) => {
       const enemy = battleEnemies.find((enemy) => enemy.id === enemyId);
       if (!enemy) {
@@ -110,10 +110,10 @@ export function makeBattlePackageData() {
       }
       areaEnemis.push(enemy);
     });
-    return new FisherBattleAreaItem({
+    return new BattleAreaItem({
       ...area,
       enemies: areaEnemis,
-    } as IFisherBattleAreaItem);
+    } as IBattleAreaItem);
   });
 
   return { battleAreas, battleEnemies };
@@ -183,8 +183,8 @@ function generatePackagesEquipments(itemsJson: IEquipmentItem[]) {
 /**
  * 生成敌人数据
  */
-function generatePackagesBattleEnemies(itemsJson: IFisherBattleEnemyItem[]) {
-  return itemsJson.map((item) => new FisherBattleEnemyItem(item));
+function generatePackagesBattleEnemies(itemsJson: IBattleEnemyItem[]) {
+  return itemsJson.map((item) => new BattleEnemyItem(item));
 }
 
 /**

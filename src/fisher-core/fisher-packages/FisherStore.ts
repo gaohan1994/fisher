@@ -1,7 +1,7 @@
 import invariant from 'invariant';
 import {
-  FisherBattleAreaItem,
-  FisherBattleEnemyItem,
+  BattleAreaItem,
+  BattleEnemyItem,
   EquipmentItem,
   FisherItem,
   RecipeItem,
@@ -36,9 +36,9 @@ export class FisherStore {
 
   public readonly Equipments: EquipmentItem[];
 
-  public readonly BattleAreas: FisherBattleAreaItem[] = [];
+  public readonly BattleAreas: BattleAreaItem[] = [];
 
-  public readonly BattleEnemies: FisherBattleEnemyItem[] = [];
+  public readonly BattleEnemies: BattleEnemyItem[] = [];
 
   public personLevelMap: Map<PersonLevel, PersonLevelItem>;
 
@@ -117,8 +117,8 @@ type IFindItemReturnType<T> = T extends EquipmentItem
   ? EquipmentItem
   : T extends RecipeItem
   ? RecipeItem
-  : T extends FisherBattleEnemyItem
-  ? FisherBattleEnemyItem
+  : T extends BattleEnemyItem
+  ? BattleEnemyItem
   : FisherItem;
 
 /**
@@ -151,7 +151,7 @@ export function findEquipmentById(id: string) {
  * 根据 id 查找敌人
  */
 export function findEnemyById(id: string) {
-  return findFisherItemById<FisherBattleEnemyItem>(id);
+  return findFisherItemById<BattleEnemyItem>(id);
 }
 
 /**

@@ -1,8 +1,8 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import {
   Enemy,
-  FisherBattleAreaItem,
-  FisherBattleEnemyItem,
+  BattleAreaItem,
+  BattleEnemyItem,
   FisherReward,
   FisherTimerSpace,
   master,
@@ -15,14 +15,13 @@ export class FisherBattle {
 
   public static BaseBattleInterval = 1000;
 
-  public readonly packages: FisherBattleAreaItem[] =
-    useModulePackage('BattleAreas');
+  public readonly packages: BattleAreaItem[] = useModulePackage('BattleAreas');
 
   public inBattle = false;
 
   public master = master;
 
-  public activeEnemyItem?: FisherBattleEnemyItem | undefined = undefined;
+  public activeEnemyItem?: BattleEnemyItem | undefined = undefined;
 
   public enemy: Enemy | undefined = undefined;
 
@@ -72,10 +71,10 @@ export class FisherBattle {
    * - 初始化 enemy
    * - 给玩家和敌人互相设置 target
    *
-   * @param {FisherBattleEnemyItem} enemyItem
+   * @param {BattleEnemyItem} enemyItem
    * @memberof FisherBattle
    */
-  public initializeEnemy = async (enemyItem: FisherBattleEnemyItem) => {
+  public initializeEnemy = async (enemyItem: BattleEnemyItem) => {
     this.activeEnemyItem = enemyItem;
     this.enemy = new Enemy(this.generateEnemyId(enemyItem.id));
     await this.enemy.initialize(enemyItem);
@@ -97,7 +96,7 @@ export class FisherBattle {
     await this.initializeEnemy(this.activeEnemyItem);
   };
 
-  public start = async (enemyItem?: FisherBattleEnemyItem) => {
+  public start = async (enemyItem?: BattleEnemyItem) => {
     const currentEnemy = enemyItem ?? this.activeEnemyItem;
     if (currentEnemy === undefined)
       return FisherBattle.logger.error('Try to start battle without enemy');

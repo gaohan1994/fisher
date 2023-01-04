@@ -7,7 +7,7 @@ import {
 import {
   EnemyItemReward,
   EnemyProbabilityReward,
-  FisherBattleEnemyItem,
+  BattleEnemyItem,
 } from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
 
@@ -47,7 +47,7 @@ export class Enemy extends FisherPerson {
   }
 
   @action
-  public initialize = async (enemyInfo: FisherBattleEnemyItem) => {
+  public initialize = async (enemyInfo: BattleEnemyItem) => {
     const { name, level, goldReward, itemRewards, probabilityRewards } =
       enemyInfo;
 

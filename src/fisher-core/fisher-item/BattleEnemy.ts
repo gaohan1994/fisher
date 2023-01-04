@@ -1,7 +1,7 @@
 import { FisherItem, ItemType, IFisherItem } from './FisherItem';
 import { PersonLevel } from './PersonLevelItem';
 
-export interface IFisherBattleEnemyItem extends IFisherItem {
+export interface IBattleEnemyItem extends IFisherItem {
   unlockLevel?: PersonLevel;
   level: PersonLevel;
   goldReward?: number;
@@ -21,7 +21,7 @@ export interface EnemyProbabilityReward {
   itemQuantity?: number;
 }
 
-export class FisherBattleEnemyItem extends FisherItem {
+export class BattleEnemyItem extends FisherItem {
   type = ItemType.BattleEnemy;
 
   public unlockLevel = 'GasRefiningEarly' as PersonLevel;
@@ -34,7 +34,7 @@ export class FisherBattleEnemyItem extends FisherItem {
 
   public probabilityRewards: EnemyProbabilityReward[] = [];
 
-  constructor(options: IFisherBattleEnemyItem) {
+  constructor(options: IBattleEnemyItem) {
     super(options);
 
     this.level = options.level;
@@ -50,25 +50,25 @@ export class FisherBattleEnemyItem extends FisherItem {
   }
 }
 
-export interface IFisherBattleAreaItem extends IFisherItem {
+export interface IBattleAreaItem extends IFisherItem {
   unlockLevel: PersonLevel;
-  enemies?: FisherBattleEnemyItem[];
+  enemies?: BattleEnemyItem[];
 }
 
-export class FisherBattleAreaItem extends FisherItem {
+export class BattleAreaItem extends FisherItem {
   type = ItemType.BattleArea;
 
   public unlockLevel: PersonLevel;
 
-  public enemies: FisherBattleEnemyItem[] = [];
+  public enemies: BattleEnemyItem[] = [];
 
-  constructor(options: IFisherBattleAreaItem) {
+  constructor(options: IBattleAreaItem) {
     super(options);
     this.unlockLevel = options.unlockLevel;
     if (options.enemies) this.enemies = options.enemies;
   }
 
-  public setEnemies = (value: FisherBattleEnemyItem[]) => {
+  public setEnemies = (value: BattleEnemyItem[]) => {
     this.enemies = value;
   };
 }

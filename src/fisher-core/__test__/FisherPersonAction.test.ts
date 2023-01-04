@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherBattleEnemyItem, IFisherBattleEnemyItem } from '../fisher-item';
+import { BattleEnemyItem, IBattleEnemyItem } from '../fisher-item';
 import { Enemy, FisherPerson, Master } from '../fisher-person';
 import {
   ActionManager,
@@ -18,9 +18,7 @@ const testEnemyData = {
   itemRewards: [{ itemId: 'WaterReiki' }],
 };
 
-const battleEnemyItem = new FisherBattleEnemyItem(
-  testEnemyData as IFisherBattleEnemyItem
-);
+const battleEnemyItem = new BattleEnemyItem(testEnemyData as IBattleEnemyItem);
 
 describe('FisherPersonAction', () => {
   test('should initialize attack action', () => {
