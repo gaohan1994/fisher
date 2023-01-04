@@ -1,6 +1,6 @@
 import { findFisherItemById } from '../fisher-packages';
 import { checkHitProbability } from '../utils';
-import { FisherReward } from './FisherReward';
+import { Reward } from './Reward';
 
 interface ICreateReward {
   gold?: number;
@@ -11,15 +11,15 @@ interface ICreateReward {
 
 /**
  * 创建奖励
- * @return {*}  {FisherReward}
+ * @return {*}  {Reward}
  */
 export function createReward({
   gold,
   itemId = undefined,
   itemIds = [],
   itemQuantity = 1,
-}: ICreateReward = {}): FisherReward {
-  const reward = new FisherReward();
+}: ICreateReward = {}): Reward {
+  const reward = new Reward();
 
   if (gold !== undefined && typeof gold === 'number') {
     reward.addRewardGold(gold);
@@ -59,7 +59,7 @@ export function provideProbabilityReward({
   itemId,
   probability = 100,
   itemQuantity = 1,
-}: IProvideProbabilityReward): FisherReward | undefined {
+}: IProvideProbabilityReward): Reward | undefined {
   if (!checkHitProbability(probability)) return undefined;
   return createReward({ gold, itemIds: [itemId], itemQuantity });
 }

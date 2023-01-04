@@ -3,7 +3,7 @@ import {
   Enemy,
   BattleAreaItem,
   BattleEnemyItem,
-  FisherReward,
+  Reward,
   FisherTimerSpace,
   master,
   useModulePackage,
@@ -49,7 +49,7 @@ export class FisherBattle {
   /**
    * 战利品池
    */
-  public rewardPool: FisherReward[] = [];
+  public rewardPool: Reward[] = [];
 
   /**
    * 是否有战利品

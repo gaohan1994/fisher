@@ -1,7 +1,7 @@
 import { action, computed, observable, override } from 'mobx';
 import {
   createReward,
-  FisherReward,
+  Reward,
   provideProbabilityReward,
 } from '../fisher-reward';
 import {
@@ -73,8 +73,8 @@ export class Enemy extends FisherPerson {
    * @memberof Enemy
    */
   @action
-  public provideRewards = (): FisherReward[] => {
-    const result: FisherReward[] = [];
+  public provideRewards = (): Reward[] => {
+    const result: Reward[] = [];
     if (this.hasGoldReward) {
       result.push(this.createGoldReward());
     }
@@ -100,7 +100,7 @@ export class Enemy extends FisherPerson {
   private createProbabilityRewards = () => {
     return this.probabilityRewards
       .map(provideProbabilityReward)
-      .filter(Boolean) as FisherReward[];
+      .filter(Boolean) as Reward[];
   };
 
   @action

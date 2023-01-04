@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { ItemType, FisherNormalItem } from '../fisher-item';
-import { createReward, FisherReward } from '../fisher-reward';
+import { createReward, Reward } from '../fisher-reward';
 import { FisherSkill } from '../fisher-skill';
 
 const testItemPayload = {
@@ -29,14 +29,14 @@ const fisherBackpack = {
 vi.stubGlobal('fisher', { fisherGold, fisherBackpack });
 
 describe('FisherRewards', () => {
-  test('should initialize FisherReward', () => {
-    const fisherReward = new FisherReward();
+  test('should initialize Reward', () => {
+    const fisherReward = new Reward();
     expect(fisherReward.rewardGold).toBe(0);
     expect(fisherReward.rewardItemMap.size).toBe(0);
   });
 
   test('should success set rewardGold to reward', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     expect(fisherReward.hasRewardGold).toBeFalsy();
     fisherReward.addRewardGold(50);
     expect(fisherReward.rewardGold).toBe(50);
@@ -45,7 +45,7 @@ describe('FisherRewards', () => {
   });
 
   test('should success set reward items to reward', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     expect(fisherReward.hasRewardItems).toBeFalsy();
     const testFisherItem = new FisherNormalItem(testItemPayload);
     fisherReward.addRewardItem(testFisherItem, 1);
@@ -58,7 +58,7 @@ describe('FisherRewards', () => {
   });
 
   test('should success set reward skill experience to reward', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward.addRewardSkill(testFisherSkill, 10);
     expect(fisherReward.rewardSkillExperience.size).toBe(1);
@@ -71,7 +71,7 @@ describe('FisherRewards', () => {
   });
 
   test('should success set correct value if use set method ', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward.setRewardItem(testFisherItem, 10);
@@ -88,7 +88,7 @@ describe('FisherRewards', () => {
   });
 
   test('should execute rewards', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
@@ -106,7 +106,7 @@ describe('FisherRewards', () => {
   });
 
   test('should clear rewards after reset reward data', () => {
-    const fisherReward = new FisherReward();
+    const fisherReward = new Reward();
     const testFisherItem = new FisherNormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     fisherReward
@@ -120,10 +120,10 @@ describe('FisherRewards', () => {
   });
 });
 
-describe('FisherReward interfaces', () => {
+describe('Reward interfaces', () => {
   test('should create rewards by interface', () => {
     const reward = createReward({ gold: 50, itemIds: ['ClothHat'] });
-    expect(reward instanceof FisherReward).toBeTruthy();
+    expect(reward instanceof Reward).toBeTruthy();
     expect(reward.rewardGold).toBe(50);
     expect(reward.rewardItemMap.size).toBe(1);
     expect(reward.rewardItems.length).toBe(1);

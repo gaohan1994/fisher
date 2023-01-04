@@ -1,2 +1,2 @@
-export * from './FisherReward';
+export * from './Reward';
 export * from './FisherRewardInterface';

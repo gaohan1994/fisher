@@ -3,7 +3,7 @@ import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import {
   FisherProgressTimer as FisherTimer,
-  FisherReward,
+  Reward,
   RecipeItem,
 } from '@FisherCore';
 import {
@@ -73,7 +73,7 @@ export class FisherSkill {
    */
   public timer: FisherTimer;
   public timerInterval: number = 0;
-  public actionRewards: FisherReward = new FisherReward();
+  public actionRewards: Reward = new Reward();
 
   constructor({ id, experience }: IFisherSkill) {
     makeAutoObservable(this);
