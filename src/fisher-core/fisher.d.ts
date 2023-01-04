@@ -14,6 +14,6 @@ declare module fisher {
 }
 
 declare module window {
-  const fisherStore: import('./fisher-packages/FisherStore').FisherStore;
+  const store: import('./fisher-packages/Store').Store;
   const fisher: fisher;
 }

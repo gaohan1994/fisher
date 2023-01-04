@@ -21,12 +21,12 @@ import { generatePersonLevelData } from './PersonLevel';
 /**
  * 游戏模块数据库
  *
- * @class FisherStore
+ * @class Store
  */
-export class FisherStore {
-  public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherStore');
+export class Store {
+  public static logger = prefixLogger(prefixes.FISHER_CORE, 'Store');
 
-  public static instance: FisherStore;
+  public static instance: Store;
 
   public readonly Mining: IFisherMiningPackagesData;
 
@@ -44,11 +44,11 @@ export class FisherStore {
 
   public get items() {
     return [
+      this.EmptyEquipment,
       ...this.Mining.items,
       ...this.Mining.recipes,
       ...this.Reiki.items,
       ...this.Reiki.recipes,
-      this.EmptyEquipment,
       ...this.Equipments,
       ...this.BattleAreas,
       ...this.BattleEnemies,
@@ -56,26 +56,26 @@ export class FisherStore {
   }
 
   /**
-   * Creates an instance of FisherStore.
+   * Creates an instance of Store.
    * 初始化各个模块的数据
-   * @memberof FisherStore
+   * @memberof Store
    */
   constructor() {
     this.Mining = makeMiningPackagesData();
-    FisherStore.logger.info('initialize Mining data');
+    Store.logger.info('initialize Mining data');
 
     this.Reiki = makeReikiPackagesData();
-    FisherStore.logger.info('initialize Reiki data');
+    Store.logger.info('initialize Reiki data');
 
     const { emptyEquipment, equipments } = makeEquipmentPackagesData();
     this.EmptyEquipment = emptyEquipment;
     this.Equipments = equipments;
-    FisherStore.logger.info('initialize Equipments data');
+    Store.logger.info('initialize Equipments data');
 
     const { battleAreas, battleEnemies } = makeBattlePackageData();
     this.BattleAreas = battleAreas;
     this.BattleEnemies = battleEnemies;
-    FisherStore.logger.info('initialize BattleArea and BattleEnemies data');
+    Store.logger.info('initialize BattleArea and BattleEnemies data');
 
     const personLevelMap = generatePersonLevelData();
     this.personLevelMap = personLevelMap;
@@ -85,20 +85,20 @@ export class FisherStore {
    * 使用单例模式防止重复创建
    *
    * @static
-   * @memberof FisherStore
+   * @memberof Store
    */
   public static getInstance = () => {
-    if (!FisherStore.instance) {
-      FisherStore.instance = new FisherStore();
+    if (!Store.instance) {
+      Store.instance = new Store();
     }
-    return FisherStore.instance;
+    return Store.instance;
   };
 }
 
-export const fisherStore = FisherStore.getInstance();
+export const store = Store.getInstance();
 
-export function createFisherStore(): Promise<FisherStore> {
-  return new Promise((resolve) => resolve(fisherStore));
+export function createStore(): Promise<Store> {
+  return new Promise((resolve) => resolve(store));
 }
 
 /**
@@ -109,8 +109,8 @@ export function createFisherStore(): Promise<FisherStore> {
  * @param {ModulePackageKey} moduleKey
  * @return {*}
  */
-export function useModulePackage<T>(moduleKey: keyof typeof fisherStore) {
-  return fisherStore[moduleKey] as T;
+export function useModulePackage<T>(moduleKey: keyof typeof store) {
+  return store[moduleKey] as T;
 }
 
 type IFindItemReturnType<T> = T extends EquipmentItem
@@ -124,9 +124,9 @@ type IFindItemReturnType<T> = T extends EquipmentItem
 /**
  * 根据 id 查找物品
  */
-export function findFisherItemById<T>(fisherItemId: string) {
-  const Item = fisherStore.items.find((item) => item.id === fisherItemId);
-  invariant(Item !== undefined, 'Could not find Item id: ' + fisherItemId);
+export function findItemById<T>(itemId: string) {
+  const Item = store.items.find((item) => item.id === itemId);
+  invariant(Item !== undefined, 'Could not find Item id: ' + itemId);
   return Item as IFindItemReturnType<T>;
 }
 
@@ -134,28 +134,28 @@ export function findFisherItemById<T>(fisherItemId: string) {
  * 根据 id 查找配方
  */
 export function findRecipeById(id: string) {
-  return findFisherItemById<RecipeItem>(id);
+  return findItemById<RecipeItem>(id);
 }
 
 /**
  * 根据 id 查找装备
  */
 export function findEquipmentById(id: string) {
-  return findFisherItemById<EquipmentItem>(id);
+  return findItemById<EquipmentItem>(id);
 }
 
 /**
  * 根据 id 查找敌人
  */
 export function findEnemyById(id: string) {
-  return findFisherItemById<BattleEnemyItem>(id);
+  return findItemById<BattleEnemyItem>(id);
 }
 
 /**
  * 根据 level 查找具体等级
  */
 export function findPersonLevelItem(level: PersonLevel) {
-  const result = fisherStore.personLevelMap.get(level);
+  const result = store.personLevelMap.get(level);
   invariant(result !== undefined, `Try to find ${level} but got undefined`);
   return result;
 }

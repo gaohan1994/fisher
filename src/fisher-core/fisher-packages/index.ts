@@ -1,5 +1,5 @@
 export * from './EmptyEquipment';
-export * from './FisherStore';
+export * from './Store';
 export * from './Common';
 
 export type {

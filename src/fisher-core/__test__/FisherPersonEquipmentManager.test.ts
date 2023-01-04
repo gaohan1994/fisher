@@ -4,11 +4,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
-import { createFisherStore } from '../fisher-packages';
+import { createStore } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
 
 beforeEach(async () => {
-  await createFisherStore();
+  await createStore();
 });
 
 const fisher = new FisherCore();

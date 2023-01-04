@@ -1,29 +1,25 @@
 import { describe, expect, test } from 'vitest';
 import { Item, RecipeItem } from '../fisher-item';
-import {
-  findFisherItemById,
-  findRecipeById,
-  fisherStore,
-} from '../fisher-packages';
+import { findItemById, findRecipeById, store } from '../fisher-packages';
 import miningDataJson from '../fisher-packages/data/MiningData.json';
 
 describe('FisherPackages', () => {
   test('should launch packages data', () => {
-    expect(fisherStore.items.length).toBeGreaterThan(0);
-    expect(fisherStore.Mining.items.length).toBeGreaterThan(0);
-    expect(fisherStore.Mining.recipes.length).toBeGreaterThan(0);
-    expect(fisherStore.Reiki.items.length).toBeGreaterThan(0);
-    expect(fisherStore.Reiki.recipes.length).toBeGreaterThan(0);
-    expect(fisherStore.Reiki.recipePartMap.size).toBeGreaterThan(0);
-    expect(fisherStore.BattleAreas.length).toBeGreaterThan(0);
-    expect(fisherStore.BattleEnemies.length).toBeGreaterThan(0);
+    expect(store.items.length).toBeGreaterThan(0);
+    expect(store.Mining.items.length).toBeGreaterThan(0);
+    expect(store.Mining.recipes.length).toBeGreaterThan(0);
+    expect(store.Reiki.items.length).toBeGreaterThan(0);
+    expect(store.Reiki.recipes.length).toBeGreaterThan(0);
+    expect(store.Reiki.recipePartMap.size).toBeGreaterThan(0);
+    expect(store.BattleAreas.length).toBeGreaterThan(0);
+    expect(store.BattleEnemies.length).toBeGreaterThan(0);
   });
 });
 
 describe('FisherPackagesInterface', () => {
   test('should success find packages data', () => {
     expect(
-      findFisherItemById(miningDataJson.data.items[0].id) instanceof Item
+      findItemById(miningDataJson.data.items[0].id) instanceof Item
     ).toBeTruthy();
 
     expect(
@@ -32,7 +28,7 @@ describe('FisherPackagesInterface', () => {
   });
 
   test('find data should throw error when pass wrong id', () => {
-    expect(() => findFisherItemById('WrongTestId')).toThrowError(
+    expect(() => findItemById('WrongTestId')).toThrowError(
       'Could not find Item id: WrongTestId'
     );
 

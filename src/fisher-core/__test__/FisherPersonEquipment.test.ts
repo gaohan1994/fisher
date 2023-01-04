@@ -4,7 +4,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
-import { createFisherStore } from '../fisher-packages';
+import { createStore } from '../fisher-packages';
 import { PersonEquipment } from '../fisher-person';
 
 const emptyEquipment = new EquipmentItem({
@@ -19,7 +19,7 @@ const fisher = new FisherCore();
 vi.stubGlobal('fisher', fisher);
 
 beforeEach(async () => {
-  await createFisherStore();
+  await createStore();
 });
 
 const testEquipmentData = {

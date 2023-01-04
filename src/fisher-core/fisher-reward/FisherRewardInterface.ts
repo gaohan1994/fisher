@@ -1,4 +1,4 @@
-import { findFisherItemById } from '../fisher-packages';
+import { findItemById } from '../fisher-packages';
 import { checkHitProbability } from '../utils';
 import { Reward } from './Reward';
 
@@ -26,13 +26,13 @@ export function createReward({
   }
 
   if (itemId !== undefined) {
-    const item = findFisherItemById(itemId);
+    const item = findItemById(itemId);
     item && reward.addRewardItem(item, itemQuantity);
   }
 
   if (itemIds.length > 0) {
     itemIds.forEach((id) => {
-      const item = findFisherItemById(id);
+      const item = findItemById(id);
       item && reward.addRewardItem(item, itemQuantity);
     });
   }

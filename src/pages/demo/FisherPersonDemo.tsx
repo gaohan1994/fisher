@@ -2,7 +2,7 @@ import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import {
-  findFisherItemById,
+  findItemById,
   EquipmentItem,
   EquipmentSlot,
   FisherPerson,
@@ -43,10 +43,10 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
 
     const useEquipmentBySlot = useCallback(
       (slot: EquipmentSlot, equipmentId: string) => {
-        const equipment = findFisherItemById<EquipmentItem>(equipmentId);
+        const equipment = findItemById<EquipmentItem>(equipmentId);
         useEquipment(slot, equipment);
       },
-      [findFisherItemById, useEquipment]
+      [findItemById, useEquipment]
     );
 
     return (

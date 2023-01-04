@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react';
-import { fisherStore, PersonLevelManager } from '@FisherCore';
+import { store, PersonLevelManager } from '@FisherCore';
 import { Button, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 
-const levels = [...fisherStore.personLevelMap.values()];
+const levels = [...store.personLevelMap.values()];
 
 export const FisherPersonLevelDemo = observer(() => {
   const [levelManager] = useState(() => new PersonLevelManager());
