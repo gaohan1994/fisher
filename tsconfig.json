@@ -20,7 +20,8 @@
     "paths": {
       "@": ["./src"],
       "@FisherCore": ["./src/fisher-core"],
-      "@FisherLogger": ["./src/fisher-logger"]
+      "@FisherLogger": ["./src/fisher-logger"],
+      "@Components": ["./src/components"]
     }
   },
   "include": ["src"],
