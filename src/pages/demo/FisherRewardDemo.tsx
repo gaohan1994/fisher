@@ -16,7 +16,7 @@ export const FisherRewardDemo: FC = observer(() => {
       <div>
         reward items:
         {fisherReward.rewardItemMap.size > 0
-          ? fisherReward.rewardItems.map(({ item, quantity }) => (
+          ? fisherReward.rewardItems.map(([item, quantity]) => (
               <li key={item.id}>
                 {item.name} x {quantity}
               </li>

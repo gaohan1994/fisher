@@ -61,7 +61,7 @@ export const FisherBattleDemo = observer(
                       <Box>Gold: {reward.rewardGold}</Box>
                     )}
                     {reward.hasRewardItems &&
-                      reward.rewardItems.map(({ item, quantity }) => (
+                      reward.rewardItems.map(([item, quantity]) => (
                         <Box key={`${index}${item.id}`}>
                           {item.name} x {quantity}
                         </Box>

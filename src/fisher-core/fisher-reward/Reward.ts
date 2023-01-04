@@ -12,11 +12,7 @@ export class Reward {
   public rewardItemMap: Map<Item, number> = new Map();
 
   public get rewardItems() {
-    const result: { item: Item; quantity: number }[] = [];
-    this.rewardItemMap.forEach((rewardQuantity, rewardItem) =>
-      result.push({ item: rewardItem, quantity: rewardQuantity })
-    );
-    return result;
+    return [...this.rewardItemMap];
   }
 
   public get hasRewardItems() {

@@ -127,6 +127,6 @@ describe('Reward interfaces', () => {
     expect(reward.rewardGold).toBe(50);
     expect(reward.rewardItemMap.size).toBe(1);
     expect(reward.rewardItems.length).toBe(1);
-    expect(reward.rewardItems[0].item.id).toBe('ClothHat');
+    expect(reward.rewardItems[0][0].id).toBe('ClothHat');
   });
 });
