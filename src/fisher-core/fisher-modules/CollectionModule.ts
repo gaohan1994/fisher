@@ -1,6 +1,6 @@
 import {
   FisherSkill,
-  FisherRecipeItem,
+  RecipeItem,
   FisherCollectionSkillTypes,
   IFisherPackagesData,
 } from '@FisherCore';
@@ -79,10 +79,10 @@ export abstract class CollectionModule {
    * 开始采集接口
    *
    * @abstract
-   * @param {FisherRecipeItem} value
+   * @param {RecipeItem} value
    * @memberof CollectionModule
    */
-  public start = (recipe: FisherRecipeItem) => {
+  public start = (recipe: RecipeItem) => {
     CollectionModule.logger.info(`start collection module ${this.id}`);
     this.skill.updateActiveRecipe(recipe);
     this.skill.startAction();

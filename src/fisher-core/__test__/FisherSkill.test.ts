@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherNormalItem, FisherRecipeItem } from '../fisher-item';
+import { FisherNormalItem, RecipeItem } from '../fisher-item';
 import { FisherSkill } from '../fisher-skill';
 
 const payload = {
@@ -64,7 +64,7 @@ describe('FisherSkill', () => {
   test('should success update active recipe when called updateActiveRecipe', () => {
     const skill = new FisherSkill(payload);
     expect(skill.activeRecipe).toBeUndefined();
-    const testRecipe = new FisherRecipeItem(testRecipeData);
+    const testRecipe = new RecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
@@ -73,11 +73,11 @@ describe('FisherSkill', () => {
     const skill = new FisherSkill(payload);
     expect(skill.activeRecipe).toBeUndefined();
 
-    const testRecipe = new FisherRecipeItem(testRecipeData);
+    const testRecipe = new RecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
-    const testRecipeReplace = new FisherRecipeItem({
+    const testRecipeReplace = new RecipeItem({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
@@ -89,7 +89,7 @@ describe('FisherSkill', () => {
     vi.useFakeTimers();
 
     const skill = new FisherSkill(payload);
-    const testRecipe = new FisherRecipeItem(testRecipeData);
+    const testRecipe = new RecipeItem(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     skill.startAction();
     expect(skill.actionRewards.rewardItemMap.has(testRewardItem)).toBeTruthy();

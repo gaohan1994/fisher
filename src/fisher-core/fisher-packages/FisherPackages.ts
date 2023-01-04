@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import {
   FisherItem,
   IFisherItem,
-  FisherRecipeItem,
+  RecipeItem,
   FisherEquipmentItem,
   IFisherEquipmentItem,
   FisherNormalItem,
@@ -21,13 +21,13 @@ import {
 
 export interface IFisherPackagesData {
   items: Array<FisherItem | FisherEquipmentItem>;
-  recipes: FisherRecipeItem[];
+  recipes: RecipeItem[];
 }
 
 export type IFisherMiningPackagesData = IFisherPackagesData;
 
 export type IFisherReikiPackagesData = IFisherPackagesData & {
-  recipePartMap: Map<string, FisherRecipeItem[]>;
+  recipePartMap: Map<string, RecipeItem[]>;
 };
 
 interface PackageJsonDataSource<T> {
@@ -170,7 +170,7 @@ function generatePackagesFisherItems(itemsJson: IFisherItem[]) {
  * 生成配方
  */
 function generatePackagesFisherRecipeItems(itemsJson: IFisherRecipeItem[]) {
-  return itemsJson.map((item) => new FisherRecipeItem(item));
+  return itemsJson.map((item) => new RecipeItem(item));
 }
 
 /**
@@ -193,7 +193,7 @@ function generatePackagesBattleEnemies(itemsJson: IFisherBattleEnemyItem[]) {
  * @param {FisherSkillRecipe[]} recipes
  * @return {*}  {RecipePartMap}
  */
-function makeRecipePartMap(recipes: FisherRecipeItem[]) {
+function makeRecipePartMap(recipes: RecipeItem[]) {
   const result = new Map();
   recipes.forEach((item) => {
     if (result.has(item.name)) {

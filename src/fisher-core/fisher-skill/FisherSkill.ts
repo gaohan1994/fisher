@@ -4,7 +4,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import {
   FisherProgressTimer as FisherTimer,
   FisherReward,
-  FisherRecipeItem,
+  RecipeItem,
 } from '@FisherCore';
 import {
   calculateLevelExperienceInfo,
@@ -58,10 +58,10 @@ export class FisherSkill {
   /**
    * 选中的配方
    *
-   * @type {FisherRecipeItem}
+   * @type {RecipeItem}
    * @memberof FisherSkill
    */
-  public activeRecipe?: FisherRecipeItem;
+  public activeRecipe?: RecipeItem;
 
   /**
    * - timer 执行任务的定时器
@@ -118,10 +118,10 @@ export class FisherSkill {
    * - 如果没有选中配方则设置为选中配方
    * - 如果当前已经有选中配方则替换
    *
-   * @param {FisherRecipeItem} value
+   * @param {RecipeItem} value
    * @memberof FisherSkill
    */
-  public updateActiveRecipe = (value: FisherRecipeItem) => {
+  public updateActiveRecipe = (value: RecipeItem) => {
     if (this.activeRecipe !== undefined) {
       logger.info(`FisherSkill: ${this.id} replace recipe: ${value.name}`);
     }

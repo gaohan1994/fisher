@@ -12,17 +12,17 @@ export interface IFisherRecipeItem extends IFisherItem {
  * 采集配方
  *
  * @export
- * @class FisherRecipeItem
+ * @class RecipeItem
  * @extends {FisherItem}
  */
-export class FisherRecipeItem extends FisherItem {
+export class RecipeItem extends FisherItem {
   type = ItemType.Recipe;
 
   /**
    * 采集间隔
    *
    * @type {number}
-   * @memberof FisherRecipeItem
+   * @memberof RecipeItem
    */
   public interval: number;
 
@@ -30,7 +30,7 @@ export class FisherRecipeItem extends FisherItem {
    * 解锁等级
    *
    * @type {number}
-   * @memberof FisherRecipeItem
+   * @memberof RecipeItem
    */
   public unlockLevel: number;
 
@@ -40,7 +40,7 @@ export class FisherRecipeItem extends FisherItem {
    * - rewardItem 物品奖励
    *
    * @type {number}
-   * @memberof FisherRecipeItem
+   * @memberof RecipeItem
    */
   public rewardExperience: number;
   public rewardQuantity: number;

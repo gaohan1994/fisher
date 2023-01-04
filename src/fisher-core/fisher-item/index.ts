@@ -1,5 +1,5 @@
 export * from './FisherItem';
 export * from './FisherEquipmentItem';
-export * from './FisherRecipeItem';
+export * from './RecipeItem';
 export * from './FisherBattleEnemy';
 export * from './FisherPersonLevelItem';

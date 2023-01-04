@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { FisherItem, FisherRecipeItem } from '../fisher-item';
+import { FisherItem, RecipeItem } from '../fisher-item';
 import {
   findFisherItemById,
   findRecipeById,
@@ -27,8 +27,7 @@ describe('FisherPackagesInterface', () => {
     ).toBeTruthy();
 
     expect(
-      findRecipeById(miningDataJson.data.recipes[0].id) instanceof
-        FisherRecipeItem
+      findRecipeById(miningDataJson.data.recipes[0].id) instanceof RecipeItem
     ).toBeTruthy();
   });
 

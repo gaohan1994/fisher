@@ -4,7 +4,7 @@ import {
   FisherBattleEnemyItem,
   FisherEquipmentItem,
   FisherItem,
-  FisherRecipeItem,
+  RecipeItem,
   PersonLevel,
   PersonLevelItem,
 } from '@FisherCore';
@@ -115,8 +115,8 @@ export function useModulePackage<T>(moduleKey: keyof typeof fisherStore) {
 
 type IFindItemReturnType<T> = T extends FisherEquipmentItem
   ? FisherEquipmentItem
-  : T extends FisherRecipeItem
-  ? FisherRecipeItem
+  : T extends RecipeItem
+  ? RecipeItem
   : T extends FisherBattleEnemyItem
   ? FisherBattleEnemyItem
   : FisherItem;
@@ -137,7 +137,7 @@ export function findFisherItemById<T>(fisherItemId: string) {
  * 根据 id 查找配方
  */
 export function findRecipeById(id: string) {
-  return findFisherItemById<FisherRecipeItem>(id);
+  return findFisherItemById<RecipeItem>(id);
 }
 
 /**
