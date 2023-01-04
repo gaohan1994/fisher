@@ -6,7 +6,7 @@ import { FisherCore } from '../fisher-core';
 import {
   FisherEquipmentItem,
   FisherEquipmentSlot,
-  FisherItemType,
+  ItemType,
 } from '../fisher-item';
 import { createFisherStore } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
@@ -23,7 +23,7 @@ const testEquipmentData = {
   name: '流云白玉簪',
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
-  type: FisherItemType.Equipment,
+  type: ItemType.Equipment,
   price: 5,
   slots: [FisherEquipmentSlot.Helmet],
   requirements: [],

@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { FisherItemType, FisherNormalItem } from '../fisher-item';
+import { ItemType, FisherNormalItem } from '../fisher-item';
 import { createReward, FisherReward } from '../fisher-reward';
 import { FisherSkill } from '../fisher-skill';
 
@@ -9,7 +9,7 @@ const testItemPayload = {
   price: 10,
   media: '',
   desc: 'Test:BackpackItemDesc',
-  type: FisherItemType.Test,
+  type: ItemType.Test,
 };
 
 const testSkillPayload = {

@@ -1,4 +1,4 @@
-export enum FisherItemType {
+export enum ItemType {
   Test = 'Test',
   Normal = 'Normal',
   Recipe = 'Recipe',
@@ -17,7 +17,7 @@ export interface IFisherItem {
 }
 
 export abstract class AbstractItem implements IFisherItem {
-  abstract readonly type: FisherItemType;
+  abstract readonly type: ItemType;
 
   public id = '';
 
@@ -38,7 +38,8 @@ export abstract class AbstractItem implements IFisherItem {
  * @class FisherItem
  */
 export abstract class FisherItem implements IFisherItem {
-  abstract readonly type: FisherItemType;
+  abstract readonly type: ItemType;
+
   public id = '';
 
   public name = '';
@@ -70,14 +71,14 @@ export abstract class FisherItem implements IFisherItem {
 
 interface IFisherTestItem extends IFisherItem {}
 export class FisherTestItem extends FisherItem {
-  type = FisherItemType.Test;
+  type = ItemType.Test;
   constructor(options: IFisherTestItem) {
     super(options);
   }
 }
 
 export class FisherNormalItem extends FisherItem {
-  type = FisherItemType.Normal;
+  type = ItemType.Normal;
   constructor(options: IFisherTestItem) {
     super(options);
   }

@@ -1,5 +1,5 @@
 import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
-import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
+import { FisherItem, ItemType, IFisherItem } from './FisherItem';
 
 export interface IFisherEquipmentItem extends IFisherItem {
   slots: FisherEquipmentSlot[];
@@ -43,10 +43,15 @@ export enum FisherEquipmentSlot {
  * @extends {FisherItem}
  */
 export class FisherEquipmentItem extends FisherItem {
-  type = FisherItemType.Equipment;
+  type = ItemType.Equipment;
+
   public requirements: IEquipmentRequirement[];
+
   public slots: FisherEquipmentSlot[];
+
   public attributes: IEquipmentAttribute[];
+
+  public rarity = '';
 
   constructor(options: IFisherEquipmentItem) {
     super(options);

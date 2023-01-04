@@ -1,4 +1,4 @@
-import { AbstractItem, FisherItemType } from './FisherItem';
+import { AbstractItem, ItemType } from './FisherItem';
 
 export enum PersonLevel {
   GasRefiningEarly = 'GasRefiningEarly',
@@ -21,7 +21,7 @@ abstract class PersonLevelStateItem {
 }
 
 export abstract class PersonLevelItem extends AbstractItem {
-  type = FisherItemType.PersonLevel;
+  type = ItemType.PersonLevel;
 
   public abstract level: PersonLevel;
 

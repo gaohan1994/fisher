@@ -1,4 +1,4 @@
-import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
+import { FisherItem, ItemType, IFisherItem } from './FisherItem';
 
 export interface IFisherRecipeItem extends IFisherItem {
   interval: number;
@@ -16,7 +16,7 @@ export interface IFisherRecipeItem extends IFisherItem {
  * @extends {FisherItem}
  */
 export class FisherRecipeItem extends FisherItem {
-  type = FisherItemType.Recipe;
+  type = ItemType.Recipe;
 
   /**
    * 采集间隔

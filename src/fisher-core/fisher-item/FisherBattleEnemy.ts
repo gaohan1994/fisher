@@ -1,4 +1,4 @@
-import { FisherItem, FisherItemType, IFisherItem } from './FisherItem';
+import { FisherItem, ItemType, IFisherItem } from './FisherItem';
 import { PersonLevel } from './FisherPersonLevelItem';
 
 export interface IFisherBattleEnemyItem extends IFisherItem {
@@ -22,7 +22,7 @@ export interface EnemyProbabilityReward {
 }
 
 export class FisherBattleEnemyItem extends FisherItem {
-  type = FisherItemType.BattleEnemy;
+  type = ItemType.BattleEnemy;
 
   public unlockLevel = 'GasRefiningEarly' as PersonLevel;
 
@@ -56,7 +56,7 @@ export interface IFisherBattleAreaItem extends IFisherItem {
 }
 
 export class FisherBattleAreaItem extends FisherItem {
-  type = FisherItemType.BattleArea;
+  type = ItemType.BattleArea;
 
   public unlockLevel: PersonLevel;
 
