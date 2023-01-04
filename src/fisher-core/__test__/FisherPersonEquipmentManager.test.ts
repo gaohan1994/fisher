@@ -3,11 +3,7 @@
  */
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import {
-  FisherEquipmentItem,
-  FisherEquipmentSlot,
-  ItemType,
-} from '../fisher-item';
+import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
 import { createFisherStore } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
 
@@ -25,7 +21,7 @@ const testEquipmentData = {
   media: '',
   type: ItemType.Equipment,
   price: 5,
-  slots: [FisherEquipmentSlot.Helmet],
+  slots: [EquipmentSlot.Helmet],
   requirements: [],
   attributes: [],
 };
@@ -40,10 +36,10 @@ describe('PersonEquipmentManager', () => {
 describe('PersonEquipmentManager interfaces', () => {
   test('should fail to useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
-    const equip = new FisherEquipmentItem(testEquipmentData);
+    const equip = new EquipmentItem(testEquipmentData);
     expect(() =>
       personEquipmentManager.useEquipment(
-        'WrongSlotName' as FisherEquipmentSlot,
+        'WrongSlotName' as EquipmentSlot,
         equip
       )
     ).toThrow('Fail to use equipment, can not match slot');
@@ -51,15 +47,13 @@ describe('PersonEquipmentManager interfaces', () => {
 
   test('should success useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
-    const equip = new FisherEquipmentItem(testEquipmentData);
-    personEquipmentManager.useEquipment(FisherEquipmentSlot.Helmet, equip);
+    const equip = new EquipmentItem(testEquipmentData);
+    personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
     expect(
-      personEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
-        ?.isEmpty
+      personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty
     ).toBeFalsy();
     expect(
-      personEquipmentManager.equipmentMap.get(FisherEquipmentSlot.Helmet)
-        ?.equipment
+      personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment
     ).toBe(equip);
   });
 });

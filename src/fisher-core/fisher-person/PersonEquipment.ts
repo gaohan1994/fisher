@@ -1,25 +1,21 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
-import {
-  EmptyEquipment,
-  FisherEquipmentItem,
-  FisherEquipmentSlot,
-} from '@FisherCore';
+import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '@FisherCore';
 
-interface IFisherEquipment {
-  slot: FisherEquipmentSlot;
-  equipment?: FisherEquipmentItem;
+interface IPersonEquipment {
+  slot: EquipmentSlot;
+  equipment?: EquipmentItem;
   quantity?: number;
 }
 
 /**
  * 更新装备
  *
- * @interface IFisherEquipmentUpdate
+ * @interface IEquipmentUpdate
  */
-interface IFisherEquipmentUpdate {
-  (value: FisherEquipmentItem, quantity: number): {
-    prevEquipment: FisherEquipmentItem;
+interface IEquipmentUpdate {
+  (value: EquipmentItem, quantity: number): {
+    prevEquipment: EquipmentItem;
     prevQuantity: number;
   };
 }
@@ -27,11 +23,11 @@ interface IFisherEquipmentUpdate {
 /**
  * 卸下装备
  *
- * @interface IFisherEquipmentRemove
+ * @interface IEquipmentRemove
  */
-interface IFisherEquipmentRemove {
+interface IEquipmentRemove {
   (): {
-    prevEquipment: FisherEquipmentItem;
+    prevEquipment: EquipmentItem;
     prevQuantity: number;
   };
 }
@@ -45,31 +41,22 @@ interface IFisherEquipmentRemove {
 export class PersonEquipment {
   /**
    * 没有佩戴装备时显示的空装备信息
-   *
-   * @type {FisherEquipmentItem}
-   * @memberof FisherEquipment
    */
-  public emptyEquipment: FisherEquipmentItem;
+  public emptyEquipment: EquipmentItem;
 
   /**
    * 装备
-   *
-   * @type {FisherEquipmentItem}
-   * @memberof FisherEquipment
    */
-  public equipment: FisherEquipmentItem;
+  public equipment: EquipmentItem;
 
   /**
    * 装备数量
-   *
-   * @type {number}
-   * @memberof FisherEquipment
    */
   public quantity: number;
 
-  public slot: FisherEquipmentSlot;
+  public slot: EquipmentSlot;
 
-  constructor({ slot, equipment, quantity }: IFisherEquipment) {
+  constructor({ slot, equipment, quantity }: IPersonEquipment) {
     makeAutoObservable(this);
     this.emptyEquipment = EmptyEquipment;
     this.equipment = equipment ?? EmptyEquipment;
@@ -79,10 +66,6 @@ export class PersonEquipment {
 
   /**
    * 当前装备是否为空
-   *
-   * @readonly
-   * @type {boolean}
-   * @memberof FisherEquipment
    */
   public get isEmpty(): boolean {
     return this.equipment.id === this.emptyEquipment.id;
@@ -92,11 +75,8 @@ export class PersonEquipment {
    * 更新装备
    * - 如果当前装备不为空则返回旧装备
    * - 如果当前装备为空则直接覆盖
-   *
-   * @param {FisherEquipmentItem} value
-   * @memberof FisherEquipment
    */
-  public updateEquipment: IFisherEquipmentUpdate = (value, quantity = 1) => {
+  public updateEquipment: IEquipmentUpdate = (value, quantity = 1) => {
     const prevEquipment = this.equipment;
     const prevQuantity = this.quantity;
     this.equipment = value;
@@ -109,10 +89,10 @@ export class PersonEquipment {
    * - 如果当前槽位装备为空则报错
    * - 如果当前槽位有装备则设置为空装备并返回旧装备
    *
-   * @type {IFisherEquipmentRemove}
-   * @memberof FisherEquipmentSlot
+   * @type {IEquipmentRemove}
+   * @memberof EquipmentSlot
    */
-  public removeEquipment: IFisherEquipmentRemove = () => {
+  public removeEquipment: IEquipmentRemove = () => {
     invariant(
       this.isEmpty !== true,
       'Fail to remove equipment, current slot equipment was empty'

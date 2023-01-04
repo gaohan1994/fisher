@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { FisherEquipmentSlot } from '../fisher-item';
+import { EquipmentSlot } from '../fisher-item';
 import {
   master,
   FisherPerson,
@@ -23,9 +23,7 @@ describe('FisherPerson', () => {
       fisherPerson.personEquipmentManager instanceof PersonEquipmentManager
     ).toBeTruthy();
     expect(
-      fisherPerson.personEquipmentManager.equipmentMap.has(
-        FisherEquipmentSlot.Helmet
-      )
+      fisherPerson.personEquipmentManager.equipmentMap.has(EquipmentSlot.Helmet)
     ).toBeTruthy();
     expect(fisherPerson.attributePanel instanceof AttributePanel).toBeTruthy();
   });

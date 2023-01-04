@@ -1,13 +1,13 @@
 import invariant from 'invariant';
 import { action, computed, makeObservable, observable } from 'mobx';
-import { FisherEquipmentSlot, PersonLevel } from '@FisherCore';
+import { EquipmentSlot, PersonLevel } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './person-actions';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import type {
-  IFisherPersonRemoveEquipment,
-  IFisherPersonUseEquipment,
+  IPersonRemoveEquipment,
+  IPersonUseEquipment,
 } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
 import { random, roll } from '../utils';
@@ -77,7 +77,7 @@ export class FisherPerson {
   @computed
   public get Weapon() {
     const result = this.personEquipmentManager.equipmentMap.get(
-      FisherEquipmentSlot.Weapon
+      EquipmentSlot.Weapon
     );
 
     invariant(result !== undefined, 'Fail get Weapon');
@@ -87,7 +87,7 @@ export class FisherPerson {
   @computed
   public get Helmet() {
     const result = this.personEquipmentManager.equipmentMap.get(
-      FisherEquipmentSlot.Helmet
+      EquipmentSlot.Helmet
     );
 
     invariant(result !== undefined, 'Fail get Helmet');
@@ -95,12 +95,12 @@ export class FisherPerson {
   }
 
   @action
-  public useEquipment: IFisherPersonUseEquipment = (...rest) => {
+  public useEquipment: IPersonUseEquipment = (...rest) => {
     this.personEquipmentManager.useEquipment(...rest);
   };
 
   @action
-  public removeEquipment: IFisherPersonRemoveEquipment = (...rest) => {
+  public removeEquipment: IPersonRemoveEquipment = (...rest) => {
     this.personEquipmentManager.removeEquipment(...rest);
   };
 

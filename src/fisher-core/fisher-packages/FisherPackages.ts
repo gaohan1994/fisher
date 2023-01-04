@@ -3,8 +3,8 @@ import {
   FisherItem,
   IFisherItem,
   RecipeItem,
-  FisherEquipmentItem,
-  IFisherEquipmentItem,
+  EquipmentItem,
+  IEquipmentItem,
   FisherNormalItem,
   IFisherRecipeItem,
 } from '@FisherCore';
@@ -20,7 +20,7 @@ import {
 } from '../fisher-item';
 
 export interface IFisherPackagesData {
-  items: Array<FisherItem | FisherEquipmentItem>;
+  items: Array<FisherItem | EquipmentItem>;
   recipes: RecipeItem[];
 }
 
@@ -53,8 +53,8 @@ interface IFisherRecipePackageJsonData {
 }
 
 type PackageEquipmentJsonDataSource = PackageJsonDataSource<{
-  emptyEquipment: IFisherEquipmentItem;
-  items: IFisherEquipmentItem[];
+  emptyEquipment: IEquipmentItem;
+  items: IEquipmentItem[];
 }>;
 
 export function makeMiningPackagesData(): IFisherMiningPackagesData {
@@ -176,8 +176,8 @@ function generatePackagesFisherRecipeItems(itemsJson: IFisherRecipeItem[]) {
 /**
  * 生成装备物品
  */
-function generatePackagesEquipments(itemsJson: IFisherEquipmentItem[]) {
-  return itemsJson.map((item) => new FisherEquipmentItem(item));
+function generatePackagesEquipments(itemsJson: IEquipmentItem[]) {
+  return itemsJson.map((item) => new EquipmentItem(item));
 }
 
 /**

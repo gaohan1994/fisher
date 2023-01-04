@@ -3,17 +3,17 @@
  */
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { FisherEquipmentItem, FisherEquipmentSlot } from '../fisher-item';
+import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { createFisherStore } from '../fisher-packages';
 import { PersonEquipment } from '../fisher-person';
 
-const emptyEquipment = new FisherEquipmentItem({
+const emptyEquipment = new EquipmentItem({
   id: 'EmptyEquipment',
   name: '空',
   desc: '',
   media: '',
   price: 0,
-  slots: [FisherEquipmentSlot.Helmet, FisherEquipmentSlot.Weapon],
+  slots: [EquipmentSlot.Helmet, EquipmentSlot.Weapon],
 });
 const fisher = new FisherCore();
 vi.stubGlobal('fisher', fisher);
@@ -28,7 +28,7 @@ const testEquipmentData = {
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
   price: 5,
-  slots: [FisherEquipmentSlot.Helmet],
+  slots: [EquipmentSlot.Helmet],
   requirements: [],
   attributes: [],
 };
@@ -36,9 +36,9 @@ const testEquipmentData = {
 describe('PersonEquipment', () => {
   test('should success initialize personEquipment', () => {
     const personEquipment = new PersonEquipment({
-      slot: FisherEquipmentSlot.Helmet,
+      slot: EquipmentSlot.Helmet,
     });
-    expect(personEquipment.slot).toBe(FisherEquipmentSlot.Helmet);
+    expect(personEquipment.slot).toBe(EquipmentSlot.Helmet);
     expect(personEquipment.emptyEquipment).toStrictEqual(emptyEquipment);
     expect(personEquipment.equipment).toStrictEqual(emptyEquipment);
     expect(personEquipment.isEmpty).toBeTruthy();
@@ -46,11 +46,11 @@ describe('PersonEquipment', () => {
 
   test('should success updateEquipment when prev equipment was empty', () => {
     const personEquipment = new PersonEquipment({
-      slot: FisherEquipmentSlot.Helmet,
+      slot: EquipmentSlot.Helmet,
     });
     expect(personEquipment.isEmpty).toBeTruthy();
 
-    const equip = new FisherEquipmentItem(testEquipmentData);
+    const equip = new EquipmentItem(testEquipmentData);
     const { prevEquipment, prevQuantity } = personEquipment.updateEquipment(
       equip,
       2
@@ -63,9 +63,9 @@ describe('PersonEquipment', () => {
   });
 
   test('should success updateEquipment when prev equipment was not empty', () => {
-    const equip = new FisherEquipmentItem(testEquipmentData);
+    const equip = new EquipmentItem(testEquipmentData);
     const personEquipment = new PersonEquipment({
-      slot: FisherEquipmentSlot.Helmet,
+      slot: EquipmentSlot.Helmet,
       equipment: equip,
       quantity: 3,
     });
@@ -81,7 +81,7 @@ describe('PersonEquipment', () => {
 
   test('should fail to remove equipment when prev equipment was empty', () => {
     const personEquipment = new PersonEquipment({
-      slot: FisherEquipmentSlot.Helmet,
+      slot: EquipmentSlot.Helmet,
     });
     expect(() => personEquipment.removeEquipment()).toThrow(
       'Fail to remove equipment, current slot equipment was empty'
@@ -89,9 +89,9 @@ describe('PersonEquipment', () => {
   });
 
   test('should success to remove equipment when prev equipment was not empty', () => {
-    const equip = new FisherEquipmentItem(testEquipmentData);
+    const equip = new EquipmentItem(testEquipmentData);
     const personEquipment = new PersonEquipment({
-      slot: FisherEquipmentSlot.Helmet,
+      slot: EquipmentSlot.Helmet,
       equipment: equip,
       quantity: 1,
     });

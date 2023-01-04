@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import {
   findFisherItemById,
-  FisherEquipmentItem,
-  FisherEquipmentSlot,
+  EquipmentItem,
+  EquipmentSlot,
   FisherPerson,
 } from '@FisherCore';
 import { FuiPersonEquipment } from '@Components';
@@ -42,8 +42,8 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
     } = person;
 
     const useEquipmentBySlot = useCallback(
-      (slot: FisherEquipmentSlot, equipmentId: string) => {
-        const equipment = findFisherItemById<FisherEquipmentItem>(equipmentId);
+      (slot: EquipmentSlot, equipmentId: string) => {
+        const equipment = findFisherItemById<EquipmentItem>(equipmentId);
         useEquipment(slot, equipment);
       },
       [findFisherItemById, useEquipment]
@@ -82,14 +82,14 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(
         <div>
           <Button
             onClick={() =>
-              useEquipmentBySlot(FisherEquipmentSlot.Weapon, 'WoodSword')
+              useEquipmentBySlot(EquipmentSlot.Weapon, 'WoodSword')
             }
           >
             使用武器
           </Button>
           <Button
             onClick={() =>
-              useEquipmentBySlot(FisherEquipmentSlot.Helmet, 'JadeCloudHairpin')
+              useEquipmentBySlot(EquipmentSlot.Helmet, 'JadeCloudHairpin')
             }
           >
             使用头盔

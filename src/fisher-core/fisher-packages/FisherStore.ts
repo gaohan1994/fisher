@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import {
   FisherBattleAreaItem,
   FisherBattleEnemyItem,
-  FisherEquipmentItem,
+  EquipmentItem,
   FisherItem,
   RecipeItem,
   PersonLevel,
@@ -32,9 +32,9 @@ export class FisherStore {
 
   public readonly Reiki: IFisherReikiPackagesData;
 
-  public readonly EmptyEquipment: FisherEquipmentItem;
+  public readonly EmptyEquipment: EquipmentItem;
 
-  public readonly Equipments: FisherEquipmentItem[];
+  public readonly Equipments: EquipmentItem[];
 
   public readonly BattleAreas: FisherBattleAreaItem[] = [];
 
@@ -113,8 +113,8 @@ export function useModulePackage<T>(moduleKey: keyof typeof fisherStore) {
   return fisherStore[moduleKey] as T;
 }
 
-type IFindItemReturnType<T> = T extends FisherEquipmentItem
-  ? FisherEquipmentItem
+type IFindItemReturnType<T> = T extends EquipmentItem
+  ? EquipmentItem
   : T extends RecipeItem
   ? RecipeItem
   : T extends FisherBattleEnemyItem
@@ -144,7 +144,7 @@ export function findRecipeById(id: string) {
  * 根据 id 查找装备
  */
 export function findEquipmentById(id: string) {
-  return findFisherItemById<FisherEquipmentItem>(id);
+  return findFisherItemById<EquipmentItem>(id);
 }
 
 /**

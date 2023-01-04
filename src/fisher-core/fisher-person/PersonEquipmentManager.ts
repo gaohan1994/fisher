@@ -1,15 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { FisherEquipmentItem, FisherEquipmentSlot } from '@FisherCore';
+import { EquipmentItem, EquipmentSlot } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { PersonEquipment } from './PersonEquipment';
 
-export interface IFisherPersonUseEquipment {
-  (equipmentSlot: FisherEquipmentSlot, equipment: FisherEquipmentItem): void;
+export interface IPersonUseEquipment {
+  (equipmentSlot: EquipmentSlot, equipment: EquipmentItem): void;
 }
 
-export interface IFisherPersonRemoveEquipment {
-  (equipmentSlot: FisherEquipmentSlot): void;
+export interface IPersonRemoveEquipment {
+  (equipmentSlot: EquipmentSlot): void;
 }
 
 /**
@@ -21,20 +21,20 @@ export interface IFisherPersonRemoveEquipment {
 export class PersonEquipmentManager {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'FPEquipmentManager');
 
-  public equipmentMap: Map<FisherEquipmentSlot, PersonEquipment> = new Map();
+  public equipmentMap: Map<EquipmentSlot, PersonEquipment> = new Map();
 
   constructor() {
     makeAutoObservable(this);
 
     // 初始化武器
     this.equipmentMap.set(
-      FisherEquipmentSlot.Weapon,
-      new PersonEquipment({ slot: FisherEquipmentSlot.Weapon })
+      EquipmentSlot.Weapon,
+      new PersonEquipment({ slot: EquipmentSlot.Weapon })
     );
     // 初始化头盔
     this.equipmentMap.set(
-      FisherEquipmentSlot.Helmet,
-      new PersonEquipment({ slot: FisherEquipmentSlot.Helmet })
+      EquipmentSlot.Helmet,
+      new PersonEquipment({ slot: EquipmentSlot.Helmet })
     );
   }
 
@@ -46,13 +46,10 @@ export class PersonEquipmentManager {
    * 使用装备
    * 如果之前该部位装备并不是空的
    * 则把淘汰下来的装备重新放入背包中
-   * @type {IFisherPersonUseEquipment}
+   * @type {IPersonUseEquipment}
    * @memberof PersonEquipment
    */
-  public useEquipment: IFisherPersonUseEquipment = (
-    equipmentSlot,
-    equipment
-  ) => {
+  public useEquipment: IPersonUseEquipment = (equipmentSlot, equipment) => {
     invariant(
       equipment.slots.includes(equipmentSlot),
       'Fail to use equipment, can not match slot'
@@ -81,10 +78,10 @@ export class PersonEquipmentManager {
    * 如果之前该部位装备并不是空的
    * 则把卸下来的装备重新放入背包中
    * @param {*} equipmentSlot
-   * @type {IFisherPersonRemoveEquipment}
+   * @type {IPersonRemoveEquipment}
    * @memberof PersonEquipmentManager
    */
-  public removeEquipment: IFisherPersonRemoveEquipment = (equipmentSlot) => {
+  public removeEquipment: IPersonRemoveEquipment = (equipmentSlot) => {
     const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
     invariant(
       currentSlotEquipment !== undefined,
@@ -104,7 +101,7 @@ export class PersonEquipmentManager {
   };
 
   private putEquipmentToBackpack = (
-    equipment: FisherEquipmentItem,
+    equipment: EquipmentItem,
     quantity: number
   ) => {
     fisher.fisherBackpack.addItem(equipment, quantity);
