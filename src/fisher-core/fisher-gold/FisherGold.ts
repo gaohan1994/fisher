@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { fisherPrompt } from '../fisher-prompt';
+import { prompt } from '../fisher-prompt';
 
 interface IFisherGold {
   gold?: number;
@@ -35,6 +35,6 @@ export class FisherGold {
   public receiveGold = (value: number) => {
     this.gold += value;
     FisherGold.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
-    fisherPrompt.promptGold(value);
+    prompt.promptGold(value);
   };
 }

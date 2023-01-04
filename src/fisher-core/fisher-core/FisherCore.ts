@@ -8,7 +8,7 @@ import {
   FisherPerson,
   Backpack,
   CollectionModule,
-  fisherPrompt,
+  prompt,
 } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
@@ -17,7 +17,7 @@ type FisherComponent = CollectionModule | undefined;
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
 
-  public readonly fisherPrompt = fisherPrompt;
+  public readonly prompt = prompt;
 
   // 玩家
   public readonly master = master;

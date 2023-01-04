@@ -1,1 +1,1 @@
-export * from './FisherPrompt';
+export * from './Prompt';

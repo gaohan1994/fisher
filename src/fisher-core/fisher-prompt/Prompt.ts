@@ -14,16 +14,16 @@ interface IPromptMessage {
  * 提示信息类
  *
  * @export
- * @class FisherPrompt
+ * @class Prompt
  */
-export class FisherPrompt {
-  public static instance: FisherPrompt;
+export class Prompt {
+  public static instance: Prompt;
 
   public static readonly getInstance = () => {
-    if (!FisherPrompt.instance) {
-      FisherPrompt.instance = new FisherPrompt();
+    if (!Prompt.instance) {
+      Prompt.instance = new Prompt();
     }
-    return FisherPrompt.instance;
+    return Prompt.instance;
   };
 
   public static readonly PromptInterval = 2000;
@@ -49,12 +49,12 @@ export class FisherPrompt {
   };
 
   private _shiftQuene = () => {
-    const timer = new FisherTimer('FisherPrompt', () => this.quene.shift(), {
+    const timer = new FisherTimer('Prompt', () => this.quene.shift(), {
       once: true,
     });
 
-    timer.startTimer(FisherPrompt.PromptInterval);
+    timer.startTimer(Prompt.PromptInterval);
   };
 }
 
-export const fisherPrompt = FisherPrompt.getInstance();
+export const prompt = Prompt.getInstance();

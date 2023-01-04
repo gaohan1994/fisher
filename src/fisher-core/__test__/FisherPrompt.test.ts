@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
-import { FisherPrompt } from '../fisher-prompt';
+import { Prompt } from '../fisher-prompt';
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -13,10 +13,10 @@ const testEquipmentData = {
   attributes: [],
 };
 
-describe('FisherPrompt', () => {
+describe('Prompt', () => {
   test('should add item to prompt quene', () => {
     vi.useFakeTimers();
-    const prompt = new FisherPrompt();
+    const prompt = new Prompt();
     const equipment = new EquipmentItem(testEquipmentData);
     prompt.promptItem(equipment, 2);
     expect(prompt.quene.length).toBe(1);

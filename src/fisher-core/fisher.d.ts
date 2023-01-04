@@ -10,7 +10,7 @@ declare module fisher {
   const backpack: import('./fisher-backpack').Backpack;
   const mining: import('./fisher-modules').Mining;
   const reiki: import('./fisher-modules').Reiki;
-  const fisherPrompt: import('./fisher-prompt').FisherPrompt;
+  const prompt: import('./fisher-prompt').Prompt;
 }
 
 declare module window {

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { Item, BackpackItem, fisherPrompt } from '@FisherCore';
+import { Item, BackpackItem, prompt } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 /**
@@ -61,7 +61,7 @@ export class Backpack {
     const backpackItem = new BackpackItem({ item, quantity });
     this.items.set(item, backpackItem);
 
-    fisherPrompt.promptItem(item, quantity);
+    prompt.promptItem(item, quantity);
   };
 
   /**
@@ -81,7 +81,7 @@ export class Backpack {
     backpackItem.quantity += quantity;
     this.items.set(item, backpackItem);
 
-    fisherPrompt.promptItem(item, quantity);
+    prompt.promptItem(item, quantity);
   };
 
   /**
