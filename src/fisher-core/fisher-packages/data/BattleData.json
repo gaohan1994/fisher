@@ -18,7 +18,7 @@
       "level": "GasRefiningLater",
       "unlockLevel": "GasRefiningMiddle",
       "goldReward": 5,
-      "probabilityRewards": [{ "itemId": "ClothHat", "probability": 10 }]
+      "randomRewards": [{ "itemId": "ClothHat", "probability": 10 }]
     }
   ],
   "area": [

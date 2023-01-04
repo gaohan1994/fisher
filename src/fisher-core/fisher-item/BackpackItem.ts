@@ -43,8 +43,7 @@ export class BackpackItem {
    * @memberof BackpackItem
    */
   public calculatePrice = (quantity: number) => {
-    let totalPrice = 0;
-    totalPrice = this.item.price * quantity;
+    const totalPrice = this.item.price * quantity;
     return Math.max(Math.floor(totalPrice), 0);
   };
 }

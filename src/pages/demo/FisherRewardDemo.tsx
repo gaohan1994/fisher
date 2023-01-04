@@ -7,16 +7,16 @@ import { createTestBackpackItemPayload } from './FisherBackpackDemo';
 import { makeAutoObservable } from 'mobx';
 
 const testFisherItem = new NormalItem(createTestBackpackItemPayload(''));
-const fisherReward = makeAutoObservable(new Reward());
+const reward = makeAutoObservable(new Reward());
 
 export const FisherRewardDemo: FC = observer(() => {
   return (
     <DemoLayout title="FisherRewardDemo">
-      <div>reward gold: {fisherReward.rewardGold}</div>
+      <div>reward gold: {reward.rewardGold}</div>
       <div>
         reward items:
-        {fisherReward.rewardItemMap.size > 0
-          ? fisherReward.rewardItems.map(([item, quantity]) => (
+        {reward.rewardItemMap.size > 0
+          ? reward.rewardItems.map(([item, quantity]) => (
               <li key={item.id}>
                 {item.name} x {quantity}
               </li>
@@ -24,17 +24,17 @@ export const FisherRewardDemo: FC = observer(() => {
           : 'empty'}
       </div>
       <Stack direction="row" spacing={1}>
-        <Button onClick={() => fisherReward.addRewardGold(50)}>
+        <Button onClick={() => reward.addRewardGold(50)}>
           add reward gold 50
         </Button>
-        <Button onClick={() => fisherReward.addRewardItem(testFisherItem, 1)}>
+        <Button onClick={() => reward.addRewardItem(testFisherItem, 1)}>
           add one reward item
         </Button>
       </Stack>
       <Button
         fullWidth={true}
         variant="contained"
-        onClick={() => fisherReward.executeRewards()}
+        onClick={() => reward.executeRewards()}
       >
         execute reward
       </Button>

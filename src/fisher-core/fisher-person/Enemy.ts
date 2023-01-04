@@ -1,12 +1,8 @@
-import { action, computed, observable, override } from 'mobx';
-import {
-  createReward,
-  Reward,
-  provideProbabilityReward,
-} from '../fisher-reward';
+import { action, computed, observable } from 'mobx';
+import { Reward } from '../fisher-reward';
 import {
   EnemyItemReward,
-  EnemyProbabilityReward,
+  EnemyRandomReward,
   BattleEnemyItem,
 } from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
@@ -34,11 +30,11 @@ export class Enemy extends FisherPerson {
   }
 
   @observable
-  public probabilityRewards: EnemyProbabilityReward[] = [];
+  public randomRewards: EnemyRandomReward[] = [];
 
   @computed
-  public get hasProbabilityRewards() {
-    return this.probabilityRewards && this.probabilityRewards.length > 0;
+  public get hasRandomRewards() {
+    return this.randomRewards && this.randomRewards.length > 0;
   }
 
   constructor(id: string) {
@@ -48,14 +44,13 @@ export class Enemy extends FisherPerson {
 
   @action
   public initialize = async (enemyInfo: BattleEnemyItem) => {
-    const { name, level, goldReward, itemRewards, probabilityRewards } =
-      enemyInfo;
+    const { name, level, goldReward, itemRewards, randomRewards } = enemyInfo;
 
     this.name = name;
 
     if (goldReward) this.goldReward = goldReward;
     if (itemRewards) this.itemRewards = itemRewards;
-    if (probabilityRewards) this.probabilityRewards = probabilityRewards;
+    if (randomRewards) this.randomRewards = randomRewards;
 
     this.personLevelManager.initialize(level);
     this.actionManager.registerActionMap();
@@ -83,8 +78,8 @@ export class Enemy extends FisherPerson {
       result.push(...this.createItemRewards());
     }
 
-    if (this.hasProbabilityRewards) {
-      result.push(...this.createProbabilityRewards());
+    if (this.hasRandomRewards) {
+      result.push(...this.createRandomRewards());
     }
 
     FisherPerson.logger.debug(`Provide Enemy:${this.id} rewards`);
@@ -93,18 +88,26 @@ export class Enemy extends FisherPerson {
 
   @action
   private createGoldReward = () => {
-    return createReward({ gold: this.goldReward });
+    return Reward.create({ gold: this.goldReward });
   };
 
   @action
-  private createProbabilityRewards = () => {
-    return this.probabilityRewards
-      .map(provideProbabilityReward)
+  private createRandomRewards = () => {
+    return this.randomRewards
+      .map(({ probability, gold, itemId, itemQuantity }) => {
+        return Reward.createRandomReward(probability, {
+          gold,
+          itemId,
+          itemQuantity,
+        });
+      })
       .filter(Boolean) as Reward[];
   };
 
   @action
   private createItemRewards = () => {
-    return this.itemRewards.map(createReward);
+    return this.itemRewards.map((itemReward) => {
+      return Reward.create(itemReward);
+    });
   };
 }

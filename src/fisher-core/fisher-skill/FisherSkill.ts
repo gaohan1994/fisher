@@ -77,7 +77,7 @@ export class FisherSkill {
 
   constructor({ id, experience }: IFisherSkill) {
     makeAutoObservable(this);
-    logger.info('Initialize FisherSkill ', id);
+
     this.id = id;
     this.name = FisherCollectionSkillInfo[this.id]?.name ?? 'UnknowName';
     this.experience = experience ?? 0;

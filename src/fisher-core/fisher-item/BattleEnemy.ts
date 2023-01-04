@@ -6,7 +6,7 @@ export interface IBattleEnemyItem extends IItem {
   level: PersonLevel;
   goldReward?: number;
   itemRewards?: EnemyItemReward[];
-  probabilityRewards?: EnemyProbabilityReward[];
+  randomRewards?: EnemyRandomReward[];
 }
 
 export interface EnemyItemReward {
@@ -14,7 +14,7 @@ export interface EnemyItemReward {
   itemQuantity?: number;
 }
 
-export interface EnemyProbabilityReward {
+export interface EnemyRandomReward {
   gold?: number;
   itemId: string;
   probability: number;
@@ -32,7 +32,7 @@ export class BattleEnemyItem extends Item {
 
   public itemRewards: EnemyItemReward[] = [];
 
-  public probabilityRewards: EnemyProbabilityReward[] = [];
+  public randomRewards: EnemyRandomReward[] = [];
 
   constructor(options: IBattleEnemyItem) {
     super(options);
@@ -45,8 +45,7 @@ export class BattleEnemyItem extends Item {
 
     if (options.itemRewards) this.itemRewards = options.itemRewards;
 
-    if (options.probabilityRewards)
-      this.probabilityRewards = options.probabilityRewards;
+    if (options.randomRewards) this.randomRewards = options.randomRewards;
   }
 }
 

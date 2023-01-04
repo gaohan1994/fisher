@@ -1,8 +1,14 @@
-import { Item, FisherSkill } from '@FisherCore';
+import { Item, FisherSkill, findItemById } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { roll } from '../utils';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'Reward');
 
+interface ICreateRewardOptions {
+  gold?: number;
+  itemId?: string;
+  itemQuantity?: number;
+}
 export class Reward {
   /**
    * 物品奖励
@@ -32,6 +38,41 @@ export class Reward {
    * 技能经验奖励
    */
   public rewardSkillExperience: Map<FisherSkill, number> = new Map();
+
+  /**
+   * 创建奖励
+   */
+  static create({ gold, itemId, itemQuantity }: ICreateRewardOptions): Reward {
+    const reward = new Reward();
+
+    const _gold = gold ?? 0;
+    if (_gold !== 0) {
+      reward.addRewardGold(_gold);
+    }
+
+    if (itemId !== undefined) {
+      const item = findItemById(itemId);
+      reward.addRewardItem(item, itemQuantity ?? 1);
+    }
+
+    return reward;
+  }
+
+  /**
+   * 创建随机奖励
+   * 如果没有命中概率则返回 undefined
+   * 如果命中则创建奖励
+   */
+  static createRandomReward(
+    probability: number,
+    options: ICreateRewardOptions
+  ): Reward | undefined {
+    if (!roll(probability)) {
+      return undefined;
+    }
+
+    return Reward.create(options);
+  }
 
   /**
    * 添加物品奖励
