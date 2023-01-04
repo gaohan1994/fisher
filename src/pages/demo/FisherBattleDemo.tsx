@@ -3,16 +3,13 @@ import { observer } from 'mobx-react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 import { FisherPersonDemo } from './FisherPersonDemo';
-import { FisherBattle } from '../../fisher-core/fisher-battle';
+import { Battle } from '../../fisher-core/fisher-battle';
 
 export const FisherBattleDemo = observer(
-  class FisherBattleDemo extends React.Component<
-    any,
-    { battle: FisherBattle }
-  > {
+  class FisherBattleDemo extends React.Component<any, { battle: Battle }> {
     constructor(props: any) {
       super(props);
-      const battle = new FisherBattle();
+      const battle = new Battle();
       this.state = {
         battle,
       };

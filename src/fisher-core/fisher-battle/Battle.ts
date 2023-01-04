@@ -10,8 +10,8 @@ import {
 } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 
-export class FisherBattle {
-  private static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherBattle');
+export class Battle {
+  private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
 
   public static BaseBattleInterval = 1000;
 
@@ -72,7 +72,7 @@ export class FisherBattle {
    * - 给玩家和敌人互相设置 target
    *
    * @param {BattleEnemyItem} enemyItem
-   * @memberof FisherBattle
+   * @memberof Battle
    */
   public initializeEnemy = async (enemyItem: BattleEnemyItem) => {
     this.activeEnemyItem = enemyItem;
@@ -85,11 +85,11 @@ export class FisherBattle {
   /**
    * 重新初始化敌人
    *
-   * @memberof FisherBattle
+   * @memberof Battle
    */
   public reinitializeEnemy = async () => {
     if (this.activeEnemyItem === undefined)
-      return FisherBattle.logger.error(
+      return Battle.logger.error(
         'Try to reinitialize Enemy but active enemy was undefined'
       );
 
@@ -99,10 +99,10 @@ export class FisherBattle {
   public start = async (enemyItem?: BattleEnemyItem) => {
     const currentEnemy = enemyItem ?? this.activeEnemyItem;
     if (currentEnemy === undefined)
-      return FisherBattle.logger.error('Try to start battle without enemy');
+      return Battle.logger.error('Try to start battle without enemy');
 
     await this.initializeEnemy(currentEnemy);
-    await FisherTimerSpace.space(FisherBattle.BaseBattleInterval);
+    await FisherTimerSpace.space(Battle.BaseBattleInterval);
 
     this.master.startBattle();
     this.enemy?.startBattle();
@@ -112,13 +112,11 @@ export class FisherBattle {
 
   public stop = async () => {
     if (this.enemy === undefined) {
-      return FisherBattle.logger.error(
-        'Try to stop battle but enemy was undefined'
-      );
+      return Battle.logger.error('Try to stop battle but enemy was undefined');
     }
 
     if (this.inBattle === false) {
-      return FisherBattle.logger.error('Try to stop battle but already stoped');
+      return Battle.logger.error('Try to stop battle but already stoped');
     }
 
     this.master.stopBattle();
@@ -131,7 +129,7 @@ export class FisherBattle {
    * - 停止战斗
    * - 死亡惩罚
    *
-   * @memberof FisherBattle
+   * @memberof Battle
    */
   public onMasterDeath = async (masterDeathCondition: boolean) => {
     if (masterDeathCondition) {
@@ -148,7 +146,7 @@ export class FisherBattle {
    * - 初始化下一个敌人
    * - 再次进入战斗
    *
-   * @memberof FisherBattle
+   * @memberof Battle
    */
   public onEnemyDeath = async (enemyDeathCondition: boolean) => {
     if (enemyDeathCondition) {
@@ -161,7 +159,7 @@ export class FisherBattle {
 
   private updateBattleCount = async () => {
     if (this.activeEnemyItem === undefined)
-      return FisherBattle.logger.error(
+      return Battle.logger.error(
         'Try update battle count but enemy was undefined'
       );
 
@@ -196,7 +194,7 @@ export class FisherBattle {
    */
   private collectRewardToPool = async () => {
     if (!this.enemy)
-      return FisherBattle.logger.error(
+      return Battle.logger.error(
         'Try to collection Enemy reward to pool but undefined'
       );
 
@@ -208,7 +206,7 @@ export class FisherBattle {
    */
   public executeRewardPool = () => {
     if (!this.hasReward) {
-      return FisherBattle.logger.error(
+      return Battle.logger.error(
         'Try to execute rewards but reward pool was empty'
       );
     }

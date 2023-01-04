@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 import { describe, expect, test } from 'vitest';
-import { FisherBattle } from '../fisher-battle';
+import { Battle } from '../fisher-battle';
 import { Enemy, Master } from '../fisher-person';
 
-describe('FisherBattle', () => {
+describe('Battle', () => {
   test('should initialize Fisher battle', () => {
-    const battle = new FisherBattle();
+    const battle = new Battle();
     expect(battle.inBattle).toBeFalsy();
     expect(battle.master instanceof Master).toBeTruthy();
     expect(battle.activeEnemyItem).toBeUndefined();
@@ -18,7 +18,7 @@ describe('FisherBattle', () => {
   });
 
   test('should initialize for battle', async () => {
-    const battle = new FisherBattle();
+    const battle = new Battle();
     const enemyItem = battle.packages[0].enemies[0];
     await battle.start(enemyItem);
 
