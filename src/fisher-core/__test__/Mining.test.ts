@@ -1,23 +1,21 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
+import { mining } from '../fisher-modules';
 import { findRecipeById } from '../fisher-packages';
-
-const fisher = new FisherCore();
-
-vi.stubGlobal('fisher', fisher);
 
 describe('Mining', () => {
   test('should success initialize Mining', () => {
-    const fisherCore = new FisherCore();
-    expect(fisherCore.mining.id).toBe('Collection:Mining');
-    expect(fisherCore.mining.name).toBe('采矿');
-    expect(fisherCore.mining.skill.id).toBe('Mining');
-    expect(fisherCore.mining.skill.experience).toBe(0);
+    const core = FisherCore.create();
+    expect(core.mining.id).toBe('Collection:Mining');
+    expect(core.mining.name).toBe('采矿');
+    expect(core.mining.skill.id).toBe('Mining');
+    expect(core.mining.skill.experience).toBe(0);
   });
 
   test('should set active id when start mining', () => {
+    const core = FisherCore.create();
     const activeRecipe = findRecipeById('Mining:Recipe:LowSpiritMine');
-    fisher.mining.start(activeRecipe);
-    expect(fisher.activeComponentId).toBe(fisher.mining.id);
+    core.mining.start(activeRecipe);
+    expect(core.activeComponentId).toBe(mining.id);
   });
 });

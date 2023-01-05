@@ -1,8 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { FisherCore } from '../fisher-core';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { createStore } from '../fisher-packages';
 import { PersonEquipment } from '../fisher-person';
@@ -15,8 +14,6 @@ const emptyEquipment = new EquipmentItem({
   price: 0,
   slots: [EquipmentSlot.Helmet, EquipmentSlot.Weapon],
 });
-const fisher = new FisherCore();
-vi.stubGlobal('fisher', fisher);
 
 beforeEach(async () => {
   await createStore();

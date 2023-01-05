@@ -1,7 +1,9 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { ItemType, NormalItem } from '../fisher-item';
 import { FisherSkill } from '../fisher-skill';
 import { Reward } from '../fisher-reward';
+import { bank } from '../fisher-bank';
+import { backpack } from '../fisher-backpack';
 
 const testItemPayload = {
   id: 'Test:Backpack',
@@ -17,16 +19,6 @@ const testSkillPayload = {
   name: 'Test:RewardSkill',
   experience: 0,
 };
-
-const bank = {
-  receiveGold: vi.fn(),
-};
-
-const backpack = {
-  addItem: vi.fn(),
-};
-
-vi.stubGlobal('fisher', { bank, backpack });
 
 describe('FisherRewards', () => {
   test('should initialize Reward', () => {
@@ -87,19 +79,21 @@ describe('FisherRewards', () => {
 
   test('should execute rewards', () => {
     const reward = new Reward();
+
     const testFisherItem = new NormalItem(testItemPayload);
     const testFisherSkill = new FisherSkill(testSkillPayload);
     reward
       .addRewardItem(testFisherItem, 1)
       .addRewardGold(50)
       .addRewardSkill(testFisherSkill, 10);
+
     reward.executeRewards();
-    expect(fisher.bank.receiveGold).toBeCalled();
-    expect(fisher.backpack.addItem).toBeCalled();
+    expect(bank.gold).toBe(50);
+    expect(backpack.items.has(testFisherItem)).toBeTruthy();
     expect(testFisherSkill.experience).toBe(10);
+
     reward.executeRewards();
-    expect(fisher.bank.receiveGold).toBeCalled();
-    expect(fisher.backpack.addItem).toBeCalled();
+    expect(bank.gold).toBe(100);
     expect(testFisherSkill.experience).toBe(20);
   });
 

@@ -2,22 +2,19 @@ import { describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { findRecipeById } from '../fisher-packages';
 
-const fisher = new FisherCore();
-
-vi.stubGlobal('fisher', fisher);
-
 describe('Reiki', () => {
   test('should success initialize Reiki', () => {
-    const fisherCore = new FisherCore();
-    expect(fisherCore.reiki.id).toBe('Collection:Reiki');
-    expect(fisherCore.reiki.name).toBe('灵气');
-    expect(fisherCore.reiki.skill.id).toBe('Reiki');
-    expect(fisherCore.reiki.skill.experience).toBe(0);
+    const core = FisherCore.create();
+    expect(core.reiki.id).toBe('Collection:Reiki');
+    expect(core.reiki.name).toBe('灵气');
+    expect(core.reiki.skill.id).toBe('Reiki');
+    expect(core.reiki.skill.experience).toBe(0);
   });
 
   test('should set active id when start Reiki', () => {
+    const core = FisherCore.create();
     const activeRecipe = findRecipeById('Reiki:Recipe:BlackWoodCliff:Part1');
-    fisher.reiki.start(activeRecipe);
-    expect(fisher.activeComponentId).toBe(fisher.reiki.id);
+    core.reiki.start(activeRecipe);
+    expect(core.activeComponentId).toBe(core.reiki.id);
   });
 });

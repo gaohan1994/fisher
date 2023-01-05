@@ -1,14 +1,14 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { CollectionModule, mining, reiki } from '../fisher-modules';
+import { Mining, mining, Reiki, reiki } from '../fisher-modules';
 import { FisherPerson, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
 import { Battle } from '../fisher-battle';
 import { backpack } from '../fisher-backpack';
 
-type FisherComponent = CollectionModule | Battle | undefined;
+type FisherComponent = Mining | Reiki | Battle | undefined;
 
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
@@ -45,7 +45,7 @@ export class FisherCore {
   public readonly reiki = reiki;
 
   // 当前处于激活状态的组件
-  public activeComponent: FisherComponent = undefined;
+  public activeComponent: FisherComponent | undefined = undefined;
 
   public get activeComponentId() {
     return this.activeComponent?.id;
