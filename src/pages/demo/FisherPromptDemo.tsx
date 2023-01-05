@@ -1,8 +1,9 @@
-import { Container, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
+import { Container, Typography } from '@mui/material';
+import { core } from '@FisherCore';
 
 export const FisherPromptDemo = observer(() => {
-  const { prompt } = fisher;
+  const { prompt } = core;
   return (
     <Container sx={{ position: 'fixed', left: 10, bottom: 10 }}>
       {prompt.quene.map((item, index) => (

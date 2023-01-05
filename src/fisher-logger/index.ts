@@ -1,7 +1,7 @@
 import { Logger } from './Logger';
 import { PrefixLogger } from './PrefixLogger';
 
-export const mainLogger = Logger.getInstance();
+export const mainLogger = Logger.create();
 
 export const prefixLogger = (...prefixes: Array<string>): PrefixLogger =>
   mainLogger.byPrefix(prefixes.join(':'));

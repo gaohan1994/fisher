@@ -1,4 +1,5 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { core } from '../fisher-core';
 import { RecipeItem } from '../fisher-item';
 import { IFisherPackagesData } from '../fisher-packages';
 import { FisherCollectionSkillTypes, FisherSkill } from '../fisher-skill';
@@ -42,7 +43,9 @@ export abstract class CollectionModule {
   );
 
   public isActive = false;
+
   public readonly skill: FisherSkill;
+
   public abstract readonly packages: IFisherPackagesData;
 
   /**
@@ -80,11 +83,13 @@ export abstract class CollectionModule {
    * @memberof CollectionModule
    */
   public start = (recipe: RecipeItem) => {
-    CollectionModule.logger.info(`start collection module ${this.id}`);
     this.skill.updateActiveRecipe(recipe);
     this.skill.startAction();
+
     this.isActive = true;
-    fisher.setActiveComponent(this);
+    core.setActiveComponent(this);
+
+    CollectionModule.logger.info(`start collection module ${this.id}`);
   };
 
   /**
@@ -94,9 +99,11 @@ export abstract class CollectionModule {
    * @memberof CollectionModule
    */
   public stop = () => {
-    CollectionModule.logger.info(`stop collection module ${this.id}`);
     this.skill.stopAction();
     this.skill.resetActiveRecipe();
+
     this.isActive = false;
+
+    CollectionModule.logger.info(`stop collection module ${this.id}`);
   };
 }

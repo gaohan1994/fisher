@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { BackpackItem, Item } from '../fisher-item';
 import { prompt } from '../fisher-prompt';
+import { bank } from '../fisher-bank';
 
 /**
  * 背包系统
@@ -20,6 +21,15 @@ import { prompt } from '../fisher-prompt';
 export class Backpack {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Backpack');
 
+  public static instance: Backpack;
+
+  public static create(): Backpack {
+    if (!Backpack.instance) {
+      Backpack.instance = new Backpack();
+    }
+    return Backpack.instance;
+  }
+
   public items = new Map<Item, BackpackItem>();
 
   public get backpackItems() {
@@ -31,6 +41,8 @@ export class Backpack {
   constructor() {
     makeAutoObservable(this);
   }
+
+  public initialize = async () => {};
 
   /**
    * 添加物品到背包
@@ -127,8 +139,8 @@ export class Backpack {
     const sellQuantity = quantity ?? sellItem.quantity;
     const totalPrice = item.calculatePrice(sellQuantity);
 
-    fisher.bank.receiveGold(totalPrice);
     this.reduceItem(item.item, sellQuantity);
+    bank.receiveGold(totalPrice);
 
     Backpack.logger.debug(
       `Success sell ${item.item.name} x ${quantity}, `,
@@ -161,3 +173,5 @@ export class Backpack {
     this.selectedItems.clear();
   };
 }
+
+export const backpack = Backpack.create();

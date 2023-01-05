@@ -120,9 +120,6 @@ export class FisherSkill {
    * @memberof FisherSkill
    */
   public updateActiveRecipe = (value: RecipeItem) => {
-    if (this.activeRecipe !== undefined) {
-      logger.info(`FisherSkill: ${this.id} replace recipe: ${value.name}`);
-    }
     this.activeRecipe = value;
   };
 
@@ -136,7 +133,6 @@ export class FisherSkill {
   };
 
   public action = () => {
-    logger.info(`Execute action ${this.id}`);
     this.actionRewards.executeRewards();
   };
 
@@ -148,10 +144,6 @@ export class FisherSkill {
   public startAction = () => {
     this._initializeTimerAndRewards();
     this.timer.startTimer(this.timerInterval);
-    logger.info(
-      'Start skill: ' + this.id,
-      'timer interval: ' + this.timerInterval
-    );
   };
 
   /**
@@ -160,7 +152,6 @@ export class FisherSkill {
    * @memberof FisherSkill
    */
   public stopAction = () => {
-    logger.info(`Stop skill ${this.id}`);
     this.timer.stopTimer();
   };
 
@@ -175,10 +166,12 @@ export class FisherSkill {
       this.activeRecipe !== undefined,
       'Fail to initialize skill action, please set recipe!'
     );
+
     this.actionRewards.setRewardItem(
       this.activeRecipe.rewardItem,
       this.activeRecipe.rewardQuantity
     );
+
     this.actionRewards.setRewardSkill(this, this.activeRecipe.rewardExperience);
     this.timerInterval = this.activeRecipe.interval;
   };

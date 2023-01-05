@@ -3,6 +3,8 @@ import { roll } from '../utils';
 import { Item } from '../fisher-item';
 import { findItemById } from '../fisher-packages';
 import { FisherSkill } from '../fisher-skill';
+import { bank } from '../fisher-bank';
+import { backpack } from '../fisher-backpack';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'Reward');
 
@@ -152,7 +154,7 @@ export class Reward {
     if (this.rewardGold > 0) {
       logger.debug('Execute reward gold: ' + this.rewardGold);
 
-      fisher.bank.receiveGold(this.rewardGold);
+      bank.receiveGold(this.rewardGold);
     }
 
     if (this.rewardItemMap.size > 0) {
@@ -162,7 +164,7 @@ export class Reward {
           'quantity: ' + quantity
         );
 
-        fisher.backpack.addItem(rewardItem, quantity);
+        backpack.addItem(rewardItem, quantity);
       });
     }
 

@@ -2,9 +2,10 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Button, LinearProgress, Stack } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
+import { core } from '@FisherCore';
 
 export const ReikiDemo: FC = observer(() => {
-  const { reiki } = fisher;
+  const { reiki } = core;
   const {
     skill,
     activeRecipe,

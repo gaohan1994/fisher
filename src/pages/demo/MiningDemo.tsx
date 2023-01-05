@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Button, LinearProgress, Stack } from '@mui/material';
+import { core } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
 export const MiningDemo: FC = observer(() => {
-  const { mining } = fisher;
+  const { mining } = core;
   const {
     skill,
     activeRecipe,

@@ -12,7 +12,7 @@ export class Master extends FisherPerson {
 
   public override mode = FisherPerson.Mode.Master;
 
-  public static getInstance = () => {
+  public static create = () => {
     if (!Master.instance) {
       Master.instance = new Master();
     }
@@ -40,4 +40,4 @@ export class Master extends FisherPerson {
   };
 }
 
-export const master = Master.getInstance();
+export const master = Master.create();

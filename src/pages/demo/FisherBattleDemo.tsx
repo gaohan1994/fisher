@@ -4,6 +4,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 import { FisherPersonDemo } from './FisherPersonDemo';
 import { Battle } from '../../fisher-core/fisher-battle';
+import { core } from '@FisherCore';
 
 export const FisherBattleDemo = observer(
   class FisherBattleDemo extends React.Component<any, { battle: Battle }> {
@@ -45,7 +46,7 @@ export const FisherBattleDemo = observer(
             </Box>
             <Box>
               <Stack direction="row">
-                <FisherPersonDemo person={fisher.master} />
+                <FisherPersonDemo person={core.master} />
                 {battle.enemy && <FisherPersonDemo person={battle.enemy} />}
               </Stack>
             </Box>

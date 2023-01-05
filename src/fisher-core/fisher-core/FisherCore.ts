@@ -1,31 +1,48 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, reaction } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { Bank } from '../fisher-bank';
-import { Backpack } from '../fisher-backpack';
-import { CollectionModule, Mining, Reiki } from '../fisher-modules';
+import { CollectionModule, mining, reiki } from '../fisher-modules';
 import { FisherPerson, master } from '../fisher-person';
+import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
+import { Battle } from '../fisher-battle';
+import { backpack } from '../fisher-backpack';
 
-type FisherComponent = CollectionModule | undefined;
+type FisherComponent = CollectionModule | Battle | undefined;
 
 export class FisherCore {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
 
+  public static instance: FisherCore;
+
+  public static create(): FisherCore {
+    if (!FisherCore.instance) {
+      FisherCore.instance = new FisherCore();
+    }
+    return FisherCore.instance;
+  }
+
+  public archive: any | undefined = undefined;
+
+  public gameReady = false;
+
+  // 推送
   public readonly prompt = prompt;
 
   // 玩家
   public readonly master = master;
 
   // 货币
-  public readonly bank = new Bank();
+  public readonly bank = bank;
 
   // 背包
-  public readonly backpack = new Backpack();
+  public readonly backpack = backpack;
 
-  public readonly mining = new Mining();
+  // 采矿
+  public readonly mining = mining;
 
-  public readonly reiki = new Reiki();
+  // 灵气
+  public readonly reiki = reiki;
 
   // 当前处于激活状态的组件
   public activeComponent: FisherComponent = undefined;
@@ -45,10 +62,14 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-    this.master.initialize({
-      name: '李逍遥',
-      level: FisherPerson.Level.GasRefiningLater,
-    });
+
+    reaction(
+      () => this.archive,
+      async (archive) => {
+        await this.loadArchive(archive);
+        this.setGameReady(true);
+      }
+    );
   }
 
   /**
@@ -71,4 +92,30 @@ export class FisherCore {
       FisherCore.logger.info(`Set active component ${component.id}`);
     }
   };
+
+  public setGameReady = (isReady: boolean) => {
+    this.gameReady = isReady;
+  };
+
+  public setArchive = (archive: any) => {
+    this.archive = archive;
+  };
+
+  public quitArchive = () => {
+    this.archive = undefined;
+    this.setGameReady(false);
+  };
+
+  private loadArchive = async (archive: any) => {
+    await this.master.initialize({
+      name: '李逍遥',
+      level: FisherPerson.Level.GasRefiningLater,
+    });
+
+    await this.bank.initialize();
+
+    await this.backpack.initialize();
+  };
 }
+
+export const core = FisherCore.create();

@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { PersonEquipment } from './PersonEquipment';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { backpack } from '../fisher-backpack';
 
 export interface IPersonUseEquipment {
   (equipmentSlot: EquipmentSlot, equipment: EquipmentItem): void;
@@ -104,6 +105,6 @@ export class PersonEquipmentManager {
     equipment: EquipmentItem,
     quantity: number
   ) => {
-    fisher.backpack.addItem(equipment, quantity);
+    backpack.addItem(equipment, quantity);
   };
 }

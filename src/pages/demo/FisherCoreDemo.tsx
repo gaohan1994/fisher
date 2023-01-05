@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import { Container, Paper, Stack, Typography } from '@mui/material';
+import { core } from '@FisherCore';
 import { FisherTimerDemo } from './FisherTimerDemo';
 import { FisherGoldDemo } from './FisherGoldDemo';
 import { FisherBackpackDemo } from './FisherBackpackDemo';
@@ -29,7 +30,7 @@ const FisherCoreDemo: FC = () => (
   <Stack direction="column" spacing={2}>
     <DemoStack>
       <Paper>
-        <FisherPersonDemo person={fisher.master} />
+        <FisherPersonDemo person={core.master} />
       </Paper>
       <Paper>
         <FisherBattleDemo />

@@ -5,11 +5,14 @@ import { Enemy, master } from '../fisher-person';
 import { useModulePackage } from '../fisher-packages';
 import { Reward } from '../fisher-reward';
 import { FisherTimerSpace } from '../fisher-timer';
+import { core } from '../fisher-core';
 
 export class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
 
   public static BaseBattleInterval = 1000;
+
+  public readonly id = 'Battle';
 
   public readonly packages: BattleAreaItem[] = useModulePackage('BattleAreas');
 
@@ -104,6 +107,7 @@ export class Battle {
     this.enemy?.startBattle();
 
     this.setInBattle();
+    core.setActiveComponent(this);
   };
 
   public stop = async () => {

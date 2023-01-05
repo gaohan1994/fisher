@@ -24,7 +24,7 @@ export class Logger {
     this._LoggerMonitor = new LoggerMonitor();
   }
 
-  static getInstance() {
+  static create() {
     if (!this.instance) {
       this.instance = new Logger(loggerDefaultOptions);
     }

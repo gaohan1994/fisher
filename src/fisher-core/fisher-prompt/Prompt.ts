@@ -19,7 +19,7 @@ interface IPromptMessage {
 export class Prompt {
   public static instance: Prompt;
 
-  public static readonly getInstance = () => {
+  public static readonly create = () => {
     if (!Prompt.instance) {
       Prompt.instance = new Prompt();
     }
@@ -40,21 +40,25 @@ export class Prompt {
     {}: IPromptItemOptions = {}
   ) => {
     this.quene.push({ item, quantity });
-    this._shiftQuene();
+    this.runQueneShiftTimer();
   };
 
   public promptGold = (gold: number) => {
     this.quene.push({ item: coinItem, quantity: gold });
-    this._shiftQuene();
+    this.runQueneShiftTimer();
   };
 
-  private _shiftQuene = () => {
-    const timer = new FisherTimer('Prompt', () => this.quene.shift(), {
+  private runQueneShiftTimer = () => {
+    const timer = new FisherTimer('Prompt', () => this.shiftQueneItem(), {
       once: true,
     });
 
     timer.startTimer(Prompt.PromptInterval);
   };
+
+  private shiftQueneItem = () => {
+    this.quene.shift();
+  };
 }
 
-export const prompt = Prompt.getInstance();
+export const prompt = Prompt.create();

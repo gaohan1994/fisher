@@ -87,7 +87,7 @@ export class Store {
    * @static
    * @memberof Store
    */
-  public static getInstance = () => {
+  public static create = () => {
     if (!Store.instance) {
       Store.instance = new Store();
     }
@@ -95,7 +95,7 @@ export class Store {
   };
 }
 
-export const store = Store.getInstance();
+export const store = Store.create();
 
 export function createStore(): Promise<Store> {
   return new Promise((resolve) => resolve(store));

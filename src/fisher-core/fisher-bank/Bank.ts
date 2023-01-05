@@ -16,11 +16,22 @@ import { prompt } from '../fisher-prompt';
 export class Bank {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
 
+  public static instance: Bank;
+
+  public static create(): Bank {
+    if (!Bank.instance) {
+      Bank.instance = new Bank();
+    }
+    return Bank.instance;
+  }
+
   public gold: number = 0;
 
   constructor() {
     makeAutoObservable(this);
   }
+
+  public initialize = async () => {};
 
   /**
    * 处理收到的金币
@@ -34,3 +45,5 @@ export class Bank {
     prompt.promptGold(value);
   };
 }
+
+export const bank = Bank.create();
