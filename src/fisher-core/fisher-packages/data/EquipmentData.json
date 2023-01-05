@@ -15,7 +15,7 @@
         "id": "WoodSword",
         "name": "木剑",
         "desc": "用寻常木头做的剑",
-        "media": "",
+        "media": "woodsword",
         "type": "Equipment",
         "price": 5,
         "slots": ["Weapon"],

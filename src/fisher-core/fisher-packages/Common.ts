@@ -1,4 +1,4 @@
-import { NormalItem } from '../fisher-item';
 import CommonJson from './data/CommonData.json';
+import { NormalItem } from '../fisher-item';
 
-export const GoldItem = new NormalItem(CommonJson.data.gold);
+export const coinItem = new NormalItem(CommonJson.data.coin);

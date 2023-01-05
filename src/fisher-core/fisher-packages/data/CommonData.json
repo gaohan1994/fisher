@@ -1,10 +1,10 @@
 {
   "data": {
-    "gold": {
-      "id": "Gold",
+    "coin": {
+      "id": "Coin",
       "name": "金币",
       "desc": "",
-      "media": ""
+      "media": "coin"
     }
   }
 }

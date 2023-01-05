@@ -1,3 +1,4 @@
+export * from './assets';
 export * from './fisher-timer';
 export * from './fisher-item';
 export * from './fisher-backpack';

@@ -1,3 +1,5 @@
+import { Assets } from '../assets';
+
 export enum ItemType {
   Test = 'Test',
   Normal = 'Normal',
@@ -46,9 +48,16 @@ export abstract class Item implements IItem {
 
   public desc = '';
 
-  public media = '';
-
   public price = 0;
+
+  private _media = '';
+
+  public get media() {
+    if (!this._media) {
+      return '';
+    }
+    return Assets[this._media as keyof typeof Assets];
+  }
 
   constructor(options: IItem) {
     this.id = options.id;
@@ -57,7 +66,7 @@ export abstract class Item implements IItem {
 
     this.desc = options.desc;
 
-    this.media = options.media;
+    this._media = options.media;
 
     if (typeof options.price === 'number') {
       this.price = options.price;
