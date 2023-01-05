@@ -2,11 +2,6 @@ import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import {
-  FisherProgressTimer as FisherTimer,
-  Reward,
-  RecipeItem,
-} from '@FisherCore';
-import {
   calculateLevelExperienceInfo,
   LevelExperienceInfo,
 } from './Experience';
@@ -14,6 +9,9 @@ import {
   FisherCollectionSkillInfo,
   FisherCollectionSkillTypes,
 } from './Constants';
+import { Reward } from '../fisher-reward';
+import { RecipeItem } from '../fisher-item';
+import { FisherProgressTimer as FisherTimer } from '../fisher-timer';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherSkill');
 

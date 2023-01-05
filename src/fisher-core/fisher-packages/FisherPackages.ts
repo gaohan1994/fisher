@@ -1,4 +1,8 @@
 import invariant from 'invariant';
+import miningDataJson from './data/MiningData.json';
+import reikiDataJson from './data/ReikiData.json';
+import equipmentDataJson from './data/EquipmentData.json';
+import battleDataJson from './data/BattleData.json';
 import {
   Item,
   IItem,
@@ -7,12 +11,6 @@ import {
   IEquipmentItem,
   NormalItem,
   IFisherRecipeItem,
-} from '@FisherCore';
-import miningDataJson from './data/MiningData.json';
-import reikiDataJson from './data/ReikiData.json';
-import equipmentDataJson from './data/EquipmentData.json';
-import battleDataJson from './data/BattleData.json';
-import {
   IBattleAreaItem,
   BattleAreaItem,
   BattleEnemyItem,

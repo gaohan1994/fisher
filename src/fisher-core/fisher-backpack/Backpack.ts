@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { Item, BackpackItem, prompt } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { BackpackItem, Item } from '../fisher-item';
+import { prompt } from '../fisher-prompt';
 
 /**
  * 背包系统
@@ -21,18 +22,14 @@ export class Backpack {
 
   public items = new Map<Item, BackpackItem>();
 
+  public get backpackItems() {
+    return [...this.items.values()];
+  }
+
   public selectedItems = new Set<BackpackItem>();
 
   constructor() {
     makeAutoObservable(this);
-  }
-
-  public get backpackItems() {
-    const result: BackpackItem[] = [];
-    this.items.forEach((BackpackItem) => {
-      result.push(BackpackItem);
-    });
-    return result;
   }
 
   /**

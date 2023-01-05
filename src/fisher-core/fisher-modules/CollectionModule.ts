@@ -1,10 +1,7 @@
-import {
-  FisherSkill,
-  RecipeItem,
-  FisherCollectionSkillTypes,
-  IFisherPackagesData,
-} from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { RecipeItem } from '../fisher-item';
+import { IFisherPackagesData } from '../fisher-packages';
+import { FisherCollectionSkillTypes, FisherSkill } from '../fisher-skill';
 
 interface ICollectionModule {
   id: FisherCollectionSkillTypes;

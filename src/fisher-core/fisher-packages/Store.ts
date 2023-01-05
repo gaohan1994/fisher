@@ -7,7 +7,7 @@ import {
   RecipeItem,
   PersonLevel,
   PersonLevelItem,
-} from '@FisherCore';
+} from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   IFisherMiningPackagesData,

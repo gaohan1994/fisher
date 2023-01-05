@@ -1,16 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import {
-  master,
-  Mining,
-  Reiki,
-  FisherGold,
-  FisherPerson,
-  Backpack,
-  CollectionModule,
-  prompt,
-} from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { FisherGold } from '../fisher-gold';
+import { Backpack } from '../fisher-backpack';
+import { CollectionModule, Mining, Reiki } from '../fisher-modules';
+import { FisherPerson, master } from '../fisher-person';
+import { prompt } from '../fisher-prompt';
 
 type FisherComponent = CollectionModule | undefined;
 
@@ -22,11 +17,11 @@ export class FisherCore {
   // 玩家
   public readonly master = master;
 
+  // 货币
+  public readonly fisherGold = new FisherGold();
+
   // 背包
   public readonly backpack = new Backpack();
-
-  // 货币
-  public readonly fisherGold = new FisherGold({});
 
   public readonly mining = new Mining();
 

@@ -1,14 +1,10 @@
 import { makeAutoObservable, reaction } from 'mobx';
-import {
-  Enemy,
-  BattleAreaItem,
-  BattleEnemyItem,
-  Reward,
-  FisherTimerSpace,
-  master,
-  useModulePackage,
-} from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
+import { BattleAreaItem, BattleEnemyItem } from '../fisher-item';
+import { Enemy, master } from '../fisher-person';
+import { useModulePackage } from '../fisher-packages';
+import { Reward } from '../fisher-reward';
+import { FisherTimerSpace } from '../fisher-timer';
 
 export class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');

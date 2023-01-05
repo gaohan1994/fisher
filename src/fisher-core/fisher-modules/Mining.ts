@@ -1,8 +1,8 @@
 import {
-  FisherCollectionSkillTypes,
   IFisherMiningPackagesData,
   useModulePackage,
-} from '@FisherCore';
+} from '../fisher-packages';
+import { FisherCollectionSkillTypes } from '../fisher-skill';
 import { CollectionModule } from './CollectionModule';
 
 /**

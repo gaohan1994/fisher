@@ -1,8 +1,5 @@
-import {
-  FisherCollectionSkillTypes,
-  IFisherReikiPackagesData,
-  useModulePackage,
-} from '@FisherCore';
+import { IFisherReikiPackagesData, useModulePackage } from '../fisher-packages';
+import { FisherCollectionSkillTypes } from '../fisher-skill';
 import { CollectionModule } from './CollectionModule';
 
 /**

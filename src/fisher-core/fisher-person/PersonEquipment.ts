@@ -1,6 +1,7 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
-import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '@FisherCore';
+import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EmptyEquipment } from '../fisher-packages';
 
 interface IPersonEquipment {
   slot: EquipmentSlot;

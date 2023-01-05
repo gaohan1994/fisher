@@ -1,6 +1,8 @@
-import { Item, FisherSkill, findItemById } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { roll } from '../utils';
+import { Item } from '../fisher-item';
+import { findItemById } from '../fisher-packages';
+import { FisherSkill } from '../fisher-skill';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'Reward');
 

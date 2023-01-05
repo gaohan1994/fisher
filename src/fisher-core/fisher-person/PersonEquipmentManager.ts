@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
-import { EquipmentItem, EquipmentSlot } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { PersonEquipment } from './PersonEquipment';
+import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 
 export interface IPersonUseEquipment {
   (equipmentSlot: EquipmentSlot, equipment: EquipmentItem): void;

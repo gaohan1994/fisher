@@ -1,6 +1,5 @@
 import invariant from 'invariant';
 import { action, computed, makeObservable, observable } from 'mobx';
-import { EquipmentSlot, PersonLevel } from '@FisherCore';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './person-actions';
@@ -11,6 +10,7 @@ import type {
 } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
 import { random, roll } from '../utils';
+import { EquipmentSlot, PersonLevel } from '../fisher-item';
 
 enum PersonMode {
   Master = 'Master',

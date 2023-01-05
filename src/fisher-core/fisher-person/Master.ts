@@ -1,4 +1,4 @@
-import { action, override } from 'mobx';
+import { action } from 'mobx';
 import { PersonLevel } from '../fisher-item';
 import { FisherPerson } from './FisherPerson';
 

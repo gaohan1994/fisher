@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Item } from '@FisherCore';
+import { Item } from './Item';
 
 interface IBackpackItem {
   item: Item;

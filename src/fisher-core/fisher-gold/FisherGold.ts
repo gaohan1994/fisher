@@ -2,10 +2,6 @@ import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { prompt } from '../fisher-prompt';
 
-interface IFisherGold {
-  gold?: number;
-}
-
 /**
  * 金币模块
  * - 金币总额
@@ -16,14 +12,14 @@ interface IFisherGold {
  * @export
  * @class FisherGold
  */
+// @RegisterModule(ModuleKey.Gold)
 export class FisherGold {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherGold');
 
-  public gold: number;
+  public gold: number = 0;
 
-  constructor({ gold }: IFisherGold) {
+  constructor() {
     makeAutoObservable(this);
-    this.gold = gold ?? 0;
   }
 
   /**
