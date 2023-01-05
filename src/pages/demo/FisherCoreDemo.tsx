@@ -11,6 +11,7 @@ import { FisherPersonDemo } from './FisherPersonDemo';
 import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { FisherPromptDemo } from './FisherPromptDemo';
+import { StoreDemo } from './StoreDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack
@@ -66,6 +67,9 @@ const FisherCoreDemo: FC = () => (
       <Paper>
         <ExperienceDemo />
       </Paper>
+    </DemoStack>
+    <DemoStack>
+      <StoreDemo />
     </DemoStack>
     <FisherPromptDemo />
   </Stack>

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Item } from '../fisher-item';
-import { GoldItem } from '../fisher-packages';
+import { coinItem } from '../fisher-packages';
 import { FisherTimer } from '../fisher-timer';
 
 interface IPromptItemOptions {}
@@ -44,7 +44,7 @@ export class Prompt {
   };
 
   public promptGold = (gold: number) => {
-    this.quene.push({ item: GoldItem, quantity: gold });
+    this.quene.push({ item: coinItem, quantity: gold });
     this._shiftQuene();
   };
 
