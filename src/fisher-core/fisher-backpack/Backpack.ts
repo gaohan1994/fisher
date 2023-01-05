@@ -127,7 +127,7 @@ export class Backpack {
     const sellQuantity = quantity ?? sellItem.quantity;
     const totalPrice = item.calculatePrice(sellQuantity);
 
-    fisher.fisherGold.receiveGold(totalPrice);
+    fisher.bank.receiveGold(totalPrice);
     this.reduceItem(item.item, sellQuantity);
 
     Backpack.logger.debug(

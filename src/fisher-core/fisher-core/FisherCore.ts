@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { FisherGold } from '../fisher-gold';
+import { Bank } from '../fisher-bank';
 import { Backpack } from '../fisher-backpack';
 import { CollectionModule, Mining, Reiki } from '../fisher-modules';
 import { FisherPerson, master } from '../fisher-person';
@@ -18,7 +18,7 @@ export class FisherCore {
   public readonly master = master;
 
   // 货币
-  public readonly fisherGold = new FisherGold();
+  public readonly bank = new Bank();
 
   // 背包
   public readonly backpack = new Backpack();

@@ -5,11 +5,11 @@ import { describe, expect, test, vi } from 'vitest';
 import { Backpack } from '../fisher-backpack';
 import { TestItem } from '../fisher-item';
 
-const fisherGold = {
+const bank = {
   receiveGold: vi.fn(),
 };
 
-vi.stubGlobal('fisher', { fisherGold });
+vi.stubGlobal('fisher', { bank });
 
 const testBackpackItemPayload = {
   id: 'Test:Backpack',

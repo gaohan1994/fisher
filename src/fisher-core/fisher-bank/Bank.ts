@@ -10,11 +10,11 @@ import { prompt } from '../fisher-prompt';
  *      - 减少金币
  *
  * @export
- * @class FisherGold
+ * @class Bank
  */
 // @RegisterModule(ModuleKey.Gold)
-export class FisherGold {
-  static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherGold');
+export class Bank {
+  static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
 
   public gold: number = 0;
 
@@ -26,11 +26,11 @@ export class FisherGold {
    * 处理收到的金币
    *
    * @param {number} value
-   * @memberof FisherGold
+   * @memberof Bank
    */
   public receiveGold = (value: number) => {
     this.gold += value;
-    FisherGold.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
+    Bank.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
     prompt.promptGold(value);
   };
 }

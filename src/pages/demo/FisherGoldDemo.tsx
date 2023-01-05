@@ -5,11 +5,11 @@ import { Button, TextField } from '@mui/material';
 
 export const FisherGoldDemo: FC = observer(() => {
   const [receiveGoldNumber, setReceiveGoldNumber] = useState('');
-  const { fisherGold } = fisher;
+  const { bank } = fisher;
 
   return (
     <DemoLayout title="FisherGoldDemo">
-      <div>current gold: {fisherGold.gold}</div>
+      <div>current gold: {bank.gold}</div>
       <div>
         <TextField
           margin="normal"
@@ -26,7 +26,7 @@ export const FisherGoldDemo: FC = observer(() => {
       <Button
         fullWidth={true}
         variant="contained"
-        onClick={() => fisherGold.receiveGold(Number(receiveGoldNumber))}
+        onClick={() => bank.receiveGold(Number(receiveGoldNumber))}
       >
         receive gold
       </Button>

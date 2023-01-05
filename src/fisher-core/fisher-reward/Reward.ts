@@ -152,7 +152,7 @@ export class Reward {
     if (this.rewardGold > 0) {
       logger.debug('Execute reward gold: ' + this.rewardGold);
 
-      fisher.fisherGold.receiveGold(this.rewardGold);
+      fisher.bank.receiveGold(this.rewardGold);
     }
 
     if (this.rewardItemMap.size > 0) {
