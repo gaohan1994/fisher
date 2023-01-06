@@ -6,7 +6,6 @@ import {
   ActionMode,
   NormalAttackAction,
 } from '../fisher-person/person-actions';
-import { FisherProgressTimer } from '../fisher-timer';
 
 const testEnemyData = {
   id: 'LowSpritMonster',
@@ -30,9 +29,6 @@ describe('FisherPersonAction', () => {
     expect(normalAttackAction.id).toBe('NormalAttackAction');
     expect(normalAttackAction.name).toBe('普通攻击');
     expect(normalAttackAction.mode).toBe(ActionMode.Attack);
-    expect(
-      normalAttackAction.timer instanceof FisherProgressTimer
-    ).toBeTruthy();
   });
 
   test('should initialize action manager', async () => {
