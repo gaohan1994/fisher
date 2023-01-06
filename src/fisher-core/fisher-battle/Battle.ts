@@ -1,11 +1,11 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
+import { core } from '../fisher-core';
+import { useModulePackage } from '../fisher-packages';
 import { BattleAreaItem, BattleEnemyItem } from '../fisher-item';
 import { Enemy, master } from '../fisher-person';
-import { useModulePackage } from '../fisher-packages';
 import { Reward } from '../fisher-reward';
-import { FisherTimerSpace } from '../fisher-timer';
-import { core } from '../fisher-core';
+import { TimerSpace } from '../fisher-timer';
 
 export class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -35,9 +35,7 @@ export class Battle {
    * 触发敌人死亡
    */
   public get enemyDeathCondition() {
-    return (
-      this.inBattle === true && this.enemy !== undefined && this.enemy.Hp <= 0
-    );
+    return this.inBattle === true && this.enemy !== undefined && this.enemy.Hp <= 0;
   }
 
   /**
@@ -88,20 +86,17 @@ export class Battle {
    */
   public reinitializeEnemy = async () => {
     if (this.activeEnemyItem === undefined)
-      return Battle.logger.error(
-        'Try to reinitialize Enemy but active enemy was undefined'
-      );
+      return Battle.logger.error('Try to reinitialize Enemy but active enemy was undefined');
 
     await this.initializeEnemy(this.activeEnemyItem);
   };
 
   public start = async (enemyItem?: BattleEnemyItem) => {
     const currentEnemy = enemyItem ?? this.activeEnemyItem;
-    if (currentEnemy === undefined)
-      return Battle.logger.error('Try to start battle without enemy');
+    if (currentEnemy === undefined) return Battle.logger.error('Try to start battle without enemy');
 
     await this.initializeEnemy(currentEnemy);
-    await FisherTimerSpace.space(Battle.BaseBattleInterval);
+    await TimerSpace.space(Battle.BaseBattleInterval);
 
     this.master.startBattle();
     this.enemy?.startBattle();
@@ -159,9 +154,7 @@ export class Battle {
 
   private updateBattleCount = async () => {
     if (this.activeEnemyItem === undefined)
-      return Battle.logger.error(
-        'Try update battle count but enemy was undefined'
-      );
+      return Battle.logger.error('Try update battle count but enemy was undefined');
 
     const enemyId = this.activeEnemyItem.id;
 
@@ -193,10 +186,7 @@ export class Battle {
    * 收集奖励到战利品池
    */
   private collectRewardToPool = async () => {
-    if (!this.enemy)
-      return Battle.logger.error(
-        'Try to collection Enemy reward to pool but undefined'
-      );
+    if (!this.enemy) return Battle.logger.error('Try to collection Enemy reward to pool but undefined');
 
     this.rewardPool.push(...this.enemy.provideRewards());
   };
@@ -206,9 +196,7 @@ export class Battle {
    */
   public executeRewardPool = () => {
     if (!this.hasReward) {
-      return Battle.logger.error(
-        'Try to execute rewards but reward pool was empty'
-      );
+      return Battle.logger.error('Try to execute rewards but reward pool was empty');
     }
 
     this.rewardPool.forEach((reward) => {

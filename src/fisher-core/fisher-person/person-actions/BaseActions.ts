@@ -1,4 +1,4 @@
-import { FisherTimer } from '../../fisher-timer';
+import { Timer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 
 export enum ActionMode {
@@ -48,7 +48,7 @@ export abstract class DotAction extends BaseAction {
 
   public abstract totalEffectiveTimes: number;
 
-  abstract readonly timer: FisherTimer;
+  abstract readonly timer: Timer;
 
   public get effectiveInterval() {
     return 0;
@@ -59,25 +59,17 @@ export abstract class DotAction extends BaseAction {
   }
 
   /**
-   * 对 target 应用 dot
-   *
-   * @param {FisherPerson} target
-   * @memberof DotAction
+   * 初始化 dot
    */
-  abstract application(target: FisherPerson): void;
+  abstract initialize(): void;
+
   /**
    * 生效 dot
-   *
-   * @param {FisherPerson} target
-   * @memberof DotAction
    */
   abstract effective(): void;
 
   /**
    * 中止 dot
-   *
-   * @abstract
-   * @memberof DotAction
    */
   abstract abort(): void;
 

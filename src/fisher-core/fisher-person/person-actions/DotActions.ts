@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-import { FisherTimer } from '../../fisher-timer';
+import { Timer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 import { DotAction } from './BaseActions';
 
@@ -16,7 +16,9 @@ export class PersonStateDotAction extends DotAction {
   public effectiveTimes = 0;
 
   @observable
-  public timer: FisherTimer = new FisherTimer(this.id, () => this.action());
+  public timer: Timer = new Timer(this.id, () => this.action(), {
+    fireImmediately: true,
+  });
 
   @computed
   public get effectiveInterval() {
@@ -39,7 +41,7 @@ export class PersonStateDotAction extends DotAction {
   };
 
   @action
-  public application = () => {
+  public initialize = () => {
     this.resetDot();
   };
 

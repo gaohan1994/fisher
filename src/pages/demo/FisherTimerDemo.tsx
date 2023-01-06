@@ -1,39 +1,15 @@
 import { useEffect, useState, FC } from 'react';
 import { observer } from 'mobx-react';
 import { Button, Stack, LinearProgress } from '@mui/material';
-import { FisherProgressTimer, FisherTimer } from '@FisherCore';
-import { prefixLogger } from '@FisherLogger';
+import { Timer } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
-
-const logger = prefixLogger('FisherCoreDemo');
 
 export const FisherTimerDemo: FC = observer(() => {
   const [sum, setSum] = useState(0);
 
-  const [timer] = useState(
-    new FisherProgressTimer('TestTimer', () => setSum((prevSum) => ++prevSum))
-  );
-
-  const [unPorgressTimer] = useState(
-    () =>
-      new FisherTimer('FisherTimerDemo', () => {
-        console.log('unPorgressTimer');
-      })
-  );
-
-  const [onceTimer] = useState(
-    () =>
-      new FisherTimer(
-        'FisherTimerDemo',
-        () => {
-          console.log('onceTimer');
-        },
-        { once: true }
-      )
-  );
+  const [timer] = useState(new Timer('TestTimer', () => setSum((prevSum) => ++prevSum), { showProgress: true }));
 
   useEffect(() => {
-    logger.info('initialize timer demo');
     return () => {
       timer.stopTimer();
     };
@@ -45,18 +21,9 @@ export const FisherTimerDemo: FC = observer(() => {
       <div>sum: {sum}</div>
       <LinearProgress variant="determinate" value={timer.progress} />
       <Stack direction="row" spacing={1}>
-        <Button variant="contained" onClick={() => timer.startTimer(3000)}>
-          startTimer
-        </Button>
-        <Button variant="contained" onClick={() => timer.stopTimer()}>
-          stopTimer
-        </Button>
+        <Button onClick={() => timer.startTimer(3000)}>startTimer</Button>
+        <Button onClick={() => timer.stopTimer()}>stopTimer</Button>
       </Stack>
-
-      <Button onClick={() => unPorgressTimer.startTimer(1000)}>
-        UnProgress Timer
-      </Button>
-      <Button onClick={() => onceTimer.startTimer(1000)}>Once Timer</Button>
     </DemoLayout>
   );
 });

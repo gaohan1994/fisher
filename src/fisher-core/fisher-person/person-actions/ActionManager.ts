@@ -6,7 +6,7 @@ import { NormalAttackAction } from './AttackActions';
 import { FisherPerson } from '../FisherPerson';
 import { PersonStateDotAction } from './DotActions';
 import { roll } from '../../utils';
-import { FisherProgressTimer } from '../../fisher-timer';
+import { Timer } from '../../fisher-timer';
 
 export class ActionManager {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ActionManager');
@@ -21,11 +21,7 @@ export class ActionManager {
 
   public nextAttackAction: BaseAction | DotAction | undefined = undefined;
 
-  public attackActionTimer = new FisherProgressTimer(
-    'attackActionTimer',
-    () => this.attackActionHandler(),
-    { once: true }
-  );
+  public attackActionTimer = new Timer('AttackActionTimer', () => this.attackActionHandler(), { showProgress: true });
 
   public get activeDots() {
     return [...this.activeDotMap.values()];
@@ -44,7 +40,7 @@ export class ActionManager {
    * @memberof ActionManager
    */
   public startAttacking = () => {
-    this.attackActionHandler();
+    this.attackActionTimer.startTimer(this.person.attributePanel.AttackSpeed);
   };
 
   /**
@@ -55,7 +51,6 @@ export class ActionManager {
   public stopAttacking = () => {
     this.nextAttackAction = undefined;
     this.attackActionTimer.stopTimer();
-    this.attackActionTimer.resetProgress();
   };
 
   /**
@@ -72,9 +67,7 @@ export class ActionManager {
     this.activeDotMap.set(dot.id, dot);
     dot.effective();
 
-    ActionManager.logger.info(
-      `dot ${dot.id} application in ${this.person.mode}`
-    );
+    ActionManager.logger.info(`dot ${dot.id} application in ${this.person.mode}`);
   };
 
   public deleteDot = (dotId: string) => {
@@ -89,8 +82,8 @@ export class ActionManager {
       this.nextAttackAction.execute();
     }
 
-    if (this.nextAttackAction instanceof PersonStateDotAction) {
-      this.nextAttackAction.application();
+    if (this.nextAttackAction instanceof DotAction) {
+      this.nextAttackAction.initialize();
       this.person.target?.actionManager.applicationDot(this.nextAttackAction);
     }
 
@@ -103,36 +96,30 @@ export class ActionManager {
     let _nextAttackAction: BaseAction | DotAction = this.normalAttackAction;
 
     const dotAction = this.pickDotAction();
-    if (dotAction) {
-      _nextAttackAction = dotAction;
-    }
+    if (dotAction) _nextAttackAction = dotAction;
 
     this.nextAttackAction = _nextAttackAction;
-    this.attackActionTimer.startTimer(this.person.attributePanel.AttackSpeed);
   };
 
   private pickDotAction = (): DotAction | undefined => {
-    let dotAction: DotAction | undefined = undefined;
+    let result: DotAction | undefined = undefined;
 
     const dots = this.actionMap.get(ActionMode.Dot) as DotAction[];
-    if (!dots) return dotAction;
+    if (!dots) return result;
 
     for (let index = 0; index < dots.length; index++) {
       const dot = dots[index];
 
       if (roll(dot.chance) && !this.dotIsExistInTarget(dot)) {
-        dotAction = dot;
+        result = dot;
         break;
       }
     }
-    return dotAction;
+    return result;
   };
 
   private dotIsExistInTarget = (dot: DotAction): boolean => {
-    invariant(
-      this.person.target !== undefined,
-      'Try check dot is exist but target undefined'
-    );
+    invariant(this.person.target !== undefined, 'Try check dot is exist but target undefined');
     return this.person.target.actionManager.activeDotMap.has(dot.id);
   };
 

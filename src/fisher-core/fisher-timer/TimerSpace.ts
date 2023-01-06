@@ -1,8 +1,8 @@
 type Timer = ReturnType<typeof setTimeout>;
 
-export class FisherTimerSpace {
+export class TimerSpace {
   static space(delay: number) {
-    return new FisherTimerSpace().space(delay);
+    return new TimerSpace().space(delay);
   }
 
   public timer: Timer | undefined = undefined;

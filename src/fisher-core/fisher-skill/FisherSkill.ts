@@ -1,17 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import {
-  calculateLevelExperienceInfo,
-  LevelExperienceInfo,
-} from './Experience';
-import {
-  FisherCollectionSkillInfo,
-  FisherCollectionSkillTypes,
-} from './Constants';
+import { calculateLevelExperienceInfo, LevelExperienceInfo } from './Experience';
+import { FisherCollectionSkillInfo, FisherCollectionSkillTypes } from './Constants';
+import { Timer } from '../fisher-timer';
 import { Reward } from '../fisher-reward';
 import { RecipeItem } from '../fisher-item';
-import { FisherProgressTimer as FisherTimer } from '../fisher-timer';
 
 const logger = prefixLogger(prefixes.FISHER_CORE, 'FisherSkill');
 
@@ -65,11 +59,8 @@ export class FisherSkill {
    * - timer 执行任务的定时器
    * - timerInterval 执行任务间隔
    * - actionRewards 每次执行任务发放的奖励
-   *
-   * @type {FisherTimer}
-   * @memberof FisherSkill
    */
-  public timer: FisherTimer;
+  public timer: Timer;
   public timerInterval: number = 0;
   public actionRewards: Reward = new Reward();
 
@@ -79,7 +70,7 @@ export class FisherSkill {
     this.id = id;
     this.name = FisherCollectionSkillInfo[this.id]?.name ?? 'UnknowName';
     this.experience = experience ?? 0;
-    this.timer = new FisherTimer(this.id, () => this.action());
+    this.timer = new Timer(this.id, () => this.action(), { showProgress: true });
   }
 
   /**
@@ -162,15 +153,9 @@ export class FisherSkill {
    * @memberof FisherSkill
    */
   private _initializeTimerAndRewards = () => {
-    invariant(
-      this.activeRecipe !== undefined,
-      'Fail to initialize skill action, please set recipe!'
-    );
+    invariant(this.activeRecipe !== undefined, 'Fail to initialize skill action, please set recipe!');
 
-    this.actionRewards.setRewardItem(
-      this.activeRecipe.rewardItem,
-      this.activeRecipe.rewardQuantity
-    );
+    this.actionRewards.setRewardItem(this.activeRecipe.rewardItem, this.activeRecipe.rewardQuantity);
 
     this.actionRewards.setRewardSkill(this, this.activeRecipe.rewardExperience);
     this.timerInterval = this.activeRecipe.interval;

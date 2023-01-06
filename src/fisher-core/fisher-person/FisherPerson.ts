@@ -8,9 +8,9 @@ import type {
   IPersonRemoveEquipment,
   IPersonUseEquipment,
 } from './PersonEquipmentManager';
-import { PersonLevelManager } from './PersonLevelManager';
 import { range } from '../utils';
 import { EquipmentSlot, PersonLevel } from '../fisher-item';
+import { PersonLevelManager } from './PersonLevelManager';
 
 enum PersonMode {
   Master = 'Master',
@@ -127,13 +127,15 @@ export class FisherPerson {
 
   @action
   public hurt = (value: number) => {
+    FisherPerson.logger.debug(
+      `${this.mode}:${this.name} hurt damage: ${value}`
+    );
     this.Hp -= value;
   };
 
   @action
   public hurtRange = (value: number, rangeScope: number = 10) => {
     const damage = range(value, rangeScope);
-    console.log('damage', damage);
     this.hurt(damage);
   };
 

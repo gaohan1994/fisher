@@ -1,3 +1,2 @@
-export * from './FisherTimer';
-export * from './FisherTimerSpace';
-export { FisherTimer as FisherProgressTimer } from './FisherProgressTimer';
+export * from './TimerSpace';
+export * from './Timer';

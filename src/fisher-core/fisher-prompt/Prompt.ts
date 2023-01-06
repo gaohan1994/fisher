@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Item } from '../fisher-item';
 import { coinItem } from '../fisher-packages';
-import { FisherTimer } from '../fisher-timer';
 
 interface IPromptItemOptions {}
 
@@ -49,11 +48,9 @@ export class Prompt {
   };
 
   private runQueneShiftTimer = () => {
-    const timer = new FisherTimer('Prompt', () => this.shiftQueneItem(), {
-      once: true,
-    });
-
-    timer.startTimer(Prompt.PromptInterval);
+    setTimeout(() => {
+      this.shiftQueneItem();
+    }, Prompt.PromptInterval);
   };
 
   private shiftQueneItem = () => {
