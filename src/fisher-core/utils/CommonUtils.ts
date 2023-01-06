@@ -1,16 +1,21 @@
-/**
- * 返回是否命中概率
- *
- * @export
- * @param {number} probability
- */
-export function checkHitProbability(probability: number): boolean {
-  if (probability >= 100) return true;
-  return probability >= random(0, 100);
+export function range(value: number, rangeScope: number) {
+  const isRaiseCorrection = roll(50);
+  const correctionValue = Math.round(value * random(0, rangeScope) * 0.01);
+
+  let result = value;
+
+  if (isRaiseCorrection) {
+    result += correctionValue;
+  } else {
+    result -= correctionValue;
+  }
+
+  return result;
 }
 
 export function roll(probability: number) {
-  return checkHitProbability(probability);
+  if (probability >= 100) return true;
+  return probability >= random(0, 100);
 }
 
 export function random(min: number, max: number): number {

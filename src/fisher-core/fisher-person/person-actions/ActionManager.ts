@@ -5,7 +5,7 @@ import { ActionMode, BaseAction, DotAction } from './BaseActions';
 import { NormalAttackAction } from './AttackActions';
 import { FisherPerson } from '../FisherPerson';
 import { PersonStateDotAction } from './DotActions';
-import { checkHitProbability } from '../../utils';
+import { roll } from '../../utils';
 import { FisherProgressTimer } from '../../fisher-timer';
 
 export class ActionManager {
@@ -120,7 +120,7 @@ export class ActionManager {
     for (let index = 0; index < dots.length; index++) {
       const dot = dots[index];
 
-      if (checkHitProbability(dot.chance) && !this.dotIsExistInTarget(dot)) {
+      if (roll(dot.chance) && !this.dotIsExistInTarget(dot)) {
         dotAction = dot;
         break;
       }

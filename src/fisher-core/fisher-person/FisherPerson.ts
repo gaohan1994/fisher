@@ -9,7 +9,7 @@ import type {
   IPersonUseEquipment,
 } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
-import { random, roll } from '../utils';
+import { range } from '../utils';
 import { EquipmentSlot, PersonLevel } from '../fisher-item';
 
 enum PersonMode {
@@ -131,18 +131,10 @@ export class FisherPerson {
   };
 
   @action
-  public hurtRange = (value: number, range: number = 10) => {
-    const isRaiseCorrection = roll(50);
-    const correctionValue = Math.round(value * random(0, range) * 0.01);
-
-    let hurtValue = value;
-    if (isRaiseCorrection) {
-      hurtValue += correctionValue;
-    } else {
-      hurtValue -= correctionValue;
-    }
-
-    this.Hp -= hurtValue;
+  public hurtRange = (value: number, rangeScope: number = 10) => {
+    const damage = range(value, rangeScope);
+    console.log('damage', damage);
+    this.hurt(damage);
   };
 
   @action

@@ -1,4 +1,4 @@
-import { FisherProgressTimer, FisherTimer } from '../../fisher-timer';
+import { FisherTimer } from '../../fisher-timer';
 import { FisherPerson } from '../FisherPerson';
 
 export enum ActionMode {
@@ -11,8 +11,6 @@ interface IBaseAction {
 
   readonly mode: ActionMode;
 
-  timer: FisherTimer | FisherProgressTimer;
-
   name: string;
 }
 
@@ -24,8 +22,6 @@ export abstract class BaseAction implements IBaseAction {
   abstract readonly id: string;
 
   abstract readonly mode: ActionMode;
-
-  abstract readonly timer: FisherTimer | FisherProgressTimer;
 
   public person: FisherPerson;
 
@@ -51,6 +47,8 @@ export abstract class DotAction extends BaseAction {
   public abstract effectiveTimes: number;
 
   public abstract totalEffectiveTimes: number;
+
+  abstract readonly timer: FisherTimer;
 
   public get effectiveInterval() {
     return 0;
