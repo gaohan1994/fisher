@@ -2,7 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx';
 import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Mining, mining, Reiki, reiki } from '../fisher-modules';
-import { FisherPerson, master } from '../fisher-person';
+import { Person, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
 import { Battle } from '../fisher-battle';
@@ -82,10 +82,7 @@ export class FisherCore {
    * @memberof FisherCore
    */
   public setActiveComponent = (component: FisherComponent) => {
-    invariant(
-      component !== undefined,
-      'Tried setting active component to undefined!'
-    );
+    invariant(component !== undefined, 'Tried setting active component to undefined!');
     if (this.activeComponent !== component) {
       this.activeComponent?.stop();
       this.activeComponent = component;
@@ -109,7 +106,7 @@ export class FisherCore {
   private loadArchive = async (archive: any) => {
     await this.master.initialize({
       name: '李逍遥',
-      level: FisherPerson.Level.GasRefiningLater,
+      level: Person.Level.GasRefiningLater,
     });
 
     await this.bank.initialize();

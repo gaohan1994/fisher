@@ -3,7 +3,7 @@ import invariant from 'invariant';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { ActionMode, BaseAction, DotAction } from './BaseActions';
 import { NormalAttackAction } from './AttackActions';
-import { FisherPerson } from '../FisherPerson';
+import { Person } from '../Person';
 import { PersonStateDotAction } from './DotActions';
 import { roll } from '../../utils';
 import { Timer } from '../../fisher-timer';
@@ -11,7 +11,7 @@ import { Timer } from '../../fisher-timer';
 export class ActionManager {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ActionManager');
 
-  private person: FisherPerson;
+  private person: Person;
 
   public actionMap = new Map<ActionMode, BaseAction[]>();
 
@@ -27,7 +27,7 @@ export class ActionManager {
     return [...this.activeDotMap.values()];
   }
 
-  constructor(person: FisherPerson) {
+  constructor(person: Person) {
     makeAutoObservable(this);
 
     this.person = person;

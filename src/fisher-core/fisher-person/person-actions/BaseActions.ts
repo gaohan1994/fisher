@@ -1,5 +1,5 @@
 import { Timer } from '../../fisher-timer';
-import { FisherPerson } from '../FisherPerson';
+import { Person } from '../Person';
 
 export enum ActionMode {
   Attack = 'Attack',
@@ -23,11 +23,11 @@ export abstract class BaseAction implements IBaseAction {
 
   abstract readonly mode: ActionMode;
 
-  public person: FisherPerson;
+  public person: Person;
 
   public name = '';
 
-  constructor(person: FisherPerson) {
+  constructor(person: Person) {
     this.person = person;
   }
 

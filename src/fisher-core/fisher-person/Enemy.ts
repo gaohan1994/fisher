@@ -1,17 +1,13 @@
 import { action, computed, observable } from 'mobx';
 import { Reward } from '../fisher-reward';
-import {
-  EnemyItemReward,
-  EnemyRandomReward,
-  BattleEnemyItem,
-} from '../fisher-item';
-import { FisherPerson } from './FisherPerson';
+import { EnemyItemReward, EnemyRandomReward, BattleEnemyItem } from '../fisher-item';
+import { Person } from './Person';
 
-export class Enemy extends FisherPerson {
+export class Enemy extends Person {
   @observable
   public id: string = '';
 
-  public mode = FisherPerson.Mode.Enemy;
+  public mode = Person.Mode.Enemy;
 
   @observable
   public goldReward = 0;
@@ -57,7 +53,7 @@ export class Enemy extends FisherPerson {
 
     this.initialized = true;
 
-    FisherPerson.logger.debug(`Success initialize Enemy ${this.name}`);
+    Person.logger.debug(`Success initialize Enemy ${this.name}`);
   };
 
   /**
@@ -82,7 +78,7 @@ export class Enemy extends FisherPerson {
       result.push(...this.createRandomRewards());
     }
 
-    FisherPerson.logger.debug(`Provide Enemy:${this.id} rewards`);
+    Person.logger.debug(`Provide Enemy:${this.id} rewards`);
     return result;
   };
 

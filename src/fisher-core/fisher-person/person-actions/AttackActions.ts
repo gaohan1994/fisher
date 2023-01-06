@@ -1,5 +1,5 @@
 import { action, makeObservable } from 'mobx';
-import { FisherPerson } from '../FisherPerson';
+import { Person } from '../Person';
 import { ActionMode, BaseAction } from './BaseActions';
 
 export class NormalAttackAction extends BaseAction {
@@ -9,7 +9,7 @@ export class NormalAttackAction extends BaseAction {
 
   public readonly mode = ActionMode.Attack;
 
-  constructor(person: FisherPerson) {
+  constructor(person: Person) {
     super(person);
     makeObservable(this);
   }

@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { Timer } from '../../fisher-timer';
-import { FisherPerson } from '../FisherPerson';
+import { Person } from '../Person';
 import { DotAction } from './BaseActions';
 
 export class PersonStateDotAction extends DotAction {
@@ -30,7 +30,7 @@ export class PersonStateDotAction extends DotAction {
     return this.effectiveTimes >= this.totalEffectiveTimes;
   }
 
-  constructor(person: FisherPerson) {
+  constructor(person: Person) {
     super(person);
     makeObservable(this);
   }
@@ -57,13 +57,10 @@ export class PersonStateDotAction extends DotAction {
 
   @action
   private action = () => {
-    if (this.person.target === undefined)
-      return FisherPerson.logger.error(
-        'Try to effective dot to undefined target'
-      );
+    if (this.person.target === undefined) return Person.logger.error('Try to effective dot to undefined target');
 
     if (this.isFinished) {
-      FisherPerson.logger.debug(`Current Dot ${this.id} finished. clear dot`);
+      Person.logger.debug(`Current Dot ${this.id} finished. clear dot`);
       this.person.target.actionManager.deleteDot(this.id);
       return this.timer.stopTimer();
     }

@@ -1,12 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import {
-  FisherCore,
-  Backpack,
-  Bank,
-  Reiki,
-  FisherPerson,
-  Mining,
-} from '@FisherCore';
+import { FisherCore, Backpack, Bank, Reiki, Person, Mining } from '@FisherCore';
 
 describe('FisherCore', () => {
   test('should initialize FisherCore', () => {
@@ -15,7 +8,7 @@ describe('FisherCore', () => {
     expect(fisherCore.bank instanceof Bank).toBeTruthy();
     expect(fisherCore.mining instanceof Mining).toBeTruthy();
     expect(fisherCore.reiki instanceof Reiki).toBeTruthy();
-    expect(fisherCore.master instanceof FisherPerson).toBeTruthy();
+    expect(fisherCore.master instanceof Person).toBeTruthy();
 
     expect(fisherCore.activeComponent).toBeUndefined();
     expect(fisherCore.activeComponentId).toBeUndefined();

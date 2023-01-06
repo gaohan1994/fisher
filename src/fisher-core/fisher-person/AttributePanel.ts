@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { IBonusEquipmentsAttributes } from './Attributes';
-import { FisherPerson } from './FisherPerson';
+import { Person } from './Person';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
 
@@ -13,13 +13,13 @@ const BaseAttributeData = {
 };
 
 export class AttributePanel {
-  private target?: FisherPerson;
+  private target?: Person;
 
   private personLevelManager: PersonLevelManager;
 
   private equipmentManager: PersonEquipmentManager;
 
-  constructor(person: FisherPerson) {
+  constructor(person: Person) {
     makeAutoObservable(this);
     this.target = person.target;
     this.personLevelManager = person.personLevelManager;
@@ -52,9 +52,7 @@ export class AttributePanel {
    * 基础攻击力
    */
   public get BaseAttackPower() {
-    return (
-      this.personLevelManager.coefficient * BaseAttributeData.BaseAttackPower
-    );
+    return this.personLevelManager.coefficient * BaseAttributeData.BaseAttackPower;
   }
 
   /**
@@ -69,9 +67,7 @@ export class AttributePanel {
    * 基础防御力
    */
   public get BaseDefencePower() {
-    return (
-      this.personLevelManager.coefficient * BaseAttributeData.BaseDefencePower
-    );
+    return this.personLevelManager.coefficient * BaseAttributeData.BaseDefencePower;
   }
 
   /**
@@ -110,8 +106,7 @@ export class AttributePanel {
    */
   public get AttackPower() {
     return (
-      this.BaseAttackPower * this.BaseAttackPowerMultiplier +
-      this.BonusAttackPower * this.BonusAttackPowerMultiplier
+      this.BaseAttackPower * this.BaseAttackPowerMultiplier + this.BonusAttackPower * this.BonusAttackPowerMultiplier
     );
   }
 
@@ -120,11 +115,7 @@ export class AttributePanel {
    * @todo 与目标护甲有关,暂时为1
    */
   public get AttackDamageMultiplier() {
-    return (
-      1 -
-      (DefenceFormulaCoe * this.DefencePower) /
-        (1 + DefenceFormulaCoe * Math.abs(this.DefencePower))
-    );
+    return 1 - (DefenceFormulaCoe * this.DefencePower) / (1 + DefenceFormulaCoe * Math.abs(this.DefencePower));
   }
 
   /**

@@ -1,44 +1,31 @@
 import { describe, expect, test } from 'vitest';
 import { EquipmentSlot } from '../fisher-item';
-import {
-  master,
-  FisherPerson,
-  PersonEquipmentManager,
-  PersonLevelManager,
-} from '../fisher-person';
+import { master, Person, PersonEquipmentManager, PersonLevelManager } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
 import { ActionManager } from '../fisher-person/person-actions';
 
-describe('FisherPerson', () => {
-  test('should success constructor FisherPerson', () => {
-    const fisherPerson = new FisherPerson();
-    expect(fisherPerson.mode).toBeUndefined();
-    expect(fisherPerson.initialized).toBeFalsy();
-    expect(fisherPerson.name).toBe('DefaultName');
-    expect(fisherPerson.actionManager instanceof ActionManager).toBeTruthy();
-    expect(
-      fisherPerson.personLevelManager instanceof PersonLevelManager
-    ).toBeTruthy();
-    expect(
-      fisherPerson.personEquipmentManager instanceof PersonEquipmentManager
-    ).toBeTruthy();
-    expect(
-      fisherPerson.personEquipmentManager.equipmentMap.has(EquipmentSlot.Helmet)
-    ).toBeTruthy();
-    expect(fisherPerson.attributePanel instanceof AttributePanel).toBeTruthy();
+describe('Person', () => {
+  test('should success constructor Person', () => {
+    const person = new Person();
+    expect(person.mode).toBeUndefined();
+    expect(person.initialized).toBeFalsy();
+    expect(person.name).toBe('DefaultName');
+    expect(person.actionManager instanceof ActionManager).toBeTruthy();
+    expect(person.personLevelManager instanceof PersonLevelManager).toBeTruthy();
+    expect(person.personEquipmentManager instanceof PersonEquipmentManager).toBeTruthy();
+    expect(person.personEquipmentManager.equipmentMap.has(EquipmentSlot.Helmet)).toBeTruthy();
+    expect(person.attributePanel instanceof AttributePanel).toBeTruthy();
   });
 
   test('should initialize master', () => {
     master.initialize({
       name: '玩家',
-      level: FisherPerson.Level.GasRefiningEarly,
+      level: Person.Level.GasRefiningEarly,
     });
     expect(master.name).toBe('玩家');
     expect(master.initialized).toBeTruthy();
-    expect(master.mode).toBe(FisherPerson.Mode.Master);
-    expect(master.personLevelManager.level).toBe(
-      FisherPerson.Level.GasRefiningEarly
-    );
+    expect(master.mode).toBe(Person.Mode.Master);
+    expect(master.personLevelManager.level).toBe(Person.Level.GasRefiningEarly);
     expect(master.personLevelManager.name).toBe('炼气前期');
   });
 });

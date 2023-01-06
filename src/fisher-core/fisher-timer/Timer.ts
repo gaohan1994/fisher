@@ -21,14 +21,14 @@ export class Timer {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Timer');
   /**
    * 当前进度 progress
-   * 经过 tick ms 增加一次进度
+   * 经过 Tick ms 增加一次进度
    * 进度 >= 100 时触发一次 action
-   * 则每次进度增量 progressIncrement = (100 * Timer.TimerProgressTick) / this.actionInterval
+   * 则每次进度增量 progressIncrement = (100 * Timer.Tick) / this.actionInterval
    *
    * @static
    * @memberof Timer
    */
-  public static readonly TimerProgressTick = 100;
+  public static readonly Tick = 100;
 
   public id: string;
 
@@ -54,7 +54,7 @@ export class Timer {
 
   private get progressIncrement() {
     if (this.actionInterval === undefined) return 0;
-    return (100 * Timer.TimerProgressTick) / this.actionInterval;
+    return (100 * Timer.Tick) / this.actionInterval;
   }
 
   public progress = 0;
@@ -111,7 +111,7 @@ export class Timer {
   private progressTimerActiveControl = () => {
     if (this.active) {
       this.timerId && clearInterval(this.timerId);
-      this.timerId = setInterval(() => this.nextProgress(), Timer.TimerProgressTick);
+      this.timerId = setInterval(() => this.nextProgress(), Timer.Tick);
 
       this.fireImmediatelyActionHandler();
     } else {

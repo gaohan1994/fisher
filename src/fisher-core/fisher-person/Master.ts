@@ -1,16 +1,16 @@
 import { action } from 'mobx';
 import { PersonLevel } from '../fisher-item';
-import { FisherPerson } from './FisherPerson';
+import { Person } from './Person';
 
 interface InitializeMasterPayload {
   name: string;
   level: PersonLevel;
 }
 
-export class Master extends FisherPerson {
+export class Master extends Person {
   public static instance: Master;
 
-  public override mode = FisherPerson.Mode.Master;
+  public override mode = Person.Mode.Master;
 
   public static create = () => {
     if (!Master.instance) {
@@ -36,7 +36,7 @@ export class Master extends FisherPerson {
 
   @action
   public deathPenalty = () => {
-    FisherPerson.logger.info('master death');
+    Person.logger.info('master death');
   };
 }
 

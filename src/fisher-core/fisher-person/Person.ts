@@ -4,10 +4,7 @@ import { prefixes, prefixLogger } from '@FisherLogger';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './person-actions';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
-import type {
-  IPersonRemoveEquipment,
-  IPersonUseEquipment,
-} from './PersonEquipmentManager';
+import type { IPersonRemoveEquipment, IPersonUseEquipment } from './PersonEquipmentManager';
 import { range } from '../utils';
 import { EquipmentSlot, PersonLevel } from '../fisher-item';
 import { PersonLevelManager } from './PersonLevelManager';
@@ -17,19 +14,15 @@ enum PersonMode {
   Enemy = 'Enemy',
 }
 
-interface IHurtOptions {
-  range: boolean;
-}
-
 /**
  * 人物类
  * 玩家和 NPC 都基于此类状态
  *
  * @export
- * @class FisherPerson
+ * @class Person
  */
-export class FisherPerson {
-  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'FisherPerson');
+export class Person {
+  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Person');
 
   public static readonly Mode = PersonMode;
 
@@ -53,7 +46,7 @@ export class FisherPerson {
   public Hp = Infinity;
 
   @observable
-  public target: FisherPerson | undefined = undefined;
+  public target: Person | undefined = undefined;
 
   @observable
   public personLevelManager = new PersonLevelManager();
@@ -76,20 +69,14 @@ export class FisherPerson {
 
   @computed
   public get Weapon() {
-    const result = this.personEquipmentManager.equipmentMap.get(
-      EquipmentSlot.Weapon
-    );
-
+    const result = this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Weapon);
     invariant(result !== undefined, 'Fail get Weapon');
     return result;
   }
 
   @computed
   public get Helmet() {
-    const result = this.personEquipmentManager.equipmentMap.get(
-      EquipmentSlot.Helmet
-    );
-
+    const result = this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet);
     invariant(result !== undefined, 'Fail get Helmet');
     return result;
   }
@@ -108,7 +95,7 @@ export class FisherPerson {
    * 初始化战斗属性
    * 注册所有战斗 action
    *
-   * @memberof FisherPerson
+   * @memberof Person
    */
   @action
   public initializeForBattle = () => {
@@ -116,7 +103,7 @@ export class FisherPerson {
   };
 
   @action
-  public setTarget = (person: FisherPerson) => {
+  public setTarget = (person: Person) => {
     this.target = person;
 
     if (!this.initializedForBattle) {
@@ -127,9 +114,7 @@ export class FisherPerson {
 
   @action
   public hurt = (value: number) => {
-    FisherPerson.logger.debug(
-      `${this.mode}:${this.name} hurt damage: ${value}`
-    );
+    Person.logger.debug(`${this.mode}:${this.name} hurt damage: ${value}`);
     this.Hp -= value;
   };
 
@@ -147,14 +132,11 @@ export class FisherPerson {
   @action
   public startBattle = () => {
     if (!this.initialized)
-      return FisherPerson.logger.error(
+      return Person.logger.error(
         `Try to start battle before initialize, Please call initialize${this.mode} method first!`
       );
 
-    if (!this.initializedForBattle)
-      return FisherPerson.logger.error(
-        'Try to start battle before initializedForBattle'
-      );
+    if (!this.initializedForBattle) return Person.logger.error('Try to start battle before initializedForBattle');
 
     this.startAttacking();
   };
