@@ -1,11 +1,20 @@
 import { Item, ItemType, IItem } from './Item';
 
-export interface IFisherRecipeItem extends IItem {
+export interface IRecipeItem extends IItem {
   interval: number;
   unlockLevel: number;
-  rewardExperience: number;
-  rewardItem: Item;
-  rewardQuantity?: number;
+  rewardExperience?: number;
+  rewardItems?: RecipeRewardItem[];
+  randomRewardItems?: RecipeRandomRewardItem[];
+}
+
+interface RecipeRewardItem {
+  itemId: string;
+  itemQuantity: number;
+}
+
+interface RecipeRandomRewardItem extends RecipeRewardItem {
+  probability: number;
 }
 
 /**
@@ -18,40 +27,37 @@ export interface IFisherRecipeItem extends IItem {
 export class RecipeItem extends Item {
   type = ItemType.Recipe;
 
-  /**
-   * 采集间隔
-   *
-   * @type {number}
-   * @memberof RecipeItem
-   */
   public interval: number;
 
-  /**
-   * 解锁等级
-   *
-   * @type {number}
-   * @memberof RecipeItem
-   */
   public unlockLevel: number;
 
-  /**
-   * - rewardExperience 经验奖励
-   * - rewardQuantity 物品奖励数量
-   * - rewardItem 物品奖励
-   *
-   * @type {number}
-   * @memberof RecipeItem
-   */
-  public rewardExperience: number;
-  public rewardQuantity: number;
-  public rewardItem: Item;
+  public rewardExperience: number = 0;
 
-  constructor(options: IFisherRecipeItem) {
+  public get hasExperienceReward() {
+    return this.rewardExperience > 0;
+  }
+
+  public rewardItems: RecipeRewardItem[] = [];
+
+  public get hasRewardItems() {
+    return this.rewardItems.length > 0;
+  }
+
+  public randomRewardItems: RecipeRandomRewardItem[] = [];
+
+  public get hasRandomRewardItems() {
+    return this.randomRewardItems.length > 0;
+  }
+
+  constructor(options: IRecipeItem) {
     super(options);
     this.interval = options.interval;
     this.unlockLevel = options.unlockLevel;
-    this.rewardItem = options.rewardItem;
-    this.rewardExperience = options.rewardExperience;
-    this.rewardQuantity = options.rewardQuantity ?? 1;
+
+    if (options.rewardExperience) this.rewardExperience = options.rewardExperience;
+
+    if (options.rewardItems) this.rewardItems = options.rewardItems;
+
+    if (options.randomRewardItems) this.randomRewardItems = options.randomRewardItems;
   }
 }

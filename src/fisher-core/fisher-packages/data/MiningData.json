@@ -4,7 +4,7 @@
     "items": [
       {
         "id": "LowSpiritMine",
-        "name": "低灵矿",
+        "name": "低灵矿石",
         "desc": "一种很常见的矿石，灵气和纯度较低",
         "media": "",
         "type": "Mining",
@@ -13,7 +13,47 @@
       {
         "id": "FiveElementsStone",
         "name": "五行晶石",
-        "desc": "蕴含金木水火土五种灵力的晶石",
+        "desc": "蕴含金木水火土五种属性的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 25
+      },
+      {
+        "id": "MetalStone",
+        "name": "金晶石",
+        "desc": "蕴含金属性的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      },
+      {
+        "id": "WoodStone",
+        "name": "木晶石",
+        "desc": "蕴含木属性的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      },
+      {
+        "id": "WaterStone",
+        "name": "水晶石",
+        "desc": "蕴含水属性的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      },
+      {
+        "id": "FireStone",
+        "name": "火晶石",
+        "desc": "蕴含火属性的晶石",
+        "media": "",
+        "type": "Mining",
+        "price": 5
+      },
+      {
+        "id": "EarthStone",
+        "name": "土晶石",
+        "desc": "蕴含土属性的晶石",
         "media": "",
         "type": "Mining",
         "price": 5
@@ -22,25 +62,30 @@
     "recipes": [
       {
         "id": "Mining:Recipe:LowSpiritMine",
-        "name": "低灵矿",
-        "desc": "采集低灵矿",
+        "name": "低灵矿石",
+        "desc": "采集低灵矿石",
         "media": "",
         "interval": 1000,
         "unlockLevel": 1,
-        "rewardExperience": 20,
-        "rewardItemId": "LowSpiritMine",
-        "rewardQuantity": 1
+        "rewardExperience": 5,
+        "rewardItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 1 }]
       },
       {
         "id": "Mining:Recipe:FiveElementsStone",
-        "name": "五行晶石",
-        "desc": "采集五行晶石",
+        "name": "五行矿石",
+        "desc": "采集五行晶石，有概率采集到伴生的五种属性的晶石",
         "media": "",
         "interval": 5000,
         "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItemId": "FiveElementsStone",
-        "rewardQuantity": 1
+        "rewardExperience": 50,
+        "rewardItems": [{ "itemId": "FiveElementsStone", "itemQuantity": 1 }],
+        "randomRewardItems": [
+          { "probability": 10, "itemId": "MetalStone", "itemQuantity": 1 },
+          { "probability": 10, "itemId": "WaterStone", "itemQuantity": 1 },
+          { "probability": 10, "itemId": "WaterStone", "itemQuantity": 1 },
+          { "probability": 10, "itemId": "FireStone", "itemQuantity": 1 },
+          { "probability": 10, "itemId": "EarthStone", "itemQuantity": 1 }
+        ]
       }
     ]
   }

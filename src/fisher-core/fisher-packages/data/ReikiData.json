@@ -3,9 +3,9 @@
   "data": {
     "items": [
       {
-        "id": "WaterReiki",
-        "name": "水灵气",
-        "desc": "在有水的地方经常看到",
+        "id": "NormalReiki",
+        "name": "灵气",
+        "desc": "在有灵气的地方经常看到",
         "media": "",
         "type": "Reiki",
         "price": 5
@@ -16,15 +16,7 @@
         "desc": "在寒冷的地方经常看到",
         "media": "",
         "type": "Reiki",
-        "price": 10
-      },
-      {
-        "id": "WoodReiki",
-        "name": "木灵气",
-        "desc": "经常出现在富有木材的地方",
-        "media": "",
-        "type": "Reiki",
-        "price": 5
+        "price": 20
       },
       {
         "id": "SwordReiki",
@@ -32,53 +24,31 @@
         "desc": "经常出现在有剑术高手战斗过的地方",
         "media": "",
         "type": "Reiki",
-        "price": 10
+        "price": 25
       }
     ],
     "recipes": [
       {
-        "id": "Reiki:Recipe:ColdJadeValley:Part1",
+        "id": "Reiki:Recipe:ColdJadeValley",
         "name": "寒玉谷",
-        "desc": "",
+        "desc": "寒玉谷是一处破败了的小福地，蕴含灵气，有概率获得寒玉灵气",
         "media": "",
-        "interval": 1500,
+        "interval": 2000,
+        "unlockLevel": 1,
+        "rewardExperience": 5,
+        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 30, "itemId": "ColdJadeReiki", "itemQuantity": 1 }]
+      },
+      {
+        "id": "Reiki:Recipe:BlackWoodCliff",
+        "name": "黑木崖",
+        "desc": "魔教总部，曾经众多高手曾在这里战斗过",
+        "media": "",
+        "interval": 3500,
         "unlockLevel": 1,
         "rewardExperience": 10,
-        "rewardItemId": "WaterReiki",
-        "rewardQuantity": 1
-      },
-      {
-        "id": "Reiki:Recipe:ColdJadeValley:Part2",
-        "name": "寒玉谷",
-        "desc": "",
-        "media": "",
-        "interval": 3000,
-        "unlockLevel": 1,
-        "rewardExperience": 20,
-        "rewardItemId": "ColdJadeReiki",
-        "rewardQuantity": 1
-      },
-      {
-        "id": "Reiki:Recipe:BlackWoodCliff:Part1",
-        "name": "黑木崖",
-        "desc": "",
-        "media": "",
-        "interval": 1500,
-        "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItemId": "WoodReiki",
-        "rewardQuantity": 1
-      },
-      {
-        "id": "Reiki:Recipe:BlackWoodCliff:Part2",
-        "name": "黑木崖",
-        "desc": "",
-        "media": "",
-        "interval": 3000,
-        "unlockLevel": 10,
-        "rewardExperience": 20,
-        "rewardItemId": "SwordReiki",
-        "rewardQuantity": 1
+        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 10, "itemId": "SwordReiki", "itemQuantity": 1 }]
       }
     ]
   }
