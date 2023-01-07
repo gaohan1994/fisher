@@ -38,7 +38,31 @@ describe('Actions', () => {
     person1.startBattle();
     vi.advanceTimersByTime(person1.attributePanel.AttackSpeed);
 
-    expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp);
+    expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp - 0.9 * person1.attributePanel.AttackDamage);
+    expect(person2.Hp).toBeGreaterThan(person2.attributePanel.MaxHp - 1.1 * person1.attributePanel.AttackDamage);
+
+    vi.clearAllTimers();
+  });
+
+  test('should hurt after execute crit attack action', () => {
+    vi.useFakeTimers();
+
+    const item1 = new EnemyItem(testPerson1);
+    const item2 = new EnemyItem(testPerson2);
+
+    const person1 = new Enemy(item1.id);
+    person1.initialize(item1);
+
+    const person2 = new Enemy(item2.id);
+    person2.initialize(item2);
+
+    person1.setTarget(person2);
+    person2.setTarget(person1);
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
+
+    person1.actionManager.critAttackAction.execute(person1);
+    expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp - 0.9 * 2 * person1.attributePanel.AttackDamage);
+    expect(person2.Hp).toBeGreaterThan(person2.attributePanel.MaxHp - 1.1 * 2 * person1.attributePanel.AttackDamage);
 
     vi.clearAllTimers();
   });

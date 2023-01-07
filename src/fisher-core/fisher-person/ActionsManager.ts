@@ -1,17 +1,33 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { NormalAttackAction, BaseAttackAction, BaseDotAction, PersonStateDotAction } from '../fisher-actions';
+import {
+  BaseAttackAction,
+  BaseDotAction,
+  NormalAttackAction,
+  CritAttackAction,
+  PersonStateDotAction,
+} from '../fisher-actions';
 import { Timer } from '../fisher-timer';
-import { Person } from './Person';
 import { roll } from '../utils';
+import { Person } from './Person';
+
+type NextAttackAction = NormalAttackAction | CritAttackAction | BaseDotAction;
 
 export class ActionManager {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ActionManager');
 
   private person: Person;
 
+  // 普通攻击
   public normalAttackAction = new NormalAttackAction();
 
+  // 暴击
+  public critAttackAction = new CritAttackAction();
+
+  // 准备执行的攻击方式
+  public nextAttackAction: NextAttackAction = this.normalAttackAction;
+
+  // 可能触发的 Dot
   public dotActionMap = new Map<string, BaseDotAction>();
 
   public get dotActions() {
@@ -23,8 +39,6 @@ export class ActionManager {
   public get activeDotActions() {
     return [...this.activeDotActionMap.values()];
   }
-
-  public nextAttackAction: BaseAttackAction | BaseDotAction = this.normalAttackAction;
 
   public attackActionTimer = new Timer('AttackActionTimer', () => this.attackActionHandler(), { showProgress: true });
 
@@ -76,7 +90,7 @@ export class ActionManager {
   };
 
   private attackActionHandler = () => {
-    if (this.nextAttackAction instanceof NormalAttackAction) {
+    if (this.nextAttackAction instanceof BaseAttackAction) {
       this.nextAttackAction.execute(this.person);
     }
 
@@ -91,14 +105,27 @@ export class ActionManager {
   };
 
   private pickNextAttackAction = (): void => {
-    let _nextAttackAction: BaseAttackAction | BaseDotAction = this.normalAttackAction;
+    let _nextAttackAction: NextAttackAction = this.normalAttackAction;
+
+    const critAction = this.pickCritAction();
+    if (critAction) _nextAttackAction = critAction;
 
     const dotAction = this.pickDotAction();
     if (dotAction) _nextAttackAction = dotAction;
 
     this.nextAttackAction = _nextAttackAction;
 
-    ActionManager.logger.debug(`Next attack action: ${this.nextAttackAction.name}`);
+    ActionManager.logger.debug(`${this.person.name} next attack action: ${this.nextAttackAction.name}`);
+  };
+
+  private pickCritAction = (): CritAttackAction | undefined => {
+    let result: CritAttackAction | undefined = undefined;
+
+    if (roll(this.critAttackAction.change)) {
+      result = this.critAttackAction;
+    }
+
+    return result;
   };
 
   private pickDotAction = (): BaseDotAction | undefined => {
