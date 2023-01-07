@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
+import { ActionMode, NormalAttackAction } from '../fisher-actions';
 import { EnemyItem, IEnemyItem, PersonLevel } from '../fisher-item';
-import { Enemy, Person, Master } from '../fisher-person';
-import { ActionManager, ActionMode, NormalAttackAction } from '../fisher-person/person-actions';
+import { Enemy, Person, Master, ActionManager } from '../fisher-person';
 
 const testEnemyData: IEnemyItem = {
   id: 'LowSpritMonster',
@@ -21,7 +21,7 @@ describe('FisherPersonAction', () => {
     const person2 = new Person();
     person1.setTarget(person2);
     person2.setTarget(person1);
-    const normalAttackAction = new NormalAttackAction(person1);
+    const normalAttackAction = new NormalAttackAction();
     expect(normalAttackAction.id).toBe('NormalAttackAction');
     expect(normalAttackAction.name).toBe('普通攻击');
     expect(normalAttackAction.mode).toBe(ActionMode.Attack);
@@ -40,7 +40,7 @@ describe('FisherPersonAction', () => {
     person2.setTarget(person1);
 
     expect(person1.actionManager instanceof ActionManager).toBeTruthy();
-    expect(person1.actionManager.actionMap.size).toBeGreaterThan(0);
+    expect(person1.actionManager.dotActionMap.size).toBeGreaterThan(0);
     vi.clearAllTimers();
   });
 });

@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { EquipmentSlot } from '../fisher-item';
-import { master, Person, PersonEquipmentManager, PersonLevelManager } from '../fisher-person';
+import { master, Person, PersonEquipmentManager, PersonLevelManager, ActionManager } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
-import { ActionManager } from '../fisher-person/person-actions';
 
 describe('Person', () => {
   test('should success constructor Person', () => {
