@@ -30,7 +30,6 @@ export class Master extends Person {
   public initialize = ({ name, level }: InitializeMasterPayload) => {
     this.name = name;
     this.personLevelManager.initialize(level);
-    this.actionManager.registerActionMap();
     this.initialized = true;
   };
 

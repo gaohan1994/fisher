@@ -1,5 +1,5 @@
-import { Timer } from '../../fisher-timer';
-import { Person } from '../Person';
+import { Timer } from '../fisher-timer';
+import { Person } from '../fisher-person';
 
 export enum ActionMode {
   Attack = 'Attack',
@@ -11,7 +11,7 @@ interface IBaseAction {
 
   readonly mode: ActionMode;
 
-  name: string;
+  readonly name: string;
 }
 
 export interface IExecuteActionDispose {
@@ -23,45 +23,38 @@ export abstract class BaseAction implements IBaseAction {
 
   abstract readonly mode: ActionMode;
 
-  public person: Person;
+  abstract readonly name: string;
+}
 
-  public name = '';
-
-  constructor(person: Person) {
-    this.person = person;
-  }
-
+export abstract class BaseAttackAction extends BaseAction {
+  public readonly mode = ActionMode.Attack;
   /**
    * 执行 action
    */
-  public execute(): IExecuteActionDispose | undefined {
-    throw new Error('Not implemented!');
-  }
+  abstract execute(person: Person): IExecuteActionDispose | void;
 }
 
-export abstract class DotAction extends BaseAction {
+export abstract class BaseDotAction extends BaseAction {
   public readonly mode = ActionMode.Dot;
 
   public abstract chance: number;
+
+  public abstract get interval(): number;
 
   public abstract effectiveTimes: number;
 
   public abstract totalEffectiveTimes: number;
 
-  abstract readonly timer: Timer;
-
-  public get effectiveInterval() {
-    return 0;
-  }
-
   public get isFinished() {
-    return false;
+    return this.effectiveTimes >= this.totalEffectiveTimes;
   }
+
+  abstract readonly timer: Timer;
 
   /**
    * 初始化 dot
    */
-  abstract initialize(): void;
+  abstract initialize(person: Person): void;
 
   /**
    * 生效 dot
@@ -73,7 +66,8 @@ export abstract class DotAction extends BaseAction {
    */
   abstract abort(): void;
 
-  public damage(): number {
-    throw new Error('Not implemented!');
-  }
+  /**
+   * dot 伤害
+   */
+  abstract damage(): number;
 }

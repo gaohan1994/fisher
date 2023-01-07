@@ -49,8 +49,6 @@ export class Enemy extends Person {
     if (randomRewards) this.randomRewards = randomRewards;
 
     this.personLevelManager.initialize(level);
-    this.actionManager.registerActionMap();
-
     this.initialized = true;
 
     Person.logger.debug(`Success initialize Enemy ${this.name}`);
