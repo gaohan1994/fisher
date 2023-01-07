@@ -149,19 +149,19 @@ export class Person {
   };
 
   @action
-  public startAttacking = () => {
+  private startAttacking = () => {
     this.isAttacking = true;
     this.actionManager.startAttacking();
   };
 
   @action
-  public stopAttacking = () => {
+  private stopAttacking = () => {
     this.isAttacking = false;
     this.actionManager.stopAttacking();
   };
 
   @action
-  public clearEffects = () => {
+  private clearEffects = () => {
     this.actionManager.clearActiveDotActions();
   };
 }

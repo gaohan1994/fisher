@@ -45,14 +45,14 @@ export class PersonStateDotAction extends BaseDotAction {
 
     if (this.person.target === undefined) return Person.logger.error('Try to effective dot to undefined target');
 
+    this.effectiveTimes += 1;
+    this.person.target.hurt(this.damage());
+
     if (this.isFinished) {
       this.person.target.actionManager.undeployDotAction(this.id);
       Person.logger.debug(`Current DotAction ${this.id} ${this.name} finished. clear dotAction`);
       return this.timer.stopTimer();
     }
-
-    this.effectiveTimes += 1;
-    this.person.target.hurt(this.damage());
   };
 
   public resetDot = () => {
