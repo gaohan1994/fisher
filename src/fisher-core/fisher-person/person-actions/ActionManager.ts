@@ -19,7 +19,7 @@ export class ActionManager {
 
   public normalAttackAction: NormalAttackAction;
 
-  public nextAttackAction: BaseAction | DotAction | undefined = undefined;
+  public nextAttackAction: BaseAction | DotAction;
 
   public attackActionTimer = new Timer('AttackActionTimer', () => this.attackActionHandler(), { showProgress: true });
 
@@ -32,6 +32,7 @@ export class ActionManager {
 
     this.person = person;
     this.normalAttackAction = new NormalAttackAction(this.person);
+    this.nextAttackAction = this.normalAttackAction;
   }
 
   /**
@@ -49,7 +50,7 @@ export class ActionManager {
    * @memberof ActionManager
    */
   public stopAttacking = () => {
-    this.nextAttackAction = undefined;
+    this.nextAttackAction = this.normalAttackAction;
     this.attackActionTimer.stopTimer();
   };
 

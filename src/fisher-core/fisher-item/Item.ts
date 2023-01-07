@@ -5,8 +5,8 @@ export enum ItemType {
   Normal = 'Normal',
   Recipe = 'Recipe',
   Equipment = 'Equipment',
+  Enemy = 'Enemy',
   BattleArea = 'BattleArea',
-  BattleEnemy = 'BattleEnemy',
   PersonLevel = 'PersonLevel',
 }
 
