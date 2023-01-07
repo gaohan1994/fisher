@@ -1,14 +1,9 @@
 /**
  * @vitest-environment jsdom
  */
-import { beforeEach, describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
-import { createStore } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
-
-beforeEach(async () => {
-  await createStore();
-});
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -33,23 +28,16 @@ describe('PersonEquipmentManager interfaces', () => {
   test('should fail to useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
     const equip = new EquipmentItem(testEquipmentData);
-    expect(() =>
-      personEquipmentManager.useEquipment(
-        'WrongSlotName' as EquipmentSlot,
-        equip
-      )
-    ).toThrow('Fail to use equipment, can not match slot');
+    expect(() => personEquipmentManager.useEquipment('WrongSlotName' as EquipmentSlot, equip)).toThrow(
+      'Fail to use equipment, can not match slot'
+    );
   });
 
   test('should success useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
     const equip = new EquipmentItem(testEquipmentData);
     personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
-    expect(
-      personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty
-    ).toBeFalsy();
-    expect(
-      personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment
-    ).toBe(equip);
+    expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty).toBeFalsy();
+    expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment).toBe(equip);
   });
 });

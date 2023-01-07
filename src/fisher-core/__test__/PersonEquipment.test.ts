@@ -1,9 +1,8 @@
 /**
  * @vitest-environment jsdom
  */
-import { beforeEach, describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
-import { createStore } from '../fisher-packages';
 import { PersonEquipment } from '../fisher-person';
 
 const emptyEquipment = new EquipmentItem({
@@ -13,10 +12,6 @@ const emptyEquipment = new EquipmentItem({
   media: '',
   price: 0,
   slots: [EquipmentSlot.Helmet, EquipmentSlot.Weapon],
-});
-
-beforeEach(async () => {
-  await createStore();
 });
 
 const testEquipmentData = {
@@ -48,10 +43,7 @@ describe('PersonEquipment', () => {
     expect(personEquipment.isEmpty).toBeTruthy();
 
     const equip = new EquipmentItem(testEquipmentData);
-    const { prevEquipment, prevQuantity } = personEquipment.updateEquipment(
-      equip,
-      2
-    );
+    const { prevEquipment, prevQuantity } = personEquipment.updateEquipment(equip, 2);
     expect(prevEquipment).toStrictEqual(emptyEquipment);
     expect(prevQuantity).toBe(0);
     expect(personEquipment.equipment).toBe(equip);
@@ -66,10 +58,7 @@ describe('PersonEquipment', () => {
       equipment: equip,
       quantity: 3,
     });
-    const { prevEquipment, prevQuantity } = personEquipment.updateEquipment(
-      equip,
-      2
-    );
+    const { prevEquipment, prevQuantity } = personEquipment.updateEquipment(equip, 2);
     expect(prevEquipment).toBe(equip);
     expect(prevQuantity).toBe(3);
     expect(personEquipment.equipment).toBe(equip);

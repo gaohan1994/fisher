@@ -10,7 +10,6 @@ describe('FisherPackages', () => {
     expect(store.Mining.recipes.length).toBeGreaterThan(0);
     expect(store.Reiki.items.length).toBeGreaterThan(0);
     expect(store.Reiki.recipes.length).toBeGreaterThan(0);
-    expect(store.Reiki.recipePartMap.size).toBeGreaterThan(0);
     expect(store.BattleAreas.length).toBeGreaterThan(0);
     expect(store.BattleEnemies.length).toBeGreaterThan(0);
   });
@@ -18,22 +17,12 @@ describe('FisherPackages', () => {
 
 describe('FisherPackagesInterface', () => {
   test('should success find packages data', () => {
-    expect(
-      findItemById(miningDataJson.data.items[0].id) instanceof Item
-    ).toBeTruthy();
-
-    expect(
-      findRecipeById(miningDataJson.data.recipes[0].id) instanceof RecipeItem
-    ).toBeTruthy();
+    expect(findItemById(miningDataJson.data.items[0].id) instanceof Item).toBeTruthy();
+    expect(findRecipeById(miningDataJson.data.recipes[0].id) instanceof RecipeItem).toBeTruthy();
   });
 
   test('find data should throw error when pass wrong id', () => {
-    expect(() => findItemById('WrongTestId')).toThrowError(
-      'Could not find Item id: WrongTestId'
-    );
-
-    expect(() => findRecipeById('WrongTestId')).toThrowError(
-      'Could not find Item id: WrongTestId'
-    );
+    expect(() => findItemById('WrongTestId')).toThrowError('Could not find Item id: WrongTestId');
+    expect(() => findRecipeById('WrongTestId')).toThrowError('Could not find Item id: WrongTestId');
   });
 });

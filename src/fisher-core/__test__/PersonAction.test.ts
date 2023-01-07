@@ -1,19 +1,19 @@
 import { describe, expect, test, vi } from 'vitest';
-import { BattleEnemyItem, IBattleEnemyItem } from '../fisher-item';
+import { EnemyItem, IEnemyItem, PersonLevel } from '../fisher-item';
 import { Enemy, Person, Master } from '../fisher-person';
 import { ActionManager, ActionMode, NormalAttackAction } from '../fisher-person/person-actions';
 
-const testEnemyData = {
+const testEnemyData: IEnemyItem = {
   id: 'LowSpritMonster',
   name: '水灵小妖',
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: '',
-  level: 'GasRefiningEarly',
+  level: PersonLevel.GasRefiningEarly,
   goldReward: 1,
   itemRewards: [{ itemId: 'WaterReiki' }],
 };
 
-const battleEnemyItem = new BattleEnemyItem(testEnemyData as IBattleEnemyItem);
+const battleEnemyItem = new EnemyItem(testEnemyData);
 
 describe('FisherPersonAction', () => {
   test('should initialize attack action', () => {

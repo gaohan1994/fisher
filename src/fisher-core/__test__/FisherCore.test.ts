@@ -18,9 +18,9 @@ describe('FisherCore', () => {
     const fisherCore = new FisherCore();
     fisherCore.setActiveComponent(fisherCore.mining);
     expect(fisherCore.activeComponent instanceof Mining).toBeTruthy();
-    expect(fisherCore.activeComponentId).toBe('Collection:Mining');
+    expect(fisherCore.activeComponentId).toBe('Mining');
     fisherCore.setActiveComponent(fisherCore.reiki);
     expect(fisherCore.activeComponent instanceof Reiki).toBeTruthy();
-    expect(fisherCore.activeComponentId).toBe('Collection:Reiki');
+    expect(fisherCore.activeComponentId).toBe('Reiki');
   });
 });
