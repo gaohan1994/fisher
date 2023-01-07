@@ -1,6 +1,5 @@
-import { IFisherReikiPackagesData, useModulePackage } from '../fisher-packages';
-import { FisherCollectionSkillTypes } from '../fisher-skill';
-import { CollectionModule } from './CollectionModule';
+import { store } from '../fisher-packages';
+import { Collection } from './Collection';
 
 /**
  * 灵气模块
@@ -9,7 +8,7 @@ import { CollectionModule } from './CollectionModule';
  * @class Reiki
  * @extends {CollectionModule}
  */
-export class Reiki extends CollectionModule {
+export class Reiki extends Collection {
   public static instance: Reiki;
 
   public static create(): Reiki {
@@ -19,10 +18,12 @@ export class Reiki extends CollectionModule {
     return Reiki.instance;
   }
 
-  override packages = useModulePackage('Reiki') as IFisherReikiPackagesData;
+  public name = '打坐';
+
+  public packages = store.Reiki;
 
   constructor() {
-    super({ id: FisherCollectionSkillTypes.Reiki });
+    super(Collection.CollectionModuleId.Reiki);
   }
 }
 

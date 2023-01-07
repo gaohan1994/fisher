@@ -48,10 +48,7 @@ export class Backpack {
    * 添加物品到背包
    */
   public addItem = (item: Item, quantity: number) => {
-    invariant(
-      quantity > 0,
-      'Fail to add item to backpack, quantity should > 0'
-    );
+    invariant(quantity > 0, 'Fail to add item to backpack, quantity should > 0');
     if (this.items.has(item)) {
       this.addExistingItem(item, quantity);
     } else {
@@ -68,6 +65,7 @@ export class Backpack {
    */
   public addNewItem = (item: Item, quantity: number) => {
     const backpackItem = new BackpackItem({ item, quantity });
+
     this.items.set(item, backpackItem);
 
     prompt.promptItem(item, quantity);
@@ -82,12 +80,12 @@ export class Backpack {
    */
   public addExistingItem = (item: Item, quantity: number) => {
     const backpackItem = this.items.get(item);
+
     if (backpackItem === undefined)
-      return Backpack.logger.error(
-        'Try to add existing item to backpack but get undefined!',
-        item
-      );
+      return Backpack.logger.error('Try to add existing item to backpack but get undefined!', item);
+
     backpackItem.quantity += quantity;
+
     this.items.set(item, backpackItem);
 
     prompt.promptItem(item, quantity);
@@ -97,16 +95,10 @@ export class Backpack {
    * 减少 quantity 个传入物品
    */
   public reduceItem = (item: Item, quantity: number) => {
-    invariant(
-      quantity > 0,
-      'Fail to reduce backpack item, quantity should > 0'
-    );
+    invariant(quantity > 0, 'Fail to reduce backpack item, quantity should > 0');
 
     const backpackItem = this.items.get(item);
-    invariant(
-      backpackItem !== undefined,
-      'Fail to reduce backpackItem quantity, backpackItem undefined'
-    );
+    invariant(backpackItem !== undefined, 'Fail to reduce backpackItem quantity, backpackItem undefined');
 
     backpackItem.quantity -= quantity;
     if (backpackItem.quantity <= 0) {
@@ -162,14 +154,13 @@ export class Backpack {
    * 卖完之后清空选中物品列表
    */
   public sellSelectedItems = () => {
-    if (this.selectedItems.size <= 0) {
-      return Backpack.logger.error(
-        'Fail to sell selected items, selected items were empty'
-      );
-    }
+    if (this.selectedItems.size <= 0)
+      return Backpack.logger.error('Fail to sell selected items, selected items were empty');
+
     this.selectedItems.forEach((item) => {
       this.sellItem(item);
     });
+
     this.selectedItems.clear();
   };
 }

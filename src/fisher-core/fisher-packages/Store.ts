@@ -1,23 +1,23 @@
 import invariant from 'invariant';
 import {
-  BattleAreaItem,
-  BattleEnemyItem,
-  EquipmentItem,
   Item,
+  BattleAreaItem,
+  EquipmentItem,
   RecipeItem,
   PersonLevel,
   PersonLevelItem,
+  EnemyItem,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
-  IFisherMiningPackagesData,
-  IFisherReikiPackagesData,
+  ICollectionModuleData,
   makeBattlePackageData,
   makeEquipmentPackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
 import { generatePersonLevelData } from './PersonLevel';
+import { EmptyEquipment } from './EmptyEquipment';
 /**
  * 游戏模块数据库
  *
@@ -28,19 +28,27 @@ export class Store {
 
   public static instance: Store;
 
-  public readonly Mining: IFisherMiningPackagesData;
+  public static create = () => {
+    if (!Store.instance) {
+      Store.instance = new Store();
+      Store.instance.initializePackages();
+    }
+    return Store.instance;
+  };
 
-  public readonly Reiki: IFisherReikiPackagesData;
+  public Mining: ICollectionModuleData = { items: [], recipes: [] };
 
-  public readonly EmptyEquipment: EquipmentItem;
+  public Reiki: ICollectionModuleData = { items: [], recipes: [] };
 
-  public readonly Equipments: EquipmentItem[];
+  public EmptyEquipment: EquipmentItem = EmptyEquipment;
 
-  public readonly BattleAreas: BattleAreaItem[] = [];
+  public Equipments: EquipmentItem[] = [];
 
-  public readonly BattleEnemies: BattleEnemyItem[] = [];
+  public BattleAreas: BattleAreaItem[] = [];
 
-  public personLevelMap: Map<PersonLevel, PersonLevelItem>;
+  public BattleEnemies: EnemyItem[] = [];
+
+  public personLevelMap: Map<PersonLevel, PersonLevelItem> = new Map();
 
   public get items() {
     return [
@@ -55,51 +63,44 @@ export class Store {
     ];
   }
 
-  /**
-   * Creates an instance of Store.
-   * 初始化各个模块的数据
-   * @memberof Store
-   */
-  constructor() {
+  public initializePackages = async () => {
+    this.initializeMining();
+    this.initializeReiki();
+    this.initializeEquipments();
+    this.initializeBattle();
+    this.initializePersonLevel();
+  };
+
+  private initializeMining = () => {
     this.Mining = makeMiningPackagesData();
     Store.logger.info('initialize Mining data');
+  };
 
+  private initializeReiki = () => {
     this.Reiki = makeReikiPackagesData();
     Store.logger.info('initialize Reiki data');
+  };
 
-    const { emptyEquipment, equipments } = makeEquipmentPackagesData();
-    this.EmptyEquipment = emptyEquipment;
+  private initializeEquipments = () => {
+    const equipments = makeEquipmentPackagesData();
     this.Equipments = equipments;
     Store.logger.info('initialize Equipments data');
+  };
 
+  private initializeBattle = () => {
     const { battleAreas, battleEnemies } = makeBattlePackageData();
     this.BattleAreas = battleAreas;
     this.BattleEnemies = battleEnemies;
     Store.logger.info('initialize BattleArea and BattleEnemies data');
+  };
 
+  private initializePersonLevel = () => {
     const personLevelMap = generatePersonLevelData();
     this.personLevelMap = personLevelMap;
-  }
-
-  /**
-   * 使用单例模式防止重复创建
-   *
-   * @static
-   * @memberof Store
-   */
-  public static create = () => {
-    if (!Store.instance) {
-      Store.instance = new Store();
-    }
-    return Store.instance;
   };
 }
 
 export const store = Store.create();
-
-export function createStore(): Promise<Store> {
-  return new Promise((resolve) => resolve(store));
-}
 
 /**
  * 使用模块数据
@@ -117,8 +118,8 @@ type IFindItemReturnType<T> = T extends EquipmentItem
   ? EquipmentItem
   : T extends RecipeItem
   ? RecipeItem
-  : T extends BattleEnemyItem
-  ? BattleEnemyItem
+  : T extends EnemyItem
+  ? EnemyItem
   : Item;
 
 /**
@@ -148,7 +149,7 @@ export function findEquipmentById(id: string) {
  * 根据 id 查找敌人
  */
 export function findEnemyById(id: string) {
-  return findItemById<BattleEnemyItem>(id);
+  return findItemById<EnemyItem>(id);
 }
 
 /**

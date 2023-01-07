@@ -13,42 +13,8 @@ export const ReikiDemo: FC = observer(() => {
     isActive,
     start,
     stop,
-    packages: { recipePartMap },
+    packages: { recipes },
   } = reiki;
-
-  const renderRecipeParts: React.ReactNode[] = [];
-
-  recipePartMap?.forEach((recipes, partName) => {
-    renderRecipeParts.push(
-      <ul key={partName}>
-        <h3>{partName}</h3>
-        {recipes.map((item) => {
-          const isActiveRecipe = activeRecipe?.id === item.id;
-          return (
-            <li key={item.id}>
-              {isActiveRecipe ? (
-                <LinearProgress variant="determinate" value={skill.progress} />
-              ) : (
-                <LinearProgress variant="determinate" value={0} />
-              )}
-              <Stack direction="row" spacing={1}>
-                {isActiveRecipe ? (
-                  <Button variant="contained" onClick={stop}>
-                    停止采集{item.rewardItem.name}
-                  </Button>
-                ) : (
-                  <Button variant="contained" onClick={() => start(item)}>
-                    开始采集{item.rewardItem.name}
-                  </Button>
-                )}
-                {`（${isActiveRecipe ? '激活' : '未激活'}）`}
-              </Stack>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  });
 
   return (
     <DemoLayout title="灵气Demo">
@@ -61,7 +27,32 @@ export const ReikiDemo: FC = observer(() => {
         技能经验 {levelInfo.experience} / {levelInfo.totalExperienceToLevelUp}
       </div>
       {activeRecipe && <div>正在采集 {activeRecipe.name}</div>}
-      {renderRecipeParts}
+      <ul>
+        {recipes.map((item) => {
+          const isActiveRecipe = item.id === activeRecipe?.id;
+          return (
+            <li key={item.id}>
+              {isActiveRecipe ? (
+                <LinearProgress variant="determinate" value={skill.progress} />
+              ) : (
+                <LinearProgress variant="determinate" value={0} />
+              )}
+              <Stack direction="row" spacing={1}>
+                {isActiveRecipe ? (
+                  <Button variant="contained" onClick={stop}>
+                    停止打坐
+                  </Button>
+                ) : (
+                  <Button variant="contained" onClick={() => start(item)}>
+                    {item.name}打坐
+                  </Button>
+                )}
+                {`（${isActiveRecipe ? '激活' : '未激活'}）`}
+              </Stack>
+            </li>
+          );
+        })}
+      </ul>
     </DemoLayout>
   );
 });

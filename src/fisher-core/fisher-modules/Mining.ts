@@ -1,9 +1,5 @@
-import {
-  IFisherMiningPackagesData,
-  useModulePackage,
-} from '../fisher-packages';
-import { FisherCollectionSkillTypes } from '../fisher-skill';
-import { CollectionModule } from './CollectionModule';
+import { store } from '../fisher-packages';
+import { Collection } from './Collection';
 
 /**
  * 采矿模块
@@ -12,9 +8,7 @@ import { CollectionModule } from './CollectionModule';
  * @class Mining
  * @extends {CollectionModule}
  */
-export class Mining extends CollectionModule {
-  override packages = useModulePackage('Mining') as IFisherMiningPackagesData;
-
+export class Mining extends Collection {
   public static instance: Mining;
 
   public static create(): Mining {
@@ -24,8 +18,12 @@ export class Mining extends CollectionModule {
     return Mining.instance;
   }
 
+  public name = '采矿';
+
+  override packages = store.Mining;
+
   constructor() {
-    super({ id: FisherCollectionSkillTypes.Mining });
+    super(Collection.CollectionModuleId.Mining);
   }
 }
 

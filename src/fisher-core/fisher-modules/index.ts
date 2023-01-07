@@ -1,3 +1,3 @@
-export * from './Mining';
+export * from './Collection';
 export * from './Reiki';
-export * from './CollectionModule';
+export * from './Mining';

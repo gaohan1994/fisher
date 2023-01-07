@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx';
+import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '../fisher-item';
 import { Reward } from '../fisher-reward';
-import { EnemyItemReward, EnemyRandomReward, BattleEnemyItem } from '../fisher-item';
 import { Person } from './Person';
 
 export class Enemy extends Person {
@@ -39,7 +39,7 @@ export class Enemy extends Person {
   }
 
   @action
-  public initialize = async (enemyInfo: BattleEnemyItem) => {
+  public initialize = async (enemyInfo: EnemyItem) => {
     const { name, level, goldReward, itemRewards, randomRewards } = enemyInfo;
 
     this.name = name;

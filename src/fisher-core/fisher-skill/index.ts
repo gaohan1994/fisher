@@ -1,3 +1,2 @@
-export * from './FisherSkill';
+export * from './Skill';
 export * from './Experience';
-export * from './Constants';

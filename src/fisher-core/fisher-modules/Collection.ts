@@ -1,11 +1,12 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { ICollectionModuleData } from '../fisher-packages';
 import { core } from '../fisher-core';
+import { Skill } from '../fisher-skill';
 import { RecipeItem } from '../fisher-item';
-import { IFisherPackagesData } from '../fisher-packages';
-import { FisherCollectionSkillTypes, FisherSkill } from '../fisher-skill';
 
-interface ICollectionModule {
-  id: FisherCollectionSkillTypes;
+enum CollectionModuleId {
+  Reiki = 'Reiki',
+  Mining = 'Mining',
 }
 
 /**
@@ -32,39 +33,30 @@ interface ICollectionModule {
  *      - 采集后的物品存入背包 ?
  *      - 采集系统应该对接存档模块
  *
- * @export
- * @abstract
- * @class CollectionModule
  */
-export abstract class CollectionModule {
-  private static readonly logger = prefixLogger(
-    prefixes.FISHER_CORE,
-    'CollectionModule'
-  );
+export abstract class Collection {
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Collection');
+
+  static readonly CollectionModuleId = CollectionModuleId;
+
+  public id: string;
+
+  public abstract name: string;
 
   public isActive = false;
 
-  public readonly skill: FisherSkill;
+  public readonly skill: Skill;
 
-  public abstract readonly packages: IFisherPackagesData;
+  public abstract packages: ICollectionModuleData;
 
   /**
    * Creates an instance of CollectionModule.
    * 初始化抽象类
    * 创建采集技能
-   * @param {ICollectionModule} options
-   * @memberof CollectionModule
    */
-  constructor({ id }: ICollectionModule) {
-    this.skill = new FisherSkill({ id });
-  }
-
-  public get id() {
-    return 'Collection:' + this.skill.id;
-  }
-
-  public get name() {
-    return this.skill.name;
+  constructor(id: CollectionModuleId) {
+    this.id = id;
+    this.skill = new Skill(`${id}:Skill`);
   }
 
   public get activeRecipe() {
@@ -77,33 +69,23 @@ export abstract class CollectionModule {
 
   /**
    * 开始采集接口
-   *
-   * @abstract
-   * @param {RecipeItem} value
-   * @memberof CollectionModule
    */
   public start = (recipe: RecipeItem) => {
-    this.skill.updateActiveRecipe(recipe);
-    this.skill.startAction();
+    this.skill.start(recipe);
 
     this.isActive = true;
     core.setActiveComponent(this);
 
-    CollectionModule.logger.info(`start collection module ${this.id}`);
+    Collection.logger.info(`start collection module ${this.id}`);
   };
 
   /**
    * 停止采集接口
-   *
-   * @abstract
-   * @memberof CollectionModule
    */
   public stop = () => {
-    this.skill.stopAction();
-    this.skill.resetActiveRecipe();
-
+    this.skill.stop();
     this.isActive = false;
 
-    CollectionModule.logger.info(`stop collection module ${this.id}`);
+    Collection.logger.info(`stop collection module ${this.id}`);
   };
 }
