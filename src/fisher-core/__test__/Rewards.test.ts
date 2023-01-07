@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { ItemType, NormalItem } from '../fisher-item';
-import { FisherSkill } from '../fisher-skill';
+import { Skill } from '../fisher-skill';
 import { Reward } from '../fisher-reward';
 import { bank } from '../fisher-bank';
 import { backpack } from '../fisher-backpack';
@@ -14,11 +14,7 @@ const testItemPayload = {
   type: ItemType.Test,
 };
 
-const testSkillPayload = {
-  id: 'Test:RewardSkill' as any,
-  name: 'Test:RewardSkill',
-  experience: 0,
-};
+const testSkillId = 'Test:Skill';
 
 describe('FisherRewards', () => {
   test('should initialize Reward', () => {
@@ -51,7 +47,7 @@ describe('FisherRewards', () => {
 
   test('should success set reward skill experience to reward', () => {
     const reward = new Reward();
-    const testFisherSkill = new FisherSkill(testSkillPayload);
+    const testFisherSkill = new Skill(testSkillId);
     reward.addRewardSkill(testFisherSkill, 10);
     expect(reward.rewardSkillExperience.size).toBe(1);
     expect(reward.rewardSkillExperience.get(testFisherSkill)).toBe(10);
@@ -63,7 +59,7 @@ describe('FisherRewards', () => {
   test('should success set correct value if use set method ', () => {
     const reward = new Reward();
     const testFisherItem = new NormalItem(testItemPayload);
-    const testFisherSkill = new FisherSkill(testSkillPayload);
+    const testFisherSkill = new Skill(testSkillId);
     reward.setRewardItem(testFisherItem, 10);
     reward.setRewardItem(testFisherItem, 100);
     expect(reward.rewardItemMap.get(testFisherItem)).toBe(100);
@@ -81,11 +77,8 @@ describe('FisherRewards', () => {
     const reward = new Reward();
 
     const testFisherItem = new NormalItem(testItemPayload);
-    const testFisherSkill = new FisherSkill(testSkillPayload);
-    reward
-      .addRewardItem(testFisherItem, 1)
-      .addRewardGold(50)
-      .addRewardSkill(testFisherSkill, 10);
+    const testFisherSkill = new Skill(testSkillId);
+    reward.addRewardItem(testFisherItem, 1).addRewardGold(50).addRewardSkill(testFisherSkill, 10);
 
     reward.executeRewards();
     expect(bank.gold).toBe(50);
@@ -100,11 +93,8 @@ describe('FisherRewards', () => {
   test('should clear rewards after reset reward data', () => {
     const reward = new Reward();
     const testFisherItem = new NormalItem(testItemPayload);
-    const testFisherSkill = new FisherSkill(testSkillPayload);
-    reward
-      .addRewardItem(testFisherItem, 1)
-      .addRewardGold(50)
-      .addRewardSkill(testFisherSkill, 10);
+    const testFisherSkill = new Skill(testSkillId);
+    reward.addRewardItem(testFisherItem, 1).addRewardGold(50).addRewardSkill(testFisherSkill, 10);
     reward.resetRewards();
     expect(reward.rewardItemMap.size).toBe(0);
     expect(reward.rewardGold).toBe(0);

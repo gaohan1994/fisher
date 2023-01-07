@@ -1,19 +1,25 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { roll } from '../utils';
 import { Item } from '../fisher-item';
-import { findItemById } from '../fisher-packages';
-import { FisherSkill } from '../fisher-skill';
+import { Skill } from '../fisher-skill';
 import { bank } from '../fisher-bank';
 import { backpack } from '../fisher-backpack';
-
-const logger = prefixLogger(prefixes.FISHER_CORE, 'Reward');
+import { findItemById } from '../fisher-packages';
 
 interface ICreateRewardOptions {
   gold?: number;
   itemId?: string;
   itemQuantity?: number;
+  skill?: ICreateSkillReward;
 }
+
+interface ICreateSkillReward {
+  skill: Skill;
+  experience: number;
+}
+
 export class Reward {
+  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Reward');
   /**
    * 物品奖励
    * @type {Map<Item, number>}
@@ -41,12 +47,12 @@ export class Reward {
   /**
    * 技能经验奖励
    */
-  public rewardSkillExperience: Map<FisherSkill, number> = new Map();
+  public rewardSkillExperience: Map<Skill, number> = new Map();
 
   /**
    * 创建奖励
    */
-  static create({ gold, itemId, itemQuantity }: ICreateRewardOptions): Reward {
+  static create({ gold, itemId, itemQuantity, skill }: ICreateRewardOptions): Reward {
     const reward = new Reward();
 
     const _gold = gold ?? 0;
@@ -59,6 +65,10 @@ export class Reward {
       reward.addRewardItem(item, itemQuantity ?? 1);
     }
 
+    if (skill !== undefined) {
+      reward.addRewardSkill(skill.skill, skill.experience);
+    }
+
     return reward;
   }
 
@@ -67,10 +77,7 @@ export class Reward {
    * 如果没有命中概率则返回 undefined
    * 如果命中则创建奖励
    */
-  static createRandomReward(
-    probability: number,
-    options: ICreateRewardOptions
-  ): Reward | undefined {
+  static createRandomReward(probability: number, options: ICreateRewardOptions): Reward | undefined {
     if (!roll(probability)) {
       return undefined;
     }
@@ -118,7 +125,7 @@ export class Reward {
    * 如果要添加的技能已经存在
    * 奖励技能经验 + experience
    */
-  public addRewardSkill = (skill: FisherSkill, experience: number): this => {
+  public addRewardSkill = (skill: Skill, experience: number): this => {
     const hasRewardSkill = this.rewardSkillExperience.has(skill);
 
     if (hasRewardSkill) {
@@ -131,7 +138,7 @@ export class Reward {
     return this;
   };
 
-  public setRewardSkill = (skill: FisherSkill, experience: number): this => {
+  public setRewardSkill = (skill: Skill, experience: number): this => {
     this.rewardSkillExperience.set(skill, experience);
     return this;
   };
@@ -143,8 +150,7 @@ export class Reward {
     this.rewardGold = 0;
     this.rewardItemMap.clear();
     this.rewardSkillExperience.clear();
-
-    logger.debug('Success reset rewards.');
+    Reward.logger.debug('Success reset rewards.');
   };
 
   /**
@@ -152,30 +158,21 @@ export class Reward {
    */
   public executeRewards = () => {
     if (this.rewardGold > 0) {
-      logger.debug('Execute reward gold: ' + this.rewardGold);
-
       bank.receiveGold(this.rewardGold);
+      Reward.logger.debug('Execute reward gold: ' + this.rewardGold);
     }
 
     if (this.rewardItemMap.size > 0) {
       this.rewardItemMap.forEach((quantity, rewardItem) => {
-        logger.debug(
-          'Execute reward item: ' + rewardItem.name,
-          'quantity: ' + quantity
-        );
-
         backpack.addItem(rewardItem, quantity);
+        Reward.logger.debug('Execute reward item: ' + rewardItem.name, 'quantity: ' + quantity);
       });
     }
 
     if (this.rewardSkillExperience.size > 0) {
       this.rewardSkillExperience.forEach((experience, rewardSkill) => {
-        logger.debug(
-          'Execute reward skill experience: ' + rewardSkill.name,
-          'experience: ' + experience
-        );
-
         rewardSkill.addExperience(experience);
+        Reward.logger.debug('Execute reward skill experience: ' + rewardSkill.id, 'experience: ' + experience);
       });
     }
   };
