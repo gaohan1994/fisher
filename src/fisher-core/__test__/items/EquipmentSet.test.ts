@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { EquipmentSet, ItemType } from '../../fisher-item';
+import { EquipmentSetExtra, EquipmentSet, ItemType } from '../../fisher-item';
 import { findEquipmentById } from '../../fisher-packages';
 
 const testEquipmentSetData = {
@@ -18,6 +18,7 @@ const testEquipmentSetData = {
       ],
     },
   ],
+  extraAttributes: [{ key: 'DefencePower', value: 10 }],
 };
 
 describe('EquipmentSet', () => {
@@ -37,6 +38,14 @@ describe('EquipmentSet', () => {
     expect(setSlotControl.active).toBeFalsy();
     expect(setAttributes.find((attr) => attr.key === 'AttackPower')?.value).toEqual(10);
     expect(setAttributes.find((attr) => attr.key === 'MaxHp')?.value).toEqual(100);
+
+    expect(equipmentSet.extra instanceof EquipmentSetExtra).toBeTruthy();
+    expect(equipmentSet.hasExtraAttributes).toBeTruthy();
+    expect(equipmentSet.extra?.setSlotControl.active).toBeFalsy();
+    expect(equipmentSet.extra?.attributes.length).toEqual(1);
+
+    expect(equipmentSet.extra?.attributes[0].key).toEqual('DefencePower');
+    expect(equipmentSet.extra?.attributes[0].value).toEqual(10);
   });
 
   test('should success calculate equipment set slot active', () => {
@@ -48,5 +57,9 @@ describe('EquipmentSet', () => {
 
     const [setSlotControl] = equipmentSet.setAttributes[0];
     expect(setSlotControl.active).toBeTruthy();
+
+    test('should success calculate equipment set extra attributes', () => {
+      expect(equipmentSet.extra?.setSlotControl.active).toBeTruthy();
+    });
   });
 });

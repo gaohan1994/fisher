@@ -23,10 +23,11 @@ export class EquipmentSet extends Item {
     return [...this.setAttributeMap];
   }
 
-  // if every equipment in slot was used
-  // if equipment set has extra attributes
-  // extra attributes bonus
-  public extraAttributes: IEquipmentAttribute[] | undefined = undefined;
+  public extra: EquipmentSetExtra | undefined = undefined;
+
+  public get hasExtraAttributes() {
+    return this.extra !== undefined;
+  }
 
   constructor(options: IEquipmentSet) {
     super(options);
@@ -42,11 +43,21 @@ export class EquipmentSet extends Item {
       const { slot, attributes } = options.setAttributes[index];
       this.setAttributeMap.set(new EquipmentSetSlotControl(slot), attributes);
     }
+
+    if (options.extraAttributes) {
+      this.extra = new EquipmentSetExtra(this.equipmentIdSet.size, options.extraAttributes);
+    }
   }
 
   public calculateEquipmentsActiveSetAttributes = (equipments: EquipmentItem[]) => {
     this.checkEquipmentsIsBelongToCurrentEquipmentSet(equipments);
 
+    this.calculateSlotAttributes(equipments);
+
+    this.calculateExtraAttributes(equipments);
+  };
+
+  private calculateSlotAttributes = (equipments: EquipmentItem[]) => {
     this.setAttributeMap.forEach((_, setSlotControl) => {
       if (equipments.length >= setSlotControl.slot) {
         setSlotControl.setEquipmentSetActive();
@@ -54,6 +65,19 @@ export class EquipmentSet extends Item {
         setSlotControl.setEquipmentSetInActive();
       }
     });
+  };
+
+  private calculateExtraAttributes = (equipments: EquipmentItem[]) => {
+    if (this.extra === undefined) return;
+
+    // if every equipment in slot was used
+    // if equipment set has extra attributes
+    // extra attributes bonus
+    if (equipments.length === this.equipmentIdSet.size) {
+      this.extra.setSlotControl.setEquipmentSetActive();
+    } else {
+      this.extra.setSlotControl.setEquipmentSetInActive();
+    }
   };
 
   private checkEquipmentsIsBelongToCurrentEquipmentSet = (equipments: EquipmentItem[]) => {
@@ -69,9 +93,18 @@ export class EquipmentSet extends Item {
   };
 }
 
+export class EquipmentSetExtra {
+  public setSlotControl: EquipmentSetSlotControl;
+  public attributes: IEquipmentAttribute[];
+
+  constructor(equipmentsFullSlotCount: number, attributes: IEquipmentAttribute[]) {
+    this.setSlotControl = new EquipmentSetSlotControl(equipmentsFullSlotCount);
+    this.attributes = attributes;
+  }
+}
+
 class EquipmentSetSlotControl {
   public slot: number;
-
   public active: boolean = false;
 
   constructor(slot: number) {
