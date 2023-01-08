@@ -16,27 +16,26 @@
         "name": "木剑",
         "desc": "用寻常木头做的剑",
         "media": "woodsword",
-        "type": "Equipment",
         "price": 5,
         "slots": ["Weapon"],
-        "attributes": [{ "key": "AttackPower", "value": 40 }]
+        "attributes": [{ "key": "AttackPower", "value": 40 }],
+        "equipmentSetId": "NoobSet"
       },
       {
         "id": "ClothHat",
         "name": "布帽",
         "desc": "用布织成的帽子，可以遮风挡雨",
         "media": "",
-        "type": "Equipment",
         "price": 5,
         "slots": ["Helmet"],
-        "attributes": [{ "key": "", "value": 1 }]
+        "attributes": [{ "key": "DefencePower", "value": 2 }],
+        "equipmentSetId": "NoobSet"
       },
       {
         "id": "JadeCloudHairpin",
         "name": "流云白玉簪",
         "desc": "雕工上乘，玉质极佳",
         "media": "",
-        "type": "Equipment",
         "price": 5,
         "slots": ["Helmet"],
         "requirements": [],

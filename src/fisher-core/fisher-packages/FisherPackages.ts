@@ -1,6 +1,7 @@
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
+import equipmentSetDataJson from './data/EquipmentSetData.json';
 import battleDataJson from './data/BattleData.json';
 import {
   Item,
@@ -14,6 +15,8 @@ import {
   BattleAreaItem,
   EnemyItem,
   IEnemyItem,
+  IEquipmentSet,
+  EquipmentSet,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -31,11 +34,6 @@ type PackageCollectionJsonDataSource = PackageJsonDataSource<{
   recipes: IRecipeItem[];
 }>;
 
-type PackageEquipmentJsonDataSource = PackageJsonDataSource<{
-  emptyEquipment: IEquipmentItem;
-  items: IEquipmentItem[];
-}>;
-
 export function makeMiningPackagesData(): ICollectionModuleData {
   return makePackageCollectionDataSource(miningDataJson);
 }
@@ -50,10 +48,11 @@ export function makeReikiPackagesData(): ICollectionModuleData {
  * @return {*}
  */
 export function makeEquipmentPackagesData() {
-  const {
-    data: { items: itemsJson },
-  } = equipmentDataJson as PackageEquipmentJsonDataSource;
-  return generatePackagesEquipments(itemsJson);
+  return generateEquipments(equipmentDataJson.data.items);
+}
+
+export function makeEquipmentSetData() {
+  return generateEquipmentSets(equipmentSetDataJson.data.items);
 }
 
 /**
@@ -103,16 +102,14 @@ function generatePackagesRecipeItems(itemsJson: IRecipeItem[]) {
   return itemsJson.map((item) => new RecipeItem(item));
 }
 
-/**
- * 生成装备物品
- */
-function generatePackagesEquipments(itemsJson: IEquipmentItem[]) {
+function generateEquipments(itemsJson: IEquipmentItem[]) {
   return itemsJson.map((item) => new EquipmentItem(item));
 }
 
-/**
- * 生成敌人数据
- */
+function generateEquipmentSets(itemsJson: IEquipmentSet[]) {
+  return itemsJson.map((item) => new EquipmentSet(item));
+}
+
 function generateEnemies(itemsJson: IEnemyItem[]) {
   return itemsJson.map((item) => new EnemyItem(item));
 }

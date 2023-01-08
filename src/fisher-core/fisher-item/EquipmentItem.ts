@@ -2,9 +2,10 @@ import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
 import { Item, ItemType, IItem } from './Item';
 
 export interface IEquipmentItem extends IItem {
-  slots: EquipmentSlot[];
+  slots: Array<EquipmentSlot[number]>;
   requirements?: IEquipmentRequirement[];
   attributes?: IEquipmentAttribute[];
+  equipmentSetId?: string;
 }
 
 /**
@@ -19,8 +20,8 @@ interface IEquipmentRequirement {}
  *
  * @interface IEquipmentAttribute
  */
-interface IEquipmentAttribute {
-  key: IBonusEquipmentsAttributesKeys;
+export interface IEquipmentAttribute {
+  key: IBonusEquipmentsAttributesKeys[number];
   value: number;
 }
 
@@ -34,29 +35,29 @@ export enum EquipmentSlot {
   Weapon = 'Weapon',
   Helmet = 'Helmet',
 }
-
-/**
- * 装备物品
- *
- * @export
- * @class EquipmentItem
- * @extends {Item}
- */
 export class EquipmentItem extends Item {
   type = ItemType.Equipment;
 
-  public requirements: IEquipmentRequirement[];
-
   public slots: EquipmentSlot[];
 
-  public attributes: IEquipmentAttribute[];
+  public requirements: IEquipmentRequirement[] = [];
+
+  public attributes: IEquipmentAttribute[] = [];
 
   public rarity = '';
 
+  public equipmentSetId?: string | undefined = undefined;
+
+  public get hasEquipmentSet() {
+    return this.equipmentSetId !== undefined;
+  }
+
   constructor(options: IEquipmentItem) {
     super(options);
-    this.slots = options.slots;
-    this.requirements = options.requirements ?? [];
-    this.attributes = options.attributes ?? [];
+    this.slots = options.slots as EquipmentSlot[];
+
+    if (options.requirements) this.requirements = options.requirements;
+    if (options.attributes) this.attributes = options.attributes;
+    if (options.equipmentSetId) this.equipmentSetId = options.equipmentSetId;
   }
 }

@@ -1,18 +1,19 @@
 import invariant from 'invariant';
 import {
-  Item,
   BattleAreaItem,
   EquipmentItem,
   RecipeItem,
   PersonLevel,
   PersonLevelItem,
   EnemyItem,
+  EquipmentSet,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   ICollectionModuleData,
   makeBattlePackageData,
   makeEquipmentPackagesData,
+  makeEquipmentSetData,
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
@@ -44,6 +45,8 @@ export class Store {
 
   public Equipments: EquipmentItem[] = [];
 
+  public EquipmentSets: EquipmentSet[] = [];
+
   public BattleAreas: BattleAreaItem[] = [];
 
   public BattleEnemies: EnemyItem[] = [];
@@ -58,6 +61,7 @@ export class Store {
       ...this.Reiki.items,
       ...this.Reiki.recipes,
       ...this.Equipments,
+      ...this.EquipmentSets,
       ...this.BattleAreas,
       ...this.BattleEnemies,
     ];
@@ -67,6 +71,7 @@ export class Store {
     this.initializeMining();
     this.initializeReiki();
     this.initializeEquipments();
+    this.initializeEquipmentSets();
     this.initializeBattle();
     this.initializePersonLevel();
   };
@@ -87,6 +92,11 @@ export class Store {
     Store.logger.info('initialize Equipments data');
   };
 
+  private initializeEquipmentSets = () => {
+    this.EquipmentSets = makeEquipmentSetData();
+    Store.logger.info('initialize Equipment sets data');
+  };
+
   private initializeBattle = () => {
     const { battleAreas, battleEnemies } = makeBattlePackageData();
     this.BattleAreas = battleAreas;
@@ -102,59 +112,32 @@ export class Store {
 
 export const store = Store.create();
 
-/**
- * 使用模块数据
- *
- * @export
- * @template T
- * @param {ModulePackageKey} moduleKey
- * @return {*}
- */
 export function useModulePackage<T>(moduleKey: keyof typeof store) {
   return store[moduleKey] as T;
 }
 
-type IFindItemReturnType<T> = T extends EquipmentItem
-  ? EquipmentItem
-  : T extends RecipeItem
-  ? RecipeItem
-  : T extends EnemyItem
-  ? EnemyItem
-  : Item;
-
-/**
- * 根据 id 查找物品
- */
 export function findItemById<T>(itemId: string) {
   const Item = store.items.find((item) => item.id === itemId);
   invariant(Item !== undefined, 'Could not find Item id: ' + itemId);
-  return Item as IFindItemReturnType<T>;
+  return Item as T;
 }
 
-/**
- * 根据 id 查找配方
- */
 export function findRecipeById(id: string) {
   return findItemById<RecipeItem>(id);
 }
 
-/**
- * 根据 id 查找装备
- */
 export function findEquipmentById(id: string) {
   return findItemById<EquipmentItem>(id);
 }
 
-/**
- * 根据 id 查找敌人
- */
+export function findEquipmentSetById(id: string) {
+  return findItemById<EquipmentSet>(id);
+}
+
 export function findEnemyById(id: string) {
   return findItemById<EnemyItem>(id);
 }
 
-/**
- * 根据 level 查找具体等级
- */
 export function findPersonLevelItem(level: PersonLevel) {
   const result = store.personLevelMap.get(level);
   invariant(result !== undefined, `Try to find ${level} but got undefined`);
