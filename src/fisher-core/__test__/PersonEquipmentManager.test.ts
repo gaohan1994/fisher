@@ -2,7 +2,9 @@
  * @vitest-environment jsdom
  */
 import { describe, expect, test } from 'vitest';
+import { Backpack } from '../fisher-backpack';
 import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
+import { findEquipmentById, findEquipmentSetById } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
 
 const testEquipmentData = {
@@ -17,27 +19,76 @@ const testEquipmentData = {
   attributes: [],
 };
 
-describe('PersonEquipmentManager', () => {
-  test('should success initialize PersonEquipmentManager', () => {
-    const personEquipmentManager = new PersonEquipmentManager();
-    expect(personEquipmentManager.equipmentMap.size).toBeGreaterThan(0);
-  });
-});
-
 describe('PersonEquipmentManager interfaces', () => {
   test('should fail to useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
     const equip = new EquipmentItem(testEquipmentData);
     expect(() => personEquipmentManager.useEquipment('WrongSlotName' as EquipmentSlot, equip)).toThrow(
-      'Fail to use equipment, can not match slot'
+      `Fail to use equipment ${equip.id}, can not match slot, equipmentSlot`
     );
   });
 
-  test('should success useEquipment', () => {
+  describe('shou success use equipment', () => {
+    test('should success use equipment if previous equipment was empty', () => {
+      const personEquipmentManager = new PersonEquipmentManager();
+      const equip = new EquipmentItem(testEquipmentData);
+
+      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+
+      expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty).toBeFalsy();
+      expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment).toBe(equip);
+    });
+
+    test('should success use equipment if previous equipment was not empty', () => {
+      const personEquipmentManager = new PersonEquipmentManager();
+      const equip = new EquipmentItem(testEquipmentData);
+
+      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+
+      test('should put previous equipment into backpack', () => {
+        const backpack = Backpack.create();
+        personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+
+        expect(backpack.items.has(equip)).toBeTruthy();
+        expect(backpack.items.get(equip)?.item).toStrictEqual(equip);
+        expect(backpack.items.get(equip)?.quantity).toBe(1);
+      });
+    });
+  });
+
+  describe('should calculate equipment set after update equipments', () => {
     const personEquipmentManager = new PersonEquipmentManager();
-    const equip = new EquipmentItem(testEquipmentData);
-    personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
-    expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty).toBeFalsy();
-    expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment).toBe(equip);
+
+    const weapon = findEquipmentById('WoodSword');
+    const helmet = findEquipmentById('ClothHat');
+
+    test('should add NoobSet after use WoodSword', () => {
+      personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
+
+      const noobSet = findEquipmentSetById('NoobSet');
+
+      expect(personEquipmentManager.equipmentSetMap.size).toBe(1);
+      expect(personEquipmentManager.equipmentSetMap.has(noobSet)).toBeTruthy();
+      expect(noobSet.setAttributes[0][0].active).toBeFalsy();
+
+      test('NoobSet work equipment should to be WoodSword', () => {
+        expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.length).toBe(1);
+        expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.[0]).toBe(weapon);
+      });
+    });
+
+    test('should active NoobSet if use both WoodSword and ClothHat', () => {
+      personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
+      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, helmet);
+
+      const noobSet = findEquipmentSetById('NoobSet');
+      expect(noobSet.setAttributes[0][0].active).toBeTruthy();
+
+      test('NoobSet work equipments should to be WoodSword and ClothHat', () => {
+        expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.length).toBe(1);
+        expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.[0]).toBe(weapon);
+        expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.[1]).toBe(helmet);
+      });
+    });
   });
 });
