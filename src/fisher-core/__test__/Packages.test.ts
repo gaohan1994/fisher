@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { Item, RecipeItem } from '../fisher-item';
+import { Item, Recipe } from '../fisher-item';
 import { findItemById, findRecipeById, store } from '../fisher-packages';
 import miningDataJson from '../fisher-packages/data/MiningData.json';
 
@@ -18,7 +18,7 @@ describe('FisherPackages', () => {
 describe('FisherPackagesInterface', () => {
   test('should success find packages data', () => {
     expect(findItemById(miningDataJson.data.items[0].id) instanceof Item).toBeTruthy();
-    expect(findRecipeById(miningDataJson.data.recipes[0].id) instanceof RecipeItem).toBeTruthy();
+    expect(findRecipeById(miningDataJson.data.recipes[0].id) instanceof Recipe).toBeTruthy();
   });
 
   test('find data should throw error when pass wrong id', () => {

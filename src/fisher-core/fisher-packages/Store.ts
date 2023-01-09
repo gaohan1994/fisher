@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import {
   BattleAreaItem,
   EquipmentItem,
-  RecipeItem,
+  Recipe,
   PersonLevel,
   PersonLevelItem,
   EnemyItem,
@@ -123,7 +123,7 @@ export function findItemById<T>(itemId: string) {
 }
 
 export function findRecipeById(id: string) {
-  return findItemById<RecipeItem>(id);
+  return findItemById<Recipe>(id);
 }
 
 export function findEquipmentById(id: string) {

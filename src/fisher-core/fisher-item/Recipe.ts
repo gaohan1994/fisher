@@ -1,10 +1,10 @@
 import { Item, ItemType, IItem } from './Item';
 
-export interface IRecipeItem extends IItem {
+export interface IRecipe extends IItem {
   interval: number;
   unlockLevel: number;
-  rewardExperience?: number;
   rewardItems?: RecipeRewardItem[];
+  rewardExperience?: number;
   randomRewardItems?: RecipeRandomRewardItem[];
 }
 
@@ -21,10 +21,10 @@ interface RecipeRandomRewardItem extends RecipeRewardItem {
  * 采集配方
  *
  * @export
- * @class RecipeItem
+ * @class Recipe
  * @extends {Item}
  */
-export class RecipeItem extends Item {
+export class Recipe extends Item {
   type = ItemType.Recipe;
 
   public interval: number;
@@ -49,7 +49,7 @@ export class RecipeItem extends Item {
     return this.randomRewardItems.length > 0;
   }
 
-  constructor(options: IRecipeItem) {
+  constructor(options: IRecipe) {
     super(options);
     this.interval = options.interval;
     this.unlockLevel = options.unlockLevel;

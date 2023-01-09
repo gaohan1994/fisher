@@ -3,7 +3,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { calculateLevelExperienceInfo, LevelExperienceInfo } from './Experience';
 import { Timer } from '../fisher-timer';
 import { Reward } from '../fisher-reward';
-import { RecipeItem } from '../fisher-item';
+import { Recipe } from '../fisher-item';
 
 type IFisherSkillLevelInfo = LevelExperienceInfo;
 
@@ -16,7 +16,7 @@ export class Skill {
 
   public timer: Timer = new Timer('SkillTimer', () => this.action(), { showProgress: true });
 
-  public activeRecipe: RecipeItem | undefined = undefined;
+  public activeRecipe: Recipe | undefined = undefined;
 
   public get activeRecipeInterval() {
     return this.activeRecipe !== undefined ? this.activeRecipe.interval : 0;
@@ -40,7 +40,7 @@ export class Skill {
     rewards.forEach((reward) => reward.executeRewards());
   };
 
-  public start = (recipe: RecipeItem) => {
+  public start = (recipe: Recipe) => {
     this.updateActiveRecipe(recipe);
     this.startTimer();
   };
@@ -115,7 +115,7 @@ export class Skill {
     this.experience = value;
   };
 
-  public updateActiveRecipe = (value: RecipeItem) => {
+  public updateActiveRecipe = (value: Recipe) => {
     this.activeRecipe = value;
   };
 

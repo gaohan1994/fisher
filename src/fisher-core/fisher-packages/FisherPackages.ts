@@ -6,11 +6,11 @@ import battleDataJson from './data/BattleData.json';
 import {
   Item,
   IItem,
-  RecipeItem,
+  Recipe,
+  IRecipe,
   EquipmentItem,
   IEquipmentItem,
   NormalItem,
-  IRecipeItem,
   IBattleAreaItem,
   BattleAreaItem,
   EnemyItem,
@@ -21,7 +21,7 @@ import {
 
 export interface ICollectionModuleData {
   items: Array<Item | EquipmentItem>;
-  recipes: RecipeItem[];
+  recipes: Recipe[];
 }
 
 interface PackageJsonDataSource<T> {
@@ -31,7 +31,7 @@ interface PackageJsonDataSource<T> {
 
 type PackageCollectionJsonDataSource = PackageJsonDataSource<{
   items: IItem[];
-  recipes: IRecipeItem[];
+  recipes: IRecipe[];
 }>;
 
 export function makeMiningPackagesData(): ICollectionModuleData {
@@ -84,7 +84,7 @@ export function makeBattlePackageData() {
 
 function makePackageCollectionDataSource(dataSource: PackageCollectionJsonDataSource) {
   const items = generatePackagesItems(dataSource.data.items);
-  const recipes = generatePackagesRecipeItems(dataSource.data.recipes);
+  const recipes = generatePackagesRecipes(dataSource.data.recipes);
   return { items, recipes };
 }
 
@@ -98,8 +98,8 @@ function generatePackagesItems(itemsJson: IItem[]) {
 /**
  * 生成配方
  */
-function generatePackagesRecipeItems(itemsJson: IRecipeItem[]) {
-  return itemsJson.map((item) => new RecipeItem(item));
+function generatePackagesRecipes(itemsJson: IRecipe[]) {
+  return itemsJson.map((item) => new Recipe(item));
 }
 
 function generateEquipments(itemsJson: IEquipmentItem[]) {

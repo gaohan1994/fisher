@@ -2,7 +2,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { ICollectionModuleData } from '../fisher-packages';
 import { core } from '../fisher-core';
 import { Skill } from '../fisher-skill';
-import { RecipeItem } from '../fisher-item';
+import { Recipe } from '../fisher-item';
 
 enum CollectionModuleId {
   Reiki = 'Reiki',
@@ -70,7 +70,7 @@ export abstract class Collection {
   /**
    * 开始采集接口
    */
-  public start = (recipe: RecipeItem) => {
+  public start = (recipe: Recipe) => {
     this.skill.start(recipe);
 
     this.isActive = true;

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { RecipeItem } from '../../fisher-item';
+import { Recipe } from '../../fisher-item';
 
 const testRecipeData = {
   id: 'Mining:Recipe:FiveElementsStone',
@@ -21,7 +21,7 @@ const testRecipeData = {
 
 describe('RecipteItem', () => {
   test('should new Recipe item', () => {
-    const recipe = new RecipeItem(testRecipeData);
+    const recipe = new Recipe(testRecipeData);
 
     expect(recipe.interval).toBe(5000);
 

@@ -1,12 +1,12 @@
 import { describe, expect, test, vi } from 'vitest';
-import { IRecipeItem, RecipeItem } from '../fisher-item';
+import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
 import { findItemById } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
 
 const testSkillId = 'Test:Skill';
 
-const testRecipeData: IRecipeItem = {
+const testRecipeData: IRecipe = {
   id: 'Mining:Recipe:LowSpiritMine',
   name: '低灵矿石',
   desc: '采集低灵矿石',
@@ -57,7 +57,7 @@ describe('Skill', () => {
   test('should success update active recipe when called updateActiveRecipe', () => {
     const skill = new Skill(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
-    const testRecipe = new RecipeItem(testRecipeData);
+    const testRecipe = new Recipe(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
@@ -66,11 +66,11 @@ describe('Skill', () => {
     const skill = new Skill(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
 
-    const testRecipe = new RecipeItem(testRecipeData);
+    const testRecipe = new Recipe(testRecipeData);
     skill.updateActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
-    const testRecipeReplace = new RecipeItem({
+    const testRecipeReplace = new Recipe({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
@@ -84,7 +84,7 @@ describe('Skill', () => {
     const skill = new Skill(testSkillId);
     expect(skill.experience).toEqual(0);
 
-    const testRecipe = new RecipeItem(testRecipeData);
+    const testRecipe = new Recipe(testRecipeData);
     skill.start(testRecipe);
     vi.advanceTimersByTime(testRecipe.interval);
 
@@ -109,7 +109,7 @@ describe('Skill', () => {
 
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
-    const testRecipe = new RecipeItem(testRecipeData);
+    const testRecipe = new Recipe(testRecipeData);
     skill.start(testRecipe);
     vi.advanceTimersByTime(testRecipe.interval);
 
@@ -138,7 +138,7 @@ describe('Skill', () => {
 
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
-    const testRecipe = new RecipeItem(testRecipeData);
+    const testRecipe = new Recipe(testRecipeData);
     skill.start(testRecipe);
     vi.advanceTimersByTime(testRecipe.interval);
 
