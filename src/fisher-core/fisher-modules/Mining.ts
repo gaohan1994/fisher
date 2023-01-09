@@ -20,7 +20,9 @@ export class Mining extends Collection {
 
   public name = '采矿';
 
-  override packages = store.Mining;
+  public get packages() {
+    return store.Mining;
+  }
 
   constructor() {
     super(Collection.CollectionModuleId.Mining);

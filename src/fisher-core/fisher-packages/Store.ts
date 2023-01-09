@@ -1,8 +1,9 @@
 import invariant from 'invariant';
 import {
+  Item,
+  Recipe,
   BattleAreaItem,
   EquipmentItem,
-  Recipe,
   PersonLevel,
   PersonLevelItem,
   EnemyItem,
@@ -29,13 +30,13 @@ export class Store {
 
   public static instance: Store;
 
-  public static create = () => {
+  public static create(): Store {
     if (!Store.instance) {
       Store.instance = new Store();
       Store.instance.initializePackages();
     }
     return Store.instance;
-  };
+  }
 
   public Mining: ICollectionModuleData = { items: [], recipes: [] };
 
@@ -108,38 +109,34 @@ export class Store {
     const personLevelMap = generatePersonLevelData();
     this.personLevelMap = personLevelMap;
   };
+
+  public findItemById = <T = Item>(itemId: string) => {
+    const result = this.items.find((item) => item.id === itemId);
+    invariant(result !== undefined, 'Could not find Item id: ' + itemId);
+    return result as T;
+  };
+
+  public findRecipeById = (id: string) => {
+    return this.findItemById<Recipe>(id);
+  };
+
+  public findEquipmentById = (id: string) => {
+    return this.findItemById<EquipmentItem>(id);
+  };
+
+  public findEquipmentSetById = (id: string) => {
+    return this.findItemById<EquipmentSet>(id);
+  };
+
+  public findEnemyById = (id: string) => {
+    return this.findItemById<EnemyItem>(id);
+  };
+
+  public findPersonLevelItem = (level: PersonLevel) => {
+    const result = this.personLevelMap.get(level);
+    invariant(result !== undefined, `Try to find ${level} but got undefined`);
+    return result;
+  };
 }
 
 export const store = Store.create();
-
-export function useModulePackage<T>(moduleKey: keyof typeof store) {
-  return store[moduleKey] as T;
-}
-
-export function findItemById<T>(itemId: string) {
-  const Item = store.items.find((item) => item.id === itemId);
-  invariant(Item !== undefined, 'Could not find Item id: ' + itemId);
-  return Item as T;
-}
-
-export function findRecipeById(id: string) {
-  return findItemById<Recipe>(id);
-}
-
-export function findEquipmentById(id: string) {
-  return findItemById<EquipmentItem>(id);
-}
-
-export function findEquipmentSetById(id: string) {
-  return findItemById<EquipmentSet>(id);
-}
-
-export function findEnemyById(id: string) {
-  return findItemById<EnemyItem>(id);
-}
-
-export function findPersonLevelItem(level: PersonLevel) {
-  const result = store.personLevelMap.get(level);
-  invariant(result !== undefined, `Try to find ${level} but got undefined`);
-  return result;
-}

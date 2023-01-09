@@ -1,14 +1,7 @@
 import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
-import {
-  findItemById,
-  findEquipmentSetById,
-  EquipmentItem,
-  EquipmentSlot,
-  Person,
-  PersonLevelManager,
-} from '@FisherCore';
+import { EquipmentItem, EquipmentSlot, Person, PersonLevelManager, store } from '@FisherCore';
 import { FuiPersonEquipment } from '@Components';
 import { DemoLayout } from './DemoLayout';
 
@@ -33,7 +26,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
   const { Hp, name, attributePanel, personLevelManager, actionManager, personEquipmentManager } = person;
 
   const useEquipmentBySlot = useCallback((slot: EquipmentSlot, equipmentId: string) => {
-    const equipment = findItemById<EquipmentItem>(equipmentId);
+    const equipment = store.findItemById<EquipmentItem>(equipmentId);
     personEquipmentManager.useEquipment(slot, equipment);
   }, []);
 
@@ -87,7 +80,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
         <Button onClick={() => (person.Hp = 100000)}>debug</Button>
         <Button
           onClick={() => {
-            const noobSet = findEquipmentSetById('NoobSet');
+            const noobSet = store.findEquipmentSetById('NoobSet');
             console.log(noobSet);
           }}
         >

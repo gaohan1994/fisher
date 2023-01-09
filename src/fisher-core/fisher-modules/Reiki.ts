@@ -20,7 +20,9 @@ export class Reiki extends Collection {
 
   public name = '打坐';
 
-  public packages = store.Reiki;
+  public get packages() {
+    return store.Reiki;
+  }
 
   constructor() {
     super(Collection.CollectionModuleId.Reiki);

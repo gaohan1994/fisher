@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { findPersonLevelItem } from '../fisher-packages';
+import { store } from '../fisher-packages';
 import { PersonLevel, PersonLevelItem } from '../fisher-item';
 
 export class PersonLevelManager {
@@ -26,6 +26,6 @@ export class PersonLevelManager {
   }
 
   public initialize = (level: PersonLevel) => {
-    this.levelItem = findPersonLevelItem(level);
+    this.levelItem = store.findPersonLevelItem(level);
   };
 }

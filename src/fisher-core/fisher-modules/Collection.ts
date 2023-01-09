@@ -47,7 +47,7 @@ export abstract class Collection {
 
   public readonly skill: Skill;
 
-  public abstract packages: ICollectionModuleData;
+  public abstract get packages(): ICollectionModuleData;
 
   /**
    * Creates an instance of CollectionModule.

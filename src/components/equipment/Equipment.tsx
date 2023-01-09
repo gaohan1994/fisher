@@ -1,7 +1,7 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
 import { Box, colors, Stack, Typography } from '@mui/material';
-import { EquipmentItem, findEquipmentSetById } from '@FisherCore';
+import { EquipmentItem, store } from '@FisherCore';
 import { FuiItem } from '../item';
 
 interface FuiEquipmentProps {
@@ -18,7 +18,7 @@ export const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
       return null;
     }
 
-    const equipmentSet = findEquipmentSetById(equipment.equipmentSetId ?? '');
+    const equipmentSet = store.findEquipmentSetById(equipment.equipmentSetId ?? '');
     return (
       <Fragment>
         {equipmentSet.setAttributes.map(([setSlotControl, setAttributes]) => {

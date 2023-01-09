@@ -2,7 +2,7 @@ import { EventEmitter } from 'smar-util';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
-import { findEquipmentSetById } from '../fisher-packages';
+import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
 import { backpack } from '../fisher-backpack';
 
@@ -134,7 +134,7 @@ export class PersonEquipmentManager extends EventEmitter {
       const { equipment } = personEquipment;
 
       if (equipment.hasEquipmentSet) {
-        const equipmentSet = findEquipmentSetById(equipment.equipmentSetId ?? '');
+        const equipmentSet = store.findEquipmentSetById(equipment.equipmentSetId ?? '');
         let equipments: EquipmentItem[];
 
         if (this.equipmentSetMap.has(equipmentSet)) {
