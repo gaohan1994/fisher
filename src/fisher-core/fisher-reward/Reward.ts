@@ -4,7 +4,7 @@ import { Item } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { bank } from '../fisher-bank';
 import { backpack } from '../fisher-backpack';
-import { findItemById } from '../fisher-packages';
+import { store } from '../fisher-packages';
 
 interface ICreateRewardOptions {
   gold?: number;
@@ -52,7 +52,7 @@ export class Reward {
   /**
    * 创建奖励
    */
-  static create({ gold, itemId, itemQuantity, skill }: ICreateRewardOptions): Reward {
+  static create = ({ gold, itemId, itemQuantity, skill }: ICreateRewardOptions): Reward => {
     const reward = new Reward();
 
     const _gold = gold ?? 0;
@@ -61,7 +61,7 @@ export class Reward {
     }
 
     if (itemId !== undefined) {
-      const item = findItemById(itemId);
+      const item = store.findItemById(itemId);
       reward.addRewardItem(item, itemQuantity ?? 1);
     }
 
@@ -70,20 +70,20 @@ export class Reward {
     }
 
     return reward;
-  }
+  };
 
   /**
    * 创建随机奖励
    * 如果没有命中概率则返回 undefined
    * 如果命中则创建奖励
    */
-  static createRandomReward(probability: number, options: ICreateRewardOptions): Reward | undefined {
+  static createRandomReward = (probability: number, options: ICreateRewardOptions): Reward | undefined => {
     if (!roll(probability)) {
       return undefined;
     }
 
     return Reward.create(options);
-  }
+  };
 
   /**
    * 添加物品奖励

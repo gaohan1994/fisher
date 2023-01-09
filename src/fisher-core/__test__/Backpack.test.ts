@@ -1,9 +1,15 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Backpack } from '../fisher-backpack';
+import { FisherCore } from '../fisher-core';
 import { TestItem } from '../fisher-item';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const bank = {
   receiveGold: vi.fn(),
@@ -31,9 +37,7 @@ describe('Backpack', () => {
       const item = new TestItem(testBackpackItemPayload);
       backpack.addItem(item, 0);
     };
-    expect(() => handler()).toThrowError(
-      'Fail to add item to backpack, quantity should > 0'
-    );
+    expect(() => handler()).toThrowError('Fail to add item to backpack, quantity should > 0');
   });
 
   test('should success add new item to backpack', () => {
@@ -60,9 +64,7 @@ describe('Backpack', () => {
       backpack.addItem(item, 10);
       backpack.reduceItem(item, 0);
     };
-    expect(() => handler()).toThrowError(
-      'Fail to reduce backpack item, quantity should > 0'
-    );
+    expect(() => handler()).toThrowError('Fail to reduce backpack item, quantity should > 0');
   });
 
   test('should throw error when reduce item does not exist', () => {
@@ -71,9 +73,7 @@ describe('Backpack', () => {
       const item = new TestItem(testBackpackItemPayload);
       backpack.reduceItem(item, 10);
     };
-    expect(() => handler()).toThrowError(
-      'Fail to reduce backpackItem quantity, backpackItem undefined'
-    );
+    expect(() => handler()).toThrowError('Fail to reduce backpackItem quantity, backpackItem undefined');
   });
 
   test('should success reduce item in backpack', () => {

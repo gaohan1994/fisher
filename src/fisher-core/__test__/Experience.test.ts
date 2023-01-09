@@ -1,15 +1,19 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import {
   calculateLevelToExperience,
   calculateExperienceToLevel,
   calculateLevelExperienceInfo,
 } from '../fisher-skill/Experience';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('Experience', () => {
   test('should out of max level when calculate level 100', () => {
-    expect(() => calculateLevelToExperience(100)).toThrowError(
-      'Fail to calculate level, out of max level 99:'
-    );
+    expect(() => calculateLevelToExperience(100)).toThrowError('Fail to calculate level, out of max level 99:');
   });
 
   test('should success calculate level to experience', () => {

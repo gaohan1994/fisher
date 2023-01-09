@@ -1,19 +1,19 @@
 import { Item, ItemType, IItem } from './Item';
 
-export interface IRecipeItem extends IItem {
+export interface IRecipe extends IItem {
   interval: number;
   unlockLevel: number;
   rewardExperience?: number;
-  rewardItems?: RecipeRewardItem[];
-  randomRewardItems?: RecipeRandomRewardItem[];
+  rewardItems?: IRecipeItem[];
+  randomRewardItems?: IRecipeRandomRewardItem[];
+  costItems?: IRecipeItem[];
 }
 
-interface RecipeRewardItem {
+interface IRecipeItem {
   itemId: string;
   itemQuantity: number;
 }
-
-interface RecipeRandomRewardItem extends RecipeRewardItem {
+interface IRecipeRandomRewardItem extends IRecipeItem {
   probability: number;
 }
 
@@ -21,10 +21,10 @@ interface RecipeRandomRewardItem extends RecipeRewardItem {
  * 采集配方
  *
  * @export
- * @class RecipeItem
+ * @class Recipe
  * @extends {Item}
  */
-export class RecipeItem extends Item {
+export class Recipe extends Item {
   type = ItemType.Recipe;
 
   public interval: number;
@@ -37,19 +37,25 @@ export class RecipeItem extends Item {
     return this.rewardExperience > 0;
   }
 
-  public rewardItems: RecipeRewardItem[] = [];
+  public rewardItems: IRecipeItem[] = [];
 
   public get hasRewardItems() {
     return this.rewardItems.length > 0;
   }
 
-  public randomRewardItems: RecipeRandomRewardItem[] = [];
+  public randomRewardItems: IRecipeRandomRewardItem[] = [];
 
   public get hasRandomRewardItems() {
     return this.randomRewardItems.length > 0;
   }
 
-  constructor(options: IRecipeItem) {
+  public costItems: IRecipeItem[] | undefined = undefined;
+
+  public get hasCostItems() {
+    return this.costItems !== undefined;
+  }
+
+  constructor(options: IRecipe) {
     super(options);
     this.interval = options.interval;
     this.unlockLevel = options.unlockLevel;
@@ -59,5 +65,7 @@ export class RecipeItem extends Item {
     if (options.rewardItems) this.rewardItems = options.rewardItems;
 
     if (options.randomRewardItems) this.randomRewardItems = options.randomRewardItems;
+
+    if (options.costItems) this.costItems = options.costItems;
   }
 }

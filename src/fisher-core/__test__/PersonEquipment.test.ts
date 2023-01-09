@@ -1,9 +1,15 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { PersonEquipment } from '../fisher-person';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const emptyEquipment = new EquipmentItem({
   id: 'EmptyEquipment',

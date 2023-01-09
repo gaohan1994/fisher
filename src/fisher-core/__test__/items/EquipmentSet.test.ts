@@ -1,6 +1,12 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
+import { FisherCore } from '../../fisher-core';
 import { EquipmentSetExtra, EquipmentSet, ItemType } from '../../fisher-item';
-import { findEquipmentById } from '../../fisher-packages';
+import { store } from '../../fisher-packages';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testEquipmentSetData = {
   id: 'NoobSet',
@@ -50,8 +56,8 @@ describe('EquipmentSet', () => {
 
   test('should success calculate equipment set slot active', () => {
     const equipmentSet = new EquipmentSet(testEquipmentSetData);
-    const woodSword = findEquipmentById('WoodSword');
-    const clothHat = findEquipmentById('ClothHat');
+    const woodSword = store.findEquipmentById('WoodSword');
+    const clothHat = store.findEquipmentById('ClothHat');
 
     equipmentSet.calculateEquipmentsActiveSetAttributes([woodSword, clothHat]);
 

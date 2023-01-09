@@ -1,12 +1,18 @@
-import { describe, expect, test, vi } from 'vitest';
-import { IRecipeItem, RecipeItem } from '../fisher-item';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
-import { findItemById } from '../fisher-packages';
+import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testSkillId = 'Test:Skill';
 
-const testRecipeData: IRecipeItem = {
+const testRecipeData: IRecipe = {
   id: 'Mining:Recipe:LowSpiritMine',
   name: '低灵矿石',
   desc: '采集低灵矿石',
@@ -54,11 +60,38 @@ describe('Skill', () => {
     expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(320 - 140);
   });
 
+  describe('should calculate active recipe info', () => {
+    const skill = new Skill(testSkillId);
+    test('active recipe should not available', () => {
+      expect(skill.activeRecipe).toBeUndefined();
+      expect(skill.hasActiveRecipe).toBeFalsy();
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
+      expect(skill.activeRecipeBearCostAvailable).toBeFalsy();
+      expect(skill.activeRecipeAvailable).toBeFalsy();
+    });
+
+    test('active recipe should available', () => {
+      const testRecipe = new Recipe(testRecipeData);
+      skill.setActiveRecipe(testRecipe);
+
+      expect(skill.hasActiveRecipe).toBeTruthy();
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeTruthy();
+      expect(skill.activeRecipeBearCostAvailable).toBeTruthy();
+      expect(skill.activeRecipeAvailable).toBeTruthy();
+    });
+
+    test('should not require unlock level', () => {
+      const testRecipe = new Recipe(Object.assign({}, testRecipeData, { unlockLevel: 2 }));
+      skill.setActiveRecipe(testRecipe);
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
+      expect(skill.activeRecipeAvailable).toBeFalsy();
+    });
+  });
+
   test('should success update active recipe when called updateActiveRecipe', () => {
     const skill = new Skill(testSkillId);
-    expect(skill.activeRecipe).toBeUndefined();
-    const testRecipe = new RecipeItem(testRecipeData);
-    skill.updateActiveRecipe(testRecipe);
+    const testRecipe = new Recipe(testRecipeData);
+    skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
 
@@ -66,15 +99,15 @@ describe('Skill', () => {
     const skill = new Skill(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
 
-    const testRecipe = new RecipeItem(testRecipeData);
-    skill.updateActiveRecipe(testRecipe);
+    const testRecipe = new Recipe(testRecipeData);
+    skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
-    const testRecipeReplace = new RecipeItem({
+    const testRecipeReplace = new Recipe({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
-    skill.updateActiveRecipe(testRecipeReplace);
+    skill.setActiveRecipe(testRecipeReplace);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:ReplaceTest');
   });
 
@@ -84,8 +117,9 @@ describe('Skill', () => {
     const skill = new Skill(testSkillId);
     expect(skill.experience).toEqual(0);
 
-    const testRecipe = new RecipeItem(testRecipeData);
-    skill.start(testRecipe);
+    const testRecipe = new Recipe(testRecipeData);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(skill.experience).toEqual(testRecipe.rewardExperience);
@@ -96,7 +130,7 @@ describe('Skill', () => {
   test('should success receive items rewards when start skill', () => {
     vi.useFakeTimers();
 
-    const rewardItem = findItemById('LowSpiritMine');
+    const rewardItem = store.findItemById('LowSpiritMine');
 
     const skill = new Skill(testSkillId);
     const backpack = Backpack.create();
@@ -109,8 +143,9 @@ describe('Skill', () => {
 
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
-    const testRecipe = new RecipeItem(testRecipeData);
-    skill.start(testRecipe);
+    const testRecipe = new Recipe(testRecipeData);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(backpack.items.has(rewardItem)).toBeTruthy();
@@ -125,7 +160,7 @@ describe('Skill', () => {
   test('should success receive random items rewards when start skill', () => {
     vi.useFakeTimers();
 
-    const rewardItem = findItemById('EarthStone');
+    const rewardItem = store.findItemById('EarthStone');
 
     const skill = new Skill(testSkillId);
     const backpack = Backpack.create();
@@ -138,8 +173,9 @@ describe('Skill', () => {
 
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
-    const testRecipe = new RecipeItem(testRecipeData);
-    skill.start(testRecipe);
+    const testRecipe = new Recipe(testRecipeData);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(backpack.items.has(rewardItem)).toBeTruthy();

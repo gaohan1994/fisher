@@ -1,9 +1,10 @@
-import { makeAutoObservable } from 'mobx';
 import invariant from 'invariant';
+import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { BackpackItem, Item } from '../fisher-item';
 import { prompt } from '../fisher-prompt';
 import { bank } from '../fisher-bank';
+import { store } from '../fisher-packages';
 
 /**
  * 背包系统
@@ -43,6 +44,16 @@ export class Backpack {
   }
 
   public initialize = async () => {};
+
+  public hasItem = (itemId: string, quantity = 1): boolean => {
+    const item = store.findItemById(itemId);
+    const backpackItem = this.items.get(item);
+    if (!backpackItem) {
+      return false;
+    } else {
+      return backpackItem.quantity >= quantity;
+    }
+  };
 
   /**
    * 添加物品到背包

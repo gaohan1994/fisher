@@ -1,11 +1,17 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { Backpack } from '../fisher-backpack';
 import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
-import { findEquipmentById, findEquipmentSetById } from '../fisher-packages';
+import { store } from '../fisher-packages';
 import { PersonEquipmentManager } from '../fisher-person';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -59,13 +65,13 @@ describe('PersonEquipmentManager interfaces', () => {
   describe('should calculate equipment set after update equipments', () => {
     const personEquipmentManager = new PersonEquipmentManager();
 
-    const weapon = findEquipmentById('WoodSword');
-    const helmet = findEquipmentById('ClothHat');
+    const weapon = store.findEquipmentById('WoodSword');
+    const helmet = store.findEquipmentById('ClothHat');
 
     test('should add NoobSet after use WoodSword', () => {
       personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
 
-      const noobSet = findEquipmentSetById('NoobSet');
+      const noobSet = store.findEquipmentSetById('NoobSet');
 
       expect(personEquipmentManager.equipmentSetMap.size).toBe(1);
       expect(personEquipmentManager.equipmentSetMap.has(noobSet)).toBeTruthy();
@@ -81,7 +87,7 @@ describe('PersonEquipmentManager interfaces', () => {
       personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
       personEquipmentManager.useEquipment(EquipmentSlot.Helmet, helmet);
 
-      const noobSet = findEquipmentSetById('NoobSet');
+      const noobSet = store.findEquipmentSetById('NoobSet');
       expect(noobSet.setAttributes[0][0].active).toBeTruthy();
 
       test('NoobSet work equipments should to be WoodSword and ClothHat', () => {

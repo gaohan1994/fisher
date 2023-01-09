@@ -1,8 +1,8 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { core } from '../fisher-core';
-import { useModulePackage } from '../fisher-packages';
-import { BattleAreaItem, EnemyItem } from '../fisher-item';
+import { store } from '../fisher-packages';
+import { EnemyItem } from '../fisher-item';
 import { Enemy, master } from '../fisher-person';
 import { Reward } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
@@ -14,7 +14,9 @@ export class Battle {
 
   public readonly id = 'Battle';
 
-  public readonly packages: BattleAreaItem[] = useModulePackage('BattleAreas');
+  public get packages() {
+    return store.BattleAreas;
+  }
 
   public inBattle = false;
 
