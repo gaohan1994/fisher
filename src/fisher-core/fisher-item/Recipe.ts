@@ -3,17 +3,17 @@ import { Item, ItemType, IItem } from './Item';
 export interface IRecipe extends IItem {
   interval: number;
   unlockLevel: number;
-  rewardItems?: RecipeRewardItem[];
   rewardExperience?: number;
-  randomRewardItems?: RecipeRandomRewardItem[];
+  rewardItems?: IRecipeItem[];
+  randomRewardItems?: IRecipeRandomRewardItem[];
+  costItems?: IRecipeItem[];
 }
 
-interface RecipeRewardItem {
+interface IRecipeItem {
   itemId: string;
   itemQuantity: number;
 }
-
-interface RecipeRandomRewardItem extends RecipeRewardItem {
+interface IRecipeRandomRewardItem extends IRecipeItem {
   probability: number;
 }
 
@@ -37,16 +37,22 @@ export class Recipe extends Item {
     return this.rewardExperience > 0;
   }
 
-  public rewardItems: RecipeRewardItem[] = [];
+  public rewardItems: IRecipeItem[] = [];
 
   public get hasRewardItems() {
     return this.rewardItems.length > 0;
   }
 
-  public randomRewardItems: RecipeRandomRewardItem[] = [];
+  public randomRewardItems: IRecipeRandomRewardItem[] = [];
 
   public get hasRandomRewardItems() {
     return this.randomRewardItems.length > 0;
+  }
+
+  public costItems: IRecipeItem[] | undefined = undefined;
+
+  public get hasCostItems() {
+    return this.costItems !== undefined;
   }
 
   constructor(options: IRecipe) {
@@ -59,5 +65,7 @@ export class Recipe extends Item {
     if (options.rewardItems) this.rewardItems = options.rewardItems;
 
     if (options.randomRewardItems) this.randomRewardItems = options.randomRewardItems;
+
+    if (options.costItems) this.costItems = options.costItems;
   }
 }

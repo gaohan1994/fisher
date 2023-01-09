@@ -4,6 +4,7 @@ import { calculateLevelExperienceInfo, LevelExperienceInfo } from './Experience'
 import { Timer } from '../fisher-timer';
 import { Reward } from '../fisher-reward';
 import { Recipe } from '../fisher-item';
+import { RecipeHandler } from './RecipeHandler';
 
 type IFisherSkillLevelInfo = LevelExperienceInfo;
 
@@ -16,10 +17,28 @@ export class Skill {
 
   public timer: Timer = new Timer('SkillTimer', () => this.action(), { showProgress: true });
 
-  public activeRecipe: Recipe | undefined = undefined;
-
   public get activeRecipeInterval() {
     return this.activeRecipe !== undefined ? this.activeRecipe.interval : 0;
+  }
+
+  public activeRecipe: Recipe | undefined = undefined;
+
+  private recipeHandler = new RecipeHandler(this);
+
+  public get hasActiveRecipe() {
+    return this.activeRecipe !== undefined;
+  }
+
+  public get activeRecipeUnlockLevelRequirement() {
+    return this.recipeHandler.checkRecipeUnlockLevelRequirement(this.activeRecipe);
+  }
+
+  public get activeRecipeBearCostAvailable() {
+    return this.recipeHandler.checkRecipeCanBearCost(this.activeRecipe);
+  }
+
+  public get activeRecipeAvailable() {
+    return this.hasActiveRecipe && this.activeRecipeUnlockLevelRequirement && this.activeRecipeBearCostAvailable;
   }
 
   constructor(id: string) {
@@ -40,8 +59,10 @@ export class Skill {
     rewards.forEach((reward) => reward.executeRewards());
   };
 
-  public start = (recipe: Recipe) => {
-    this.updateActiveRecipe(recipe);
+  public start = () => {
+    if (!this.activeRecipeAvailable) {
+      return Skill.logger.error(`Try to start skill ${this.id} but recipe was unavailabled!`);
+    }
     this.startTimer();
   };
 
@@ -51,60 +72,10 @@ export class Skill {
   };
 
   private createRewards = (): Reward[] => {
-    const rewards: Reward[] = [];
-
-    const skillReward = this.createRecipeSkillReward();
-    if (skillReward) rewards.push(skillReward);
-
-    const itemsReward = this.createRecipeItemsRewards();
-    if (itemsReward.length > 0) rewards.push(...itemsReward);
-
-    const randomRewards = this.createRecipeRandomRewards();
-    if (randomRewards.length > 0) rewards.push(...randomRewards);
-
-    return rewards;
-  };
-
-  private createRecipeSkillReward = (): Reward | undefined => {
     if (this.activeRecipe === undefined)
       return Skill.logger.error('Try to create skill experience rewards with undefined recipe!');
 
-    if (this.activeRecipe.hasExperienceReward) {
-      return Reward.create({ skill: { skill: this, experience: this.activeRecipe.rewardExperience } });
-    }
-
-    return undefined;
-  };
-
-  private createRecipeItemsRewards = (): Reward[] => {
-    if (this.activeRecipe === undefined) return Skill.logger.error('Try to create rewards with undefined recipe!');
-
-    const result: Reward[] = [];
-
-    if (this.activeRecipe.hasRewardItems) {
-      this.activeRecipe.rewardItems.forEach((rewardItem) => {
-        const reward = Reward.create(rewardItem);
-        result.push(reward);
-      });
-    }
-
-    return result;
-  };
-
-  private createRecipeRandomRewards = (): Reward[] => {
-    if (this.activeRecipe === undefined)
-      return Skill.logger.error('Try to create random rewards with undefined recipe!');
-
-    const result: Reward[] = [];
-
-    if (this.activeRecipe.hasRandomRewardItems) {
-      this.activeRecipe.randomRewardItems.forEach((rewardItem) => {
-        const reward = Reward.createRandomReward(rewardItem.probability, rewardItem);
-        if (reward !== undefined) result.push(reward);
-      });
-    }
-
-    return result;
+    return this.recipeHandler.createRewards(this.activeRecipe);
   };
 
   public addExperience = (value: number) => {
@@ -115,7 +86,7 @@ export class Skill {
     this.experience = value;
   };
 
-  public updateActiveRecipe = (value: Recipe) => {
+  public setActiveRecipe = (value: Recipe) => {
     this.activeRecipe = value;
   };
 
