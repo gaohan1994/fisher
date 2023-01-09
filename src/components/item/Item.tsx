@@ -1,15 +1,16 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment, useState, PropsWithChildren, ReactNode } from 'react';
 import { Avatar, Box, colors, Popover, Stack, Typography } from '@mui/material';
 import { coinItem, Item } from '@FisherCore';
 
 interface FuiItemProps {
   item: Item;
+  renderPopover?: () => ReactNode;
 }
 
 const FuiItemWidth = 30;
 const FuiItemHeight = 30;
 
-export const FuiItem: FC<FuiItemProps> = ({ item }) => {
+export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, renderPopover }) => {
   const [itemDesc, setItemDesc] = useState<HTMLElement | null>(null);
 
   const showItemDesc = (event: React.MouseEvent<HTMLElement>) => {
@@ -35,13 +36,7 @@ export const FuiItem: FC<FuiItemProps> = ({ item }) => {
         onMouseEnter={showItemDesc}
         onMouseLeave={closeItemDesc}
       >
-        {item.media && (
-          <Avatar
-            sx={{ width: 30, height: 30 }}
-            src={item.media}
-            variant="square"
-          />
-        )}
+        {item.media && <Avatar sx={{ width: 30, height: 30 }} src={item.media} variant="square" />}
       </Box>
       <Popover
         id="mouse-over-popover"
@@ -63,25 +58,17 @@ export const FuiItem: FC<FuiItemProps> = ({ item }) => {
           <Stack direction="row" spacing={1}>
             <Avatar src={item.media} variant="square" />
             <Stack>
-              <Typography sx={{ color: colors.common.white }}>
-                {item.name}
-              </Typography>
+              <Typography sx={{ color: colors.common.white }}>{item.name}</Typography>
               <Stack direction="row" spacing={1}>
-                <Avatar
-                  src={coinItem.media}
-                  sx={{ width: 20, height: 20 }}
-                  variant="square"
-                />
-                <Typography sx={{ color: colors.yellow[600] }}>
-                  {item.price}
-                </Typography>
+                <Avatar src={coinItem.media} sx={{ width: 20, height: 20 }} variant="square" />
+                <Typography sx={{ color: colors.yellow[600] }}>{item.price}</Typography>
               </Stack>
             </Stack>
           </Stack>
 
-          <Typography sx={{ color: colors.blueGrey[300] }}>
-            {item.desc}
-          </Typography>
+          {renderPopover?.()}
+
+          <Typography sx={{ color: colors.blueGrey[300] }}>{item.desc}</Typography>
         </Box>
       </Popover>
     </Fragment>

@@ -1,10 +1,16 @@
 import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
-import { findItemById, EquipmentItem, EquipmentSlot, Person } from '@FisherCore';
+import {
+  findItemById,
+  findEquipmentSetById,
+  EquipmentItem,
+  EquipmentSlot,
+  Person,
+  PersonLevelManager,
+} from '@FisherCore';
 import { FuiPersonEquipment } from '@Components';
 import { DemoLayout } from './DemoLayout';
-import { PersonLevelManager } from '../../fisher-core/fisher-person/PersonLevelManager';
 
 interface LevelProps {
   personLevelManager: PersonLevelManager;
@@ -24,15 +30,12 @@ interface FisherPersonDemoProps {
 }
 
 export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person }) => {
-  const { Hp, name, Weapon, Helmet, useEquipment, attributePanel, personLevelManager, actionManager } = person;
+  const { Hp, name, attributePanel, personLevelManager, actionManager, personEquipmentManager } = person;
 
-  const useEquipmentBySlot = useCallback(
-    (slot: EquipmentSlot, equipmentId: string) => {
-      const equipment = findItemById<EquipmentItem>(equipmentId);
-      useEquipment(slot, equipment);
-    },
-    [findItemById, useEquipment]
-  );
+  const useEquipmentBySlot = useCallback((slot: EquipmentSlot, equipmentId: string) => {
+    const equipment = findItemById<EquipmentItem>(equipmentId);
+    personEquipmentManager.useEquipment(slot, equipment);
+  }, []);
 
   return (
     <DemoLayout title="玩家模块">
@@ -57,13 +60,39 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
           <LinearProgress variant="determinate" value={actionManager.attackActionTimer.progress} />
         </Fragment>
       </Box>
+      <Box>
+        {personEquipmentManager.equipmentSets.map((equipmentSet) => {
+          return (
+            <Box key={equipmentSet.id}>
+              {equipmentSet.name}
+              {equipmentSet.setAttributes.map(([setSlotControl, setAttributes]) => {
+                return (
+                  <Box key={setSlotControl.slot}>
+                    <Typography>
+                      {setSlotControl.slot} 件套 {setSlotControl.active ? '已激活' : '未激活'}{' '}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+          );
+        })}
+      </Box>
       <Level personLevelManager={personLevelManager} />
-      <FuiPersonEquipment equipment={Weapon} />
-      <FuiPersonEquipment equipment={Helmet} />
+      <FuiPersonEquipment personEquipmentManager={personEquipmentManager} slot={EquipmentSlot.Weapon} />
+      <FuiPersonEquipment personEquipmentManager={personEquipmentManager} slot={EquipmentSlot.Helmet} />
       <div>
         <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Weapon, 'WoodSword')}>使用武器</Button>
-        <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Helmet, 'JadeCloudHairpin')}>使用头盔</Button>
+        <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Helmet, 'ClothHat')}>使用头盔</Button>
         <Button onClick={() => (person.Hp = 100000)}>debug</Button>
+        <Button
+          onClick={() => {
+            const noobSet = findEquipmentSetById('NoobSet');
+            console.log(noobSet);
+          }}
+        >
+          Debug Set
+        </Button>
       </div>
     </DemoLayout>
   );

@@ -15,13 +15,7 @@ import { FisherPromptDemo } from './FisherPromptDemo';
 import { StoreDemo } from './StoreDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
-  <Stack
-    p={1}
-    spacing={2}
-    direction="row"
-    justifyContent="flex-start"
-    alignItems="flex-start"
-  >
+  <Stack p={1} spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
     {children}
   </Stack>
 );
@@ -35,6 +29,9 @@ const FisherCoreDemo: FC = () => (
       <Paper>
         <FisherBattleDemo />
       </Paper>
+    </DemoStack>
+    <DemoStack>
+      <StoreDemo />
     </DemoStack>
     <DemoStack>
       <Paper>
@@ -68,9 +65,6 @@ const FisherCoreDemo: FC = () => (
       <Paper>
         <ExperienceDemo />
       </Paper>
-    </DemoStack>
-    <DemoStack>
-      <StoreDemo />
     </DemoStack>
     <FisherPromptDemo />
   </Stack>
