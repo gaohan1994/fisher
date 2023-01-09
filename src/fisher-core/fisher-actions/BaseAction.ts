@@ -1,3 +1,4 @@
+import { prefixes, prefixLogger } from '@FisherLogger';
 import { Timer } from '../fisher-timer';
 import { Person } from '../fisher-person';
 
@@ -27,6 +28,8 @@ export abstract class BaseAction implements IBaseAction {
 }
 
 export abstract class BaseAttackAction extends BaseAction {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseAttackAction');
+
   public readonly mode = ActionMode.Attack;
   /**
    * 执行 action
@@ -35,6 +38,8 @@ export abstract class BaseAttackAction extends BaseAction {
 }
 
 export abstract class BaseDotAction extends BaseAction {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseDotAction');
+
   public readonly mode = ActionMode.Dot;
 
   public abstract chance: number;

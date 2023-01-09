@@ -6,10 +6,10 @@ export class NormalAttackAction extends BaseAttackAction {
 
   public readonly name = '普通攻击';
 
-  public execute(person: Person) {
-    if (!person.target) return Person.logger.error(`Try to execute ${this.id} but target was undefined`);
+  public execute = (person: Person) => {
+    if (!person.target) return BaseAttackAction.logger.error(`Try to execute ${this.id} but target was undefined`);
     person.target.hurtRange(person.attributePanel.AttackDamage);
-  }
+  };
 }
 
 export class CritAttackAction extends BaseAttackAction {
@@ -21,8 +21,8 @@ export class CritAttackAction extends BaseAttackAction {
 
   public readonly name = '暴击';
 
-  public execute(person: Person) {
-    if (!person.target) return Person.logger.error(`Try to execute ${this.id} but target was undefined`);
+  public execute = (person: Person) => {
+    if (!person.target) return BaseAttackAction.logger.error(`Try to execute ${this.id} but target was undefined`);
     person.target.hurtRange(CritAttackAction.CritAttackMultiplier * person.attributePanel.AttackDamage);
-  }
+  };
 }

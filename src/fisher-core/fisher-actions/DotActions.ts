@@ -35,22 +35,23 @@ export class PersonStateDotAction extends BaseDotAction {
   };
 
   public damage = () => {
-    if (this.person === undefined) return Person.logger.error(`Try to run ${this.id} but person was undefined!`);
+    if (this.person === undefined) return BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`);
 
     return this.person.attributePanel.BaseAttackPower;
   };
 
   private action = () => {
-    if (this.person === undefined) return Person.logger.error(`Try to run ${this.id} action but person was undefined!`);
+    if (this.person === undefined)
+      return BaseDotAction.logger.error(`Try to run ${this.id} action but person was undefined!`);
 
-    if (this.person.target === undefined) return Person.logger.error('Try to effective dot to undefined target');
+    if (this.person.target === undefined) return BaseDotAction.logger.error('Try to effective dot to undefined target');
 
     this.effectiveTimes += 1;
     this.person.target.hurt(this.damage());
 
     if (this.isFinished) {
       this.person.target.actionManager.undeployDotAction(this.id);
-      Person.logger.debug(`Current DotAction ${this.id} ${this.name} finished. clear dotAction`);
+      BaseDotAction.logger.debug(`Current DotAction ${this.id} ${this.name} finished. clear dotAction`);
       return this.timer.stopTimer();
     }
   };
