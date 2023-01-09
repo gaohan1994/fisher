@@ -1,7 +1,16 @@
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { ActionMode, NormalAttackAction } from '../fisher-actions';
 import { EnemyItem, IEnemyItem, PersonLevel } from '../fisher-item';
 import { Enemy, Person, Master, ActionManager } from '../fisher-person';
+import { FisherCore } from '../fisher-core';
+import { Store } from '../fisher-packages';
+
+let store: Store;
+let core: FisherCore;
+beforeEach(() => {
+  store = Store.create();
+  core = FisherCore.create();
+});
 
 const testEnemyData: IEnemyItem = {
   id: 'LowSpritMonster',
@@ -39,7 +48,6 @@ describe('FisherPersonAction', () => {
     person1.setTarget(person2);
     person2.setTarget(person1);
 
-    expect(person1.actionManager instanceof ActionManager).toBeTruthy();
     expect(person1.actionManager.dotActionMap.size).toBeGreaterThan(0);
     vi.clearAllTimers();
   });

@@ -1,6 +1,12 @@
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { Prompt } from '../fisher-prompt';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',

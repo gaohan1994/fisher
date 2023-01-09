@@ -1,6 +1,12 @@
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { FisherCore } from '../fisher-core';
 import { EnemyItem, IEnemyItem, PersonLevel } from '../fisher-item';
 import { Enemy } from '../fisher-person';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testPerson1: IEnemyItem = {
   id: 'LowSpritMonster1',

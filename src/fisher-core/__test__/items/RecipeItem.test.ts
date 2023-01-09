@@ -1,4 +1,5 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
+import { FisherCore } from '../../fisher-core';
 import { Recipe } from '../../fisher-item';
 
 const testRecipeData = {
@@ -18,6 +19,12 @@ const testRecipeData = {
     { probability: 10, itemId: 'EarthStone', itemQuantity: 1 },
   ],
 };
+
+let core: FisherCore;
+
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('RecipteItem', () => {
   test('should new Recipe item', () => {

@@ -1,6 +1,11 @@
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { findRecipeById } from '../fisher-packages';
+import { store } from '../fisher-packages';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('Reiki', () => {
   test('should success initialize Reiki', () => {
@@ -13,7 +18,7 @@ describe('Reiki', () => {
 
   test('should set active id when start Reiki', () => {
     const core = FisherCore.create();
-    const activeRecipe = findRecipeById('Reiki:Recipe:BlackWoodCliff');
+    const activeRecipe = store.findRecipeById('Reiki:Recipe:BlackWoodCliff');
     core.reiki.start(activeRecipe);
     expect(core.activeComponentId).toBe(core.reiki.id);
   });

@@ -1,6 +1,12 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
+import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot, IEquipmentItem, PersonLevel } from '../fisher-item';
 import { IAttributeKeys, Master, Person } from '../fisher-person';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const equip1: IEquipmentItem = {
   id: 'TestEquip1',

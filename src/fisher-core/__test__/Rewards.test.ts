@@ -1,9 +1,15 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { ItemType, NormalItem } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { Reward } from '../fisher-reward';
 import { bank } from '../fisher-bank';
 import { backpack } from '../fisher-backpack';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testItemPayload = {
   id: 'Test:Backpack',

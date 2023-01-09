@@ -1,5 +1,11 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { Bank } from '../fisher-bank';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('Bank', () => {
   test('initialize Bank without arguments, gold shoud tobe 0', () => {

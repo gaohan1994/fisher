@@ -1,7 +1,12 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { mining } from '../fisher-modules';
-import { findRecipeById } from '../fisher-packages';
+import { store } from '../fisher-packages';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('Mining', () => {
   test('should success initialize Mining', () => {
@@ -14,7 +19,7 @@ describe('Mining', () => {
 
   test('should set active id when start mining', () => {
     const core = FisherCore.create();
-    const activeRecipe = findRecipeById('Mining:Recipe:LowSpiritMine');
+    const activeRecipe = store.findRecipeById('Mining:Recipe:LowSpiritMine');
     core.mining.start(activeRecipe);
     expect(core.activeComponentId).toBe(mining.id);
   });

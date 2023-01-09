@@ -1,7 +1,13 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { EquipmentSlot } from '../fisher-item';
 import { master, Person, PersonEquipmentManager, PersonLevelManager, ActionManager } from '../fisher-person';
 import { AttributePanel } from '../fisher-person/AttributePanel';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('Person', () => {
   test('should success constructor Person', () => {

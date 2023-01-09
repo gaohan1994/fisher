@@ -1,8 +1,14 @@
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
-import { findItemById } from '../fisher-packages';
+import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
+import { FisherCore } from '../fisher-core';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 const testSkillId = 'Test:Skill';
 
@@ -58,7 +64,7 @@ describe('Skill', () => {
     const skill = new Skill(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
     const testRecipe = new Recipe(testRecipeData);
-    skill.updateActiveRecipe(testRecipe);
+    skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
 
@@ -67,14 +73,14 @@ describe('Skill', () => {
     expect(skill.activeRecipe).toBeUndefined();
 
     const testRecipe = new Recipe(testRecipeData);
-    skill.updateActiveRecipe(testRecipe);
+    skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
     const testRecipeReplace = new Recipe({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
-    skill.updateActiveRecipe(testRecipeReplace);
+    skill.setActiveRecipe(testRecipeReplace);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:ReplaceTest');
   });
 
@@ -96,7 +102,7 @@ describe('Skill', () => {
   test('should success receive items rewards when start skill', () => {
     vi.useFakeTimers();
 
-    const rewardItem = findItemById('LowSpiritMine');
+    const rewardItem = store.findItemById('LowSpiritMine');
 
     const skill = new Skill(testSkillId);
     const backpack = Backpack.create();
@@ -125,7 +131,7 @@ describe('Skill', () => {
   test('should success receive random items rewards when start skill', () => {
     vi.useFakeTimers();
 
-    const rewardItem = findItemById('EarthStone');
+    const rewardItem = store.findItemById('EarthStone');
 
     const skill = new Skill(testSkillId);
     const backpack = Backpack.create();

@@ -1,5 +1,10 @@
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore, Backpack, Bank, Reiki, Person, Mining } from '@FisherCore';
+
+let core: FisherCore;
+beforeEach(() => {
+  core = FisherCore.create();
+});
 
 describe('FisherCore', () => {
   test('should initialize FisherCore', () => {
