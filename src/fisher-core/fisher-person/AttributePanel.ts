@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { IBonusEquipmentsAttributes } from './Attributes';
+import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './Attributes';
 import { Person } from './Person';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { PersonLevelManager } from './PersonLevelManager';
@@ -10,6 +10,15 @@ const BaseAttributeData = {
   BaseMaxHp: 40,
   BaseAttackPower: 4,
   BaseDefencePower: 2,
+};
+
+const emptyBonusAttributes: IBonusEquipmentsAttributes = {
+  MaxHp: 0,
+  AttackPower: 0,
+  AttackPowerMultiplier: 0,
+  DefencePower: 0,
+  DefenceCorruption: 0,
+  DefencePowerMultiplier: 0,
 };
 
 export class AttributePanel {
@@ -26,31 +35,47 @@ export class AttributePanel {
     this.equipmentManager = person.personEquipmentManager;
   }
 
-  /**
-   * 装备属性
-   */
   public get BonusEquipmentsAttributes() {
-    const result: IBonusEquipmentsAttributes = {
-      MaxHp: 0,
-      AttackPower: 0,
-      AttackPowerMultiplier: 0,
-      DefensePower: 0,
-      DefensePowerMultiplier: 0,
-      DefenceCorruption: 0,
-    };
-    this.equipmentManager.equipments.map(({ equipment }) => {
-      const { attributes } = equipment;
-      attributes.length &&
-        attributes.forEach(({ key, value }) => {
-          result[key] += value;
-        });
-    });
+    const result: IBonusEquipmentsAttributes = Object.assign({}, emptyBonusAttributes);
+
+    const equipmentAttributes = this.calculateEquipmentAttributes();
+    const equipmentSetAttributes = this.calculateEquipmentSetAttributes();
+
+    const keys = Object.keys(result);
+    for (let index = 0; index < keys.length; index++) {
+      const key = keys[index] as keyof IBonusEquipmentsAttributes;
+      result[key] = equipmentAttributes[key] + equipmentSetAttributes[key];
+    }
+
     return result;
   }
 
-  /**
-   * 基础攻击力
-   */
+  private calculateEquipmentAttributes = (): IBonusEquipmentsAttributes => {
+    const result: IBonusEquipmentsAttributes = Object.assign({}, emptyBonusAttributes);
+
+    this.equipmentManager.equipments.map(({ equipment }) => {
+      if (equipment.attributes.length > 0) {
+        equipment.attributes.forEach(({ key, value }) => (result[key as IBonusEquipmentsAttributesKeys] += value));
+      }
+    });
+
+    return result;
+  };
+
+  private calculateEquipmentSetAttributes = (): IBonusEquipmentsAttributes => {
+    const result: IBonusEquipmentsAttributes = Object.assign({}, emptyBonusAttributes);
+
+    this.equipmentManager.equipmentSets.map((equipmentSet) => {
+      equipmentSet.setAttributes.map(([setSlotControl, attributes]) => {
+        if (setSlotControl.active === true) {
+          attributes.forEach(({ key, value }) => (result[key as IBonusEquipmentsAttributesKeys] += value));
+        }
+      });
+    });
+
+    return result;
+  };
+
   public get BaseAttackPower() {
     return this.personLevelManager.coefficient * BaseAttributeData.BaseAttackPower;
   }
@@ -63,16 +88,10 @@ export class AttributePanel {
     return 1;
   }
 
-  /**
-   * 基础防御力
-   */
   public get BaseDefencePower() {
     return this.personLevelManager.coefficient * BaseAttributeData.BaseDefencePower;
   }
 
-  /**
-   * 奖励攻击力 = 装备攻击力
-   */
   public get BonusAttackPower() {
     return this.BonusEquipmentsAttributes.AttackPower;
   }
@@ -85,56 +104,35 @@ export class AttributePanel {
     return 1 + this.BonusEquipmentsAttributes.AttackPowerMultiplier;
   }
 
-  /**
-   * 防御力加成
-   */
   public get BonusDefencePower() {
-    return this.BonusEquipmentsAttributes.DefensePower;
+    return this.BonusEquipmentsAttributes.DefencePower;
   }
 
-  /**
-   * 防御力加成百分比乘数
-   */
   public get BonusDefencePowerMultiplier() {
-    return 1 + this.BonusEquipmentsAttributes.DefensePowerMultiplier;
+    return 1 + this.BonusEquipmentsAttributes.DefencePowerMultiplier;
   }
 
-  /**
-   * 最终攻击力
-   * (人物基础攻击 x 人物基础攻击增幅) +
-   * (攻击力加成 x 攻击力加成增幅)
-   */
   public get AttackPower() {
     return (
       this.BaseAttackPower * this.BaseAttackPowerMultiplier + this.BonusAttackPower * this.BonusAttackPowerMultiplier
     );
   }
 
-  /**
-   * 攻击系数
-   * @todo 与目标护甲有关,暂时为1
-   */
   public get AttackDamageMultiplier() {
     return 1 - (DefenceFormulaCoe * this.DefencePower) / (1 + DefenceFormulaCoe * Math.abs(this.DefencePower));
   }
 
-  /**
-   * 攻击伤害 = 最终攻击力 x 攻击伤害系数
-   */
   public get AttackDamage() {
     return Math.floor(this.AttackPower * this.AttackDamageMultiplier);
   }
 
   /**
-   * 攻速单位 ms
+   * Unit: ms
    */
   public get AttackSpeed() {
     return 2000;
   }
 
-  /**
-   * 防御力 = 基础防御力 + (加成防御力 x 加成防御力百分比乘数) - 对手减甲值
-   */
   public get DefencePower() {
     return (
       this.BaseDefencePower +
@@ -143,29 +141,18 @@ export class AttributePanel {
     );
   }
 
-  /**
-   * 减甲 = 装备减甲
-   */
   public get DefenceCorruption() {
     return this.BonusEquipmentsAttributes.DefenceCorruption;
   }
 
-  /**
-   * 基础血量 = 等级系数 x 每级血量
-   */
   public get BaseMaxHp() {
     return this.personLevelManager.coefficient * BaseAttributeData.BaseMaxHp;
   }
 
-  /**
-   */
   public get BonusMaxHp() {
     return this.BonusEquipmentsAttributes.MaxHp;
   }
 
-  /**
-   * 生命值上限 = 基础生命值上限 + 装备生命值
-   */
   public get MaxHp() {
     return this.BaseMaxHp + this.BonusMaxHp;
   }

@@ -8,9 +8,9 @@ export enum IAttributeKeys {
   // 百分比提升攻击力
   AttackPowerMultiplier = 'AttackPowerMultiplier',
   // 防御力
-  DefensePower = 'DefensePower',
+  DefencePower = 'DefencePower',
   // 百分比提升防御力
-  DefensePowerMultiplier = 'DefensePowerMultiplier',
+  DefencePowerMultiplier = 'DefencePowerMultiplier',
   // 减甲
   DefenceCorruption = 'DefenceCorruption',
 }
@@ -19,8 +19,8 @@ export type IBonusEquipmentsAttributesKeys =
   | IAttributeKeys.MaxHp
   | IAttributeKeys.AttackPower
   | IAttributeKeys.AttackPowerMultiplier
-  | IAttributeKeys.DefensePower
-  | IAttributeKeys.DefensePowerMultiplier
+  | IAttributeKeys.DefencePower
+  | IAttributeKeys.DefencePowerMultiplier
   | IAttributeKeys.DefenceCorruption;
 
 export type IBonusEquipmentsAttributes = {

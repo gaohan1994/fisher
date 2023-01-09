@@ -1,13 +1,11 @@
-import invariant from 'invariant';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
+import { range } from '../utils';
+import { PersonLevel } from '../fisher-item';
+import { PersonEquipmentManager } from './PersonEquipmentManager';
+import { PersonLevelManager } from './PersonLevelManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
-import { PersonEquipmentManager } from './PersonEquipmentManager';
-import type { IPersonRemoveEquipment, IPersonUseEquipment } from './PersonEquipmentManager';
-import { range } from '../utils';
-import { EquipmentSlot, PersonLevel } from '../fisher-item';
-import { PersonLevelManager } from './PersonLevelManager';
 
 enum PersonMode {
   Master = 'Master',
@@ -66,30 +64,6 @@ export class Person {
 
   @action
   public dispose() {}
-
-  @computed
-  public get Weapon() {
-    const result = this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Weapon);
-    invariant(result !== undefined, 'Fail get Weapon');
-    return result;
-  }
-
-  @computed
-  public get Helmet() {
-    const result = this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet);
-    invariant(result !== undefined, 'Fail get Helmet');
-    return result;
-  }
-
-  @action
-  public useEquipment: IPersonUseEquipment = (...rest) => {
-    this.personEquipmentManager.useEquipment(...rest);
-  };
-
-  @action
-  public removeEquipment: IPersonRemoveEquipment = (...rest) => {
-    this.personEquipmentManager.removeEquipment(...rest);
-  };
 
   /**
    * 初始化战斗属性
