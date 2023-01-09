@@ -1,110 +1,165 @@
-import { makeAutoObservable } from 'mobx';
-import invariant from 'invariant';
+import { EventEmitter } from 'smar-util';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
+import { findEquipmentSetById } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
-import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { backpack } from '../fisher-backpack';
 
-export interface IPersonUseEquipment {
-  (equipmentSlot: EquipmentSlot, equipment: EquipmentItem): void;
-}
-
-export interface IPersonRemoveEquipment {
-  (equipmentSlot: EquipmentSlot): void;
+enum PersonEquipmentManagerEvents {
+  EquipmentChange = 'EquipmentChange',
 }
 
 /**
- * 人物装备管理模块
- *
  * @export
  * @class PersonEquipmentManager
  */
-export class PersonEquipmentManager {
-  static logger = prefixLogger(prefixes.FISHER_CORE, 'FPEquipmentManager');
+export class PersonEquipmentManager extends EventEmitter {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'PersonEquipmentManager');
 
+  @observable
   public equipmentMap: Map<EquipmentSlot, PersonEquipment> = new Map();
 
-  constructor() {
-    makeAutoObservable(this);
-
-    // 初始化武器
-    this.equipmentMap.set(
-      EquipmentSlot.Weapon,
-      new PersonEquipment({ slot: EquipmentSlot.Weapon })
-    );
-    // 初始化头盔
-    this.equipmentMap.set(
-      EquipmentSlot.Helmet,
-      new PersonEquipment({ slot: EquipmentSlot.Helmet })
-    );
-  }
-
+  @computed
   public get equipments() {
     return [...this.equipmentMap.values()];
   }
 
-  /**
-   * 使用装备
-   * 如果之前该部位装备并不是空的
-   * 则把淘汰下来的装备重新放入背包中
-   * @type {IPersonUseEquipment}
-   * @memberof PersonEquipment
-   */
-  public useEquipment: IPersonUseEquipment = (equipmentSlot, equipment) => {
-    invariant(
-      equipment.slots.includes(equipmentSlot),
-      'Fail to use equipment, can not match slot'
-    );
+  @observable
+  public equipmentSetMap = new Map<EquipmentSet, EquipmentItem[]>();
 
-    const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
-    invariant(
-      currentSlotEquipment !== undefined,
-      'Fail to use equipment, can not find current slot: ' + equipmentSlot
-    );
-    const prevCurrentSlotEquipmentIsEmpty = currentSlotEquipment.isEmpty;
-    const { prevEquipment, prevQuantity } =
-      currentSlotEquipment.updateEquipment(equipment, 1);
-    this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
+  @computed
+  public get equipmentSets() {
+    return [...this.equipmentSetMap.keys()];
+  }
 
-    if (!prevCurrentSlotEquipmentIsEmpty) {
-      this.putEquipmentToBackpack(prevEquipment, prevQuantity);
-    }
-    PersonEquipmentManager.logger.debug(
-      `use equipment, slot: ${equipmentSlot} equipmentId ${equipment.id}`
-    );
-  };
+  constructor() {
+    super();
+    makeObservable(this);
+
+    this.equipmentMap.set(EquipmentSlot.Weapon, new PersonEquipment({ slot: EquipmentSlot.Weapon }));
+    this.equipmentMap.set(EquipmentSlot.Helmet, new PersonEquipment({ slot: EquipmentSlot.Helmet }));
+
+    this.on(PersonEquipmentManagerEvents.EquipmentChange, this.onPersonEquipmentChange);
+  }
 
   /**
-   * 卸下装备
-   * 如果之前该部位装备并不是空的
-   * 则把卸下来的装备重新放入背包中
-   * @param {*} equipmentSlot
-   * @type {IPersonRemoveEquipment}
+   * use equipment
+   * if previous equipment wasn't empty
+   * put unused equipment to backpack
+   *
+   * @param {EquipmentSlot} equipmentSlot
+   * @param {EquipmentItem} equipment
    * @memberof PersonEquipmentManager
    */
-  public removeEquipment: IPersonRemoveEquipment = (equipmentSlot) => {
+  @action
+  public useEquipment = (equipmentSlot: EquipmentSlot, equipment: EquipmentItem) => {
+    this.checkIsValidEquipmentSlot(equipmentSlot, equipment);
+
     const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
-    invariant(
-      currentSlotEquipment !== undefined,
-      'Fail to remove equipment, can not find current slot: ' + equipmentSlot
-    );
-    const prevCurrentSlotEquipmentIsEmpty = currentSlotEquipment.isEmpty;
-    const { prevEquipment, prevQuantity } =
-      currentSlotEquipment.removeEquipment();
+
+    if (currentSlotEquipment === undefined)
+      return PersonEquipmentManager.logger.error(`Fail to use equipment, can not find current slot: ${equipmentSlot}`);
+
+    const result = currentSlotEquipment.updateEquipment(equipment, 1);
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
-    if (!prevCurrentSlotEquipmentIsEmpty) {
-      this.putEquipmentToBackpack(prevEquipment, prevQuantity);
-    }
+    const [previousEquipment, previousQuantity] = [result?.[0], result?.[1]];
+    this.emit(PersonEquipmentManagerEvents.EquipmentChange, currentSlotEquipment, previousEquipment, previousQuantity);
+
+    PersonEquipmentManager.logger.debug(`use equipment, slot: ${equipmentSlot} equipmentId ${equipment.id}`);
+  };
+
+  /**
+   * remove equipment
+   * if previous equipment wasn't empty
+   * put removed equipment to backpack
+   *
+   * @param {EquipmentSlot} equipmentSlot
+   * @memberof PersonEquipmentManager
+   */
+  @action
+  public removeEquipment = (equipmentSlot: EquipmentSlot) => {
+    const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
+
+    if (currentSlotEquipment === undefined)
+      return PersonEquipmentManager.logger.error(
+        `Fail to remove equipment, can not find current slot: ${equipmentSlot}`
+      );
+
+    const [previousEquipment, previousQuantity] = currentSlotEquipment.removeEquipment();
+    this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
+
+    this.emit(PersonEquipmentManagerEvents.EquipmentChange, currentSlotEquipment, previousEquipment, previousQuantity);
+
     PersonEquipmentManager.logger.debug(
-      `remove equipment, slot: ${equipmentSlot} equipmentId ${prevEquipment.id}`
+      `remove equipment, slot: ${equipmentSlot} equipmentId ${previousEquipment.id}, quantity: ${previousQuantity}`
     );
   };
 
-  private putEquipmentToBackpack = (
-    equipment: EquipmentItem,
-    quantity: number
+  private checkIsValidEquipmentSlot = (equipmentSlot: EquipmentSlot, equipment: EquipmentItem) => {
+    if (!equipment.slots.includes(equipmentSlot))
+      throw new Error(
+        `Fail to use equipment ${equipment.id}, can not match slot, equipmentSlot: ${equipment.slots} expect slot: ${equipmentSlot}`
+      );
+  };
+
+  @action
+  public getActiveEquipmentSetById(equipmentSetId: string) {
+    return this.equipmentSets.find((item) => item.id === equipmentSetId);
+  }
+
+  @action
+  private onPersonEquipmentChange = (
+    personEquipment: PersonEquipment,
+    previousEquipment: EquipmentItem | undefined = undefined,
+    previousQuantity: number = 1
   ) => {
+    if (previousEquipment !== undefined) {
+      this.putEquipmentToBackpack(previousEquipment, previousQuantity);
+    }
+
+    // calculate equipment set info if equipment changed
+    // check if each equipment has equipmentSetId
+    // if has equipmentSetId then set into equipmentSetMap
+    this.calculateEquipmentSetMap();
+  };
+
+  @action
+  private calculateEquipmentSetMap = () => {
+    // clear active equipment set first
+    this.equipmentSetMap.clear();
+
+    this.equipmentMap.forEach((personEquipment) => {
+      const { equipment } = personEquipment;
+
+      if (equipment.hasEquipmentSet) {
+        const equipmentSet = findEquipmentSetById(equipment.equipmentSetId ?? '');
+        let equipments: EquipmentItem[];
+
+        if (this.equipmentSetMap.has(equipmentSet)) {
+          equipments = this.equipmentSetMap.get(equipmentSet) ?? [];
+          equipments.push(equipment);
+        } else {
+          equipments = [equipment];
+        }
+
+        this.equipmentSetMap.set(equipmentSet, equipments);
+      }
+    });
+
+    this.calculateActiveEquipmentSetsAttributes();
+  };
+
+  @action
+  private calculateActiveEquipmentSetsAttributes = () => {
+    this.equipmentSetMap.forEach((equipments, equipmentSet) => {
+      equipmentSet.calculateEquipmentsActiveSetAttributes(equipments);
+    });
+  };
+
+  @action
+  private putEquipmentToBackpack = (equipment: EquipmentItem, quantity: number) => {
     backpack.addItem(equipment, quantity);
   };
 }
