@@ -1,11 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import {
-  EquipmentItem,
-  EquipmentSlot,
-  IEquipmentItem,
-  PersonLevel,
-} from '../fisher-item';
-import { IAttributeKeys, Master } from '../fisher-person';
+import { EquipmentItem, EquipmentSlot, IEquipmentItem, PersonLevel } from '../fisher-item';
+import { IAttributeKeys, Master, Person } from '../fisher-person';
 
 const equip1: IEquipmentItem = {
   id: 'TestEquip1',
@@ -17,8 +12,8 @@ const equip1: IEquipmentItem = {
   requirements: [],
   attributes: [
     { key: IAttributeKeys.MaxHp, value: 20 },
-    { key: IAttributeKeys.DefensePower, value: 5 },
-    { key: IAttributeKeys.DefensePowerMultiplier, value: 0.05 },
+    { key: IAttributeKeys.DefencePower, value: 5 },
+    { key: IAttributeKeys.DefencePowerMultiplier, value: 0.05 },
   ],
 };
 
@@ -49,14 +44,50 @@ describe('Person Attribute', () => {
     expect(master.attributePanel.BaseDefencePower).toBe(6);
   });
 
+  describe('should calculate bonus equipments attributes', () => {
+    test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
+      const person = new Person();
+
+      const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equip1), new EquipmentItem(equip2)];
+      person.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+      person.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+
+      expect(person.attributePanel.BonusEquipmentsAttributes.MaxHp).toBe(20);
+      expect(person.attributePanel.BonusEquipmentsAttributes.AttackPower).toBe(10);
+      expect(person.attributePanel.BonusEquipmentsAttributes.AttackPowerMultiplier).toBe(0.01);
+      expect(person.attributePanel.BonusEquipmentsAttributes.DefencePower).toBe(5);
+      expect(person.attributePanel.BonusEquipmentsAttributes.DefenceCorruption).toBe(0);
+      expect(person.attributePanel.BonusEquipmentsAttributes.DefencePowerMultiplier).toBe(0.05);
+    });
+
+    test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
+      const person = new Person();
+
+      const [equipWithSet1, equipWithSet2] = [
+        Object.assign({}, equip1, { id: 'WoodSword', equipmentSetId: 'NoobSet' }),
+        Object.assign({}, equip2, { id: 'ClothHat', equipmentSetId: 'NoobSet' }),
+      ];
+      const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equipWithSet1), new EquipmentItem(equipWithSet2)];
+
+      person.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+      person.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+
+      const equipmentSetMaxHp = 100;
+      const equipmentSetAtackPower = 10;
+
+      expect(person.attributePanel.BonusEquipmentsAttributes.MaxHp).toBe(20 + equipmentSetMaxHp);
+      expect(person.attributePanel.BonusEquipmentsAttributes.AttackPower).toBe(10 + equipmentSetAtackPower);
+    });
+  });
+
   test('should calculate bonus attributes', () => {
     const master = Master.create();
 
     const equipmentItem1 = new EquipmentItem(equip1);
-    master.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+    master.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
 
     const equipmentItem2 = new EquipmentItem(equip2);
-    master.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+    master.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
 
     expect(master.attributePanel.BonusMaxHp).toBe(20);
 
@@ -74,10 +105,10 @@ describe('Person Attribute', () => {
     master.initialize({ name: 'Test', level: PersonLevel.GasRefiningLater });
 
     const equipmentItem1 = new EquipmentItem(equip1);
-    master.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+    master.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
 
     const equipmentItem2 = new EquipmentItem(equip2);
-    master.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+    master.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
 
     const { attributePanel } = master;
 
