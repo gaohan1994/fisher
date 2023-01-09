@@ -12,7 +12,6 @@ describe('Reiki', () => {
     const core = FisherCore.create();
     expect(core.reiki.id).toBe('Reiki');
     expect(core.reiki.name).toBe('打坐');
-    expect(core.reiki.skill.id).toBe('Reiki:Skill');
     expect(core.reiki.skill.experience).toBe(0);
   });
 

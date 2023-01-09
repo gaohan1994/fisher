@@ -13,7 +13,6 @@ describe('Mining', () => {
     const core = FisherCore.create();
     expect(core.mining.id).toBe('Mining');
     expect(core.mining.name).toBe('采矿');
-    expect(core.mining.skill.id).toBe('Mining:Skill');
     expect(core.mining.skill.experience).toBe(0);
   });
 

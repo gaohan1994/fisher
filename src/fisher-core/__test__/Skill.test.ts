@@ -60,9 +60,36 @@ describe('Skill', () => {
     expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(320 - 140);
   });
 
+  describe('should calculate active recipe info', () => {
+    const skill = new Skill(testSkillId);
+    test('active recipe should not available', () => {
+      expect(skill.activeRecipe).toBeUndefined();
+      expect(skill.hasActiveRecipe).toBeFalsy();
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
+      expect(skill.activeRecipeBearCostAvailable).toBeFalsy();
+      expect(skill.activeRecipeAvailable).toBeFalsy();
+    });
+
+    test('active recipe should available', () => {
+      const testRecipe = new Recipe(testRecipeData);
+      skill.setActiveRecipe(testRecipe);
+
+      expect(skill.hasActiveRecipe).toBeTruthy();
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeTruthy();
+      expect(skill.activeRecipeBearCostAvailable).toBeTruthy();
+      expect(skill.activeRecipeAvailable).toBeTruthy();
+    });
+
+    test('should not require unlock level', () => {
+      const testRecipe = new Recipe(Object.assign({}, testRecipeData, { unlockLevel: 2 }));
+      skill.setActiveRecipe(testRecipe);
+      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
+      expect(skill.activeRecipeAvailable).toBeFalsy();
+    });
+  });
+
   test('should success update active recipe when called updateActiveRecipe', () => {
     const skill = new Skill(testSkillId);
-    expect(skill.activeRecipe).toBeUndefined();
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
@@ -91,7 +118,8 @@ describe('Skill', () => {
     expect(skill.experience).toEqual(0);
 
     const testRecipe = new Recipe(testRecipeData);
-    skill.start(testRecipe);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(skill.experience).toEqual(testRecipe.rewardExperience);
@@ -116,7 +144,8 @@ describe('Skill', () => {
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
     const testRecipe = new Recipe(testRecipeData);
-    skill.start(testRecipe);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(backpack.items.has(rewardItem)).toBeTruthy();
@@ -145,7 +174,8 @@ describe('Skill', () => {
     expect(backpack.items.has(rewardItem)).toBeFalsy();
 
     const testRecipe = new Recipe(testRecipeData);
-    skill.start(testRecipe);
+    skill.setActiveRecipe(testRecipe);
+    skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
     expect(backpack.items.has(rewardItem)).toBeTruthy();
