@@ -1,18 +1,10 @@
 import { makeAutoObservable, reaction } from 'mobx';
-import invariant from 'invariant';
-import { prefixLogger, prefixes } from '@FisherLogger';
-import { Mining, mining, Reiki, reiki } from '../fisher-modules';
 import { Person, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
-import { Battle } from '../fisher-battle';
 import { backpack } from '../fisher-backpack';
-
-type FisherComponent = Mining | Reiki | Battle | undefined;
-
+import { ComponentManager, FisherComponent } from './ComponentManager';
 export class FisherCore {
-  private static readonly logger = prefixLogger(prefixes.FISHER_CORE);
-
   public static instance: FisherCore;
 
   public static create(): FisherCore {
@@ -26,6 +18,32 @@ export class FisherCore {
 
   public gameReady = false;
 
+  private componentManager = new ComponentManager();
+
+  public get activeComponent() {
+    return this.componentManager.activeComponent;
+  }
+
+  public get activeComponentId() {
+    return this.componentManager.activeComponentId;
+  }
+
+  public get mining() {
+    return this.componentManager.mining;
+  }
+
+  public get reiki() {
+    return this.componentManager.reiki;
+  }
+
+  public get forge() {
+    return this.componentManager.forge;
+  }
+
+  public get battle() {
+    return this.componentManager.battle;
+  }
+
   // 推送
   public readonly prompt = prompt;
 
@@ -37,19 +55,6 @@ export class FisherCore {
 
   // 背包
   public readonly backpack = backpack;
-
-  // 采矿
-  public readonly mining = mining;
-
-  // 灵气
-  public readonly reiki = reiki;
-
-  // 当前处于激活状态的组件
-  public activeComponent: FisherComponent | undefined = undefined;
-
-  public get activeComponentId() {
-    return this.activeComponent?.id;
-  }
 
   /**
    * Creates an instance of FisherCore.
@@ -72,22 +77,16 @@ export class FisherCore {
     );
   }
 
-  /**
-   * 设置激活的组件
-   * 如果当前激活组件不等于传入的组件
-   * 设置激活组件为传入组件
-   * 如果当前激活的组件不为空则关闭当前组件
-   *
-   * @param {FisherComponent} component
-   * @memberof FisherCore
-   */
+  public findComponentById = (componentId: string) => {
+    return this.componentManager.findComponentById(componentId);
+  };
+
+  public findSkillComponentById = (componentId: string) => {
+    return this.componentManager.findSkillComponentById(componentId);
+  };
+
   public setActiveComponent = (component: FisherComponent) => {
-    invariant(component !== undefined, 'Tried setting active component to undefined!');
-    if (this.activeComponent !== component) {
-      this.activeComponent?.stop();
-      this.activeComponent = component;
-      FisherCore.logger.info(`Set active component ${component.id}`);
-    }
+    this.componentManager.setActiveComponent(component);
   };
 
   public setGameReady = (isReady: boolean) => {
@@ -116,3 +115,5 @@ export class FisherCore {
 }
 
 export const core = FisherCore.create();
+
+(window as any).core = core;
