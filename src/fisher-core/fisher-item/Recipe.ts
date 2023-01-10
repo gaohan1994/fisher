@@ -1,6 +1,6 @@
 import { Item, ItemType, IItem } from './Item';
 
-export interface IRecipe extends IItem {
+interface IRecipe extends IItem {
   interval: number;
   unlockLevel: number;
   rewardExperience?: number;
@@ -24,7 +24,7 @@ interface IRecipeRandomRewardItem extends IRecipeItem {
  * @class Recipe
  * @extends {Item}
  */
-export class Recipe extends Item {
+class Recipe extends Item {
   type = ItemType.Recipe;
 
   public interval: number;
@@ -69,3 +69,6 @@ export class Recipe extends Item {
     if (options.costItems) this.costItems = options.costItems;
   }
 }
+
+export { Recipe };
+export type { IRecipe };
