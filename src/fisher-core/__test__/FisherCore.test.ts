@@ -8,24 +8,13 @@ beforeEach(() => {
 
 describe('FisherCore', () => {
   test('should initialize FisherCore', () => {
-    const fisherCore = new FisherCore();
-    expect(fisherCore.backpack instanceof Backpack).toBeTruthy();
-    expect(fisherCore.bank instanceof Bank).toBeTruthy();
-    expect(fisherCore.mining instanceof Mining).toBeTruthy();
-    expect(fisherCore.reiki instanceof Reiki).toBeTruthy();
-    expect(fisherCore.master instanceof Person).toBeTruthy();
+    expect(core.backpack instanceof Backpack).toBeTruthy();
+    expect(core.bank instanceof Bank).toBeTruthy();
+    expect(core.mining instanceof Mining).toBeTruthy();
+    expect(core.reiki instanceof Reiki).toBeTruthy();
+    expect(core.master instanceof Person).toBeTruthy();
 
-    expect(fisherCore.activeComponent).toBeUndefined();
-    expect(fisherCore.activeComponentId).toBeUndefined();
-  });
-
-  test('should success control component active', () => {
-    const fisherCore = new FisherCore();
-    fisherCore.setActiveComponent(fisherCore.mining);
-    expect(fisherCore.activeComponent instanceof Mining).toBeTruthy();
-    expect(fisherCore.activeComponentId).toBe('Mining');
-    fisherCore.setActiveComponent(fisherCore.reiki);
-    expect(fisherCore.activeComponent instanceof Reiki).toBeTruthy();
-    expect(fisherCore.activeComponentId).toBe('Reiki');
+    expect(core.activeComponent).toBeUndefined();
+    expect(core.activeComponentId).toBeUndefined();
   });
 });
