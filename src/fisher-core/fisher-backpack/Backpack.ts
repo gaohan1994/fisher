@@ -4,7 +4,6 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { BackpackItem, Item } from '../fisher-item';
 import { prompt } from '../fisher-prompt';
 import { bank } from '../fisher-bank';
-import { store } from '../fisher-packages';
 
 /**
  * 背包系统
@@ -45,8 +44,7 @@ export class Backpack {
 
   public initialize = async () => {};
 
-  public hasItem = (itemId: string, quantity = 1): boolean => {
-    const item = store.findItemById(itemId);
+  public checkItem = (item: Item, quantity = 1) => {
     const backpackItem = this.items.get(item);
     if (!backpackItem) {
       return false;
@@ -55,11 +53,35 @@ export class Backpack {
     }
   };
 
-  /**
-   * 添加物品到背包
-   */
+  public checkItemById = (itemId: string, quantity = 1): boolean => {
+    const item: Item | undefined = this.getItemMapKeyById(itemId);
+
+    if (item === undefined) {
+      return false;
+    }
+    return this.checkItem(item, quantity);
+  };
+
+  public getItem = (item: Item): BackpackItem | undefined => {
+    if (!this.checkItem(item)) {
+      return Backpack.logger.error(`Try to get item ${item.id} but doesn't exsit in backpack`);
+    }
+
+    return this.items.get(item);
+  };
+
+  public getItemById = (itemId: string): BackpackItem | undefined => {
+    const item: Item | undefined = this.getItemMapKeyById(itemId);
+
+    if (item === undefined) {
+      return undefined;
+    }
+    return this.getItem(item);
+  };
+
   public addItem = (item: Item, quantity: number) => {
-    invariant(quantity > 0, 'Fail to add item to backpack, quantity should > 0');
+    invariant(quantity > 0, `Fail to add ${item.id} to backpack, quantity should > 0`);
+
     if (this.items.has(item)) {
       this.addExistingItem(item, quantity);
     } else {
@@ -67,51 +89,27 @@ export class Backpack {
     }
   };
 
-  /**
-   * 如果背包中不存在该物品则新建物品类并保存
-   *
-   * @param {Item} item
-   * @param {number} quantity
-   * @memberof Backpack
-   */
-  public addNewItem = (item: Item, quantity: number) => {
-    const backpackItem = new BackpackItem({ item, quantity });
-
+  private addNewItem = (item: Item, quantity: number) => {
+    const backpackItem = new BackpackItem(item, quantity);
     this.items.set(item, backpackItem);
 
     prompt.promptItem(item, quantity);
   };
 
-  /**
-   * 如果背包中存在物品则添加相应数量
-   *
-   * @param {Item} item
-   * @param {number} quantity
-   * @memberof Backpack
-   */
-  public addExistingItem = (item: Item, quantity: number) => {
-    const backpackItem = this.items.get(item);
-
-    if (backpackItem === undefined)
-      return Backpack.logger.error('Try to add existing item to backpack but get undefined!', item);
-
+  private addExistingItem = (item: Item, quantity: number) => {
+    const backpackItem = this.items.get(item)!;
     backpackItem.quantity += quantity;
-
     this.items.set(item, backpackItem);
 
     prompt.promptItem(item, quantity);
   };
 
-  /**
-   * 减少 quantity 个传入物品
-   */
   public reduceItem = (item: Item, quantity: number) => {
-    invariant(quantity > 0, 'Fail to reduce backpack item, quantity should > 0');
-
     const backpackItem = this.items.get(item);
-    invariant(backpackItem !== undefined, 'Fail to reduce backpackItem quantity, backpackItem undefined');
+    const reduceQuantity = Math.abs(quantity);
+    invariant(backpackItem !== undefined && reduceQuantity !== 0, `Fail to reduce ${item.id} x ${reduceQuantity}`);
 
-    backpackItem.quantity -= quantity;
+    backpackItem.quantity -= reduceQuantity;
     if (backpackItem.quantity <= 0) {
       this.items.delete(item);
     } else {
@@ -119,9 +117,11 @@ export class Backpack {
     }
   };
 
-  /**
-   * 添加/删除选中的物品
-   */
+  public reduceItemById = (itemId: string, quantity: number) => {
+    const item: Item | undefined = this.getItemMapKeyById(itemId);
+    item && this.reduceItem(item, quantity);
+  };
+
   public toggleSelectItem = (item: BackpackItem) => {
     if (this.selectedItems.has(item)) {
       this.selectedItems.delete(item);
@@ -131,9 +131,8 @@ export class Backpack {
   };
 
   /**
-   * 卖出物品
-   * 如果传入的卖出数量则使用传入的卖出数量
-   * 如果没有传入卖出数量则全部卖出
+   * if pass quantity use passed quantity
+   * if not pass quantity default sell all item quantity
    */
   public sellItem = (item: BackpackItem, quantity?: number) => {
     const sellItem = this.items.get(item.item);
@@ -151,19 +150,12 @@ export class Backpack {
     );
   };
 
-  /**
-   * 卖出多个物品不用传入数量默认全部卖出
-   */
   public sellItems = (items: BackpackItem[]) => {
     items.forEach((item) => {
       this.sellItem(item);
     });
   };
 
-  /**
-   * 卖出全部选中的物品
-   * 卖完之后清空选中物品列表
-   */
   public sellSelectedItems = () => {
     if (this.selectedItems.size <= 0)
       return Backpack.logger.error('Fail to sell selected items, selected items were empty');
@@ -173,6 +165,18 @@ export class Backpack {
     });
 
     this.selectedItems.clear();
+  };
+
+  private getItemMapKeyById = (itemId: string): Item | undefined => {
+    let result: Item | undefined = undefined;
+
+    this.items.forEach((_, item) => {
+      if (item.id === itemId) {
+        result = item;
+      }
+    });
+
+    return result;
   };
 }
 
