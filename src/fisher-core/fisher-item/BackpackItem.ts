@@ -1,11 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { Item } from './Item';
 
-interface IBackpackItem {
-  item: Item;
-  quantity: number;
-}
-
 /**
  * 背包物品类
  *
@@ -29,7 +24,7 @@ export class BackpackItem {
    */
   public quantity: number;
 
-  constructor({ item, quantity }: IBackpackItem) {
+  constructor(item: Item, quantity: number) {
     makeAutoObservable(this);
 
     this.item = item;
