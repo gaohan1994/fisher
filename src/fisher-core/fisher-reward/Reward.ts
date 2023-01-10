@@ -1,11 +1,8 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { roll } from '../utils';
 import { Item } from '../fisher-item';
-import { Skill } from '../fisher-skill';
-import { bank } from '../fisher-bank';
-import { backpack } from '../fisher-backpack';
 import { store } from '../fisher-packages';
-import { core } from '../fisher-core';
+import { EventKeys, events } from '../fisher-events';
 
 interface ICreateRewardOptions {
   gold?: number;
@@ -34,7 +31,7 @@ export class Reward {
     return this.rewardGold > 0;
   }
 
-  public rewardSkillExperience: Map<Skill, number> = new Map();
+  public rewardSkillExperience: Map<string, number> = new Map();
 
   static create = ({ gold, itemId, itemQuantity, componentId, experience }: ICreateRewardOptions): Reward => {
     const reward = new Reward();
@@ -50,8 +47,7 @@ export class Reward {
     }
 
     if (componentId !== undefined && experience !== undefined) {
-      const component = core.findSkillComponentById(componentId);
-      reward.addRewardSkill(component.skill, experience);
+      reward.addRewardSkill(componentId, experience);
     }
 
     return reward;
@@ -97,21 +93,21 @@ export class Reward {
     return this;
   };
 
-  public addRewardSkill = (skill: Skill, experience: number): this => {
-    const hasRewardSkill = this.rewardSkillExperience.has(skill);
+  public addRewardSkill = (componentId: string, experience: number): this => {
+    const hasRewardSkill = this.rewardSkillExperience.has(componentId);
 
     if (hasRewardSkill) {
-      const rewardExperience = this.rewardSkillExperience.get(skill) ?? 0;
-      this.rewardSkillExperience.set(skill, rewardExperience + experience);
+      const rewardExperience = this.rewardSkillExperience.get(componentId) ?? 0;
+      this.rewardSkillExperience.set(componentId, rewardExperience + experience);
     } else {
-      this.rewardSkillExperience.set(skill, experience);
+      this.rewardSkillExperience.set(componentId, experience);
     }
 
     return this;
   };
 
-  public setRewardSkill = (skill: Skill, experience: number): this => {
-    this.rewardSkillExperience.set(skill, experience);
+  public setRewardSkill = (componentId: string, experience: number): this => {
+    this.rewardSkillExperience.set(componentId, experience);
     return this;
   };
 
@@ -126,42 +122,27 @@ export class Reward {
     this.executeGold();
     this.executeRewardItems();
     this.executeSkillExperience();
+    Reward.logger.debug('Success execute rewards.');
   };
 
   private executeGold = () => {
     if (this.rewardGold > 0) {
-      bank.receiveGold(this.rewardGold);
-      Reward.logger.debug('Execute reward gold: ' + this.rewardGold);
+      events.emit(EventKeys.Reward.RewardGold, this.rewardGold);
     }
   };
 
   private executeRewardItems = () => {
     if (this.rewardItemMap.size > 0) {
-      this.rewardItemMap.forEach((quantity, rewardItem) => {
-        if (quantity > 0) {
-          this.executeAddItem(rewardItem, quantity);
-        } else {
-          this.executeReduceItem(rewardItem, quantity);
-        }
+      this.rewardItemMap.forEach((quantity, item) => {
+        events.emit(EventKeys.Reward.RewardItem, item, quantity);
       });
     }
   };
 
-  private executeAddItem = (rewardItem: Item, quantity: number) => {
-    backpack.addItem(rewardItem, quantity);
-    Reward.logger.debug('Execute add item: ' + rewardItem.name, 'quantity: ' + quantity);
-  };
-
-  private executeReduceItem = (rewardItem: Item, quantity: number) => {
-    backpack.reduceItem(rewardItem, quantity);
-    Reward.logger.debug('Execute reduce item: ' + rewardItem.name, 'quantity: ' + quantity);
-  };
-
   private executeSkillExperience = () => {
     if (this.rewardSkillExperience.size > 0) {
-      this.rewardSkillExperience.forEach((experience, rewardSkill) => {
-        rewardSkill.addExperience(experience);
-        Reward.logger.debug('Execute reward skill experience: ' + rewardSkill.id, 'experience: ' + experience);
+      this.rewardSkillExperience.forEach((experience, componentId) => {
+        events.emit(EventKeys.Reward.RewardExperience, componentId, experience);
       });
     }
   };

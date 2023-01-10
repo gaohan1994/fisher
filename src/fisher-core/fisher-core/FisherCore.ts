@@ -1,10 +1,15 @@
 import { makeAutoObservable, reaction } from 'mobx';
+import { prefixes, prefixLogger } from '@FisherLogger';
 import { Person, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
 import { backpack } from '../fisher-backpack';
+import { Item } from '../fisher-item';
+import { events, EventKeys } from '../fisher-events';
 import { ComponentManager, FisherComponent } from './ComponentManager';
 export class FisherCore {
+  public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherCore');
+
   public static instance: FisherCore;
 
   public static create(): FisherCore {
@@ -19,6 +24,8 @@ export class FisherCore {
   public gameReady = false;
 
   private componentManager = new ComponentManager();
+
+  private events = events;
 
   public get activeComponent() {
     return this.componentManager.activeComponent;
@@ -68,6 +75,8 @@ export class FisherCore {
   constructor() {
     makeAutoObservable(this);
 
+    this.initializeEventBusHandler();
+
     reaction(
       () => this.archive,
       async (archive) => {
@@ -76,13 +85,8 @@ export class FisherCore {
       }
     );
   }
-
   public findComponentById = (componentId: string) => {
     return this.componentManager.findComponentById(componentId);
-  };
-
-  public findSkillComponentById = (componentId: string) => {
-    return this.componentManager.findSkillComponentById(componentId);
   };
 
   public setActiveComponent = (component: FisherComponent) => {
@@ -111,6 +115,37 @@ export class FisherCore {
     await this.bank.initialize();
 
     await this.backpack.initialize();
+  };
+
+  private initializeEventBusHandler = () => {
+    this.initializeRewardEvents();
+  };
+
+  private initializeRewardEvents = () => {
+    this.events.on(EventKeys.Reward.RewardGold, this.onRewardGold);
+    this.events.on(EventKeys.Reward.RewardItem, this.onRewardItem);
+    this.events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
+  };
+
+  private onRewardGold = (gold: number) => {
+    this.bank.receiveGold(gold);
+    FisherCore.logger.debug(`Execute reward gold: ${gold}`);
+  };
+
+  private onRewardItem = (item: Item, quantity: number) => {
+    if (quantity > 0) {
+      this.backpack.addItem(item, quantity);
+      FisherCore.logger.debug(`Execute add item: ${item.id}, quantity: ${quantity}`);
+    } else {
+      this.backpack.reduceItem(item, quantity);
+      FisherCore.logger.debug(`Execute reduce item: ${item.id}, quantity: ${quantity}`);
+    }
+  };
+
+  private onRewardExperience = (componentId: string, experience: number) => {
+    const { skill } = this.componentManager.findSkillComponentById(componentId);
+    skill.addExperience(experience);
+    FisherCore.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
   };
 }
 
