@@ -1,9 +1,9 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { BackpackItem, Item } from '../fisher-item';
 import { prompt } from '../fisher-prompt';
-import { bank } from '../fisher-bank';
+import { BackpackItem, Item } from '../fisher-item';
+import { EventKeys, events } from '../fisher-events';
 
 /**
  * 背包系统
@@ -142,12 +142,9 @@ export class Backpack {
     const totalPrice = item.calculatePrice(sellQuantity);
 
     this.reduceItem(item.item, sellQuantity);
-    bank.receiveGold(totalPrice);
+    events.emit(EventKeys.Bank.ReceiveGold, totalPrice);
 
-    Backpack.logger.debug(
-      `Success sell ${item.item.name} x ${quantity}, `,
-      `price: ${item.item.price}, totalPrice: ${totalPrice}`
-    );
+    Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${totalPrice}`);
   };
 
   public sellItems = (items: BackpackItem[]) => {

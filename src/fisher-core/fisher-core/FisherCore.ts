@@ -118,11 +118,20 @@ export class FisherCore {
   };
 
   private initializeEventBusHandler = () => {
-    this.initializeBackpackEvents();
-    this.initializeRewardEvents();
+    this.initializeBankHandler();
+    this.initializeBackpackHandler();
+    this.initializeRewardHandler();
   };
 
-  private initializeBackpackEvents = () => {
+  private initializeBankHandler = () => {
+    this.events.on(EventKeys.Bank.ReceiveGold, this.onReceiveGold);
+  };
+
+  private onReceiveGold = (gold: number) => {
+    this.bank.receiveGold(gold);
+  };
+
+  private initializeBackpackHandler = () => {
     this.events.on(EventKeys.Backpack.AddItem, this.onAddItem);
     this.events.on(EventKeys.Backpack.ReduceItem, this.onReduceItem);
     this.events.on(EventKeys.Backpack.SellItem, this.onSellItem);
@@ -140,7 +149,7 @@ export class FisherCore {
     this.backpack.sellItem(item, quantity);
   };
 
-  private initializeRewardEvents = () => {
+  private initializeRewardHandler = () => {
     this.events.on(EventKeys.Reward.RewardGold, this.onRewardGold);
     this.events.on(EventKeys.Reward.RewardItem, this.onRewardItem);
     this.events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
