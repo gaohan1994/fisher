@@ -1,16 +1,26 @@
+/**
+ * @vitest-environment jsdom
+ */
+
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { Store } from '../fisher-packages';
 import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
-import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
 import { FisherCore } from '../fisher-core';
 
+const testSkillId = 'Mining';
+let store: Store;
 let core: FisherCore;
+let skill: Skill;
 beforeEach(() => {
+  store = Store.create();
   core = FisherCore.create();
+  core.backpack.items.clear();
+  skill = core.mining.skill;
+  skill.resetActiveRecipe();
+  skill.setExperience(0);
 });
-
-const testSkillId = 'Test:Skill';
 
 const testRecipeData: IRecipe = {
   id: 'Mining:Recipe:LowSpiritMine',
@@ -26,21 +36,18 @@ const testRecipeData: IRecipe = {
 
 describe('Skill', () => {
   test('should success initialize Skill ', () => {
-    const skill = new Skill(testSkillId);
     expect(skill.levelInfo.level).toBe(1);
     expect(skill.id).toMatch(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
   });
 
   test('should success calculate level experience info', () => {
-    const skill = new Skill(testSkillId);
     expect(skill.levelInfo.level).toBe(1);
     expect(skill.levelInfo.totalExperienceToLevelUp).toBe(140);
     expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(140);
   });
 
   test('should success level up when add enough experience', () => {
-    const skill = new Skill(testSkillId);
     expect(skill.levelInfo.level).toBe(1);
     skill.addExperience(139);
     expect(skill.levelInfo.level).toBe(1);
@@ -49,7 +56,6 @@ describe('Skill', () => {
   });
 
   test('should success calculate level experience info when level up', () => {
-    const skill = new Skill(testSkillId);
     expect(skill.levelInfo.level).toBe(1);
     expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(140);
     expect(skill.levelInfo.totalExperienceToLevelUp).toBe(140);
@@ -61,7 +67,6 @@ describe('Skill', () => {
   });
 
   describe('should calculate active recipe info', () => {
-    const skill = new Skill(testSkillId);
     test('active recipe should not available', () => {
       expect(skill.activeRecipe).toBeUndefined();
       expect(skill.hasActiveRecipe).toBeFalsy();
@@ -89,14 +94,12 @@ describe('Skill', () => {
   });
 
   test('should success update active recipe when called updateActiveRecipe', () => {
-    const skill = new Skill(testSkillId);
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
     expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
 
   test('should replace active recipe when called updateActiveRecipe but already have one active recipe', () => {
-    const skill = new Skill(testSkillId);
     expect(skill.activeRecipe).toBeUndefined();
 
     const testRecipe = new Recipe(testRecipeData);
@@ -114,7 +117,6 @@ describe('Skill', () => {
   test('should success receive experience rewards when start skill', () => {
     vi.useFakeTimers();
 
-    const skill = new Skill(testSkillId);
     expect(skill.experience).toEqual(0);
 
     const testRecipe = new Recipe(testRecipeData);
@@ -132,7 +134,6 @@ describe('Skill', () => {
 
     const rewardItem = store.findItemById('LowSpiritMine');
 
-    const skill = new Skill(testSkillId);
     const backpack = Backpack.create();
 
     // clear backpack before run skill
@@ -161,8 +162,6 @@ describe('Skill', () => {
     vi.useFakeTimers();
 
     const rewardItem = store.findItemById('EarthStone');
-
-    const skill = new Skill(testSkillId);
     const backpack = Backpack.create();
 
     // clear backpack before run skill
@@ -185,5 +184,37 @@ describe('Skill', () => {
     expect(backpack.backpackItems.find((item) => item.item.id === 'EarthStone')?.quantity).toEqual(2);
 
     vi.clearAllTimers();
+  });
+
+  describe('Skill interface', () => {
+    const costRecipe = new Recipe(
+      Object.assign({}, testRecipeData, {
+        costItems: [{ itemId: 'MetalStone', itemQuantity: 5 }],
+      })
+    );
+
+    test('should throw error when try to start skill but recipe doesn"t available', () => {
+      expect(() => {
+        skill.setActiveRecipe(costRecipe);
+        skill.start();
+      }).toThrowError(`Try to start skill ${skill.id} but recipe was unavailabled`);
+    });
+
+    test('should stop skill timer when recipe unavailable ', () => {
+      vi.useFakeTimers();
+
+      const costItem = store.findItemById('MetalStone');
+      core.backpack.addItem(costItem, 5);
+      skill.setActiveRecipe(costRecipe);
+      skill.start();
+
+      vi.advanceTimersByTime(1001);
+
+      expect(skill.timer.active).toBeFalsy();
+      expect(skill.activeRecipeAvailable).toBeFalsy();
+      expect(core.backpack.checkItemById('MetalStone')).toBeFalsy();
+
+      vi.clearAllTimers();
+    });
   });
 });
