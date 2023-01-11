@@ -3,6 +3,10 @@ import { EventEmitter } from 'smar-util';
 const events = new EventEmitter();
 
 namespace EventKeys {
+  export enum Core {
+    SetActiveComponent = 'SetActiveComponent',
+  }
+
   export enum Bank {
     ReceiveGold = 'ReceiveGold',
   }

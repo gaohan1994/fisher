@@ -1,4 +1,4 @@
-import { core } from '../fisher-core';
+import { EventKeys, events } from '../fisher-events';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
@@ -43,13 +43,11 @@ export class Mining {
   public start = (recipe: Recipe) => {
     this.skill.setActiveRecipe(recipe);
     this.skill.start();
-    core.setActiveComponent(this);
-    Skill.logger.info(`start collection module ${this.id}`);
+    events.emit(EventKeys.Core.SetActiveComponent, this);
   };
 
   public stop = () => {
     this.skill.stop();
-    Skill.logger.info(`stop collection module ${this.id}`);
   };
 }
 

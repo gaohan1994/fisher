@@ -85,13 +85,6 @@ export class FisherCore {
       }
     );
   }
-  public findComponentById = (componentId: string) => {
-    return this.componentManager.findComponentById(componentId);
-  };
-
-  public setActiveComponent = (component: FisherComponent) => {
-    this.componentManager.setActiveComponent(component);
-  };
 
   public setGameReady = (isReady: boolean) => {
     this.gameReady = isReady;
@@ -118,9 +111,18 @@ export class FisherCore {
   };
 
   private initializeEventBusHandler = () => {
+    this.initializeCoreHandler();
     this.initializeBankHandler();
     this.initializeBackpackHandler();
     this.initializeRewardHandler();
+  };
+
+  private initializeCoreHandler = () => {
+    this.events.on(EventKeys.Core.SetActiveComponent, this.onSetActiveComponent);
+  };
+
+  private onSetActiveComponent = (component: FisherComponent) => {
+    this.componentManager.setActiveComponent(component);
   };
 
   private initializeBankHandler = () => {

@@ -1,14 +1,23 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { core } from '../fisher-core';
 import { store } from '../fisher-packages';
 import { EnemyItem } from '../fisher-item';
 import { Enemy, master } from '../fisher-person';
 import { Reward } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
+import { EventKeys, events } from '../fisher-events';
 
 export class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
+
+  public static instance: Battle;
+
+  public static create(): Battle {
+    if (!Battle.instance) {
+      Battle.instance = new Battle();
+    }
+    return Battle.instance;
+  }
 
   public static BaseBattleInterval = 1000;
 
@@ -104,7 +113,7 @@ export class Battle {
     this.enemy?.startBattle();
 
     this.setInBattle();
-    core.setActiveComponent(this);
+    events.emit(EventKeys.Core.SetActiveComponent, this);
   };
 
   public stop = async () => {
@@ -202,8 +211,10 @@ export class Battle {
     }
 
     this.rewardPool.forEach((reward) => {
-      reward.executeRewards();
+      reward.execute();
     });
     this.rewardPool = [];
   };
 }
+
+export const battle = Battle.create();
