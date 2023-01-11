@@ -1,17 +1,22 @@
 /**
  * @vitest-environment jsdom
  */
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
+import { Bank } from '../fisher-bank';
 import { FisherCore } from '../fisher-core';
 import { NormalItem, TestItem } from '../fisher-item';
 import { Store } from '../fisher-packages';
 
 let store: Store;
 let core: FisherCore;
+let bank: Bank;
+
 beforeEach(() => {
   store = Store.create();
   core = FisherCore.create();
   core.backpack.items.clear();
+  bank = core.bank;
+  bank.gold = 0;
 });
 
 const testBackpackItemPayload = {
@@ -131,43 +136,38 @@ describe('Backpack', () => {
     });
   });
 
-  describe('backpack sell interface', () => {
-    test('should success sell item and reduce backpack item', () => {
+  describe('Sell interface', () => {
+    test('should success run sellItem', () => {
       const backpack = core.backpack;
       const item = new TestItem(testBackpackItemPayload);
       backpack.addItem(item, 10);
-      const backpackItem = backpack.items.get(item);
-      if (!backpackItem) return;
-      expect(backpackItem.quantity).toBe(10);
 
+      expect(backpack.checkItem(item, 10)).toBeTruthy();
+
+      const backpackItem = backpack.getItem(item)!;
+
+      // sell one item
       backpack.sellItem(backpackItem, 1);
-      expect(backpack.items.get(item)?.quantity).toBe(9);
+      expect(backpack.getItem(item)?.quantity).toBe(9);
+      expect(bank.gold).toBe(5);
+
+      // sell all item
+      backpack.sellItem(backpackItem);
+      expect(backpack.getItem(item)).toBeUndefined();
+      expect(bank.gold).toBe(50);
     });
 
-    test('should delete item when sell backpack item all quantity', () => {
+    test('should success run sellItems', () => {
       const backpack = core.backpack;
-      const item = new TestItem(testBackpackItemPayload);
-      backpack.addItem(item, 10);
-      const backpackItem = backpack.items.get(item);
-      if (!backpackItem) return;
-      expect(backpackItem.quantity).toBe(10);
-      backpack.sellItem(backpackItem, 10);
-      expect(backpack.items.get(item)).toBeUndefined();
-    });
+      const item1 = new TestItem(testBackpackItemPayload);
+      const item2 = new TestItem(Object.assign({}, testBackpackItemPayload, { id: 'LowSpiritMine1' }));
 
-    test('should success sell items and reduce backpack item', () => {
-      const backpack = core.backpack;
-      const item = new TestItem(testBackpackItemPayload);
-      const item2 = new TestItem({
-        ...testBackpackItemPayload,
-        id: 'Test:Backpack:2',
-      });
-
-      backpack.addItem(item, 10);
+      backpack.addItem(item1, 10);
       backpack.addItem(item2, 10);
-      expect(backpack.items.size).toBe(2);
       backpack.sellItems(backpack.backpackItems);
+
       expect(backpack.items.size).toBe(0);
+      expect(bank.gold).toBe(100);
     });
   });
 
