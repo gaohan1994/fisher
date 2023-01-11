@@ -3,7 +3,7 @@ import { Reward } from '../fisher-reward';
 import { Recipe } from '../fisher-item';
 import { Skill } from './Skill';
 
-export class RecipeHandler {
+class RecipeHandler {
   private skill: Skill;
 
   constructor(skill: Skill) {
@@ -11,26 +11,44 @@ export class RecipeHandler {
   }
 
   public createRewards = (recipe: Recipe): Reward[] => {
-    const rewards: Reward[] = [];
+    const result: Reward[] = [];
 
-    const skillReward = this.createRecipeSkillReward(recipe);
-    if (skillReward) rewards.push(skillReward);
-
-    const itemsReward = this.createRecipeItemsRewards(recipe);
-    if (itemsReward.length > 0) rewards.push(...itemsReward);
-
-    const randomRewards = this.createRecipeRandomRewards(recipe);
-    if (randomRewards.length > 0) rewards.push(...randomRewards);
-
-    return rewards;
-  };
-
-  private createRecipeSkillReward = (recipe: Recipe): Reward | undefined => {
-    if (recipe.hasExperienceReward) {
-      return Reward.create({ skill: { skill: this.skill, experience: recipe.rewardExperience } });
+    const skillExperienceReward = this.createRecipeSkillExperienceReward(recipe);
+    if (skillExperienceReward) {
+      result.push(skillExperienceReward);
     }
 
-    return undefined;
+    const itemsReward = this.createRecipeItemsRewards(recipe);
+    if (itemsReward.length > 0) {
+      result.push(...itemsReward);
+    }
+
+    const randomRewards = this.createRecipeRandomRewards(recipe);
+    if (randomRewards.length > 0) {
+      result.push(...randomRewards);
+    }
+
+    return result;
+  };
+
+  public createCosts = (recipe: Recipe): Reward[] => {
+    let result: Reward[] = [];
+
+    if (recipe.hasCostItems) {
+      recipe.costItems!.forEach((item) => {
+        result.push(Reward.create({ itemId: item.itemId, itemQuantity: -item.itemQuantity }));
+      });
+    }
+
+    return result;
+  };
+
+  private createRecipeSkillExperienceReward = (recipe: Recipe): Reward | undefined => {
+    if (!recipe.hasExperienceReward) {
+      return undefined;
+    }
+
+    return Reward.create({ componentId: this.skill.id, experience: recipe.rewardExperience });
   };
 
   private createRecipeItemsRewards = (recipe: Recipe): Reward[] => {
@@ -38,8 +56,7 @@ export class RecipeHandler {
 
     if (recipe.hasRewardItems) {
       recipe.rewardItems.forEach((rewardItem) => {
-        const reward = Reward.create(rewardItem);
-        result.push(reward);
+        result.push(Reward.create(rewardItem));
       });
     }
 
@@ -60,20 +77,32 @@ export class RecipeHandler {
   };
 
   public checkRecipeUnlockLevelRequirement = (recipe: Recipe | undefined): boolean => {
-    if (recipe === undefined) return false;
+    if (recipe === undefined) {
+      return false;
+    }
+
     return this.skill.levelInfo.level >= recipe.unlockLevel;
   };
 
   public checkRecipeCanBearCost = (recipe: Recipe | undefined): boolean => {
-    if (recipe === undefined) return false;
-    if (recipe.costItems === undefined) return true;
+    if (recipe === undefined) {
+      return false;
+    }
+
+    if (recipe.costItems === undefined) {
+      return true;
+    }
 
     for (let index = 0; index < recipe.costItems.length; index++) {
       const { itemId, itemQuantity } = recipe.costItems[index];
 
-      if (!backpack.hasItem(itemId, itemQuantity)) return false;
+      if (!backpack.checkItemById(itemId, itemQuantity)) {
+        return false;
+      }
     }
 
     return true;
   };
 }
+
+export { RecipeHandler };

@@ -8,7 +8,7 @@ import { RecipeHandler } from './RecipeHandler';
 
 type IFisherSkillLevelInfo = LevelExperienceInfo;
 
-export class Skill {
+class Skill {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Skill');
 
   public id: string;
@@ -55,27 +55,52 @@ export class Skill {
   }
 
   public action = () => {
-    const rewards = this.createRewards();
-    rewards.forEach((reward) => reward.executeRewards());
+    const executeRewards = this.createExecuteRewards();
+    executeRewards.forEach((reward) => reward.execute());
+
+    Skill.logger.debug(`${this.id} run action`);
+
+    // after each action
+    // check active recipe still available
+    // if not meet condition stop timer
+    // don't reset active recipe let user know the stop reason
+    if (!this.activeRecipeAvailable) {
+      Skill.logger.debug(`${this.id} stop action due to active recipe was unavailabled`);
+      return this.stopTimer();
+    }
   };
 
   public start = () => {
     if (!this.activeRecipeAvailable) {
-      return Skill.logger.error(`Try to start skill ${this.id} but recipe was unavailabled!`);
+      throw new Error(`Try to start skill ${this.id} but recipe was unavailabled`);
     }
+
     this.startTimer();
   };
 
   public stop = () => {
-    this.resetActiveRecipe();
     this.stopTimer();
+    this.resetActiveRecipe();
+  };
+
+  private createExecuteRewards = () => {
+    return [...this.createRewards(), ...this.createCosts()];
   };
 
   private createRewards = (): Reward[] => {
-    if (this.activeRecipe === undefined)
-      return Skill.logger.error('Try to create skill experience rewards with undefined recipe!');
+    if (this.activeRecipe === undefined) {
+      throw new Error('Try to create skill rewards but recipe was undefined!');
+    }
 
     return this.recipeHandler.createRewards(this.activeRecipe);
+  };
+
+  private createCosts = (): Reward[] => {
+    if (this.activeRecipe === undefined) {
+      throw new Error('Try to create skill cost but recipe was undefined!');
+    }
+
+    return this.recipeHandler.createCosts(this.activeRecipe);
   };
 
   public addExperience = (value: number) => {
@@ -96,8 +121,9 @@ export class Skill {
 
   private startTimer = () => {
     if (this.activeRecipeInterval === 0) {
-      return Skill.logger.error('Try to start action interval was 0 please select recipe');
+      throw new Error('Try to start action interval was 0 please select recipe');
     }
+
     this.timer.startTimer(this.activeRecipeInterval);
   };
 
@@ -105,3 +131,5 @@ export class Skill {
     this.timer.stopTimer();
   };
 }
+
+export { Skill };
