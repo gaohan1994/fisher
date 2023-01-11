@@ -3,6 +3,12 @@ import { EventEmitter } from 'smar-util';
 const events = new EventEmitter();
 
 namespace EventKeys {
+  export enum Backpack {
+    AddItem = 'AddItem',
+    ReduceItem = 'ReduceItem',
+    SellItem = 'SellItem',
+  }
+
   export enum Reward {
     RewardGold = 'RewardGold',
     RewardItem = 'RewardItem',

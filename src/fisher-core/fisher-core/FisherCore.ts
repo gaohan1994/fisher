@@ -4,7 +4,7 @@ import { Person, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
 import { backpack } from '../fisher-backpack';
-import { Item } from '../fisher-item';
+import { BackpackItem, Item } from '../fisher-item';
 import { events, EventKeys } from '../fisher-events';
 import { ComponentManager, FisherComponent } from './ComponentManager';
 export class FisherCore {
@@ -118,7 +118,26 @@ export class FisherCore {
   };
 
   private initializeEventBusHandler = () => {
+    this.initializeBackpackEvents();
     this.initializeRewardEvents();
+  };
+
+  private initializeBackpackEvents = () => {
+    this.events.on(EventKeys.Backpack.AddItem, this.onAddItem);
+    this.events.on(EventKeys.Backpack.ReduceItem, this.onReduceItem);
+    this.events.on(EventKeys.Backpack.SellItem, this.onSellItem);
+  };
+
+  private onAddItem = (item: Item, quantity: number) => {
+    this.backpack.addItem(item, quantity);
+  };
+
+  private onReduceItem = (item: Item, quantity: number) => {
+    this.backpack.addItem(item, quantity);
+  };
+
+  private onSellItem = (item: BackpackItem, quantity?: number) => {
+    this.backpack.sellItem(item, quantity);
   };
 
   private initializeRewardEvents = () => {

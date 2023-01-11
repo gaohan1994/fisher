@@ -1,10 +1,10 @@
 import { EventEmitter } from 'smar-util';
 import { action, computed, makeObservable, observable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
-import { backpack } from '../fisher-backpack';
+import { EventKeys, events } from '../fisher-events';
+import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
 
 enum PersonEquipmentManagerEvents {
   EquipmentChange = 'EquipmentChange',
@@ -160,6 +160,6 @@ export class PersonEquipmentManager extends EventEmitter {
 
   @action
   private putEquipmentToBackpack = (equipment: EquipmentItem, quantity: number) => {
-    backpack.addItem(equipment, quantity);
+    events.emit(EventKeys.Backpack.AddItem, equipment, quantity);
   };
 }
