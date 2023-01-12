@@ -28,21 +28,14 @@ export const FisherBattleDemo = observer(
                 <Box key={area.id}>
                   <Typography>{area.name}</Typography>
                   {area.enemies.map((enemy) => (
-                    <Box
-                      key={`${area.id}${enemy.id}`}
-                      border={1}
-                      mb={1}
-                      onClick={() => battle.start(enemy)}
-                    >
+                    <Box key={`${area.id}${enemy.id}`} border={1} mb={1} onClick={() => battle.start(enemy)}>
                       <Typography>{enemy.name}</Typography>
                       <Typography>{enemy.level}</Typography>
                     </Box>
                   ))}
                 </Box>
               ))}
-              {battle.inBattle && (
-                <Button onClick={() => battle.stop()}>停止战斗</Button>
-              )}
+              {battle.inBattle && <Button onClick={() => battle.stop()}>停止战斗</Button>}
             </Box>
             <Box>
               <Stack direction="row">
@@ -55,9 +48,7 @@ export const FisherBattleDemo = observer(
               {battle.rewardPool.length > 0 ? (
                 battle.rewardPool.map((reward, index) => (
                   <Fragment key={index}>
-                    {reward.hasRewardGold && (
-                      <Box>Gold: {reward.rewardGold}</Box>
-                    )}
+                    {reward.hasRewardGold && <Box>Gold: {reward.rewardGold}</Box>}
                     {reward.hasRewardItems &&
                       reward.rewardItems.map(([item, quantity]) => (
                         <Box key={`${index}${item.id}`}>

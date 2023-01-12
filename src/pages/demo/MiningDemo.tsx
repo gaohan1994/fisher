@@ -15,6 +15,7 @@ export const MiningDemo: FC = observer(() => {
     stop,
     packages: { recipes },
   } = mining;
+
   return (
     <DemoLayout title="采矿Demo">
       <div>技能 {skill.id}</div>

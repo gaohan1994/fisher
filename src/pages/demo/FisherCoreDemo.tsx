@@ -13,6 +13,7 @@ import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { FisherPromptDemo } from './FisherPromptDemo';
 import { StoreDemo } from './StoreDemo';
+import { ForgeDemo } from './ForgeDemo';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack p={1} spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
@@ -32,6 +33,9 @@ const FisherCoreDemo: FC = () => (
     </DemoStack>
     <DemoStack>
       <StoreDemo />
+    </DemoStack>
+    <DemoStack>
+      <ForgeDemo />
     </DemoStack>
     <DemoStack>
       <Paper>

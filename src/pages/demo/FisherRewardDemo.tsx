@@ -24,18 +24,10 @@ export const FisherRewardDemo: FC = observer(() => {
           : 'empty'}
       </div>
       <Stack direction="row" spacing={1}>
-        <Button onClick={() => reward.addRewardGold(50)}>
-          add reward gold 50
-        </Button>
-        <Button onClick={() => reward.addRewardItem(testFisherItem, 1)}>
-          add one reward item
-        </Button>
+        <Button onClick={() => reward.addRewardGold(50)}>add reward gold 50</Button>
+        <Button onClick={() => reward.addRewardItem(testFisherItem, 1)}>add one reward item</Button>
       </Stack>
-      <Button
-        fullWidth={true}
-        variant="contained"
-        onClick={() => reward.executeRewards()}
-      >
+      <Button fullWidth={true} variant="contained" onClick={() => reward.execute()}>
         execute reward
       </Button>
     </DemoLayout>
