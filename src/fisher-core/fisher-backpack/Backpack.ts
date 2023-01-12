@@ -40,6 +40,13 @@ export class Backpack {
 
   constructor() {
     makeAutoObservable(this);
+
+    // after update backpack item
+    // emit BackpackUpdated event
+    // need post lastest backpack to the other components
+    events.on(EventKeys.Backpack.AddItem, this.addItem);
+    events.on(EventKeys.Backpack.ReduceItem, this.reduceItem);
+    events.on(EventKeys.Backpack.SellItem, this.sellItem);
   }
 
   public initialize = async () => {};
@@ -87,6 +94,8 @@ export class Backpack {
     } else {
       this.addNewItem(item, quantity);
     }
+
+    events.emit(EventKeys.Backpack.BackpackUpdated, this);
   };
 
   private addNewItem = (item: Item, quantity: number) => {
@@ -115,6 +124,8 @@ export class Backpack {
     } else {
       this.items.set(item, backpackItem);
     }
+
+    events.emit(EventKeys.Backpack.BackpackUpdated, this);
   };
 
   public reduceItemById = (itemId: string, quantity: number) => {
@@ -136,26 +147,27 @@ export class Backpack {
    */
   public sellItem = (item: BackpackItem, quantity?: number) => {
     const sellItem = this.items.get(item.item);
-    if (!sellItem) return;
+    invariant(sellItem !== undefined, `Try to sell item ${item.item.id} but current backpack does not have item`);
 
-    const sellQuantity = quantity ?? sellItem.quantity;
-    const totalPrice = item.calculatePrice(sellQuantity);
+    const _quantity = Math.min(quantity ?? sellItem.quantity, sellItem.quantity);
+    const sellPrice = item.calculatePrice(_quantity);
 
-    this.reduceItem(item.item, sellQuantity);
-    events.emit(EventKeys.Bank.ReceiveGold, totalPrice);
+    this.reduceItem(item.item, _quantity);
 
-    Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${totalPrice}`);
+    events.emit(EventKeys.Bank.ReceiveGold, sellPrice);
+    events.emit(EventKeys.Backpack.BackpackUpdated, this);
+
+    Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${sellPrice}`);
   };
 
   public sellItems = (items: BackpackItem[]) => {
-    items.forEach((item) => {
-      this.sellItem(item);
-    });
+    for (let index = 0; index < items.length; index++) {
+      this.sellItem(items[index]);
+    }
   };
 
   public sellSelectedItems = () => {
-    if (this.selectedItems.size <= 0)
-      return Backpack.logger.error('Fail to sell selected items, selected items were empty');
+    invariant(this.selectedItems.size > 0, 'Fail to sell selected items, selected items are empty');
 
     this.selectedItems.forEach((item) => {
       this.sellItem(item);

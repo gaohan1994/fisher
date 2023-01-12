@@ -4,7 +4,6 @@ import { Person, master } from '../fisher-person';
 import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
 import { backpack } from '../fisher-backpack';
-import { BackpackItem, Item } from '../fisher-item';
 import { events, EventKeys } from '../fisher-events';
 import { ComponentManager, FisherComponent } from './ComponentManager';
 export class FisherCore {
@@ -112,8 +111,6 @@ export class FisherCore {
 
   private initializeEventBusHandler = () => {
     this.initializeCoreHandler();
-    this.initializeBankHandler();
-    this.initializeBackpackHandler();
     this.initializeRewardHandler();
   };
 
@@ -125,51 +122,8 @@ export class FisherCore {
     this.componentManager.setActiveComponent(component);
   };
 
-  private initializeBankHandler = () => {
-    this.events.on(EventKeys.Bank.ReceiveGold, this.onReceiveGold);
-  };
-
-  private onReceiveGold = (gold: number) => {
-    this.bank.receiveGold(gold);
-  };
-
-  private initializeBackpackHandler = () => {
-    this.events.on(EventKeys.Backpack.AddItem, this.onAddItem);
-    this.events.on(EventKeys.Backpack.ReduceItem, this.onReduceItem);
-    this.events.on(EventKeys.Backpack.SellItem, this.onSellItem);
-  };
-
-  private onAddItem = (item: Item, quantity: number) => {
-    this.backpack.addItem(item, quantity);
-  };
-
-  private onReduceItem = (item: Item, quantity: number) => {
-    this.backpack.addItem(item, quantity);
-  };
-
-  private onSellItem = (item: BackpackItem, quantity?: number) => {
-    this.backpack.sellItem(item, quantity);
-  };
-
   private initializeRewardHandler = () => {
-    this.events.on(EventKeys.Reward.RewardGold, this.onRewardGold);
-    this.events.on(EventKeys.Reward.RewardItem, this.onRewardItem);
     this.events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
-  };
-
-  private onRewardGold = (gold: number) => {
-    this.bank.receiveGold(gold);
-    FisherCore.logger.debug(`Execute reward gold: ${gold}`);
-  };
-
-  private onRewardItem = (item: Item, quantity: number) => {
-    if (quantity > 0) {
-      this.backpack.addItem(item, quantity);
-      FisherCore.logger.debug(`Execute add item: ${item.id}, quantity: ${quantity}`);
-    } else {
-      this.backpack.reduceItem(item, quantity);
-      FisherCore.logger.debug(`Execute reduce item: ${item.id}, quantity: ${quantity}`);
-    }
   };
 
   private onRewardExperience = (componentId: string, experience: number) => {
