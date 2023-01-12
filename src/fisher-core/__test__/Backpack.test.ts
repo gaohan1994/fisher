@@ -4,6 +4,7 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { Bank } from '../fisher-bank';
 import { FisherCore } from '../fisher-core';
+import { EventKeys, events } from '../fisher-events';
 import { NormalItem, TestItem } from '../fisher-item';
 import { Store } from '../fisher-packages';
 
@@ -180,5 +181,51 @@ describe('Backpack', () => {
     backpack.toggleSelectItem(backpackItem);
     expect(backpack.selectedItems.size).toBe(1);
     expect(backpack.selectedItems.has(backpackItem)).toBeTruthy();
+  });
+
+  describe('Backpack events', () => {
+    test('should success listen EventKeys.Backpack.AddItem event', () => {
+      const backpack = core.backpack;
+      const item = new TestItem(testBackpackItemPayload);
+
+      events.emit(EventKeys.Backpack.AddItem, item, 5);
+      expect(backpack.checkItem(item, 5)).toBeTruthy();
+
+      events.emit(EventKeys.Backpack.AddItem, item, 2);
+      expect(backpack.checkItem(item, 7)).toBeTruthy();
+    });
+
+    test('should success listen EventKeys.Backpack.ReduceItem event', () => {
+      const backpack = core.backpack;
+      const item = new TestItem(testBackpackItemPayload);
+      backpack.addItem(item, 5);
+
+      events.emit(EventKeys.Backpack.ReduceItem, item, 2);
+      expect(backpack.getItem(item)?.quantity).toBe(3);
+
+      events.emit(EventKeys.Backpack.ReduceItem, item, 2);
+      expect(backpack.getItem(item)?.quantity).toBe(1);
+
+      events.emit(EventKeys.Backpack.ReduceItem, item, 1);
+      expect(backpack.checkItem(item)).toBeFalsy();
+    });
+
+    test('should success listen EventKeys.Backpack.SellItem event', () => {
+      const backpack = core.backpack;
+      const item = new TestItem(testBackpackItemPayload);
+      backpack.addItem(item, 5);
+
+      events.emit(EventKeys.Backpack.SellItem, backpack.getItem(item), 2);
+      expect(backpack.getItem(item)?.quantity).toBe(3);
+      expect(bank.gold).toBe(10);
+
+      events.emit(EventKeys.Backpack.SellItem, backpack.getItem(item), 2);
+      expect(backpack.getItem(item)?.quantity).toBe(1);
+      expect(bank.gold).toBe(20);
+
+      events.emit(EventKeys.Backpack.SellItem, backpack.getItem(item), 2);
+      expect(backpack.checkItem(item)).toBeFalsy();
+      expect(bank.gold).toBe(25);
+    });
   });
 });
