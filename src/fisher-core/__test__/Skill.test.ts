@@ -18,7 +18,7 @@ beforeEach(() => {
   core = FisherCore.create();
   core.backpack.items.clear();
   skill = core.mining.skill;
-  skill.resetActiveRecipe();
+  skill.recipeHandler.resetActiveRecipe();
   skill.setExperience(0);
 });
 
@@ -38,7 +38,7 @@ describe('Skill', () => {
   test('should success initialize Skill ', () => {
     expect(skill.levelInfo.level).toBe(1);
     expect(skill.id).toMatch(testSkillId);
-    expect(skill.activeRecipe).toBeUndefined();
+    expect(skill.recipeHandler.activeRecipe).toBeUndefined();
   });
 
   test('should success calculate level experience info', () => {
@@ -68,50 +68,64 @@ describe('Skill', () => {
 
   describe('should calculate active recipe info', () => {
     test('active recipe should not available', () => {
-      expect(skill.activeRecipe).toBeUndefined();
-      expect(skill.hasActiveRecipe).toBeFalsy();
-      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
-      expect(skill.activeRecipeBearCostAvailable).toBeFalsy();
-      expect(skill.activeRecipeAvailable).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipe).toBeUndefined();
+      expect(skill.recipeHandler.hasActiveRecipe).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipeUnlockLevelAvailable).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipeBearCostAvailable).toBeTruthy();
+      expect(skill.recipeHandler.activeRecipeAvailable).toBeFalsy();
+
+      test('should not can bear cost', () => {
+        const testRecipe = new Recipe(
+          Object.assign({}, testRecipeData, {
+            costItems: [{ itemId: 'LowSpiritMine', itemQuantity: 5 }],
+          })
+        );
+        skill.setActiveRecipe(testRecipe);
+
+        expect(skill.recipeHandler.hasActiveRecipe).toBeTruthy();
+        expect(skill.recipeHandler.activeRecipeUnlockLevelAvailable).toBeTruthy();
+        expect(skill.recipeHandler.activeRecipeBearCostAvailable).toBeFalsy();
+        expect(skill.recipeHandler.activeRecipeAvailable).toBeFalsy();
+      });
     });
 
     test('active recipe should available', () => {
       const testRecipe = new Recipe(testRecipeData);
       skill.setActiveRecipe(testRecipe);
 
-      expect(skill.hasActiveRecipe).toBeTruthy();
-      expect(skill.activeRecipeUnlockLevelRequirement).toBeTruthy();
-      expect(skill.activeRecipeBearCostAvailable).toBeTruthy();
-      expect(skill.activeRecipeAvailable).toBeTruthy();
+      expect(skill.recipeHandler.hasActiveRecipe).toBeTruthy();
+      expect(skill.recipeHandler.activeRecipeUnlockLevelAvailable).toBeTruthy();
+      expect(skill.recipeHandler.activeRecipeBearCostAvailable).toBeTruthy();
+      expect(skill.recipeHandler.activeRecipeAvailable).toBeTruthy();
     });
 
     test('should not require unlock level', () => {
       const testRecipe = new Recipe(Object.assign({}, testRecipeData, { unlockLevel: 2 }));
       skill.setActiveRecipe(testRecipe);
-      expect(skill.activeRecipeUnlockLevelRequirement).toBeFalsy();
-      expect(skill.activeRecipeAvailable).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipeUnlockLevelAvailable).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipeAvailable).toBeFalsy();
     });
   });
 
   test('should success update active recipe when called updateActiveRecipe', () => {
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
-    expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
+    expect(skill.recipeHandler.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
   });
 
   test('should replace active recipe when called updateActiveRecipe but already have one active recipe', () => {
-    expect(skill.activeRecipe).toBeUndefined();
+    expect(skill.recipeHandler.activeRecipe).toBeUndefined();
 
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
-    expect(skill.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
+    expect(skill.recipeHandler.activeRecipe?.id).toBe('Mining:Recipe:LowSpiritMine');
 
     const testRecipeReplace = new Recipe({
       ...testRecipeData,
       id: 'Mining:Recipe:ReplaceTest',
     });
     skill.setActiveRecipe(testRecipeReplace);
-    expect(skill.activeRecipe?.id).toBe('Mining:Recipe:ReplaceTest');
+    expect(skill.recipeHandler.activeRecipe?.id).toBe('Mining:Recipe:ReplaceTest');
   });
 
   test('should success receive experience rewards when start skill', () => {
@@ -211,7 +225,7 @@ describe('Skill', () => {
       vi.advanceTimersByTime(1001);
 
       expect(skill.timer.active).toBeFalsy();
-      expect(skill.activeRecipeAvailable).toBeFalsy();
+      expect(skill.recipeHandler.activeRecipeAvailable).toBeFalsy();
       expect(core.backpack.checkItemById('MetalStone')).toBeFalsy();
 
       vi.clearAllTimers();

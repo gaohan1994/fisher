@@ -1,29 +1,105 @@
-import { backpack } from '../fisher-backpack';
-import { Reward } from '../fisher-reward';
-import { Recipe } from '../fisher-item';
+import { makeAutoObservable } from 'mobx';
+import { EventEmitter } from 'smar-util';
+import { BackpackItem, IRecipeItem, Recipe } from '../fisher-item';
+import { EventKeys, events } from '../fisher-events';
 import { Skill } from './Skill';
+import { Reward } from '../fisher-reward';
+import { backpack } from '../fisher-backpack';
+
+enum RecipeEventKeys {
+  UpdateActiveRecipeStatus = 'UpdateActiveRecipeStatus',
+}
 
 class RecipeHandler {
   private skill: Skill;
 
+  public activeRecipe: Recipe | undefined = undefined;
+
+  public costControlMap = new Map<string, RecipeCostItemControl>();
+
+  public recipeEvents = new EventEmitter();
+
   constructor(skill: Skill) {
+    makeAutoObservable(this);
+
     this.skill = skill;
+
+    // listen backpack item update events
+    // because the other skill reward may be recipe cost item
+    // so re-calculate cost control when reward item
+    this.recipeEvents.on(RecipeEventKeys.UpdateActiveRecipeStatus, this.onUpdateActiveRecipeStatus);
+    events.on(EventKeys.Backpack.BackpackUpdated, this.onUpdateActiveRecipeStatus);
   }
 
-  public createRewards = (recipe: Recipe): Reward[] => {
+  public get costControls() {
+    return [...this.costControlMap.values()];
+  }
+
+  public get hasActiveRecipe() {
+    return this.activeRecipe !== undefined;
+  }
+
+  public get activeRecipeAvailable() {
+    return this.hasActiveRecipe && this.activeRecipeUnlockLevelAvailable && this.activeRecipeBearCostAvailable;
+  }
+
+  public get activeRecipeUnlockLevelAvailable() {
+    if (!this.hasActiveRecipe) {
+      return false;
+    }
+
+    return this.skill.levelInfo.level >= this.activeRecipe!.unlockLevel;
+  }
+
+  public get activeRecipeBearCostAvailable(): boolean {
+    let result = true;
+
+    this.costControlMap.forEach((control) => {
+      if (!control.canBearCost) result = false;
+    });
+
+    return result;
+  }
+
+  public setActiveRecipe = (recipe: Recipe) => {
+    this.activeRecipe = recipe;
+    this.recipeEvents.emit(RecipeEventKeys.UpdateActiveRecipeStatus);
+  };
+
+  public resetActiveRecipe = () => {
+    this.activeRecipe = undefined;
+    this.recipeEvents.emit(RecipeEventKeys.UpdateActiveRecipeStatus);
+  };
+
+  public executeRecipe = () => {
+    if (!this.activeRecipeAvailable) {
+      throw new Error(`Try to executeRecipe but active recipe was unavailabled`);
+    }
+
+    const executeRewards = [...this.createRewards(), ...this.createCosts()];
+    executeRewards.forEach((reward) => reward.execute());
+
+    this.recipeEvents.emit(RecipeEventKeys.UpdateActiveRecipeStatus);
+  };
+
+  private createRewards = (): Reward[] => {
+    if (!this.hasActiveRecipe) {
+      throw new Error('Try to create rewards without active recipe!');
+    }
+
     const result: Reward[] = [];
 
-    const skillExperienceReward = this.createRecipeSkillExperienceReward(recipe);
+    const skillExperienceReward = this.createRecipeSkillExperienceReward();
     if (skillExperienceReward) {
       result.push(skillExperienceReward);
     }
 
-    const itemsReward = this.createRecipeItemsRewards(recipe);
+    const itemsReward = this.createRecipeItemsRewards();
     if (itemsReward.length > 0) {
       result.push(...itemsReward);
     }
 
-    const randomRewards = this.createRecipeRandomRewards(recipe);
+    const randomRewards = this.createRecipeRandomRewards();
     if (randomRewards.length > 0) {
       result.push(...randomRewards);
     }
@@ -31,11 +107,15 @@ class RecipeHandler {
     return result;
   };
 
-  public createCosts = (recipe: Recipe): Reward[] => {
+  private createCosts = (): Reward[] => {
+    if (!this.hasActiveRecipe) {
+      throw new Error('Try to create costs without active recipe!');
+    }
+
     let result: Reward[] = [];
 
-    if (recipe.hasCostItems) {
-      recipe.costItems!.forEach((item) => {
+    if (this.activeRecipe!.hasCostItems) {
+      this.activeRecipe!.costItems!.forEach((item) => {
         result.push(Reward.create({ itemId: item.itemId, itemQuantity: -item.itemQuantity }));
       });
     }
@@ -43,31 +123,29 @@ class RecipeHandler {
     return result;
   };
 
-  private createRecipeSkillExperienceReward = (recipe: Recipe): Reward | undefined => {
-    if (!recipe.hasExperienceReward) {
+  private createRecipeSkillExperienceReward = (): Reward | undefined => {
+    if (!this.activeRecipe?.hasExperienceReward) {
       return undefined;
     }
 
-    return Reward.create({ componentId: this.skill.id, experience: recipe.rewardExperience });
+    return Reward.create({ componentId: this.skill.id, experience: this.activeRecipe!.rewardExperience });
   };
 
-  private createRecipeItemsRewards = (recipe: Recipe): Reward[] => {
+  private createRecipeItemsRewards = (): Reward[] => {
     const result: Reward[] = [];
 
-    if (recipe.hasRewardItems) {
-      recipe.rewardItems.forEach((rewardItem) => {
-        result.push(Reward.create(rewardItem));
-      });
+    if (this.activeRecipe!.hasRewardItems) {
+      this.activeRecipe!.rewardItems.forEach((rewardItem) => result.push(Reward.create(rewardItem)));
     }
 
     return result;
   };
 
-  private createRecipeRandomRewards = (recipe: Recipe): Reward[] => {
+  private createRecipeRandomRewards = (): Reward[] => {
     const result: Reward[] = [];
 
-    if (recipe.hasRandomRewardItems) {
-      recipe.randomRewardItems.forEach((rewardItem) => {
+    if (this.activeRecipe!.hasRandomRewardItems) {
+      this.activeRecipe!.randomRewardItems.forEach((rewardItem) => {
         const reward = Reward.createRandomReward(rewardItem.probability, rewardItem);
         if (reward !== undefined) result.push(reward);
       });
@@ -76,33 +154,44 @@ class RecipeHandler {
     return result;
   };
 
-  public checkRecipeUnlockLevelRequirement = (recipe: Recipe | undefined): boolean => {
-    if (recipe === undefined) {
-      return false;
-    }
-
-    return this.skill.levelInfo.level >= recipe.unlockLevel;
+  private onUpdateActiveRecipeStatus = () => {
+    this.updateActiveCostControl();
   };
 
-  public checkRecipeCanBearCost = (recipe: Recipe | undefined): boolean => {
-    if (recipe === undefined) {
-      return false;
+  /**
+   * update cost control
+   *  - execute recipe
+   *  - active recipe changed
+   *  - backpack item changed
+   *
+   * clear cost control if active recipe = undefined or doesn't have costs
+   * set cost control map if active recipe has cost items
+   */
+  private updateActiveCostControl = () => {
+    if (!this.hasActiveRecipe) {
+      return this.costControlMap.clear();
     }
 
-    if (recipe.costItems === undefined) {
-      return true;
+    if (!this.activeRecipe!.hasCostItems) {
+      return this.costControlMap.clear();
     }
 
-    for (let index = 0; index < recipe.costItems.length; index++) {
-      const { itemId, itemQuantity } = recipe.costItems[index];
-
-      if (!backpack.checkItemById(itemId, itemQuantity)) {
-        return false;
-      }
-    }
-
-    return true;
+    this.activeRecipe!.costItems!.forEach((item) => {
+      this.costControlMap.set(item.itemId, new RecipeCostItemControl(item));
+    });
   };
+}
+
+class RecipeCostItemControl {
+  public canBearCost = false;
+  public costItem: IRecipeItem;
+  public backpackItem: BackpackItem | undefined = undefined;
+
+  constructor(item: IRecipeItem) {
+    this.costItem = item;
+    this.backpackItem = backpack.getItemById(item.itemId);
+    this.canBearCost = (this.backpackItem?.quantity ?? 0) >= item.itemQuantity;
+  }
 }
 
 export { RecipeHandler };

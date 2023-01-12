@@ -57,7 +57,7 @@ export class Reiki {
   }
 
   public get activeRecipe() {
-    return this.skill.activeRecipe;
+    return this.skill.recipeHandler.activeRecipe;
   }
 
   public get levelInfo() {

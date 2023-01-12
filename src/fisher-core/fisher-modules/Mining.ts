@@ -22,18 +22,18 @@ export class Mining {
 
   public name = '采矿';
 
+  public skill = new Skill(this.id);
+
   public get packages() {
     return store.Mining;
   }
-
-  public skill = new Skill(this.id);
 
   public get isActive() {
     return this.skill.timer.active;
   }
 
   public get activeRecipe() {
-    return this.skill.activeRecipe;
+    return this.skill.recipeHandler.activeRecipe;
   }
 
   public get levelInfo() {
