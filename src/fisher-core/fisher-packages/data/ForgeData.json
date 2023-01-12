@@ -1,0 +1,29 @@
+{
+  "moduleName": "Forge",
+  "data": {
+    "recipes": [
+      {
+        "id": "Forge:WoodSword",
+        "name": "锻造：新手木剑",
+        "desc": "制作新手木剑",
+        "media": "",
+        "interval": 3000,
+        "unlockLevel": 1,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "WoodSword", "itemQuantity": 1 }],
+        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
+      },
+      {
+        "id": "Forge:ClothHat",
+        "name": "锻造：新手布帽",
+        "desc": "制作新手布帽",
+        "media": "",
+        "interval": 3000,
+        "unlockLevel": 1,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "ClothHat", "itemQuantity": 1 }],
+        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
+      }
+    ]
+  }
+}

@@ -13,7 +13,7 @@
     "items": [
       {
         "id": "WoodSword",
-        "name": "木剑",
+        "name": "新手木剑",
         "desc": "用寻常木头做的剑",
         "media": "woodsword",
         "price": 5,
@@ -23,7 +23,7 @@
       },
       {
         "id": "ClothHat",
-        "name": "布帽",
+        "name": "新手布帽",
         "desc": "用布织成的帽子，可以遮风挡雨",
         "media": "",
         "price": 5,

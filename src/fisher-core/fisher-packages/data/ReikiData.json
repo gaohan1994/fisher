@@ -7,7 +7,6 @@
         "name": "灵气",
         "desc": "在有灵气的地方经常看到",
         "media": "",
-        "type": "Reiki",
         "price": 5
       },
       {
@@ -15,7 +14,6 @@
         "name": "寒玉灵气",
         "desc": "在寒冷的地方经常看到",
         "media": "",
-        "type": "Reiki",
         "price": 20
       },
       {
@@ -23,7 +21,6 @@
         "name": "剑灵气",
         "desc": "经常出现在有剑术高手战斗过的地方",
         "media": "",
-        "type": "Reiki",
         "price": 25
       }
     ],

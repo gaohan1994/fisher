@@ -3,6 +3,7 @@ import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
 import equipmentSetDataJson from './data/EquipmentSetData.json';
 import battleDataJson from './data/BattleData.json';
+import forgeDataJson from './data/ForgeData.json';
 import {
   Item,
   IItem,
@@ -53,6 +54,10 @@ export function makeEquipmentPackagesData() {
 
 export function makeEquipmentSetData() {
   return generateEquipmentSets(equipmentSetDataJson.data.items);
+}
+
+export function makeForgePackagesData() {
+  return generatePackagesRecipes(forgeDataJson.data.recipes);
 }
 
 /**

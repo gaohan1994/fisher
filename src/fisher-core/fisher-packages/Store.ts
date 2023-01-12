@@ -15,6 +15,7 @@ import {
   makeBattlePackageData,
   makeEquipmentPackagesData,
   makeEquipmentSetData,
+  makeForgePackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
@@ -41,6 +42,8 @@ export class Store {
   public Mining: ICollectionModuleData = { items: [], recipes: [] };
 
   public Reiki: ICollectionModuleData = { items: [], recipes: [] };
+
+  public Forge: Recipe[] = [];
 
   public EmptyEquipment: EquipmentItem = EmptyEquipment;
 
@@ -71,6 +74,7 @@ export class Store {
   public initializePackages = async () => {
     this.initializeMining();
     this.initializeReiki();
+    this.initializeForge();
     this.initializeEquipments();
     this.initializeEquipmentSets();
     this.initializeBattle();
@@ -85,6 +89,11 @@ export class Store {
   private initializeReiki = () => {
     this.Reiki = makeReikiPackagesData();
     Store.logger.info('initialize Reiki data');
+  };
+
+  private initializeForge = () => {
+    this.Forge = makeForgePackagesData();
+    Store.logger.info('initialize Forge data');
   };
 
   private initializeEquipments = () => {

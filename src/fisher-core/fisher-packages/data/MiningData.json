@@ -7,7 +7,6 @@
         "name": "低灵矿石",
         "desc": "一种很常见的矿石，灵气和纯度较低",
         "media": "",
-        "type": "Mining",
         "price": 5
       },
       {
@@ -15,7 +14,6 @@
         "name": "五行晶石",
         "desc": "蕴含金木水火土五种属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 25
       },
       {
@@ -23,7 +21,6 @@
         "name": "金晶石",
         "desc": "蕴含金属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 5
       },
       {
@@ -31,7 +28,6 @@
         "name": "木晶石",
         "desc": "蕴含木属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 5
       },
       {
@@ -39,7 +35,6 @@
         "name": "水晶石",
         "desc": "蕴含水属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 5
       },
       {
@@ -47,7 +42,6 @@
         "name": "火晶石",
         "desc": "蕴含火属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 5
       },
       {
@@ -55,7 +49,6 @@
         "name": "土晶石",
         "desc": "蕴含土属性的晶石",
         "media": "",
-        "type": "Mining",
         "price": 5
       }
     ],
