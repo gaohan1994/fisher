@@ -15,11 +15,10 @@ namespace EventKeys {
     AddItem = 'AddItem',
     ReduceItem = 'ReduceItem',
     SellItem = 'SellItem',
+    BackpackUpdated = 'BackpackUpdated',
   }
 
   export enum Reward {
-    RewardGold = 'RewardGold',
-    RewardItem = 'RewardItem',
     RewardExperience = 'RewardExperience',
   }
 }

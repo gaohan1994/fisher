@@ -21,6 +21,8 @@ import { EventKeys, events } from '../fisher-events';
 export class Backpack {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Backpack');
 
+  public readonly id = 'Backpack';
+
   public static instance: Backpack;
 
   public static create(): Backpack {

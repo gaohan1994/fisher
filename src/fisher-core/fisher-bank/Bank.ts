@@ -25,6 +25,8 @@ export class Bank {
     return Bank.instance;
   }
 
+  public readonly id = 'Bank';
+
   public gold: number = 0;
 
   constructor() {

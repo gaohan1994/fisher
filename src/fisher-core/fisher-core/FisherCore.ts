@@ -1,11 +1,9 @@
 import { makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { Person, master } from '../fisher-person';
-import { bank } from '../fisher-bank';
 import { prompt } from '../fisher-prompt';
-import { backpack } from '../fisher-backpack';
-import { events, EventKeys } from '../fisher-events';
-import { ComponentManager, FisherComponent } from './ComponentManager';
+import { events } from '../fisher-events';
+import { ComponentManager } from './ComponentManager';
 export class FisherCore {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherCore');
 
@@ -22,9 +20,9 @@ export class FisherCore {
 
   public gameReady = false;
 
-  private componentManager = new ComponentManager();
+  public events = events;
 
-  private events = events;
+  private componentManager = new ComponentManager();
 
   public get activeComponent() {
     return this.componentManager.activeComponent;
@@ -32,6 +30,14 @@ export class FisherCore {
 
   public get activeComponentId() {
     return this.componentManager.activeComponentId;
+  }
+
+  public get bank() {
+    return this.componentManager.bank;
+  }
+
+  public get backpack() {
+    return this.componentManager.backpack;
   }
 
   public get mining() {
@@ -56,12 +62,6 @@ export class FisherCore {
   // 玩家
   public readonly master = master;
 
-  // 货币
-  public readonly bank = bank;
-
-  // 背包
-  public readonly backpack = backpack;
-
   /**
    * Creates an instance of FisherCore.
    *
@@ -73,8 +73,6 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-
-    this.initializeEventBusHandler();
 
     reaction(
       () => this.archive,
@@ -107,29 +105,6 @@ export class FisherCore {
     await this.bank.initialize();
 
     await this.backpack.initialize();
-  };
-
-  private initializeEventBusHandler = () => {
-    this.initializeCoreHandler();
-    this.initializeRewardHandler();
-  };
-
-  private initializeCoreHandler = () => {
-    this.events.on(EventKeys.Core.SetActiveComponent, this.onSetActiveComponent);
-  };
-
-  private onSetActiveComponent = (component: FisherComponent) => {
-    this.componentManager.setActiveComponent(component);
-  };
-
-  private initializeRewardHandler = () => {
-    this.events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
-  };
-
-  private onRewardExperience = (componentId: string, experience: number) => {
-    const { skill } = this.componentManager.findSkillComponentById(componentId);
-    skill.addExperience(experience);
-    FisherCore.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
   };
 }
 

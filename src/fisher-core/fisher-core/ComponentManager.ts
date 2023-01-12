@@ -1,29 +1,47 @@
+import invariant from 'invariant';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { battle, Battle } from '../fisher-battle';
 import { forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
+import { bank, Bank } from '../fisher-bank';
+import { backpack, Backpack } from '../fisher-backpack';
+import { EventKeys, events } from '../fisher-events';
 
-export type FisherComponent = Mining | Reiki | Forge | Battle;
+type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle;
+
+type ActiveControlComponent = Mining | Reiki | Forge | Battle;
 
 enum ComponentId {
+  Bank = 'Bank',
+  Backpack = 'Backpack',
   Mining = 'Mining',
   Reiki = 'Reiki',
   Forge = 'Forge',
   Battle = 'Battle',
 }
 
-export class ComponentManager {
+class ComponentManager {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ComponentManager');
 
   private componentMap = new Map<string, FisherComponent>();
 
   private skillComponentMap = new Map<string, SkillComponent<any>>();
 
-  public get componentIds() {
-    return [...this.componentMap.keys()];
+  public activeComponent: ActiveControlComponent | undefined = undefined;
+
+  public get activeComponentId() {
+    return this.activeComponent?.id;
   }
 
   public get components() {
     return [...this.componentMap.values()];
+  }
+
+  public get bank() {
+    return this.componentMap.get(ComponentId.Bank) as Bank;
+  }
+
+  public get backpack() {
+    return this.componentMap.get(ComponentId.Backpack) as Backpack;
   }
 
   public get mining() {
@@ -42,48 +60,34 @@ export class ComponentManager {
     return this.componentMap.get(ComponentId.Battle) as Battle;
   }
 
-  public activeComponent: FisherComponent | undefined = undefined;
-
-  public get activeComponentId() {
-    return this.activeComponent?.id;
-  }
-
   constructor() {
     this.initializeComponentMap();
     this.initializeSkillComponentMap();
+
+    events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
+    events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
   }
 
-  public findComponentById = <T = FisherComponent>(componentId: ComponentId[number]): T => {
-    const result = this.componentMap.get(componentId);
+  private onRewardExperience = (componentId: string, experience: number) => {
+    const skillComponent = this.skillComponentMap.get(componentId);
+    invariant(skillComponent !== undefined, `Try to add experience to undefined component ${componentId}`);
 
-    if (result === undefined) {
-      return ComponentManager.logger.error(`Didn't find component: ${componentId}`);
-    }
-
-    return result as T;
+    const { skill } = skillComponent;
+    skill.addExperience(experience);
+    ComponentManager.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
   };
 
-  public findSkillComponentById = <T extends Mining | Reiki | Forge>(
-    componentId: ComponentId[number]
-  ): SkillComponent<T> => {
-    const result = this.skillComponentMap.get(componentId);
-
-    if (result === undefined) {
-      return ComponentManager.logger.error(`Didn't find skill by componentId: ${componentId}`);
-    }
-
-    return result;
-  };
-
-  public setActiveComponent = (component: FisherComponent) => {
+  public setActiveComponent = (component: ActiveControlComponent | undefined) => {
     if (this.activeComponent !== component) {
       this.activeComponent?.stop();
       this.activeComponent = component;
-      ComponentManager.logger.info(`Set active component ${component.id}`);
+      ComponentManager.logger.info(`Set active component ${component === undefined ? 'undefined' : component.id}`);
     }
   };
 
   private initializeComponentMap = () => {
+    this.componentMap.set(ComponentId.Bank, bank);
+    this.componentMap.set(ComponentId.Backpack, backpack);
     this.componentMap.set(ComponentId.Mining, mining);
     this.componentMap.set(ComponentId.Reiki, reiki);
     this.componentMap.set(ComponentId.Forge, forge);
@@ -108,3 +112,5 @@ class SkillComponent<T extends Mining | Reiki | Forge> {
     return this.component.skill;
   }
 }
+
+export { ComponentManager };

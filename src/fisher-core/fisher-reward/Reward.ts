@@ -127,14 +127,18 @@ export class Reward {
 
   private executeGold = () => {
     if (this.rewardGold > 0) {
-      events.emit(EventKeys.Reward.RewardGold, this.rewardGold);
+      events.emit(EventKeys.Bank.ReceiveGold, this.rewardGold);
     }
   };
 
   private executeRewardItems = () => {
     if (this.rewardItemMap.size > 0) {
       this.rewardItemMap.forEach((quantity, item) => {
-        events.emit(EventKeys.Reward.RewardItem, item, quantity);
+        if (quantity > 0) {
+          events.emit(EventKeys.Backpack.AddItem, item, quantity);
+        } else {
+          events.emit(EventKeys.Backpack.ReduceItem, item, quantity);
+        }
       });
     }
   };
