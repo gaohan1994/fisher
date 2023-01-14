@@ -11,9 +11,9 @@ import { ReikiDemo } from './ReikiDemo';
 import { FisherPersonDemo } from './FisherPersonDemo';
 import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
-import { FisherPromptDemo } from './FisherPromptDemo';
 import { StoreDemo } from './StoreDemo';
 import { ForgeDemo } from './ForgeDemo';
+import { FuiNotifycation } from '../../components/notifycation';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack p={1} spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
@@ -70,7 +70,7 @@ const FisherCoreDemo: FC = () => (
         <ExperienceDemo />
       </Paper>
     </DemoStack>
-    <FisherPromptDemo />
+    <FuiNotifycation />
   </Stack>
 );
 export default FisherCoreDemo;

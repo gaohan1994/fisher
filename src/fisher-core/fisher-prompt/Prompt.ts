@@ -33,11 +33,7 @@ export class Prompt {
     makeAutoObservable(this);
   }
 
-  public promptItem = (
-    item: Item,
-    quantity = 1,
-    {}: IPromptItemOptions = {}
-  ) => {
+  public promptItem = (item: Item, quantity = 1, {}: IPromptItemOptions = {}) => {
     this.quene.push({ item, quantity });
     this.runQueneShiftTimer();
   };
@@ -55,6 +51,10 @@ export class Prompt {
 
   private shiftQueneItem = () => {
     this.quene.shift();
+  };
+
+  public clearQuene = () => {
+    this.quene = [];
   };
 }
 
