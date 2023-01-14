@@ -54,7 +54,7 @@ class Archive {
   }
 
   public static create(masterName: string): Archive {
-    const archiveKey = randomString(10) + '@' + generateTimestamp();
+    const archiveKey = randomString(10) + '@' + `${generateTimestamp()}`;
     return new Archive({ archiveKey, masterName });
   }
 
@@ -68,8 +68,12 @@ class Archive {
     this.refreshLastUpdateTime();
   };
 
+  public delete = () => {
+    this.deletedAt = generateTimestamp();
+  };
+
   private refreshLastUpdateTime = () => {
-    this.lastUpdateTime = dayjs().valueOf();
+    this.lastUpdateTime = generateTimestamp();
   };
 }
 

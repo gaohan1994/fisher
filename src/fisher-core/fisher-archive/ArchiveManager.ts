@@ -51,12 +51,41 @@ class ArchiveManager {
     this.archiveHandler.setActiveArchive(archive);
   };
 
+  public deleteArchive = async (archiveKey: string) => {
+    if (archiveKey === this.archiveHandler.activeArchive?.archiveKey) {
+      ArchiveManager.logger.error(`Try to delete active archive ${archiveKey}`);
+      throw new Error(`Try to delete active archive ${archiveKey}`);
+    }
+
+    const archive = this.archiveMap.get(archiveKey);
+    if (!archive) {
+      ArchiveManager.logger.error(`Try to delete null archive`);
+      throw new Error(`Try to delete null archive`);
+    }
+
+    await this.archiveHandler.deleteArchive(archive);
+    await this.refreshArchiveMap();
+  };
+
   private refreshArchiveMap = async () => {
-    return await archiveStore
-      .iterate<ArchiveInterface.ArchiveValues, void>((archive, archiveKey) => {
-        this.archiveMap.set(archiveKey, new Archive(archive));
+    await archiveStore
+      .iterate<ArchiveInterface.ArchiveValues, void>((archiveValue, archiveKey) => {
+        const archive = new Archive(archiveValue);
+
+        if (this.checkArchiveIsAvailable(archive)) {
+          this.archiveMap.set(archiveKey, archive);
+        } else {
+          this.archiveMap.delete(archiveKey);
+        }
       })
       .catch((error) => ArchiveManager.logger.error(`Fail to initialize archives`, error));
+  };
+
+  private checkArchiveIsAvailable = (archive: Archive) => {
+    if (archive.deleted === true) {
+      return false;
+    }
+    return true;
   };
 
   private refreshActiveArchive = async () => {

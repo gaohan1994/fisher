@@ -40,6 +40,12 @@ class ArchiveHandler {
     return [archive.archiveKey, archive];
   };
 
+  public deleteArchive = async (archive: Archive) => {
+    archive.delete();
+    await this.saveArchive(archive);
+    ArchiveHandler.logger.info(`Success delete archive ${archive.archiveKey}`);
+  };
+
   private onBankUpdate = (bank: Bank) => {
     this.checkActiveArchiveAvailable();
 
