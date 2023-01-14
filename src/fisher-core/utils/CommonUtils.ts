@@ -64,6 +64,6 @@ export function randomString(stringLength: number) {
   return result;
 }
 
-export function generateTimestamp() {
-  return `${dayjs().valueOf()}`;
+export function generateTimestamp(): number {
+  return dayjs().valueOf();
 }
