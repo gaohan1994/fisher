@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export function range(value: number, rangeScope: number) {
   const isRaiseCorrection = roll(50);
   const correctionValue = Math.round(value * random(0, rangeScope) * 0.01);
@@ -49,4 +51,19 @@ export function random(min: number, max: number): number {
   }
   // Return an integer that falls within the range
   return min + rval;
+}
+
+export function randomString(stringLength: number) {
+  let result = '';
+  let charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < stringLength; i++) {
+    result += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+
+  return result;
+}
+
+export function generateTimestamp() {
+  return `${dayjs().valueOf()}`;
 }
