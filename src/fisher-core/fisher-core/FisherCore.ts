@@ -1,8 +1,9 @@
-import { makeAutoObservable, reaction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { Person, master } from '../fisher-person';
+import { master } from '../fisher-person';
 import { prompt } from '../fisher-prompt';
 import { events } from '../fisher-events';
+import { ArchiveManager } from '../fisher-archive';
 import { ComponentManager } from './ComponentManager';
 export class FisherCore {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherCore');
@@ -21,6 +22,8 @@ export class FisherCore {
   public gameReady = false;
 
   public events = events;
+
+  public archiveManager = new ArchiveManager();
 
   private componentManager = new ComponentManager();
 
@@ -73,38 +76,10 @@ export class FisherCore {
    */
   constructor() {
     makeAutoObservable(this);
-
-    reaction(
-      () => this.archive,
-      async (archive) => {
-        await this.loadArchive(archive);
-        this.setGameReady(true);
-      }
-    );
   }
 
   public setGameReady = (isReady: boolean) => {
     this.gameReady = isReady;
-  };
-
-  public setArchive = (archive: any) => {
-    this.archive = archive;
-  };
-
-  public quitArchive = () => {
-    this.archive = undefined;
-    this.setGameReady(false);
-  };
-
-  private loadArchive = async (archive: any) => {
-    await this.master.initialize({
-      name: '李逍遥',
-      level: Person.Level.GasRefiningLater,
-    });
-
-    await this.bank.initialize();
-
-    await this.backpack.initialize();
   };
 }
 

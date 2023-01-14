@@ -1,3 +1,7 @@
+import { Archive } from './fisher-archive';
+
+export { Archive };
+
 export * from './assets';
 export * from './fisher-core';
 export * from './fisher-timer';
