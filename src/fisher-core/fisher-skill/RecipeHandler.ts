@@ -28,7 +28,7 @@ class RecipeHandler {
     // because the other skill reward may be recipe cost item
     // so re-calculate cost control when reward item
     this.recipeEvents.on(RecipeEventKeys.UpdateActiveRecipeStatus, this.onUpdateActiveRecipeStatus);
-    events.on(EventKeys.Backpack.BackpackUpdated, this.onUpdateActiveRecipeStatus);
+    events.on(EventKeys.Update.BackpackUpdate, this.onUpdateActiveRecipeStatus);
   }
 
   public get costControls() {

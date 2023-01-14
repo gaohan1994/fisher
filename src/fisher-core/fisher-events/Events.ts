@@ -15,11 +15,19 @@ namespace EventKeys {
     AddItem = 'AddItem',
     ReduceItem = 'ReduceItem',
     SellItem = 'SellItem',
-    BackpackUpdated = 'BackpackUpdated',
   }
 
   export enum Reward {
     RewardExperience = 'RewardExperience',
+  }
+
+  export enum Update {
+    BackpackUpdate = 'BackpackUpdate',
+    BankUpdate = 'BankUpdate',
+  }
+
+  export enum Archive {
+    LoadArchive = 'LoadArchive',
   }
 }
 

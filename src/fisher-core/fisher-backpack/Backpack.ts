@@ -4,6 +4,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { prompt } from '../fisher-prompt';
 import { BackpackItem, Item } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
+import { ArchiveInterface } from '../fisher-archive';
 
 /**
  * 背包系统
@@ -36,6 +37,10 @@ export class Backpack {
 
   public get backpackItems() {
     return [...this.items.values()];
+  }
+
+  public get archive(): ArchiveInterface.ArchiveBackpack {
+    return this.backpackItems.map(({ item, quantity }) => ({ id: item.id, quantity }));
   }
 
   public selectedItems = new Set<BackpackItem>();
@@ -97,7 +102,7 @@ export class Backpack {
       this.addNewItem(item, quantity);
     }
 
-    events.emit(EventKeys.Backpack.BackpackUpdated, this);
+    events.emit(EventKeys.Update.BackpackUpdate, this);
   };
 
   private addNewItem = (item: Item, quantity: number) => {
@@ -127,7 +132,7 @@ export class Backpack {
       this.items.set(item, backpackItem);
     }
 
-    events.emit(EventKeys.Backpack.BackpackUpdated, this);
+    events.emit(EventKeys.Update.BackpackUpdate, this);
   };
 
   public reduceItemById = (itemId: string, quantity: number) => {
@@ -157,7 +162,7 @@ export class Backpack {
     this.reduceItem(item.item, _quantity);
 
     events.emit(EventKeys.Bank.ReceiveGold, sellPrice);
-    events.emit(EventKeys.Backpack.BackpackUpdated, this);
+    events.emit(EventKeys.Update.BackpackUpdate, this);
 
     Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${sellPrice}`);
   };

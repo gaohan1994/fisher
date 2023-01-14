@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { prompt } from '../fisher-prompt';
 import { EventKeys, events } from '../fisher-events';
+import { ArchiveInterface } from '../fisher-archive';
 
 /**
  * 金币模块
@@ -29,17 +30,39 @@ export class Bank {
 
   public gold: number = 0;
 
+  public get archive(): ArchiveInterface.ArchiveBank {
+    return {
+      gold: this.gold,
+    };
+  }
+
   constructor() {
     makeAutoObservable(this);
+
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
     events.on(EventKeys.Bank.ReceiveGold, this.receiveGold);
   }
 
-  public initialize = async () => {};
+  private onLoadArchive = (values: ArchiveInterface.ArchiveValues) => {
+    if (values.bank === undefined) {
+      Bank.logger.info('Archive bank value was undefined clear gold');
+      this.clearGold();
+    } else {
+      Bank.logger.info('Load archive bank values', values.bank);
+      this.setGold(values.bank.gold);
+    }
+  };
 
   public receiveGold = (value: number) => {
     this.gold += value;
     Bank.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
+
+    events.emit(EventKeys.Update.BankUpdate, this);
     prompt.promptGold(value);
+  };
+
+  public setGold = (value: number) => {
+    this.gold = value;
   };
 
   public clearGold = () => {
