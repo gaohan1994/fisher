@@ -28,6 +28,7 @@ namespace EventKeys {
 
   export enum Archive {
     LoadArchive = 'LoadArchive',
+    ExitArchive = 'ExitArchive',
   }
 }
 

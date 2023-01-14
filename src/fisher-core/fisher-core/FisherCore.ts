@@ -19,11 +19,13 @@ export class FisherCore {
 
   public archive: any | undefined = undefined;
 
-  public gameReady = false;
-
   public events = events;
 
   public archiveManager = new ArchiveManager();
+
+  public get gameReady() {
+    return this.archiveManager.hasActiveArchive;
+  }
 
   private componentManager = new ComponentManager();
 
@@ -77,10 +79,6 @@ export class FisherCore {
   constructor() {
     makeAutoObservable(this);
   }
-
-  public setGameReady = (isReady: boolean) => {
-    this.gameReady = isReady;
-  };
 }
 
 export const core = FisherCore.create();

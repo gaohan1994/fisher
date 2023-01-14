@@ -64,6 +64,7 @@ class ComponentManager {
     this.initializeComponentMap();
     this.initializeSkillComponentMap();
 
+    events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
   }
@@ -79,9 +80,15 @@ class ComponentManager {
 
   public setActiveComponent = (component: ActiveControlComponent | undefined) => {
     if (this.activeComponent !== component) {
-      this.activeComponent?.stop();
+      this.stopActiveComponent();
       this.activeComponent = component;
       ComponentManager.logger.info(`Set active component ${component === undefined ? 'undefined' : component.id}`);
+    }
+  };
+
+  private stopActiveComponent = () => {
+    if (this.activeComponent !== undefined) {
+      this.activeComponent?.stop();
     }
   };
 
