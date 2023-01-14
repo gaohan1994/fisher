@@ -1,30 +1,35 @@
-import { Fragment, FC, useEffect } from 'react';
-import { Button, CircularProgress, Stack } from '@mui/material';
+import { Fragment, FC } from 'react';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { core } from '@FisherCore';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import FisherCoreDemo from './FisherCoreDemo';
 import { observer } from 'mobx-react';
-
-const logger = prefixLogger(prefixes.COMPONENTS, 'Launcher');
+import { FuiArchive, FuiArchiveCreator } from '@Components';
 
 export const FisherLauncher: FC = observer(() => {
-  useEffect(() => {
-    core.setArchive({ name: 'archive' });
-  }, []);
-
-  const loadArchive = () => {
-    core.setArchive({ name: 'archive' });
-  };
+  const { archiveManager } = core;
 
   return (
     <div>
+      <FisherCoreDemo />
       {core.gameReady ? (
         <FisherCoreDemo />
       ) : (
         <Fragment>
-          <Stack>
-            <Button onClick={loadArchive}>Load Archive</Button>
-          </Stack>
+          {archiveManager.hasArchive ? (
+            <Stack spacing={1}>
+              {archiveManager.archiveList.map((item) => (
+                <FuiArchive key={item.archiveKey} archive={item} />
+              ))}
+            </Stack>
+          ) : (
+            <Typography>archive list empty</Typography>
+          )}
+          <Box sx={{ width: 400, mt: 1 }}>
+            <Stack spacing={1}>
+              <FuiArchiveCreator />
+            </Stack>
+          </Box>
           <CircularProgress color="secondary" />
         </Fragment>
       )}
