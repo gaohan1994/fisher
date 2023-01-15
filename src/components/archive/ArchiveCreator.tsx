@@ -1,30 +1,15 @@
 import { FC, Fragment, useCallback, useState } from 'react';
-import {
-  Alert,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Snackbar,
-  Stack,
-  TextField,
-} from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from '@mui/material';
 import { core } from '@FisherCore';
-
-const errorMessage = {
-  type: 'error',
-  message: '请输入合法的游戏姓名',
-};
+import { notifycationStore } from '../notifycation';
 
 const ArchiveCreateModal: FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
-  const [tipOpen, setTipOpen] = useState(false);
-  const [tipMessage, setTipMessage] = useState<{ type: string; message: string } | undefined>();
   const [masterName, setMasterName] = useState('');
 
   const onConfrimCreateArchive = useCallback(async () => {
     if (!masterName || masterName.length < 1) {
-      return openErrorTipMessage();
+      return notifycationStore.alert('error', '请输入合法的游戏姓名');
     }
 
     await core.archiveManager.createNewArchive(masterName);
@@ -33,14 +18,8 @@ const ArchiveCreateModal: FC<{ open: boolean; onClose: () => void }> = ({ open, 
     setMasterName('');
   }, [masterName]);
 
-  const openErrorTipMessage = () => {
-    setTipMessage(errorMessage);
-    setTipOpen(true);
-  };
-
   const openSuccessTipMessage = useCallback(() => {
-    setTipMessage({ type: 'success', message: `${masterName}创建成功` });
-    setTipOpen(true);
+    notifycationStore.alert('success', `${masterName}创建成功`);
   }, [masterName]);
 
   return (
@@ -67,32 +46,27 @@ const ArchiveCreateModal: FC<{ open: boolean; onClose: () => void }> = ({ open, 
           <Button onClick={onClose}>取消</Button>
         </DialogActions>
       </Dialog>
-      <Snackbar
-        open={tipOpen}
-        autoHideDuration={2000}
-        onClose={() => setTipOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        {tipMessage && (
-          <Alert onClose={onClose} severity={tipMessage.type as any} sx={{ width: '100%' }}>
-            {tipMessage.message}
-          </Alert>
-        )}
-      </Snackbar>
     </Fragment>
   );
 };
 
-const FuiArchiveCreator: FC = () => {
+const FuiArchiveCreateButton: FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <Fragment>
       <ArchiveCreateModal open={open} onClose={() => setOpen(false)} />
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        新建存档
+      <Button
+        fullWidth
+        size="large"
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={() => setOpen(true)}
+        endIcon={<AddCircleOutlineIcon />}
+      >
+        开始新游戏
       </Button>
     </Fragment>
   );
 };
 
-export { FuiArchiveCreator };
+export { FuiArchiveCreateButton };
