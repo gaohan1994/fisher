@@ -2,14 +2,9 @@ import { EventKeys, events } from '../fisher-events';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
+import { Collection } from './Collection';
 
-/**
- * 锻造模块
- *
- * @export
- * @class Forge
- */
-export class Forge {
+class Forge extends Collection<Recipe[]> {
   public static instance: Forge;
 
   public static create(): Forge {
@@ -23,26 +18,14 @@ export class Forge {
 
   public name = '锻造';
 
-  public get packages() {
-    return store.Forge;
-  }
-
   public skill = new Skill(this.id);
-
-  public get isActive() {
-    return this.skill.timer.active;
-  }
-
-  public get activeRecipe() {
-    return this.skill.recipeHandler.activeRecipe;
-  }
 
   public get activeRecipeAvailable() {
     return this.skill.recipeHandler.activeRecipeAvailable;
   }
 
-  public get levelInfo() {
-    return this.skill.levelInfo;
+  public get packages() {
+    return store.Forge;
   }
 
   public setActiveRecipe = (value: Recipe) => {
@@ -65,4 +48,6 @@ export class Forge {
   };
 }
 
-export const forge = Forge.create();
+const forge = Forge.create();
+
+export { forge, Forge };

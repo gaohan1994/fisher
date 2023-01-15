@@ -1,8 +1,24 @@
 import { Archive } from './fisher-archive';
 import { version, core, FisherCore } from './fisher-core';
+import { skillExperienceCalculator, MaxLevel } from './fisher-skill';
+import { Mining, Reiki, Forge } from './fisher-modules';
 
-export { Archive };
-export { version, core, FisherCore };
+export {
+  // archive module
+  Archive,
+
+  // core modules
+  core,
+  FisherCore,
+  version,
+
+  // skills
+  Mining,
+  Reiki,
+  Forge,
+  MaxLevel,
+  skillExperienceCalculator,
+};
 
 export * from './assets';
 export * from './fisher-timer';

@@ -7,17 +7,17 @@ import { FuiItem } from '../../components/item';
 
 export const ForgeDemo: FC = observer(() => {
   const { forge } = core;
-  const { skill, activeRecipe, levelInfo, isActive, packages } = forge!;
+  const { skill, activeRecipe, experience, level, levelUpExperience, isActive, packages } = forge!;
 
   return (
     <DemoLayout title="锻造">
       <div>技能 {skill.id}</div>
       <div>技能状态 {isActive ? '激活' : '未激活'}</div>
       <div>
-        技能等级 {levelInfo.level} / {99}
+        技能等级 {level} / {99}
       </div>
       <div>
-        技能经验 {levelInfo.experience} / {levelInfo.totalExperienceToLevelUp}
+        技能经验 {experience} / {levelUpExperience}
       </div>
       <Stack direction="row" spacing={1}>
         {packages.map((recipe) => {
