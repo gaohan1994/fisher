@@ -5,7 +5,10 @@ import { prompt } from '../fisher-prompt';
 import { events } from '../fisher-events';
 import { ArchiveManager } from '../fisher-archive';
 import { ComponentManager } from './ComponentManager';
+import { version } from './Version';
 export class FisherCore {
+  public version = version;
+
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherCore');
 
   public static instance: FisherCore;
