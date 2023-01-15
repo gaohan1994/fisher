@@ -60,13 +60,13 @@ export class Backpack {
   }
 
   private onLoadArchive = (values: ArchiveInterface.ArchiveValues) => {
-    if (values.backpack === undefined) {
-      Backpack.logger.info('Archive backpack value was undefined, so clear backpack');
+    // clear backpack first
+    this.items.clear();
+    this.selectedItems.clear();
 
-      this.items.clear();
-      this.selectedItems.clear();
-    } else {
+    if (values.backpack !== undefined) {
       const { backpack: archiveBackpackValues } = values;
+
       for (let index = 0; index < archiveBackpackValues.length; index++) {
         const { id, quantity } = archiveBackpackValues[index];
         this.addItemById(id, quantity);
