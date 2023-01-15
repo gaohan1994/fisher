@@ -29,6 +29,7 @@ class Archive {
       lastUpdateTime: this.lastUpdateTime,
       deletedAt: this.deletedAt,
       bank: this.bank,
+      backpack: this.backpack,
     };
   }
 
@@ -50,6 +51,10 @@ class Archive {
 
     if (options.bank) {
       this.bank = options.bank;
+    }
+
+    if (options.backpack) {
+      this.backpack = options.backpack;
     }
   }
 

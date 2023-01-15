@@ -79,6 +79,14 @@ describe('Backpack', () => {
       );
     });
 
+    test('should success add item by id', () => {
+      const backpack = core.backpack;
+
+      expect(backpack.checkItemById('LowSpiritMine')).toBeFalsy();
+      backpack.addItemById('LowSpiritMine', 10);
+      expect(backpack.checkItemById('LowSpiritMine')).toBeTruthy();
+    });
+
     test('should success add new item ', () => {
       const backpack = core.backpack;
       const item = new TestItem(testBackpackItemPayload);

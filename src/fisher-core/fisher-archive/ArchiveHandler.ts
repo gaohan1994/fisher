@@ -60,23 +60,24 @@ class ArchiveHandler {
     this.clearActiveArchive();
   };
 
-  private onBankUpdate = (bank: Bank) => {
-    this.checkActiveArchiveAvailable();
-
-    this.activeArchive!.updateBank(bank.archive);
-    this.saveActiveArchive();
+  private onBankUpdate = async (bank: Bank) => {
+    if (this.checkActiveArchiveAvailable()) {
+      this.activeArchive!.updateBank(bank.archive);
+      await this.saveActiveArchive();
+    }
   };
 
-  private onBackpackUpdate = (backpack: Backpack) => {
-    this.checkActiveArchiveAvailable();
-
-    this.activeArchive!.updateBackpack(backpack.archive);
-    this.saveActiveArchive();
+  private onBackpackUpdate = async (backpack: Backpack) => {
+    if (this.checkActiveArchiveAvailable()) {
+      this.activeArchive!.updateBackpack(backpack.archive);
+      await this.saveActiveArchive();
+    }
   };
 
   private saveActiveArchive = async () => {
-    this.checkActiveArchiveAvailable();
-    return this.saveArchive(this.activeArchive!);
+    if (this.checkActiveArchiveAvailable()) {
+      return await this.saveArchive(this.activeArchive!);
+    }
   };
 
   private saveArchive = async (archive: Archive) => {
@@ -87,8 +88,9 @@ class ArchiveHandler {
   private checkActiveArchiveAvailable = () => {
     if (!this.hasActiveArchive) {
       ArchiveHandler.logger.error(`Fail to update archive, active archive was undefined!`);
-      throw new Error(`Fail to update archive, active archive was undefined!`);
+      return false;
     }
+    return true;
   };
 
   private clearActiveArchive = () => {
