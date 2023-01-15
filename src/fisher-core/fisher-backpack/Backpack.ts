@@ -5,6 +5,7 @@ import { prompt } from '../fisher-prompt';
 import { BackpackItem, Item } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
+import { store } from '../fisher-packages';
 
 /**
  * 背包系统
@@ -48,6 +49,8 @@ export class Backpack {
   constructor() {
     makeAutoObservable(this);
 
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
+
     // after update backpack item
     // emit BackpackUpdated event
     // need post lastest backpack to the other components
@@ -56,7 +59,22 @@ export class Backpack {
     events.on(EventKeys.Backpack.SellItem, this.sellItem);
   }
 
-  public initialize = async () => {};
+  private onLoadArchive = (values: ArchiveInterface.ArchiveValues) => {
+    if (values.backpack === undefined) {
+      Backpack.logger.info('Archive backpack value was undefined, so clear backpack');
+
+      this.items.clear();
+      this.selectedItems.clear();
+    } else {
+      const { backpack: archiveBackpackValues } = values;
+      for (let index = 0; index < archiveBackpackValues.length; index++) {
+        const { id, quantity } = archiveBackpackValues[index];
+        this.addItemById(id, quantity);
+      }
+
+      Backpack.logger.info('Load archive backpack values', backpack);
+    }
+  };
 
   public checkItem = (item: Item, quantity = 1) => {
     const backpackItem = this.items.get(item);
@@ -103,6 +121,15 @@ export class Backpack {
     }
 
     events.emit(EventKeys.Update.BackpackUpdate, this);
+  };
+
+  public addItemById = (itemId: string, quantity: number) => {
+    const item = store.findItemById(itemId);
+    if (item === undefined) {
+      return Backpack.logger.error(`Try to add item ${itemId} but can not found this item`);
+    }
+
+    this.addItem(item, quantity);
   };
 
   private addNewItem = (item: Item, quantity: number) => {

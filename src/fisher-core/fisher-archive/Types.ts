@@ -6,6 +6,7 @@ namespace ArchiveInterface {
     lastUpdateTime: number;
     deletedAt?: number;
     bank?: ArchiveBank;
+    backpack?: ArchiveBackpack;
   }
 
   export interface ArchiveBank {

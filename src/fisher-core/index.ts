@@ -1,9 +1,10 @@
 import { Archive } from './fisher-archive';
+import { version, core, FisherCore } from './fisher-core';
 
 export { Archive };
+export { version, core, FisherCore };
 
 export * from './assets';
-export * from './fisher-core';
 export * from './fisher-timer';
 export * from './fisher-item';
 export * from './fisher-backpack';
