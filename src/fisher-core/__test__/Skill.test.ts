@@ -6,10 +6,9 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Store } from '../fisher-packages';
 import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
-import { Skill } from '../fisher-skill';
+import { Skill, skillExperienceCalculator } from '../fisher-skill';
 import { FisherCore } from '../fisher-core';
 
-const testSkillId = 'Mining';
 let store: Store;
 let core: FisherCore;
 let skill: Skill;
@@ -34,38 +33,27 @@ const testRecipeData: IRecipe = {
   randomRewardItems: [{ probability: 100, itemId: 'EarthStone', itemQuantity: 1 }],
 };
 
-describe('Skill', () => {
-  test('should success initialize Skill ', () => {
-    expect(skill.levelInfo.level).toBe(1);
-    expect(skill.id).toMatch(testSkillId);
-    expect(skill.recipeHandler.activeRecipe).toBeUndefined();
-  });
-
-  test('should success calculate level experience info', () => {
-    expect(skill.levelInfo.level).toBe(1);
-    expect(skill.levelInfo.totalExperienceToLevelUp).toBe(140);
-    expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(140);
-  });
-
-  test('should success level up when add enough experience', () => {
-    expect(skill.levelInfo.level).toBe(1);
-    skill.addExperience(139);
-    expect(skill.levelInfo.level).toBe(1);
-    skill.addExperience(1);
-    expect(skill.levelInfo.level).toBe(2);
-  });
-
-  test('should success calculate level experience info when level up', () => {
-    expect(skill.levelInfo.level).toBe(1);
-    expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(140);
-    expect(skill.levelInfo.totalExperienceToLevelUp).toBe(140);
+describe('Skill experience', () => {
+  test('should success calculate experience', () => {
+    expect(skill.skillExperience.level).toBe(1);
+    expect(skill.skillExperience.levelUpExperience).toBe(skillExperienceCalculator.getLevelExperience(1));
 
     skill.addExperience(140);
-    expect(skill.levelInfo.level).toBe(2);
-    expect(skill.levelInfo.totalExperienceToLevelUp).toBe(320);
-    expect(skill.levelInfo.remainingExperienceToLevelUp).toBe(320 - 140);
+    expect(skill.skillExperience.level).toBe(2);
+    expect(skill.skillExperience.levelUpExperience).toBe(skillExperienceCalculator.getLevelExperience(2));
   });
 
+  test('should success return max level', () => {
+    skill.addExperience(1009899);
+    expect(skill.skillExperience.level).toBe(99);
+    expect(skill.skillExperience.levelUpExperience).toBe(1009899);
+
+    skill.addExperience(1009899);
+    expect(skill.skillExperience.level).toBe(99);
+  });
+});
+
+describe('Skill', () => {
   describe('should calculate active recipe info', () => {
     test('active recipe should not available', () => {
       expect(skill.recipeHandler.activeRecipe).toBeUndefined();
@@ -131,14 +119,14 @@ describe('Skill', () => {
   test('should success receive experience rewards when start skill', () => {
     vi.useFakeTimers();
 
-    expect(skill.experience).toEqual(0);
+    expect(skill.skillExperience.experience).toEqual(0);
 
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
     skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
-    expect(skill.experience).toEqual(testRecipe.rewardExperience);
+    expect(skill.skillExperience.experience).toEqual(testRecipe.rewardExperience);
 
     vi.clearAllTimers();
   });
