@@ -16,7 +16,7 @@ class ArchiveManager {
   }
 
   public get archiveList() {
-    return [...this.archiveMap.values()];
+    return [...this.archiveMap.values()].sort((a, b) => b.lastUpdateTime - a.lastUpdateTime);
   }
 
   private get archiveManagerStore() {
@@ -27,6 +27,10 @@ class ArchiveManager {
 
   public get activeArchive() {
     return this.archiveHandler.activeArchive;
+  }
+
+  public get hasActiveArchive() {
+    return this.archiveHandler.hasActiveArchive;
   }
 
   constructor() {
@@ -43,12 +47,21 @@ class ArchiveManager {
   };
 
   public createNewArchive = async (masterName: string) => {
-    const [archiveKey, archive] = await this.archiveHandler.createNewArchive(masterName);
-
+    const [archiveKey] = await this.archiveHandler.createNewArchive(masterName);
     await this.refreshArchiveMap();
     await this.saveActiveArchiveKey(archiveKey);
+    await this.refreshActiveArchive();
+  };
 
-    this.archiveHandler.setActiveArchive(archive);
+  public loadArchive = async (archiveKey: string) => {
+    await this.saveActiveArchiveKey(archiveKey);
+    await this.refreshActiveArchive();
+  };
+
+  public exitActiveArchive = async () => {
+    await this.archiveHandler.exitActiveArchive();
+    await this.saveActiveArchiveKey(null);
+    await this.refreshActiveArchive();
   };
 
   public deleteArchive = async (archiveKey: string) => {
@@ -92,12 +105,9 @@ class ArchiveManager {
     const activeArchiveKey = await this.getActiveArchiveKey();
     const activeArchive = this.archiveMap.get(activeArchiveKey ?? '');
 
-    if (activeArchive === undefined) {
-      ArchiveManager.logger.error(`Try to set active archive as undefined`);
-      throw new Error(`Try to set active archive as undefined`);
+    if (activeArchive !== undefined) {
+      this.archiveHandler.setActiveArchive(activeArchive);
     }
-
-    this.archiveHandler.setActiveArchive(activeArchive);
   };
 
   private getActiveArchiveKey = async (): Promise<string | null> => {
@@ -106,7 +116,7 @@ class ArchiveManager {
     );
   };
 
-  private saveActiveArchiveKey = async (archiveKey: string) => {
+  private saveActiveArchiveKey = async (archiveKey: string | null) => {
     ArchiveManager.logger.info(`Save active archive key ${archiveKey}`);
     return await this.archiveManagerStore.setItem(
       ArchiveConstants.ArchiveManagerStore.StoreKeys.ActiveArchiveKey,

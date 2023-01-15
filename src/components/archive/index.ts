@@ -1,2 +1,4 @@
-export * from './Archive';
-export * from './ArchiveCreator';
+import { FuiArchiveList } from './ArchiveList';
+import { FuiArchiveCreateButton } from './ArchiveCreator';
+
+export { FuiArchiveList, FuiArchiveCreateButton };

@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { EventKeys, events } from '../fisher-events';
 import { Bank } from '../fisher-bank';
@@ -10,24 +11,26 @@ class ArchiveHandler {
 
   public activeArchive: Archive | undefined = undefined;
 
+  public get hasActiveArchive() {
+    return this.activeArchive !== undefined;
+  }
+
   constructor() {
+    makeAutoObservable(this);
     events.on(EventKeys.Update.BankUpdate, this.onBankUpdate);
     events.on(EventKeys.Update.BackpackUpdate, this.onBackpackUpdate);
   }
 
-  public setActiveArchive = (value: Archive) => {
-    const lastActiveArchive = this.activeArchive;
-    if (lastActiveArchive !== undefined) {
-      // @todo
-      // clear last active archive stuff
+  public setActiveArchive = (archive: Archive) => {
+    if (this.hasActiveArchive) {
+      ArchiveHandler.logger.error(
+        `Can not set active archvie, current active archive ${this.activeArchive!.archiveKey}`
+      );
+      throw new Error(`Can not set active archvie, current active archive ${this.activeArchive!.archiveKey}`);
     }
 
-    this.activeArchive = value;
-    if (this.activeArchive !== undefined) {
-      events.emit(EventKeys.Archive.LoadArchive, this.activeArchive.values, this.activeArchive);
-    } else {
-      // do exsit stuff
-    }
+    this.activeArchive = archive;
+    events.emit(EventKeys.Archive.LoadArchive, this.activeArchive.values, this.activeArchive);
   };
 
   public createNewArchive = async (masterName: string): Promise<[string, Archive]> => {
@@ -44,6 +47,17 @@ class ArchiveHandler {
     archive.delete();
     await this.saveArchive(archive);
     ArchiveHandler.logger.info(`Success delete archive ${archive.archiveKey}`);
+  };
+
+  public exitActiveArchive = async () => {
+    if (!this.hasActiveArchive) {
+      ArchiveHandler.logger.error(`Current active archive was undefined can not exit`);
+      throw new Error(`Current active archive was undefined can not exit`);
+    }
+
+    events.emit(EventKeys.Archive.ExitArchive, this.activeArchive);
+    await this.saveArchive(this.activeArchive!);
+    this.clearActiveArchive();
   };
 
   private onBankUpdate = (bank: Bank) => {
@@ -71,10 +85,14 @@ class ArchiveHandler {
   };
 
   private checkActiveArchiveAvailable = () => {
-    if (this.activeArchive === undefined) {
+    if (!this.hasActiveArchive) {
       ArchiveHandler.logger.error(`Fail to update archive, active archive was undefined!`);
       throw new Error(`Fail to update archive, active archive was undefined!`);
     }
+  };
+
+  private clearActiveArchive = () => {
+    this.activeArchive = undefined;
   };
 }
 
