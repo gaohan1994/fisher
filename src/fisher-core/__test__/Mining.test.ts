@@ -13,7 +13,7 @@ describe('Mining', () => {
     const core = FisherCore.create();
     expect(core.mining.id).toBe('Mining');
     expect(core.mining.name).toBe('采矿');
-    expect(core.mining.skill.experience).toBe(0);
+    expect(core.mining.experience).toBe(0);
   });
 
   test('should set active id when start mining', () => {

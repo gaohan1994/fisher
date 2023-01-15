@@ -12,7 +12,7 @@ describe('Reiki', () => {
     const core = FisherCore.create();
     expect(core.reiki.id).toBe('Reiki');
     expect(core.reiki.name).toBe('打坐');
-    expect(core.reiki.skill.experience).toBe(0);
+    expect(core.mining.experience).toBe(0);
   });
 
   test('should set active id when start Reiki', () => {

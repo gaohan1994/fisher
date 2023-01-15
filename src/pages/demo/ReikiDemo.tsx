@@ -8,8 +8,10 @@ export const ReikiDemo: FC = observer(() => {
   const { reiki } = core;
   const {
     skill,
+    level,
+    experience,
+    levelUpExperience,
     activeRecipe,
-    levelInfo,
     isActive,
     start,
     stop,
@@ -21,10 +23,10 @@ export const ReikiDemo: FC = observer(() => {
       <div>技能 {skill.id}</div>
       <div>技能状态 {isActive ? '激活' : '未激活'}</div>
       <div>
-        技能等级 {levelInfo.level} / {99}
+        技能等级 {level} / {99}
       </div>
       <div>
-        技能经验 {levelInfo.experience} / {levelInfo.totalExperienceToLevelUp}
+        技能经验 {experience} / {levelUpExperience}
       </div>
       {activeRecipe && <div>正在采集 {activeRecipe.name}</div>}
       <ul>

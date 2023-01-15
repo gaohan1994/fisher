@@ -1,15 +1,10 @@
 import { EventKeys, events } from '../fisher-events';
+import { ICollectionModuleData, store } from '../fisher-packages';
 import { Recipe } from '../fisher-item';
-import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';
+import { Collection } from './Collection';
 
-/**
- * 采矿模块
- *
- * @export
- * @class Mining
- */
-export class Mining {
+class Mining extends Collection<ICollectionModuleData> {
   public static instance: Mining;
 
   public static create(): Mining {
@@ -18,6 +13,7 @@ export class Mining {
     }
     return Mining.instance;
   }
+
   public id = 'Mining';
 
   public name = '采矿';
@@ -26,18 +22,6 @@ export class Mining {
 
   public get packages() {
     return store.Mining;
-  }
-
-  public get isActive() {
-    return this.skill.timer.active;
-  }
-
-  public get activeRecipe() {
-    return this.skill.recipeHandler.activeRecipe;
-  }
-
-  public get levelInfo() {
-    return this.skill.levelInfo;
   }
 
   public start = (recipe: Recipe) => {
@@ -51,4 +35,6 @@ export class Mining {
   };
 }
 
-export const mining = Mining.create();
+const mining = Mining.create();
+
+export { mining, Mining };
