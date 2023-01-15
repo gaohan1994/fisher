@@ -48,7 +48,7 @@ class RecipeHandler {
       return false;
     }
 
-    return this.skill.levelInfo.level >= this.activeRecipe!.unlockLevel;
+    return this.skill.skillExperience.level >= this.activeRecipe!.unlockLevel;
   }
 
   public get activeRecipeBearCostAvailable(): boolean {

@@ -1,32 +1,26 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { calculateLevelExperienceInfo, LevelExperienceInfo } from './Experience';
+import { SkillExperience } from './Experience';
 import { Timer } from '../fisher-timer';
 import { Recipe } from '../fisher-item';
 import { RecipeHandler } from './RecipeHandler';
-
-type IFisherSkillLevelInfo = LevelExperienceInfo;
 
 class Skill {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Skill');
 
   public id: string;
 
-  public experience = 0;
+  public skillExperience = new SkillExperience();
 
   public timer: Timer = new Timer('SkillTimer', () => this.action(), { showProgress: true });
+
+  public get progress() {
+    return this.timer.progress;
+  }
 
   public recipeHandler = new RecipeHandler(this);
 
   constructor(id: string) {
     this.id = id;
-  }
-
-  public get levelInfo(): IFisherSkillLevelInfo {
-    return calculateLevelExperienceInfo(this.experience);
-  }
-
-  public get progress() {
-    return this.timer.progress;
   }
 
   public action = () => {
@@ -69,11 +63,11 @@ class Skill {
   };
 
   public addExperience = (value: number) => {
-    this.experience += value;
+    this.skillExperience.addExperience(value);
   };
 
   public setExperience = (value: number) => {
-    this.experience = value;
+    this.skillExperience.setExperience(value);
   };
 
   public setActiveRecipe = (value: Recipe) => {
