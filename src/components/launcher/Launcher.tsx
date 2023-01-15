@@ -1,12 +1,17 @@
+import { Fragment } from 'react';
 import { Container } from '@mui/material';
 import { FuiArchiveCreateButton, FuiArchiveList } from '../archive';
+import { FuiCoreInfo } from './Info';
 
 const FuiLauncher = () => {
   return (
-    <Container fixed maxWidth="sm">
-      <FuiArchiveList />
-      <FuiArchiveCreateButton />
-    </Container>
+    <Fragment>
+      <FuiCoreInfo />
+      <Container fixed maxWidth="sm" sx={{ pt: 2 }}>
+        <FuiArchiveList />
+        <FuiArchiveCreateButton />
+      </Container>
+    </Fragment>
   );
 };
 

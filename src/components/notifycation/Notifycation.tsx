@@ -25,6 +25,10 @@ const Alerts: FC = observer(() => {
   const { alerts } = notifycationStore;
   const open = Boolean(alerts.length);
 
+  if (!open) {
+    return null;
+  }
+
   return (
     <List>
       <ListItem>
