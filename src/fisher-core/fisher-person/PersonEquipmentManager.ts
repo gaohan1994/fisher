@@ -119,17 +119,30 @@ export class PersonEquipmentManager extends EventEmitter {
       this.putEquipmentToBackpack(previousEquipment, previousQuantity);
     }
 
-    // calculate equipment set info if equipment changed
-    // check if each equipment has equipmentSetId
-    // if has equipmentSetId then set into equipmentSetMap
+    // clear equipment set effects before recalculate
+    this.clearEquipmentSetEffectBeforeRecalculate();
+    this.callculateEquipmentSets();
+  };
+
+  @action
+  private clearEquipmentSetEffectBeforeRecalculate = () => {
+    this.equipmentSetMap.forEach((_, equipmentSet) => {
+      equipmentSet.calculateEquipmentsActiveSetAttributes([]);
+    });
+
+    this.equipmentSetMap.clear();
+  };
+
+  @action
+  private callculateEquipmentSets = () => {
+    // calculate equipment set map first
+    // then calculate active equipment set attributes
     this.calculateEquipmentSetMap();
+    this.calculateActiveEquipmentSetsAttributes();
   };
 
   @action
   private calculateEquipmentSetMap = () => {
-    // clear active equipment set first
-    this.equipmentSetMap.clear();
-
     this.equipmentMap.forEach((personEquipment) => {
       const { equipment } = personEquipment;
 
@@ -147,8 +160,6 @@ export class PersonEquipmentManager extends EventEmitter {
         this.equipmentSetMap.set(equipmentSet, equipments);
       }
     });
-
-    this.calculateActiveEquipmentSetsAttributes();
   };
 
   @action
