@@ -1,4 +1,4 @@
-export enum IAttributeKeys {
+enum IAttributeKeys {
   // 生命值
   Hp = 'Hp',
   // 最大生命值
@@ -15,7 +15,7 @@ export enum IAttributeKeys {
   DefenceCorruption = 'DefenceCorruption',
 }
 
-export type IBonusEquipmentsAttributesKeys =
+type IBonusEquipmentsAttributesKeys =
   | IAttributeKeys.MaxHp
   | IAttributeKeys.AttackPower
   | IAttributeKeys.AttackPowerMultiplier
@@ -23,10 +23,9 @@ export type IBonusEquipmentsAttributesKeys =
   | IAttributeKeys.DefencePowerMultiplier
   | IAttributeKeys.DefenceCorruption;
 
-export type IBonusEquipmentsAttributes = {
+type IBonusEquipmentsAttributes = {
   [key in IBonusEquipmentsAttributesKeys]: number;
 };
 
-export type IFisherPersonAttributes = {
-  [key in IAttributeKeys]: number;
-};
+export { IAttributeKeys };
+export type { IBonusEquipmentsAttributesKeys, IBonusEquipmentsAttributes };
