@@ -17,6 +17,16 @@ export class EquipmentSet extends Item {
 
   public equipmentIdSet = new Set<string>();
 
+  public get equipmentIds() {
+    return [...this.equipmentIdSet.values()];
+  }
+
+  private activeEquipmentMap = new Map<string, EquipmentItem>();
+
+  public get activeEquipmentLength() {
+    return this.activeEquipmentMap.size;
+  }
+
   public setAttributeMap = new Map<EquipmentSetSlotControl, IEquipmentAttribute[]>();
 
   public get setAttributes() {
@@ -52,14 +62,14 @@ export class EquipmentSet extends Item {
   public calculateEquipmentsActiveSetAttributes = (equipments: EquipmentItem[]) => {
     this.checkEquipmentsIsBelongToCurrentEquipmentSet(equipments);
 
-    this.calculateSlotAttributes(equipments);
-
-    this.calculateExtraAttributes(equipments);
+    this.setActiveEquipmentMap(equipments);
+    this.calculateSlotAttributes();
+    this.calculateExtraAttributes();
   };
 
-  private calculateSlotAttributes = (equipments: EquipmentItem[]) => {
+  private calculateSlotAttributes = () => {
     this.setAttributeMap.forEach((_, setSlotControl) => {
-      if (equipments.length >= setSlotControl.slot) {
+      if (this.activeEquipmentLength >= setSlotControl.slot) {
         setSlotControl.setEquipmentSetActive();
       } else {
         setSlotControl.setEquipmentSetInActive();
@@ -67,13 +77,13 @@ export class EquipmentSet extends Item {
     });
   };
 
-  private calculateExtraAttributes = (equipments: EquipmentItem[]) => {
+  private calculateExtraAttributes = () => {
     if (this.extra === undefined) return;
 
     // if every equipment in slot was used
     // if equipment set has extra attributes
     // extra attributes bonus
-    if (equipments.length === this.equipmentIdSet.size) {
+    if (this.activeEquipmentLength === this.equipmentIdSet.size) {
       this.extra.setSlotControl.setEquipmentSetActive();
     } else {
       this.extra.setSlotControl.setEquipmentSetInActive();
@@ -90,6 +100,19 @@ export class EquipmentSet extends Item {
           `Try to calculate equipment set ${this.id} but equipment ${equipment.id} does not belong to this equipment set`
         );
     }
+  };
+
+  private setActiveEquipmentMap = (equipments: EquipmentItem[]) => {
+    this.activeEquipmentMap.clear();
+
+    for (let index = 0; index < equipments.length; index++) {
+      const equipment = equipments[index];
+      this.activeEquipmentMap.set(equipment.id, equipment);
+    }
+  };
+
+  public checkEquipmentIsActive = (equipment: EquipmentItem) => {
+    return this.activeEquipmentMap.has(equipment.id);
   };
 }
 

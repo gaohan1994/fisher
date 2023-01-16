@@ -33,6 +33,7 @@ describe('EquipmentSet', () => {
     expect(equipmentSet.type).toEqual(ItemType.EquipmentSet);
 
     expect(equipmentSet.equipmentIdSet.size).toBe(2);
+    expect(equipmentSet.equipmentIds).toStrictEqual(['WoodSword', 'ClothHat']);
     expect(equipmentSet.equipmentIdSet.has('WoodSword')).toBeTruthy();
     expect(equipmentSet.equipmentIdSet.has('ClothHat')).toBeTruthy();
 
@@ -59,13 +60,21 @@ describe('EquipmentSet', () => {
     const woodSword = store.findEquipmentById('WoodSword');
     const clothHat = store.findEquipmentById('ClothHat');
 
-    equipmentSet.calculateEquipmentsActiveSetAttributes([woodSword, clothHat]);
+    test('should success calculate active equipments', () => {
+      equipmentSet.calculateEquipmentsActiveSetAttributes([woodSword]);
+      expect(equipmentSet.activeEquipmentLength).toBe(1);
+      expect(equipmentSet.checkEquipmentIsActive(woodSword)).toBeTruthy();
+      expect(equipmentSet.checkEquipmentIsActive(clothHat)).toBeFalsy();
+    });
 
-    const [setSlotControl] = equipmentSet.setAttributes[0];
-    expect(setSlotControl.active).toBeTruthy();
+    test('should success calculate active attributes', () => {
+      equipmentSet.calculateEquipmentsActiveSetAttributes([woodSword, clothHat]);
+      const [setSlotControl] = equipmentSet.setAttributes[0];
+      expect(setSlotControl.active).toBeTruthy();
 
-    test('should success calculate equipment set extra attributes', () => {
-      expect(equipmentSet.extra?.setSlotControl.active).toBeTruthy();
+      test('should success calculate equipment set extra attributes', () => {
+        expect(equipmentSet.extra?.setSlotControl.active).toBeTruthy();
+      });
     });
   });
 });
