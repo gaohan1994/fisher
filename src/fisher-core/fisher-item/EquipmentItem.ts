@@ -44,6 +44,10 @@ export class EquipmentItem extends Item {
 
   public attributes: IEquipmentAttribute[] = [];
 
+  public get hasAttributes() {
+    return this.attributes.length > 0;
+  }
+
   public rarity = '';
 
   public equipmentSetId?: string | undefined = undefined;
