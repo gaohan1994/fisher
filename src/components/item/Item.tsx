@@ -1,6 +1,7 @@
 import { FC, Fragment, useState, PropsWithChildren, ReactNode } from 'react';
-import { Avatar, Box, colors, Popover, Stack, Typography } from '@mui/material';
+import { Avatar, Box, colors, Popover, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
 import { coinItem, Item } from '@FisherCore';
+import { FuiColor } from '../theme';
 
 interface FuiItemProps {
   item: Item;
@@ -54,22 +55,28 @@ export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, renderPopov
         onClose={closeItemDesc}
         disableRestoreFocus
       >
-        <Box sx={{ p: 1, bgcolor: colors.grey[800] }}>
-          <Stack direction="row" spacing={1}>
-            <Avatar src={item.media} variant="square" />
-            <Stack>
-              <Typography sx={{ color: colors.common.white }}>{item.name}</Typography>
+        <Card sx={{ bgcolor: FuiColor.item.background, minWidth: 200, maxWidth: 300 }}>
+          <CardHeader
+            avatar={<Avatar src={item.media} variant="square" />}
+            title={
+              <Typography variant="body2" sx={{ color: colors.common.white }}>
+                {item.name}
+              </Typography>
+            }
+            subheader={
               <Stack direction="row" spacing={1}>
                 <Avatar src={coinItem.media} sx={{ width: 20, height: 20 }} variant="square" />
-                <Typography sx={{ color: colors.yellow[600] }}>{item.price}</Typography>
+                <Typography sx={{ color: FuiColor.gold }}>{item.price}</Typography>
               </Stack>
-            </Stack>
-          </Stack>
-
-          {renderPopover?.()}
-
-          <Typography sx={{ color: colors.blueGrey[300] }}>{item.desc}</Typography>
-        </Box>
+            }
+          />
+          <CardContent sx={{ pt: 0 }}>
+            {renderPopover?.()}
+            <Typography variant="caption" sx={{ color: FuiColor.item.desc }}>
+              {item.desc}
+            </Typography>
+          </CardContent>
+        </Card>
       </Popover>
     </Fragment>
   );
