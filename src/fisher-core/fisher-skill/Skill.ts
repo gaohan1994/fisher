@@ -1,15 +1,15 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { SkillExperience } from './Experience';
 import { Timer } from '../fisher-timer';
 import { Recipe } from '../fisher-item';
 import { RecipeHandler } from './RecipeHandler';
+import { Experience } from '../fisher-experience';
 
 class Skill {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Skill');
 
   public id: string;
 
-  public skillExperience = new SkillExperience();
+  public experience = new Experience();
 
   public timer: Timer = new Timer('SkillTimer', () => this.action(), { showProgress: true });
 
@@ -63,11 +63,11 @@ class Skill {
   };
 
   public addExperience = (value: number) => {
-    this.skillExperience.addExperience(value);
+    this.experience.addExperience(value);
   };
 
   public setExperience = (value: number) => {
-    this.skillExperience.setExperience(value);
+    this.experience.setExperience(value);
   };
 
   public setActiveRecipe = (value: Recipe) => {

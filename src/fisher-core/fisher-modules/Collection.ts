@@ -11,15 +11,15 @@ abstract class Collection<CollectionPackages> {
   public abstract skill: Skill;
 
   public get level() {
-    return this.skill.skillExperience.level;
+    return this.skill.experience.level;
   }
 
   public get experience() {
-    return this.skill.skillExperience.experience;
+    return this.skill.experience.experience;
   }
 
   public get levelUpExperience() {
-    return this.skill.skillExperience.levelUpExperience;
+    return this.skill.experience.levelUpExperience;
   }
 
   public get isActive() {
