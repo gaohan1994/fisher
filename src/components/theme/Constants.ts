@@ -1,12 +1,31 @@
-import { yellow, grey, green } from '@mui/material/colors';
+import { common, yellow, grey, green } from '@mui/material/colors';
+
+const FuiSize = {
+  item: {
+    size: 50,
+  },
+};
 
 const FuiColor = {
+  common,
+
   gold: yellow[600],
+
+  masterPanel: {
+    background: grey[800],
+    avatarBgColor: grey[300],
+  },
+
+  miniBar: {},
 
   item: {
     desc: grey[300],
-    background: grey[800],
+    background: grey[700],
+    borderColor: common.black,
+    activeBorderColor: yellow[600],
   },
+
+  personEquipment: {},
 
   equipment: {
     attribute: green.A100,
@@ -21,4 +40,4 @@ const FuiColor = {
   },
 };
 
-export { FuiColor };
+export { FuiSize, FuiColor };

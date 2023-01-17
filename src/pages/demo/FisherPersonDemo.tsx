@@ -2,7 +2,7 @@ import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { EquipmentItem, EquipmentSlot, Person, PersonLevelManager, store } from '@FisherCore';
-import { FuiPersonEquipment } from '@Components';
+import { FuiMaster } from '@Components';
 import { DemoLayout } from './DemoLayout';
 
 interface LevelProps {
@@ -32,6 +32,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
 
   return (
     <DemoLayout title="玩家模块">
+      <FuiMaster />
       <Typography>{name}</Typography>
       <Box>
         <Typography>
@@ -72,8 +73,6 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
         })}
       </Box>
       <Level personLevelManager={personLevelManager} />
-      <FuiPersonEquipment personEquipmentManager={personEquipmentManager} slot={EquipmentSlot.Weapon} />
-      <FuiPersonEquipment personEquipmentManager={personEquipmentManager} slot={EquipmentSlot.Helmet} />
       <div>
         <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Weapon, 'WoodSword')}>使用武器</Button>
         <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Helmet, 'ClothHat')}>使用头盔</Button>

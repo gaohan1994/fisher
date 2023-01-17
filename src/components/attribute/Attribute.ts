@@ -58,7 +58,7 @@ function makeFuiAttribute(key: IAttributeKeys): FuiAttribute {
   return FuiAttributes[key];
 }
 
-function makeFuiAttributeText(key: IAttributeKeys[number], value: number): string {
+function makeFuiAttributeBonusText(key: IAttributeKeys[number], value: number): string {
   const fuiAttribute = makeFuiAttribute(key as IAttributeKeys);
   const sign = value >= 0 ? '+' : '-';
 
@@ -69,4 +69,4 @@ function makeFuiAttributeText(key: IAttributeKeys[number], value: number): strin
   return `${fuiAttribute.label} ${sign}${value}${suffix}`;
 }
 
-export { makeFuiAttribute, makeFuiAttributeText };
+export { makeFuiAttribute, makeFuiAttributeBonusText };

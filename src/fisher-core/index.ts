@@ -1,3 +1,4 @@
+import { Assets } from './assets';
 import { Archive } from './fisher-archive';
 import { version, core, FisherCore } from './fisher-core';
 import { skillExperienceCalculator, MaxLevel } from './fisher-skill';
@@ -5,6 +6,7 @@ import { Mining, Reiki, Forge } from './fisher-modules';
 import { IAttributeKeys } from './fisher-person';
 
 export {
+  Assets,
   // archive module
   Archive,
 
@@ -22,7 +24,6 @@ export {
   IAttributeKeys,
 };
 
-export * from './assets';
 export * from './fisher-timer';
 export * from './fisher-item';
 export * from './fisher-backpack';

@@ -55,7 +55,7 @@ export abstract class Item implements IItem {
 
   public get media() {
     if (!this._media) {
-      return '';
+      return Assets.empty;
     }
     return Assets[this._media as keyof typeof Assets];
   }

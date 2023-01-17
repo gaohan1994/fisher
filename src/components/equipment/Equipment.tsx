@@ -4,14 +4,14 @@ import { List, ListItem, Typography } from '@mui/material';
 import { EquipmentItem, store } from '@FisherCore';
 import { FuiItem } from '../item';
 import { FuiColor } from '../theme';
-import { makeFuiAttributeText } from '../attribute';
+import { makeFuiAttributeBonusText } from '../attribute';
 import { FuiEquipmentSet } from './EquipmentSet';
 
 interface FuiEquipmentProps {
   equipment: EquipmentItem;
 }
 
-export const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
+const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
   const renderEquipmentPopover = () => {
     const listItemSx = { p: 0, mt: 1 };
     return (
@@ -26,7 +26,7 @@ export const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
     const { attributes } = equipment;
     return attributes.map((attribute) => (
       <Typography key={attribute.key} variant="caption" color={FuiColor.equipment.attribute}>
-        {makeFuiAttributeText(attribute.key, attribute.value)}
+        {makeFuiAttributeBonusText(attribute.key, attribute.value)}
       </Typography>
     ));
   };
@@ -38,3 +38,5 @@ export const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
 
   return <FuiItem item={equipment} renderPopover={renderEquipmentPopover} />;
 });
+
+export { FuiEquipment };
