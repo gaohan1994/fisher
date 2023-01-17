@@ -20,7 +20,7 @@ const testEquipmentData = {
   media: '',
   type: ItemType.Equipment,
   price: 5,
-  slots: [EquipmentSlot.Helmet],
+  slot: EquipmentSlot.Helmet,
   requirements: [],
   attributes: [],
 };
@@ -28,9 +28,9 @@ const testEquipmentData = {
 describe('PersonEquipmentManager interfaces', () => {
   test('should fail to useEquipment', () => {
     const personEquipmentManager = new PersonEquipmentManager();
-    const equip = new EquipmentItem(testEquipmentData);
-    expect(() => personEquipmentManager.useEquipment('WrongSlotName' as EquipmentSlot, equip)).toThrow(
-      `Fail to use equipment ${equip.id}, can not match slot, equipmentSlot`
+    const equip = new EquipmentItem(Object.assign({}, testEquipmentData, { slot: 'WrongSlotName' }));
+    expect(() => personEquipmentManager.useEquipment(equip)).toThrow(
+      `Fail to use equipment, can not find current slot: WrongSlotName`
     );
   });
 
@@ -39,7 +39,7 @@ describe('PersonEquipmentManager interfaces', () => {
       const personEquipmentManager = new PersonEquipmentManager();
       const equip = new EquipmentItem(testEquipmentData);
 
-      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+      personEquipmentManager.useEquipment(equip);
 
       expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.isEmpty).toBeFalsy();
       expect(personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet)?.equipment).toBe(equip);
@@ -49,11 +49,11 @@ describe('PersonEquipmentManager interfaces', () => {
       const personEquipmentManager = new PersonEquipmentManager();
       const equip = new EquipmentItem(testEquipmentData);
 
-      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+      personEquipmentManager.useEquipment(equip);
 
       test('should put previous equipment into backpack', () => {
         const backpack = Backpack.create();
-        personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equip);
+        personEquipmentManager.useEquipment(equip);
 
         expect(backpack.items.has(equip)).toBeTruthy();
         expect(backpack.items.get(equip)?.item).toStrictEqual(equip);
@@ -69,7 +69,7 @@ describe('PersonEquipmentManager interfaces', () => {
     const helmet = store.findEquipmentById('ClothHat');
 
     test('should add NoobSet after use WoodSword', () => {
-      personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
+      personEquipmentManager.useEquipment(weapon);
 
       const noobSet = store.findEquipmentSetById('NoobSet');
 
@@ -84,8 +84,8 @@ describe('PersonEquipmentManager interfaces', () => {
     });
 
     test('should active NoobSet if use both WoodSword and ClothHat', () => {
-      personEquipmentManager.useEquipment(EquipmentSlot.Weapon, weapon);
-      personEquipmentManager.useEquipment(EquipmentSlot.Helmet, helmet);
+      personEquipmentManager.useEquipment(weapon);
+      personEquipmentManager.useEquipment(helmet);
 
       const noobSet = store.findEquipmentSetById('NoobSet');
       expect(noobSet.setAttributes[0][0].active).toBeTruthy();

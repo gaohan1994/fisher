@@ -13,7 +13,7 @@ const testEquipmentData = {
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
   price: 5,
-  slots: [EquipmentSlot.Helmet],
+  slot: EquipmentSlot.Helmet,
   requirements: [],
   attributes: [],
 };
@@ -21,7 +21,7 @@ const testEquipmentData = {
 describe('EquipmentItem', () => {
   test('should new EquipmentItem class', () => {
     const equipmentItem = new EquipmentItem(testEquipmentData);
-    expect(equipmentItem.slots).toStrictEqual([EquipmentSlot.Helmet]);
+    expect(equipmentItem.slot).toStrictEqual(EquipmentSlot.Helmet);
     expect(equipmentItem.hasAttributes).toBeFalsy();
     expect(equipmentItem.hasEquipmentSet).toBeFalsy();
   });
@@ -35,12 +35,12 @@ describe('Equipment item set and attribute', () => {
       desc: '用寻常木头做的剑',
       media: 'woodsword',
       price: 5,
-      slots: [EquipmentSlot.Helmet],
+      slot: EquipmentSlot.Helmet,
       attributes: [{ key: 'AttackPower', value: 40 }],
       equipmentSetId: 'NoobSet',
     };
     const equipmentItem = new EquipmentItem(testEquip);
-    expect(equipmentItem.slots).toStrictEqual([EquipmentSlot.Helmet]);
+    expect(equipmentItem.slot).toStrictEqual(EquipmentSlot.Helmet);
     expect(equipmentItem.hasAttributes).toBeTruthy();
     expect(equipmentItem.hasEquipmentSet).toBeTruthy();
   });
