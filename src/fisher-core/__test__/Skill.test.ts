@@ -19,7 +19,7 @@ beforeEach(() => {
   core.backpack.items.clear();
   skill = core.mining.skill;
   skill.recipeHandler.resetActiveRecipe();
-  skill.setExperience(0);
+  skill.experience.setExperience(0);
 });
 
 const testRecipeData: IRecipe = {
@@ -39,17 +39,17 @@ describe('Skill experience', () => {
     expect(skill.experience.level).toBe(1);
     expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(1));
 
-    skill.addExperience(140);
+    skill.experience.addExperience(140);
     expect(skill.experience.level).toBe(2);
     expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(2));
   });
 
   test('should success return max level', () => {
-    skill.addExperience(1009899);
+    skill.experience.addExperience(1009899);
     expect(skill.experience.level).toBe(99);
     expect(skill.experience.levelUpExperience).toBe(1009899);
 
-    skill.addExperience(1009899);
+    skill.experience.addExperience(1009899);
     expect(skill.experience.level).toBe(99);
   });
 });
