@@ -1,88 +1,36 @@
 ## Fisher 
 
-上班摸鱼放置类游戏
-这个游戏应该有中国历史色彩
-如修仙、种田
-暂定有以下模块
+放置类 MMO RPG 游戏
 
-- 基础模块
+## 游戏基础模块
 
-存档 Archive Module [先做]
-    - 建立存档 create archive
-    - 读取存档 read archive
-    - 更新存档 update archive
-    - 删除存档 delete archive
+- [存档 Archive](./src/fisher-core/fisher-archive/index.ts)
 
-游戏难度 [预留] Game Mode
-    - 普通 normal
+- [背包 Backpack](./src/fisher-core/fisher-backpack/index.ts)
+
+- [金币 Bank](./src/fisher-core/fisher-bank/index.ts)
+
+- [战斗 Battle](./src/fisher-core/fisher-battle/index.ts)
+
+- [副本 Dungeon](./src/fisher-core/fisher-dungeon/index.ts)
+
+- [事件 Events](./src/fisher-core/fisher-events/index.ts)
+
+- [物品 Item](./src/fisher-core/fisher-item/index.ts)
+
+- [采集和制造 Mining Reiki Forge](./src/fisher-core/fisher-modules/index.ts)
+
+- [人物 Person](./src/fisher-core/fisher-person/index.ts)
+
+- [奖励 Reward](./src/fisher-core/fisher-reward/index.ts)
+
+- [技能 Skill](./src/fisher-core/fisher-skill/index.ts)
+
+- [计时器 Timer](./src/fisher-core/fisher-timer/index.ts)
+
+
+
+
+
+
  
-新手指引 Guide Module 
-
-- 人物系统 Person
-    - 等级 level [预留]
-        需要收集材料提升境界
-    - 人物属性 Attribute [预留]
-        攻击 attack
-        防御 defense
-        生命值 health
-        攻击速度 attackSpeed
-        命中 hit
-        闪避 dodge
-
-    - 人物装备 Equip [预留]
-        每件装备可以有一条或者多条人物属性
-
-- 物品系统 Item Module [先做]
-    - 背包系统 Backpack Module
-        背包可以升级(多种升级条件如 购买、成就、副本获取)
-        获得物品可以存放到背包中
-        当背包存满之后获得的物品将会被丢弃(提示)
-    - 装备模块 Equip 装备可以穿戴 
-    - 食品模块 Food 食品可以装备,自动吃药
-
-- 采集系统 [先做]
-    采集具有熟练度等级
-    采集到的物品自动放入背包内
-
-- 种植系统 [先做]
-- 副本系统 [预留]
-- 炼丹系统 [预留]
-- 打造系统 [预留]
-- 修仙系统 [预留]
-- 战斗系统 [预留]
-- 成就系统 [预留]
-
-## FisherGame
-
-关于战斗模块的思考
-先做最简单的功能，等基础的战斗模块做出来之后
-一点一点搭积木把整个模块完善实现所有的想法
-
-战斗类型
-
-- 普通打怪
-- 副本打怪
-
-人物属性
-
-- 命中率 100% 满
-    根据命中属性、怪物等级变化
-- 攻击力
-    每次攻击在上下 10% 波动
-- 暴击几率
-    触发暴击的几率
-- 暴击伤害
-    暴击伤害的倍数
-- 攻击速度
-    每次攻击间隔时间
-- 防御
-    减少敌人的攻击
-- 闪避率
-    Miss 敌人攻击的几率
-- 生命值
-    当生命值 <= 0 时死亡
-    自动吃药系统
-
-    
-装备系统
-装备可以增加属性到人物
