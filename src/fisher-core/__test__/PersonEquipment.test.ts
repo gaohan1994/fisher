@@ -5,20 +5,14 @@ import { beforeEach, describe, expect, test } from 'vitest';
 import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { PersonEquipment } from '../fisher-person';
 import { FisherCore } from '../fisher-core';
+import { EmptyEquipment } from '../fisher-packages';
 
 let core: FisherCore;
 beforeEach(() => {
   core = FisherCore.create();
 });
 
-const emptyEquipment = new EquipmentItem({
-  id: 'EmptyEquipment',
-  name: '空',
-  desc: '',
-  media: '',
-  price: 0,
-  slots: [EquipmentSlot.Helmet, EquipmentSlot.Weapon],
-});
+const emptyEquipment = EmptyEquipment;
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -26,7 +20,7 @@ const testEquipmentData = {
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
   price: 5,
-  slots: [EquipmentSlot.Helmet],
+  slot: EquipmentSlot.Helmet,
   requirements: [],
   attributes: [],
 };
@@ -38,7 +32,7 @@ describe('PersonEquipment', () => {
     });
     expect(personEquipment.slot).toBe(EquipmentSlot.Helmet);
     expect(personEquipment.emptyEquipment).toStrictEqual(emptyEquipment);
-    expect(personEquipment.equipment).toStrictEqual(emptyEquipment);
+    expect(personEquipment.equipment).toBeUndefined();
     expect(personEquipment.isEmpty).toBeTruthy();
   });
 
@@ -90,7 +84,7 @@ describe('PersonEquipment', () => {
     personEquipment.updateEquipment(equip, 1);
     const [previousEquipment, previousQuantity] = personEquipment.removeEquipment();
 
-    expect(personEquipment.equipment).toStrictEqual(emptyEquipment);
+    expect(personEquipment.equipment).toBeUndefined();
     expect(personEquipment.quantity).toBe(0);
 
     test('should return previous equipment after remove equipment', () => {

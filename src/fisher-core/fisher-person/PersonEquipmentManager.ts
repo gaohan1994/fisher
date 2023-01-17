@@ -53,21 +53,22 @@ export class PersonEquipmentManager extends EventEmitter {
    * @memberof PersonEquipmentManager
    */
   @action
-  public useEquipment = (equipmentSlot: EquipmentSlot, equipment: EquipmentItem) => {
-    this.checkIsValidEquipmentSlot(equipmentSlot, equipment);
+  public useEquipment = (equipment: EquipmentItem) => {
+    const { slot } = equipment;
+    const currentSlotEquipment = this.equipmentMap.get(slot);
 
-    const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
-
-    if (currentSlotEquipment === undefined)
-      return PersonEquipmentManager.logger.error(`Fail to use equipment, can not find current slot: ${equipmentSlot}`);
+    if (currentSlotEquipment === undefined) {
+      PersonEquipmentManager.logger.error(`Fail to use equipment, can not find current slot: ${slot}`, this, equipment);
+      throw new Error(`Fail to use equipment, can not find current slot: ${slot}`);
+    }
 
     const result = currentSlotEquipment.updateEquipment(equipment, 1);
-    this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
+    this.equipmentMap.set(slot, currentSlotEquipment);
 
     const [previousEquipment, previousQuantity] = [result?.[0], result?.[1]];
     this.emit(PersonEquipmentManagerEvents.EquipmentChange, currentSlotEquipment, previousEquipment, previousQuantity);
 
-    PersonEquipmentManager.logger.debug(`use equipment, slot: ${equipmentSlot} equipmentId ${equipment.id}`);
+    PersonEquipmentManager.logger.debug(`use equipment, slot: ${slot} equipmentId ${equipment.id}`);
   };
 
   /**
@@ -98,9 +99,9 @@ export class PersonEquipmentManager extends EventEmitter {
   };
 
   private checkIsValidEquipmentSlot = (equipmentSlot: EquipmentSlot, equipment: EquipmentItem) => {
-    if (!equipment.slots.includes(equipmentSlot))
+    if (equipment.slot !== equipmentSlot)
       throw new Error(
-        `Fail to use equipment ${equipment.id}, can not match slot, equipmentSlot: ${equipment.slots} expect slot: ${equipmentSlot}`
+        `Fail to use equipment ${equipment.id}, can not match slot, equipmentSlot: ${equipment.slot} expect slot: ${equipmentSlot}`
       );
   };
 
@@ -146,7 +147,7 @@ export class PersonEquipmentManager extends EventEmitter {
     this.equipmentMap.forEach((personEquipment) => {
       const { equipment } = personEquipment;
 
-      if (equipment.hasEquipmentSet) {
+      if (equipment !== undefined && equipment.hasEquipmentSet) {
         const equipmentSet = store.findEquipmentSetById(equipment.equipmentSetId ?? '');
         let equipments: EquipmentItem[];
 

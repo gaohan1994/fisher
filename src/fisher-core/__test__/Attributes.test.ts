@@ -14,7 +14,7 @@ const equip1: IEquipmentItem = {
   desc: '',
   media: '',
   price: 5,
-  slots: [EquipmentSlot.Helmet],
+  slot: EquipmentSlot.Helmet,
   requirements: [],
   attributes: [
     { key: IAttributeKeys.MaxHp, value: 20 },
@@ -29,7 +29,7 @@ const equip2: IEquipmentItem = {
   desc: '',
   media: '',
   price: 5,
-  slots: [EquipmentSlot.Weapon],
+  slot: EquipmentSlot.Weapon,
   requirements: [],
   attributes: [
     { key: IAttributeKeys.AttackPower, value: 10 },
@@ -55,8 +55,8 @@ describe('Person Attribute', () => {
       const person = new Person();
 
       const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equip1), new EquipmentItem(equip2)];
-      person.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
-      person.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+      person.personEquipmentManager.useEquipment(equipmentItem1);
+      person.personEquipmentManager.useEquipment(equipmentItem2);
 
       expect(person.attributePanel.BonusEquipmentsAttributes.MaxHp).toBe(20);
       expect(person.attributePanel.BonusEquipmentsAttributes.AttackPower).toBe(10);
@@ -75,8 +75,8 @@ describe('Person Attribute', () => {
       ];
       const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equipWithSet1), new EquipmentItem(equipWithSet2)];
 
-      person.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
-      person.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+      person.personEquipmentManager.useEquipment(equipmentItem1);
+      person.personEquipmentManager.useEquipment(equipmentItem2);
 
       const equipmentSetMaxHp = 100;
       const equipmentSetAtackPower = 10;
@@ -90,10 +90,10 @@ describe('Person Attribute', () => {
     const master = Master.create();
 
     const equipmentItem1 = new EquipmentItem(equip1);
-    master.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+    master.personEquipmentManager.useEquipment(equipmentItem1);
 
     const equipmentItem2 = new EquipmentItem(equip2);
-    master.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+    master.personEquipmentManager.useEquipment(equipmentItem2);
 
     expect(master.attributePanel.BonusMaxHp).toBe(20);
 
@@ -111,10 +111,10 @@ describe('Person Attribute', () => {
     master.initialize({ name: 'Test', level: PersonLevel.GasRefiningLater });
 
     const equipmentItem1 = new EquipmentItem(equip1);
-    master.personEquipmentManager.useEquipment(EquipmentSlot.Helmet, equipmentItem1);
+    master.personEquipmentManager.useEquipment(equipmentItem1);
 
     const equipmentItem2 = new EquipmentItem(equip2);
-    master.personEquipmentManager.useEquipment(EquipmentSlot.Weapon, equipmentItem2);
+    master.personEquipmentManager.useEquipment(equipmentItem2);
 
     const { attributePanel } = master;
 

@@ -27,7 +27,7 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
 
   const useEquipmentBySlot = useCallback((slot: EquipmentSlot, equipmentId: string) => {
     const equipment = store.findItemById<EquipmentItem>(equipmentId);
-    personEquipmentManager.useEquipment(slot, equipment);
+    personEquipmentManager.useEquipment(equipment);
   }, []);
 
   return (
@@ -80,7 +80,6 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
         <Button
           onClick={() => {
             const noobSet = store.findEquipmentSetById('NoobSet');
-            console.log(noobSet);
           }}
         >
           Debug Set

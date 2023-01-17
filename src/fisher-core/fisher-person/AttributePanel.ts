@@ -54,7 +54,7 @@ export class AttributePanel {
     const result: IBonusEquipmentsAttributes = Object.assign({}, emptyBonusAttributes);
 
     this.equipmentManager.equipments.map(({ equipment }) => {
-      if (equipment.attributes.length > 0) {
+      if (equipment !== undefined && equipment.attributes.length > 0) {
         equipment.attributes.forEach(({ key, value }) => (result[key as IBonusEquipmentsAttributesKeys] += value));
       }
     });
