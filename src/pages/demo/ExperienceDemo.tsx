@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { Button, Drawer } from '@mui/material';
-import { skillExperienceCalculator } from '@FisherCore';
+import { experienceCalculator } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
 
 export const ExperienceDemo: FC = () => {
@@ -14,7 +14,7 @@ export const ExperienceDemo: FC = () => {
       <Drawer open={visible} anchor="right" onClose={() => setVisbile(false)}>
         <h3>技能升级经验列表</h3>
         <ul>
-          {skillExperienceCalculator.skillLevelExperienceList.map((item) => {
+          {experienceCalculator.levelExperienceList.map((item) => {
             const [level, experience] = item;
             return (
               <li key={level}>

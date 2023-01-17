@@ -1,13 +1,13 @@
 import { makeAutoObservable } from 'mobx';
-import { skillExperienceCalculator, MaxLevel } from './ExperienceCalculator';
+import { experienceCalculator, MaxLevel } from './ExperienceCalculator';
 
-class SkillExperience {
+class Experience {
   public experience = 0;
 
   public get level() {
     let result = 1;
 
-    while (skillExperienceCalculator.getLevelExperience(result) <= this.experience) {
+    while (experienceCalculator.getLevelExperience(result) <= this.experience) {
       if (result >= MaxLevel) {
         break;
       }
@@ -19,7 +19,7 @@ class SkillExperience {
   }
 
   public get levelUpExperience() {
-    return skillExperienceCalculator.getLevelExperience(this.level);
+    return experienceCalculator.getLevelExperience(this.level);
   }
 
   constructor() {
@@ -35,4 +35,4 @@ class SkillExperience {
   };
 }
 
-export { SkillExperience };
+export { Experience };

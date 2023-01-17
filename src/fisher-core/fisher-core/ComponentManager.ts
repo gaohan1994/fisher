@@ -10,6 +10,8 @@ type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle;
 
 type ActiveControlComponent = Mining | Reiki | Forge | Battle;
 
+type ComponentWithExperience = Mining | Reiki | Forge;
+
 enum ComponentId {
   Bank = 'Bank',
   Backpack = 'Backpack',
@@ -22,9 +24,16 @@ enum ComponentId {
 class ComponentManager {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ComponentManager');
 
-  private componentMap = new Map<string, FisherComponent>();
+  public static instance: ComponentManager;
 
-  private skillComponentMap = new Map<string, SkillComponent<any>>();
+  public static create(): ComponentManager {
+    if (!ComponentManager.instance) {
+      ComponentManager.instance = new ComponentManager();
+    }
+    return ComponentManager.instance;
+  }
+
+  private componentMap = new Map<string, FisherComponent>();
 
   public activeComponent: ActiveControlComponent | undefined = undefined;
 
@@ -62,19 +71,17 @@ class ComponentManager {
 
   constructor() {
     this.initializeComponentMap();
-    this.initializeSkillComponentMap();
 
-    events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
+    events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
     events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
   }
 
   private onRewardExperience = (componentId: string, experience: number) => {
-    const skillComponent = this.skillComponentMap.get(componentId);
-    invariant(skillComponent !== undefined, `Try to add experience to undefined component ${componentId}`);
+    const component = this.componentMap.get(componentId) as ComponentWithExperience;
+    invariant(component !== undefined, `Try to add experience to undefined component ${componentId}`);
 
-    const { skill } = skillComponent;
-    skill.addExperience(experience);
+    component.addExperience(experience);
     ComponentManager.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
   };
 
@@ -100,24 +107,6 @@ class ComponentManager {
     this.componentMap.set(ComponentId.Forge, forge);
     this.componentMap.set(ComponentId.Battle, battle);
   };
-
-  private initializeSkillComponentMap = () => {
-    this.skillComponentMap.set(ComponentId.Mining, new SkillComponent(mining));
-    this.skillComponentMap.set(ComponentId.Reiki, new SkillComponent(reiki));
-    this.skillComponentMap.set(ComponentId.Forge, new SkillComponent(forge));
-  };
-}
-
-class SkillComponent<T extends Mining | Reiki | Forge> {
-  public component: T;
-
-  constructor(component: T) {
-    this.component = component;
-  }
-
-  public get skill() {
-    return this.component.skill;
-  }
 }
 
 export { ComponentManager };
