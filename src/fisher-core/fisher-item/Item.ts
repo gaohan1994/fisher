@@ -8,7 +8,6 @@ export enum ItemType {
   EquipmentSet = 'EquipmentSet',
   Enemy = 'Enemy',
   BattleArea = 'BattleArea',
-  PersonLevel = 'PersonLevel',
 }
 
 export interface IItem {

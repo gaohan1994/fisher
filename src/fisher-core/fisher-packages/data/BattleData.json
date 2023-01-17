@@ -6,7 +6,7 @@
       "name": "水灵小妖",
       "desc": "灵力较低的小妖怪，常出现在水源丰富的地界",
       "media": "",
-      "level": "GasRefiningEarly",
+      "level": 1,
       "goldReward": 1,
       "itemRewards": [{ "itemId": "WaterReiki" }]
     },
@@ -15,8 +15,8 @@
       "name": "缠足鬼",
       "desc": "生前因为缠足而不幸去世的妖怪，对人类抱有滔天怨恨",
       "media": "",
-      "level": "GasRefiningLater",
-      "unlockLevel": "GasRefiningMiddle",
+      "level": 5,
+      "unlockLevel": 5,
       "goldReward": 5,
       "randomRewards": [{ "itemId": "ClothHat", "probability": 10 }]
     }
@@ -27,7 +27,7 @@
       "name": "扬州城",
       "desc": "",
       "media": "",
-      "unlockLevel": "GasRefiningEarly",
+      "unlockLevel": 1,
       "enemies": ["LowSpritMonster", "FootBoundMonster"]
     }
   ]

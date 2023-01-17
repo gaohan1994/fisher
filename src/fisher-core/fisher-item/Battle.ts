@@ -1,16 +1,15 @@
 import { EnemyItem } from './Enemy';
 import { Item, ItemType, IItem } from './Item';
-import { PersonLevel } from './PersonLevelItem';
 
 export interface IBattleAreaItem extends IItem {
-  unlockLevel: PersonLevel;
+  unlockLevel: number;
   enemies?: EnemyItem[];
 }
 
 export class BattleAreaItem extends Item {
   type = ItemType.BattleArea;
 
-  public unlockLevel: PersonLevel;
+  public unlockLevel: number;
 
   public enemies: EnemyItem[] = [];
 

@@ -40,7 +40,7 @@ export class Enemy extends Person {
 
   @action
   public initialize = async (enemyInfo: EnemyItem) => {
-    const { name, level, goldReward, itemRewards, randomRewards } = enemyInfo;
+    const { name, goldReward, itemRewards, randomRewards } = enemyInfo;
 
     this.name = name;
 
@@ -48,7 +48,6 @@ export class Enemy extends Person {
     if (itemRewards) this.itemRewards = itemRewards;
     if (randomRewards) this.randomRewards = randomRewards;
 
-    this.personLevelManager.initialize(level);
     this.initialized = true;
 
     Person.logger.debug(`Success initialize Enemy ${this.name}`);

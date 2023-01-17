@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { EquipmentItem, EquipmentSlot, IEquipmentItem, PersonLevel } from '../fisher-item';
+import { EquipmentItem, EquipmentSlot, IEquipmentItem } from '../fisher-item';
 import { IAttributeKeys, Master, Person } from '../fisher-person';
 
 let core: FisherCore;
@@ -40,7 +40,7 @@ const equip2: IEquipmentItem = {
 describe('Person Attribute', () => {
   test('should calculate base attributes', () => {
     const master = Master.create();
-    master.initialize({ name: 'Test', level: PersonLevel.GasRefiningLater });
+    master.initialize({ name: 'Test' });
 
     expect(master.attributePanel.BaseMaxHp).toBe(120);
 
@@ -108,7 +108,7 @@ describe('Person Attribute', () => {
 
   test('should calculate attributes after count base and bonus', () => {
     const master = Master.create();
-    master.initialize({ name: 'Test', level: PersonLevel.GasRefiningLater });
+    master.initialize({ name: 'Test' });
 
     const equipmentItem1 = new EquipmentItem(equip1);
     master.personEquipmentManager.useEquipment(equipmentItem1);

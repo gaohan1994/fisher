@@ -1,15 +1,5 @@
 import invariant from 'invariant';
-import {
-  Item,
-  Recipe,
-  BattleAreaItem,
-  EquipmentItem,
-  PersonLevel,
-  PersonLevelItem,
-  EnemyItem,
-  EquipmentSet,
-  NormalItem,
-} from '../fisher-item';
+import { Item, Recipe, BattleAreaItem, EquipmentItem, EnemyItem, EquipmentSet, NormalItem } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   ICollectionModuleData,
@@ -20,7 +10,6 @@ import {
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
-import { generatePersonLevelData } from './PersonLevel';
 import { EmptyEquipment } from './EmptyEquipment';
 /**
  * 游戏模块数据库
@@ -56,8 +45,6 @@ export class Store {
 
   public BattleEnemies: EnemyItem[] = [];
 
-  public personLevelMap: Map<PersonLevel, PersonLevelItem> = new Map();
-
   public get items() {
     return [
       this.EmptyEquipment,
@@ -79,7 +66,6 @@ export class Store {
     this.initializeEquipments();
     this.initializeEquipmentSets();
     this.initializeBattle();
-    this.initializePersonLevel();
   };
 
   private initializeMining = () => {
@@ -115,11 +101,6 @@ export class Store {
     Store.logger.info('initialize BattleArea and BattleEnemies data');
   };
 
-  private initializePersonLevel = () => {
-    const personLevelMap = generatePersonLevelData();
-    this.personLevelMap = personLevelMap;
-  };
-
   public findItemById = <T = Item>(itemId: string) => {
     const result = this.items.find((item) => item.id === itemId);
     invariant(result !== undefined, 'Could not find Item id: ' + itemId);
@@ -140,12 +121,6 @@ export class Store {
 
   public findEnemyById = (id: string) => {
     return this.findItemById<EnemyItem>(id);
-  };
-
-  public findPersonLevelItem = (level: PersonLevel) => {
-    const result = this.personLevelMap.get(level);
-    invariant(result !== undefined, `Try to find ${level} but got undefined`);
-    return result;
   };
 }
 

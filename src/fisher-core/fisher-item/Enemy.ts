@@ -1,9 +1,8 @@
 import { IItem, Item, ItemType } from './Item';
-import { PersonLevel } from './PersonLevelItem';
 
 export interface IEnemyItem extends IItem {
-  level: PersonLevel;
-  unlockLevel?: PersonLevel;
+  level: number;
+  unlockLevel?: number;
   goldReward?: number;
   itemRewards?: EnemyItemReward[];
   randomRewards?: EnemyRandomReward[];
@@ -22,11 +21,11 @@ export interface EnemyRandomReward {
 }
 
 export class EnemyItem extends Item {
-  public level: PersonLevel;
+  public level: number;
 
   public type = ItemType.Enemy;
 
-  public unlockLevel = 'GasRefiningEarly' as PersonLevel;
+  public unlockLevel = 0;
 
   public goldReward = 0;
 

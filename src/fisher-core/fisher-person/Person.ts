@@ -1,11 +1,10 @@
 import { action, makeObservable, observable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
-import { PersonLevel } from '../fisher-item';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
-import { PersonLevelManager } from './PersonLevelManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
+import { Experience } from '../fisher-experience';
 
 enum PersonMode {
   Master = 'Master',
@@ -24,9 +23,10 @@ export class Person {
 
   public static readonly Mode = PersonMode;
 
-  public static readonly Level = PersonLevel;
-
   public mode: PersonMode | undefined = undefined;
+
+  @observable
+  public experience = new Experience();
 
   @observable
   public name = 'DefaultName';
@@ -45,9 +45,6 @@ export class Person {
 
   @observable
   public target: Person | undefined = undefined;
-
-  @observable
-  public personLevelManager = new PersonLevelManager();
 
   @observable
   public personEquipmentManager = new PersonEquipmentManager();

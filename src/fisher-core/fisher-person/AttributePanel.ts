@@ -1,15 +1,15 @@
 import { makeAutoObservable } from 'mobx';
-import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './Attributes';
+import { Experience } from '../fisher-experience';
 import { Person } from './Person';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
-import { PersonLevelManager } from './PersonLevelManager';
+import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './Attributes';
 
 const DefenceFormulaCoe = 0.06;
 
 const BaseAttributeData = {
-  BaseMaxHp: 40,
-  BaseAttackPower: 4,
-  BaseDefencePower: 2,
+  BaseMaxHp: 5,
+  BaseAttackPower: 2,
+  BaseDefencePower: 0.5,
 };
 
 const emptyBonusAttributes: IBonusEquipmentsAttributes = {
@@ -23,15 +23,13 @@ const emptyBonusAttributes: IBonusEquipmentsAttributes = {
 
 export class AttributePanel {
   private target?: Person;
-
-  private personLevelManager: PersonLevelManager;
-
+  private experience: Experience;
   private equipmentManager: PersonEquipmentManager;
 
   constructor(person: Person) {
     makeAutoObservable(this);
     this.target = person.target;
-    this.personLevelManager = person.personLevelManager;
+    this.experience = person.experience;
     this.equipmentManager = person.personEquipmentManager;
   }
 
@@ -77,7 +75,7 @@ export class AttributePanel {
   };
 
   public get BaseAttackPower() {
-    return this.personLevelManager.coefficient * BaseAttributeData.BaseAttackPower;
+    return this.experience.level * BaseAttributeData.BaseAttackPower;
   }
 
   /**
@@ -89,7 +87,7 @@ export class AttributePanel {
   }
 
   public get BaseDefencePower() {
-    return this.personLevelManager.coefficient * BaseAttributeData.BaseDefencePower;
+    return this.experience.level * BaseAttributeData.BaseDefencePower;
   }
 
   public get BonusAttackPower() {
@@ -146,7 +144,7 @@ export class AttributePanel {
   }
 
   public get BaseMaxHp() {
-    return this.personLevelManager.coefficient * BaseAttributeData.BaseMaxHp;
+    return this.experience.level * BaseAttributeData.BaseMaxHp;
   }
 
   public get BonusMaxHp() {

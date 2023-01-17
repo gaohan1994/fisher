@@ -1,29 +1,16 @@
 import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
-import { EquipmentItem, EquipmentSlot, Person, PersonLevelManager, store } from '@FisherCore';
+import { EquipmentItem, EquipmentSlot, Person, store } from '@FisherCore';
 import { FuiMaster } from '@Components';
 import { DemoLayout } from './DemoLayout';
-
-interface LevelProps {
-  personLevelManager: PersonLevelManager;
-}
-
-const Level: FC<LevelProps> = observer(({ personLevelManager }) => {
-  return (
-    <Box>
-      <Typography>境界：{personLevelManager.state}</Typography>
-      <Typography>{personLevelManager.name}</Typography>
-    </Box>
-  );
-});
 
 interface FisherPersonDemoProps {
   person: Person;
 }
 
 export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person }) => {
-  const { Hp, name, attributePanel, personLevelManager, actionManager, personEquipmentManager } = person;
+  const { Hp, name, attributePanel, experience, actionManager, personEquipmentManager } = person;
 
   const useEquipmentBySlot = useCallback((slot: EquipmentSlot, equipmentId: string) => {
     const equipment = store.findItemById<EquipmentItem>(equipmentId);
@@ -72,7 +59,6 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
           );
         })}
       </Box>
-      <Level personLevelManager={personLevelManager} />
       <div>
         <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Weapon, 'WoodSword')}>使用武器</Button>
         <Button onClick={() => useEquipmentBySlot(EquipmentSlot.Helmet, 'ClothHat')}>使用头盔</Button>

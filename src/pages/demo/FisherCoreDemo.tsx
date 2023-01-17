@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { Container, Paper, Stack, Typography } from '@mui/material';
+import { Paper, Stack } from '@mui/material';
 import { core } from '@FisherCore';
 import { FisherTimerDemo } from './FisherTimerDemo';
 import { FisherGoldDemo } from './FisherGoldDemo';
@@ -9,7 +9,6 @@ import { ExperienceDemo } from './ExperienceDemo';
 import { MiningDemo } from './MiningDemo';
 import { ReikiDemo } from './ReikiDemo';
 import { FisherPersonDemo } from './FisherPersonDemo';
-import { FisherPersonLevelDemo } from './FisherPersonLevelDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { StoreDemo } from './StoreDemo';
 import { ForgeDemo } from './ForgeDemo';
@@ -56,9 +55,6 @@ const FisherCoreDemo: FC = () => (
       </Paper>
     </DemoStack>
     <DemoStack>
-      <Paper>
-        <FisherPersonLevelDemo />
-      </Paper>
       <Paper>
         <FisherTimerDemo />
       </Paper>

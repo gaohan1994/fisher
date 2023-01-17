@@ -1,10 +1,9 @@
 import { action } from 'mobx';
-import { EquipmentSlot, PersonLevel } from '../fisher-item';
+import { EquipmentSlot } from '../fisher-item';
 import { Person } from './Person';
 
 interface InitializeMasterPayload {
   name: string;
-  level: PersonLevel;
 }
 
 export class Master extends Person {
@@ -35,9 +34,8 @@ export class Master extends Person {
    * @memberof Master
    */
   @action
-  public initialize = ({ name, level }: InitializeMasterPayload) => {
+  public initialize = ({ name }: InitializeMasterPayload) => {
     this.name = name;
-    this.personLevelManager.initialize(level);
     this.initialized = true;
   };
 

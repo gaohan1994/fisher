@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { EnemyItem, IEnemyItem, PersonLevel } from '../fisher-item';
+import { EnemyItem, IEnemyItem } from '../fisher-item';
 import { Enemy } from '../fisher-person';
 
 let core: FisherCore;
@@ -13,7 +13,7 @@ const testPerson1: IEnemyItem = {
   name: '水灵小妖',
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: '',
-  level: PersonLevel.GasRefiningEarly,
+  level: 1,
 };
 
 const testPerson2: IEnemyItem = {
@@ -21,7 +21,7 @@ const testPerson2: IEnemyItem = {
   name: '水灵小妖',
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: '',
-  level: PersonLevel.GasRefiningEarly,
+  level: 1,
 };
 
 describe('Actions', () => {
