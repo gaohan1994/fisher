@@ -15,7 +15,7 @@ const CorePrompt: FC = observer(() => {
   ));
 
   return (
-    <Snackbar key="CorePrompt" open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+    <Snackbar key="CorePrompt" open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
       <SnackbarContent message={coreMessages} />
     </Snackbar>
   );
