@@ -2,7 +2,7 @@ import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
 import { Typography, Box } from '@mui/material';
 import { EquipmentSet, store } from '@FisherCore';
-import { makeFuiAttributeText } from '../attribute';
+import { makeFuiAttributeBonusText } from '../attribute';
 import { FuiColor } from '../theme';
 
 interface Props {
@@ -43,7 +43,7 @@ const FuiEquipmentSet: FC<Props> = observer(({ equipmentSet }) => (
           {setAttributes.map((attribute, index) => (
             <ColorEquipmentSetTypography
               key={index}
-              value={makeFuiAttributeText(attribute.key, attribute.value)}
+              value={makeFuiAttributeBonusText(attribute.key, attribute.value)}
               color={setSlotControl.active ? FuiColor.equipmentSet.activeValue : FuiColor.equipmentSet.inactiveValue}
             />
           ))}
