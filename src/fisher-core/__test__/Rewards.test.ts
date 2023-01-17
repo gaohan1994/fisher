@@ -110,12 +110,12 @@ describe('Reward interfaces', () => {
     expect(bank.gold).toBe(50);
     expect(backpack.items.get(testItem)?.quantity).toBe(10);
     expect(backpack.items.get(exsitItem)?.quantity).toBe(50);
-    expect(core.forge.skill.experience).toBe(10);
+    expect(core.forge.skill.experience.experience).toBe(10);
 
     reward.execute();
     expect(bank.gold).toBe(100);
     expect(backpack.items.get(testItem)?.quantity).toBe(20);
     expect(backpack.items.has(exsitItem)).toBeFalsy();
-    expect(core.forge.skill.experience).toBe(20);
+    expect(core.forge.skill.experience.experience).toBe(20);
   });
 });

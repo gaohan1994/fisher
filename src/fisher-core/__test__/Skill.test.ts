@@ -6,8 +6,9 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Store } from '../fisher-packages';
 import { IRecipe, Recipe } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
-import { Skill, skillExperienceCalculator } from '../fisher-skill';
+import { Skill } from '../fisher-skill';
 import { FisherCore } from '../fisher-core';
+import { experienceCalculator } from '../fisher-experience';
 
 let store: Store;
 let core: FisherCore;
@@ -35,21 +36,21 @@ const testRecipeData: IRecipe = {
 
 describe('Skill experience', () => {
   test('should success calculate experience', () => {
-    expect(skill.skillExperience.level).toBe(1);
-    expect(skill.skillExperience.levelUpExperience).toBe(skillExperienceCalculator.getLevelExperience(1));
+    expect(skill.experience.level).toBe(1);
+    expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(1));
 
     skill.addExperience(140);
-    expect(skill.skillExperience.level).toBe(2);
-    expect(skill.skillExperience.levelUpExperience).toBe(skillExperienceCalculator.getLevelExperience(2));
+    expect(skill.experience.level).toBe(2);
+    expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(2));
   });
 
   test('should success return max level', () => {
     skill.addExperience(1009899);
-    expect(skill.skillExperience.level).toBe(99);
-    expect(skill.skillExperience.levelUpExperience).toBe(1009899);
+    expect(skill.experience.level).toBe(99);
+    expect(skill.experience.levelUpExperience).toBe(1009899);
 
     skill.addExperience(1009899);
-    expect(skill.skillExperience.level).toBe(99);
+    expect(skill.experience.level).toBe(99);
   });
 });
 
@@ -119,14 +120,14 @@ describe('Skill', () => {
   test('should success receive experience rewards when start skill', () => {
     vi.useFakeTimers();
 
-    expect(skill.skillExperience.experience).toEqual(0);
+    expect(skill.experience.experience).toEqual(0);
 
     const testRecipe = new Recipe(testRecipeData);
     skill.setActiveRecipe(testRecipe);
     skill.start();
     vi.advanceTimersByTime(testRecipe.interval);
 
-    expect(skill.skillExperience.experience).toEqual(testRecipe.rewardExperience);
+    expect(skill.experience.experience).toEqual(testRecipe.rewardExperience);
 
     vi.clearAllTimers();
   });
