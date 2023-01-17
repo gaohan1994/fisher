@@ -5,10 +5,7 @@
       "id": "EmptyEquipment",
       "name": "空",
       "desc": "",
-      "media": "",
-      "type": "Equipment",
-      "price": 0,
-      "slots": ["Helmet", "Weapon"]
+      "price": 0
     },
     "items": [
       {
@@ -17,7 +14,7 @@
         "desc": "用寻常木头做的剑",
         "media": "woodsword",
         "price": 5,
-        "slots": ["Weapon"],
+        "slot": "Weapon",
         "attributes": [{ "key": "AttackPower", "value": 40 }],
         "equipmentSetId": "NoobSet"
       },
@@ -27,7 +24,7 @@
         "desc": "用布织成的帽子，可以遮风挡雨",
         "media": "",
         "price": 5,
-        "slots": ["Helmet"],
+        "slot": "Helmet",
         "attributes": [{ "key": "DefencePower", "value": 2 }],
         "equipmentSetId": "NoobSet"
       },
@@ -37,7 +34,7 @@
         "desc": "雕工上乘，玉质极佳",
         "media": "",
         "price": 5,
-        "slots": ["Helmet"],
+        "slot": "Helmet",
         "requirements": [],
         "attributes": [{ "key": "MaxHp", "value": 20 }]
       }

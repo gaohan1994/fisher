@@ -8,6 +8,7 @@ import {
   PersonLevelItem,
   EnemyItem,
   EquipmentSet,
+  NormalItem,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -45,7 +46,7 @@ export class Store {
 
   public Forge: Recipe[] = [];
 
-  public EmptyEquipment: EquipmentItem = EmptyEquipment;
+  public EmptyEquipment: NormalItem = EmptyEquipment;
 
   public Equipments: EquipmentItem[] = [];
 

@@ -1,7 +1,8 @@
 import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { EquipmentSlot, PersonEquipment, PersonEquipmentManager } from '@FisherCore';
+import { PersonEquipment } from '@FisherCore';
 import { FuiEquipment } from './Equipment';
+import { FuiItem } from '../item';
 
 interface FuiPersonEquipmentProps {
   personEquipment: PersonEquipment | undefined;
@@ -12,7 +13,11 @@ const FuiPersonEquipment: FC<FuiPersonEquipmentProps> = observer(({ personEquipm
 
   return (
     <Fragment>
-      <FuiEquipment equipment={personEquipment.equipment} />
+      {!personEquipment.isEmpty ? (
+        <FuiEquipment equipment={personEquipment.equipment!} />
+      ) : (
+        <FuiItem item={personEquipment.emptyEquipment} />
+      )}
     </Fragment>
   );
 });

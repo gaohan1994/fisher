@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
-import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EquipmentItem, EquipmentSlot, NormalItem } from '../fisher-item';
 import { EmptyEquipment } from '../fisher-packages';
 
 interface IPersonEquipment {
@@ -18,9 +18,9 @@ type IEquipmentUpdateReturned = [EquipmentItem, number];
  * @class PersonEquipment
  */
 export class PersonEquipment {
-  public emptyEquipment: EquipmentItem;
+  public emptyEquipment: NormalItem = EmptyEquipment;
 
-  public equipment: EquipmentItem;
+  public equipment: EquipmentItem | undefined;
 
   public quantity: number;
 
@@ -28,8 +28,7 @@ export class PersonEquipment {
 
   constructor({ slot, equipment, quantity }: IPersonEquipment) {
     makeAutoObservable(this);
-    this.emptyEquipment = EmptyEquipment;
-    this.equipment = equipment ?? EmptyEquipment;
+    this.equipment = equipment;
     this.quantity = quantity ?? 0;
     this.slot = slot;
   }
@@ -38,7 +37,7 @@ export class PersonEquipment {
    * 当前装备是否为空
    */
   public get isEmpty(): boolean {
-    return this.equipment.id === this.emptyEquipment.id;
+    return this.equipment === undefined;
   }
 
   /**
@@ -49,7 +48,7 @@ export class PersonEquipment {
   public updateEquipment = (value: EquipmentItem, quantity: number): IEquipmentUpdateReturned | undefined => {
     let result: IEquipmentUpdateReturned | undefined = undefined;
     if (!this.isEmpty) {
-      result = [this.equipment, this.quantity];
+      result = [this.equipment!, this.quantity];
     }
 
     this.equipment = value;
@@ -68,9 +67,9 @@ export class PersonEquipment {
    */
   public removeEquipment = (): IEquipmentUpdateReturned => {
     invariant(this.isEmpty !== true, 'Fail to remove equipment, current slot equipment was empty');
-    const result: IEquipmentUpdateReturned = [this.equipment, this.quantity];
+    const result: IEquipmentUpdateReturned = [this.equipment!, this.quantity];
 
-    this.equipment = this.emptyEquipment;
+    this.equipment = undefined;
     this.quantity = 0;
 
     return result;

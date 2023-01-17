@@ -2,7 +2,7 @@ import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
 import { Item, ItemType, IItem } from './Item';
 
 export interface IEquipmentItem extends IItem {
-  slots: Array<EquipmentSlot[number]>;
+  slot: EquipmentSlot[number];
   requirements?: IEquipmentRequirement[];
   attributes?: IEquipmentAttribute[];
   equipmentSetId?: string;
@@ -38,7 +38,7 @@ export enum EquipmentSlot {
 export class EquipmentItem extends Item {
   type = ItemType.Equipment;
 
-  public slots: EquipmentSlot[];
+  public slot: EquipmentSlot;
 
   public requirements: IEquipmentRequirement[] = [];
 
@@ -58,7 +58,7 @@ export class EquipmentItem extends Item {
 
   constructor(options: IEquipmentItem) {
     super(options);
-    this.slots = options.slots as EquipmentSlot[];
+    this.slot = options.slot as EquipmentSlot;
 
     if (options.requirements) this.requirements = options.requirements;
     if (options.attributes) this.attributes = options.attributes;
