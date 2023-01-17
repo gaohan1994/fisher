@@ -62,14 +62,6 @@ class Skill {
     this.timer.stopTimer();
   };
 
-  public addExperience = (value: number) => {
-    this.experience.addExperience(value);
-  };
-
-  public setExperience = (value: number) => {
-    this.experience.setExperience(value);
-  };
-
   public setActiveRecipe = (value: Recipe) => {
     this.recipeHandler.setActiveRecipe(value);
   };

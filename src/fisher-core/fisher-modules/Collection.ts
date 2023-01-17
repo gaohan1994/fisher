@@ -33,6 +33,14 @@ abstract class Collection<CollectionPackages> {
   abstract start(recipe?: Recipe): void;
 
   abstract stop(): void;
+
+  public addExperience = (value: number) => {
+    this.skill.experience.addExperience(value);
+  };
+
+  public setExperience = (value: number) => {
+    this.skill.experience.setExperience(value);
+  };
 }
 
 export { Collection };
