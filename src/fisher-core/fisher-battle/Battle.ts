@@ -86,8 +86,8 @@ export class Battle {
     this.activeEnemyItem = enemyItem;
     this.enemy = new Enemy(this.generateEnemyId(enemyItem.id));
     await this.enemy.initialize(enemyItem);
-    this.enemy.setTarget(this.master);
-    this.master.setTarget(this.enemy);
+    this.enemy.setTarget(this.master.person);
+    this.master.setTarget(this.enemy.person);
   };
 
   /**

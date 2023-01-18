@@ -1,56 +1,66 @@
-import { action, computed, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '../fisher-item';
 import { Reward } from '../fisher-reward';
+import { PersonMode } from './Constants';
 import { Person } from './Person';
 
-export class Enemy extends Person {
-  @observable
-  public id: string = '';
+export class Enemy {
+  public id: string;
 
-  public mode = Person.Mode.Enemy;
+  public name: string = '';
 
-  @observable
+  public person: Person;
+
+  public mode = PersonMode.Enemy;
+
+  public get Hp() {
+    return this.person.Hp;
+  }
+
+  public get attributePanel() {
+    return this.person.attributePanel;
+  }
+
+  public get actionManager() {
+    return this.person.actionManager;
+  }
+
+  public get personEquipmentManager() {
+    return this.person.personEquipmentManager;
+  }
+
   public goldReward = 0;
 
-  @computed
   public get hasGoldReward() {
     return typeof this.goldReward === 'number' && this.goldReward >= 0;
   }
 
-  @observable
   public itemRewards: EnemyItemReward[] = [];
 
-  @computed
   public get hasItemRewards() {
     return this.itemRewards && this.itemRewards.length > 0;
   }
 
-  @observable
   public randomRewards: EnemyRandomReward[] = [];
 
-  @computed
   public get hasRandomRewards() {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
   constructor(id: string) {
-    super();
+    makeAutoObservable(this);
     this.id = id;
+    this.person = new Person(this.id);
   }
 
-  @action
   public initialize = async (enemyInfo: EnemyItem) => {
     const { name, goldReward, itemRewards, randomRewards } = enemyInfo;
-
     this.name = name;
-
     if (goldReward) this.goldReward = goldReward;
     if (itemRewards) this.itemRewards = itemRewards;
     if (randomRewards) this.randomRewards = randomRewards;
 
-    this.initialized = true;
-
-    Person.logger.debug(`Success initialize Enemy ${this.name}`);
+    Person.logger.debug(`Success initialize Enemy ${this.person.id}`);
   };
 
   /**
@@ -60,7 +70,6 @@ export class Enemy extends Person {
    *
    * @memberof Enemy
    */
-  @action
   public provideRewards = (): Reward[] => {
     const result: Reward[] = [];
     if (this.hasGoldReward) {
@@ -79,12 +88,10 @@ export class Enemy extends Person {
     return result;
   };
 
-  @action
   private createGoldReward = () => {
     return Reward.create({ gold: this.goldReward });
   };
 
-  @action
   private createRandomRewards = () => {
     return this.randomRewards
       .map(({ probability, gold, itemId, itemQuantity }) => {
@@ -97,10 +104,21 @@ export class Enemy extends Person {
       .filter(Boolean) as Reward[];
   };
 
-  @action
   private createItemRewards = () => {
     return this.itemRewards.map((itemReward) => {
       return Reward.create(itemReward);
     });
+  };
+
+  public setTarget = (person: Person) => {
+    this.person.setTarget(person);
+  };
+
+  public startBattle = () => {
+    this.person.startBattle();
+  };
+
+  public stopBattle = () => {
+    this.person.stopBattle();
   };
 }

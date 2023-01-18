@@ -1,48 +1,74 @@
-import { action } from 'mobx';
+import { makeAutoObservable } from 'mobx';
+import { ArchiveInterface } from '../fisher-archive';
+import { EventKeys, events } from '../fisher-events';
 import { EquipmentSlot } from '../fisher-item';
+import { PersonMode } from './Constants';
 import { Person } from './Person';
 
-interface InitializeMasterPayload {
-  name: string;
-}
-
-export class Master extends Person {
+class Master {
   public static instance: Master;
 
-  public static create = () => {
+  public static create(): Master {
     if (!Master.instance) {
       Master.instance = new Master();
     }
     return Master.instance;
-  };
+  }
 
-  public override mode = Person.Mode.Master;
+  public person = new Person('Master');
+
+  public name = '';
+
+  public mode = PersonMode.Master;
+
+  public get Hp() {
+    return this.person.Hp;
+  }
+
+  public get attributePanel() {
+    return this.person.attributePanel;
+  }
+
+  public get actionManager() {
+    return this.person.actionManager;
+  }
+
+  public get personEquipmentManager() {
+    return this.person.personEquipmentManager;
+  }
 
   public get weapon() {
-    return this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Weapon);
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Weapon);
   }
 
   public get helmet() {
-    return this.personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet);
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet);
   }
 
-  /**
-   * 初始化人物信息
-   * 初始化人物等级
-   *
-   * @param {InitializeMasterPayload} { name, level }
-   * @memberof Master
-   */
-  @action
-  public initialize = ({ name }: InitializeMasterPayload) => {
-    this.name = name;
-    this.initialized = true;
-  };
+  constructor() {
+    makeAutoObservable(this);
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
+  }
 
-  @action
+  private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {};
+
   public deathPenalty = () => {
     Person.logger.info('master death');
   };
+
+  public setTarget = (person: Person) => {
+    this.person.setTarget(person);
+  };
+
+  public startBattle = () => {
+    this.person.startBattle();
+  };
+
+  public stopBattle = () => {
+    this.person.stopBattle();
+  };
 }
 
-export const master = Master.create();
+const master = Master.create();
+
+export { master, Master };
