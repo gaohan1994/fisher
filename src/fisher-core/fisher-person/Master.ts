@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
 import { EquipmentSlot } from '../fisher-item';
@@ -18,6 +19,10 @@ class Master {
   public person = new Person('Master');
 
   public name = '';
+
+  private _media = 'knight';
+
+  public media = Assets[this._media as keyof typeof Assets];
 
   public mode = PersonMode.Master;
 

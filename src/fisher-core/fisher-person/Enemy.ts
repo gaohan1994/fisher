@@ -12,6 +12,8 @@ export class Enemy {
 
   public name: string;
 
+  public media: string;
+
   public person: Person;
 
   public mode = PersonMode.Enemy;
@@ -50,11 +52,12 @@ export class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor({ id, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
+  constructor({ id, media, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
     makeAutoObservable(this);
     this.key = generateTimestamp();
     this.id = id;
     this.name = name;
+    this.media = media;
 
     if (goldReward) {
       this.goldReward = goldReward;
