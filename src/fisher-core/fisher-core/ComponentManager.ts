@@ -1,11 +1,11 @@
 import invariant from 'invariant';
+import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { battle, Battle } from '../fisher-battle';
 import { forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
 import { bank, Bank } from '../fisher-bank';
 import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
-
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle;
 
 type ActiveControlComponent = Mining | Reiki | Forge | Battle;
@@ -70,6 +70,7 @@ class ComponentManager {
   }
 
   constructor() {
+    makeAutoObservable(this);
     this.initializeComponentMap();
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);

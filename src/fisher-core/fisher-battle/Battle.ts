@@ -25,6 +25,8 @@ class Battle {
 
   public readonly id = 'Battle';
 
+  public name = '斩妖除魔';
+
   public battleStatus = new BattleStatus();
 
   public get isInitial() {
