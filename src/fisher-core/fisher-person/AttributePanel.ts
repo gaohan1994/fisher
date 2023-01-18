@@ -22,7 +22,7 @@ const emptyBonusAttributes: IBonusEquipmentsAttributes = {
   DefencePowerMultiplier: 0,
 };
 
-export class AttributePanel {
+class AttributePanel {
   private target?: Person;
   private experience: Experience;
   private equipmentManager: PersonEquipmentManager;
@@ -156,3 +156,5 @@ export class AttributePanel {
     return this.BaseMaxHp + this.BonusMaxHp;
   }
 }
+
+export { AttributePanel, BaseAttributeData };

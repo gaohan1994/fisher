@@ -21,6 +21,10 @@ class Master {
 
   public mode = PersonMode.Master;
 
+  public get level() {
+    return this.person.experience.level;
+  }
+
   public get Hp() {
     return this.person.Hp;
   }
