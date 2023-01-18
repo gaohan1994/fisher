@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
+import { Experience } from '../fisher-experience';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
-import { Experience } from '../fisher-experience';
 
 /**
  * 人物类
@@ -37,7 +37,7 @@ export class Person {
     this.id = id;
   }
 
-  public setTarget = (person: Person) => {
+  public setTarget = (person: Person | undefined) => {
     this.target = person;
   };
 
@@ -76,5 +76,9 @@ export class Person {
 
   private clearEffects = () => {
     this.actionManager.clearActiveDotActions();
+  };
+
+  public refreshHp = () => {
+    this.Hp = this.attributePanel.MaxHp;
   };
 }

@@ -2,11 +2,12 @@ import { makeAutoObservable, reaction } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { store } from '../fisher-packages';
 import { EnemyItem } from '../fisher-item';
-import { Enemy, master } from '../fisher-person';
-import { Reward } from '../fisher-reward';
+import { RewardPool } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
 import { BattleStatus } from './BattleStatus';
+import { BattleControl } from './BattleControl';
+import { Enemy } from '../fisher-person';
 
 class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -42,175 +43,65 @@ class Battle {
     return store.BattleAreas;
   }
 
-  public master = master;
+  public battleControl = new BattleControl();
 
-  public activeEnemyItem?: EnemyItem | undefined = undefined;
-
-  public enemy: Enemy | undefined = undefined;
-
-  public get masterDeathCondition() {
-    return this.master.Hp <= 0;
+  public get master() {
+    return this.battleControl.master;
   }
 
-  public get enemyDeathCondition() {
-    return this.enemy !== undefined && this.enemy.Hp <= 0;
+  public get enemy() {
+    return this.battleControl.enemy;
   }
 
-  /**
-   * 击杀数统计
-   */
-  public battleCountMap = new Map<string, number>();
-
-  public rewardPool: Reward[] = [];
-
-  public get hasReward() {
-    return this.rewardPool.length > 0;
-  }
+  public rewardPool = new RewardPool();
 
   constructor() {
     makeAutoObservable(this);
-    reaction<boolean>(() => this.masterDeathCondition, this.onMasterDeath);
-    reaction<boolean>(() => this.enemyDeathCondition, this.onEnemyDeath);
+    events.on(EventKeys.Core.MasterDeath, this.onMasterDeath);
+    events.on(EventKeys.Core.EnemyDeath, this.onEnemyDeath);
   }
 
-  /**
-   * 初始化战斗敌人
-   * - 设置当前激活的敌人信息为传入的敌人信息
-   * - new Enemy
-   * - 初始化 enemy
-   * - 给玩家和敌人互相设置 target
-   *
-   * @param {EnemyItem} enemyItem
-   * @memberof Battle
-   */
-  public initializeEnemy = async (enemyItem: EnemyItem) => {
-    this.activeEnemyItem = enemyItem;
-    this.enemy = new Enemy(this.generateEnemyId(enemyItem.id));
-    await this.enemy.initialize(enemyItem);
-    this.enemy.setTarget(this.master.person);
-    this.master.setTarget(this.enemy.person);
+  public setEnemyItem = async (enemyItem: EnemyItem) => {
+    this.battleStatus.enemyLoading();
+    this.battleControl.setAcitveEnemyItem(enemyItem);
+    await TimerSpace.space(Battle.BaseBattleInterval);
   };
 
-  /**
-   * 重新初始化敌人
-   *
-   * @memberof Battle
-   */
-  public continueInitializeActiveEnemy = async () => {
-    if (this.activeEnemyItem === undefined)
-      return Battle.logger.error('Try to continue initialize active Enemy but active enemy was undefined');
-
-    await this.initializeEnemy(this.activeEnemyItem);
-  };
-
-  public start = async (enemyItem?: EnemyItem) => {
-    const currentEnemy = enemyItem ?? this.activeEnemyItem;
-    if (currentEnemy === undefined) {
-      Battle.logger.error('Try to start battle without enemy', this);
-      throw new Error('Try to start battle without enemy');
+  public start = async () => {
+    if (this.battleControl.enemy === undefined) {
+      Battle.logger.error('Fail to start battle, please set active enemy item first', this);
+      throw new Error('Fail to start battle, please set active enemy item first');
     }
 
-    this.battleStatus.enemyLoading();
-    await this.initializeEnemy(currentEnemy);
-    await TimerSpace.space(Battle.BaseBattleInterval);
-
     this.battleStatus.fighting();
-    this.master.startBattle();
-    this.enemy?.startBattle();
+    this.battleControl.startBattle();
 
     events.emit(EventKeys.Core.SetActiveComponent, this);
   };
 
   public stop = async () => {
-    if (this.enemy === undefined) {
-      return Battle.logger.error('Try to stop battle but enemy was undefined');
-    }
-
     if (!this.isFighting) {
       return Battle.logger.error('Try to stop battle but already stoped');
     }
 
-    this.master.stopBattle();
-    this.enemy.stopBattle();
+    this.battleStatus.initial();
+    this.battleControl.stopBattle();
+  };
+
+  private onMasterDeath = async () => {
     this.battleStatus.initial();
   };
 
-  /**
-   * 玩家死亡
-   * - 停止战斗
-   * - 死亡惩罚
-   *
-   * @memberof Battle
-   */
-  public onMasterDeath = async (masterDeathCondition: boolean) => {
-    if (masterDeathCondition) {
-      await this.stop();
-      await this.master.deathPenalty();
-    }
+  private onEnemyDeath = async (enemy: Enemy) => {
+    this.collectRewards(enemy);
   };
 
-  /**
-   * 敌人死亡
-   * - 停止战斗
-   * - 杀敌次数 +1
-   * - 奖励池更新奖励
-   * - 初始化下一个敌人
-   * - 再次进入战斗
-   *
-   * @memberof Battle
-   */
-  public onEnemyDeath = async (enemyDeathCondition: boolean) => {
-    if (enemyDeathCondition) {
-      await this.stop();
-      await this.updateBattleCount();
-      await this.collectRewardToPool();
-      await this.start();
-    }
+  private collectRewards = async (enemy: Enemy) => {
+    this.rewardPool.collectRewards(enemy.provideRewards());
   };
 
-  private updateBattleCount = async () => {
-    if (this.activeEnemyItem === undefined)
-      return Battle.logger.error('Try update battle count but enemy was undefined');
-
-    const enemyId = this.activeEnemyItem.id;
-
-    if (this.battleCountMap.has(this.activeEnemyItem.id)) {
-      let currentCount = this.battleCountMap.get(enemyId);
-
-      if (currentCount !== undefined) {
-        this.battleCountMap.set(enemyId, currentCount + 1);
-      }
-    } else {
-      this.battleCountMap.set(enemyId, 1);
-    }
-  };
-
-  private generateEnemyId = (enemyId: string) => {
-    const currentEnemyBattleCount = this.battleCountMap.get(enemyId);
-    return enemyId + `${currentEnemyBattleCount ?? 0}`;
-  };
-
-  /**
-   * 收集奖励到战利品池
-   */
-  private collectRewardToPool = async () => {
-    if (!this.enemy) return Battle.logger.error('Try to collection Enemy reward to pool but undefined');
-
-    this.rewardPool.push(...this.enemy.provideRewards());
-  };
-
-  /**
-   * 发放战利品奖励
-   */
-  public executeRewardPool = () => {
-    if (!this.hasReward) {
-      return Battle.logger.error('Try to execute rewards but reward pool was empty');
-    }
-
-    this.rewardPool.forEach((reward) => {
-      reward.execute();
-    });
-    this.rewardPool = [];
+  public executeRewards = () => {
+    this.rewardPool.executeRewardPool();
   };
 }
 

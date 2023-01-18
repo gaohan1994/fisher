@@ -56,21 +56,7 @@ class Master {
 
   private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {};
 
-  public deathPenalty = () => {
-    Person.logger.info('master death');
-  };
-
-  public setTarget = (person: Person) => {
-    this.person.setTarget(person);
-  };
-
-  public startBattle = () => {
-    this.person.startBattle();
-  };
-
-  public stopBattle = () => {
-    this.person.stopBattle();
-  };
+  public deathPenalty = () => {};
 }
 
 const master = Master.create();
