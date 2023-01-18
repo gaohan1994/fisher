@@ -5,6 +5,8 @@ const events = new EventEmitter();
 namespace EventKeys {
   export enum Core {
     SetActiveComponent = 'SetActiveComponent',
+    MasterDeath = 'MasterDeath',
+    EnemyDeath = 'EnemyDeath',
   }
 
   export enum Bank {

@@ -8,7 +8,7 @@
       "media": "",
       "level": 1,
       "goldReward": 1,
-      "itemRewards": [{ "itemId": "WaterReiki" }]
+      "itemRewards": [{ "itemId": "NormalReiki" }]
     },
     {
       "id": "FootBoundMonster",
