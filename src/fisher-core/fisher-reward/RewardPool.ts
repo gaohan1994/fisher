@@ -1,3 +1,4 @@
+import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { Reward } from './Reward';
 
@@ -8,6 +9,10 @@ class RewardPool {
 
   public get hasReward() {
     return this.pool.length > 0;
+  }
+
+  constructor() {
+    makeAutoObservable(this);
   }
 
   public collectRewards = (rewards: Reward[]) => {
