@@ -39,10 +39,9 @@ describe('FisherPersonAction', () => {
   test('should initialize action manager', async () => {
     vi.useFakeTimers();
     const person1 = new Master();
-    const person2 = new Enemy('Test:EnemyId');
-    await person2.initialize(battleEnemyItem);
-    person1.setTarget(person2.person);
-    person2.setTarget(person1.person);
+    const person2 = new Enemy(battleEnemyItem);
+    person1.person.setTarget(person2.person);
+    person2.person.setTarget(person1.person);
 
     expect(person1.actionManager.dotActionMap.size).toBeGreaterThan(0);
     vi.clearAllTimers();

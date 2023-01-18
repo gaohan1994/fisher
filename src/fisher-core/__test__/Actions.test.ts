@@ -31,11 +31,8 @@ describe('Actions', () => {
     const item1 = new EnemyItem(testPerson1);
     const item2 = new EnemyItem(testPerson2);
 
-    const person1 = new Enemy(item1.id);
-    person1.initialize(item1);
-
-    const person2 = new Enemy(item2.id);
-    person2.initialize(item2);
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
 
     person1.setTarget(person2.person);
     person2.setTarget(person1.person);
@@ -56,11 +53,8 @@ describe('Actions', () => {
     const item1 = new EnemyItem(testPerson1);
     const item2 = new EnemyItem(testPerson2);
 
-    const person1 = new Enemy(item1.id);
-    person1.initialize(item1);
-
-    const person2 = new Enemy(item2.id);
-    person2.initialize(item2);
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
 
     person1.setTarget(person2.person);
     person2.setTarget(person1.person);
@@ -79,11 +73,8 @@ describe('Actions', () => {
     const item1 = new EnemyItem(testPerson1);
     const item2 = new EnemyItem(testPerson2);
 
-    const person1 = new Enemy(item1.id);
-    person1.initialize(item1);
-
-    const person2 = new Enemy(item2.id);
-    person2.initialize(item2);
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
 
     person1.setTarget(person2.person);
     person2.setTarget(person1.person);

@@ -1,13 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '../fisher-item';
 import { Reward } from '../fisher-reward';
+import { generateTimestamp } from '../utils';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
 
 export class Enemy {
+  public key: number;
+
   public id: string;
 
-  public name: string = '';
+  public name: string;
 
   public person: Person;
 
@@ -47,21 +50,23 @@ export class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor(id: string) {
+  constructor({ id, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
     makeAutoObservable(this);
+    this.key = generateTimestamp();
     this.id = id;
+    this.name = name;
+
+    if (goldReward) {
+      this.goldReward = goldReward;
+    }
+    if (itemRewards) {
+      this.itemRewards = itemRewards;
+    }
+    if (randomRewards) {
+      this.randomRewards = randomRewards;
+    }
     this.person = new Person(this.id);
   }
-
-  public initialize = async (enemyInfo: EnemyItem) => {
-    const { name, goldReward, itemRewards, randomRewards } = enemyInfo;
-    this.name = name;
-    if (goldReward) this.goldReward = goldReward;
-    if (itemRewards) this.itemRewards = itemRewards;
-    if (randomRewards) this.randomRewards = randomRewards;
-
-    Person.logger.debug(`Success initialize Enemy ${this.person.id}`);
-  };
 
   /**
    * 生成金钱奖励
