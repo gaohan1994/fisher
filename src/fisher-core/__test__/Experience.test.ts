@@ -21,4 +21,15 @@ describe('Experience', () => {
     experience.addExperience(1);
     expect(experience.level).toBe(3);
   });
+
+  test('should success set level', () => {
+    const experience = new Experience();
+    expect(experience.level).toBe(1);
+
+    experience.setLevel(3);
+    expect(experience.level).toBe(3);
+
+    experience.setLevel(33);
+    expect(experience.level).toBe(33);
+  });
 });

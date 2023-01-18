@@ -37,8 +37,8 @@ describe('Actions', () => {
     const person2 = new Enemy(item2.id);
     person2.initialize(item2);
 
-    person1.setTarget(person2);
-    person2.setTarget(person1);
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
     expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
     person1.startBattle();
@@ -62,11 +62,11 @@ describe('Actions', () => {
     const person2 = new Enemy(item2.id);
     person2.initialize(item2);
 
-    person1.setTarget(person2);
-    person2.setTarget(person1);
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
     expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
-    person1.actionManager.critAttackAction.execute(person1);
+    person1.actionManager.critAttackAction.execute(person1.person);
     expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp - 0.9 * 2 * person1.attributePanel.AttackDamage);
     expect(person2.Hp).toBeGreaterThan(person2.attributePanel.MaxHp - 1.1 * 2 * person1.attributePanel.AttackDamage);
 
@@ -85,14 +85,14 @@ describe('Actions', () => {
     const person2 = new Enemy(item2.id);
     person2.initialize(item2);
 
-    person1.setTarget(person2);
-    person2.setTarget(person1);
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
     expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
     const personStateDotAction = person1.actionManager.dotActionMap.get('PersonStateDotAction');
     if (personStateDotAction === undefined) return;
 
-    personStateDotAction.initialize(person1);
+    personStateDotAction.initialize(person1.person);
     person2.actionManager.deployDotAction(personStateDotAction);
 
     // dot action effective first time

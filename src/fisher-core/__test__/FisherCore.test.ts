@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'vitest';
-import { FisherCore, Backpack, Bank, Reiki, Person, Mining } from '@FisherCore';
+import { FisherCore, Backpack, Bank, Reiki, Mining, Master } from '@FisherCore';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -12,7 +12,7 @@ describe('FisherCore', () => {
     expect(core.bank instanceof Bank).toBeTruthy();
     expect(core.mining instanceof Mining).toBeTruthy();
     expect(core.reiki instanceof Reiki).toBeTruthy();
-    expect(core.master instanceof Person).toBeTruthy();
+    expect(core.master instanceof Master).toBeTruthy();
 
     expect(core.activeComponent).toBeUndefined();
     expect(core.activeComponentId).toBeUndefined();

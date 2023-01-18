@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot, IEquipmentItem } from '../fisher-item';
 import { IAttributeKeys, Master, Person } from '../fisher-person';
+import { BaseAttributeData } from '../fisher-person/AttributePanel';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -40,19 +41,18 @@ const equip2: IEquipmentItem = {
 describe('Person Attribute', () => {
   test('should calculate base attributes', () => {
     const master = Master.create();
-    master.initialize({ name: 'Test' });
 
-    expect(master.attributePanel.BaseMaxHp).toBe(120);
-
-    expect(master.attributePanel.BaseAttackPower).toBe(12);
+    expect(master.attributePanel.BaseMaxHp).toBe(
+      BaseAttributeData.InitializeMaxHp + BaseAttributeData.BaseMaxHp * master.level
+    );
+    expect(master.attributePanel.BaseAttackPower).toBe(BaseAttributeData.BaseAttackPower * master.level);
     expect(master.attributePanel.BaseAttackPowerMultiplier).toBe(1);
-
-    expect(master.attributePanel.BaseDefencePower).toBe(6);
+    expect(master.attributePanel.BaseDefencePower).toBe(BaseAttributeData.BaseDefencePower * master.level);
   });
 
   describe('should calculate bonus equipments attributes', () => {
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person();
+      const person = new Person('');
 
       const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equip1), new EquipmentItem(equip2)];
       person.personEquipmentManager.useEquipment(equipmentItem1);
@@ -67,7 +67,7 @@ describe('Person Attribute', () => {
     });
 
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person();
+      const person = new Person('');
 
       const [equipWithSet1, equipWithSet2] = [
         Object.assign({}, equip1, { id: 'WoodSword', equipmentSetId: 'NoobSet' }),
@@ -108,7 +108,6 @@ describe('Person Attribute', () => {
 
   test('should calculate attributes after count base and bonus', () => {
     const master = Master.create();
-    master.initialize({ name: 'Test' });
 
     const equipmentItem1 = new EquipmentItem(equip1);
     master.personEquipmentManager.useEquipment(equipmentItem1);
@@ -118,11 +117,9 @@ describe('Person Attribute', () => {
 
     const { attributePanel } = master;
 
-    expect(attributePanel.MaxHp).toBe(120 + 20);
-
-    expect(attributePanel.AttackPower).toBe(12 + 10 * 1.01);
+    expect(attributePanel.MaxHp).toBe(520 + 20);
+    expect(attributePanel.AttackPower).toBe(2 + 10 * 1.01);
     expect(attributePanel.AttackSpeed).toBe(2000);
-
-    expect(attributePanel.DefencePower).toBe(6 + 5 * 1.05);
+    expect(attributePanel.DefencePower).toBe(0.5 + 5 * 1.05);
   });
 });

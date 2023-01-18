@@ -28,8 +28,6 @@ describe('Battle', () => {
     const enemyItem = battle.packages[0].enemies[0];
     await battle.start(enemyItem);
 
-    expect(battle.master.initializedForBattle).toBeTruthy();
-    expect(battle.enemy?.initializedForBattle).toBeTruthy();
     expect(battle.activeEnemyItem).toStrictEqual(enemyItem);
     expect(battle.enemy instanceof Enemy).toBeTruthy();
   });

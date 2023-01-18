@@ -26,8 +26,8 @@ const battleEnemyItem = new EnemyItem(testEnemyData);
 
 describe('FisherPersonAction', () => {
   test('should initialize attack action', () => {
-    const person1 = new Person();
-    const person2 = new Person();
+    const person1 = new Person('');
+    const person2 = new Person('');
     person1.setTarget(person2);
     person2.setTarget(person1);
     const normalAttackAction = new NormalAttackAction();
@@ -39,11 +39,10 @@ describe('FisherPersonAction', () => {
   test('should initialize action manager', async () => {
     vi.useFakeTimers();
     const person1 = new Master();
-    person1.initialize({ name: '玩家姓名' });
     const person2 = new Enemy('Test:EnemyId');
     await person2.initialize(battleEnemyItem);
-    person1.setTarget(person2);
-    person2.setTarget(person1);
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
 
     expect(person1.actionManager.dotActionMap.size).toBeGreaterThan(0);
     vi.clearAllTimers();
