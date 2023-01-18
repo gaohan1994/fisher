@@ -6,8 +6,9 @@ import { Enemy, master } from '../fisher-person';
 import { Reward } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
+import { BattleStatus } from './BattleStatus';
 
-export class Battle {
+class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
 
   public static instance: Battle;
@@ -23,11 +24,23 @@ export class Battle {
 
   public readonly id = 'Battle';
 
+  public battleStatus = new BattleStatus();
+
+  public get isInitial() {
+    return this.battleStatus.isInitial;
+  }
+
+  public get isEnemyLoading() {
+    return this.battleStatus.isEnemyLoading;
+  }
+
+  public get isFighting() {
+    return this.battleStatus.isFighting;
+  }
+
   public get packages() {
     return store.BattleAreas;
   }
-
-  public inBattle = false;
 
   public master = master;
 
@@ -35,18 +48,12 @@ export class Battle {
 
   public enemy: Enemy | undefined = undefined;
 
-  /**
-   * 触发玩家死亡
-   */
   public get masterDeathCondition() {
-    return this.inBattle === true && this.master.Hp <= 0;
+    return this.master.Hp <= 0;
   }
 
-  /**
-   * 触发敌人死亡
-   */
   public get enemyDeathCondition() {
-    return this.inBattle === true && this.enemy !== undefined && this.enemy.Hp <= 0;
+    return this.enemy !== undefined && this.enemy.Hp <= 0;
   }
 
   /**
@@ -54,14 +61,8 @@ export class Battle {
    */
   public battleCountMap = new Map<string, number>();
 
-  /**
-   * 战利品池
-   */
   public rewardPool: Reward[] = [];
 
-  /**
-   * 是否有战利品
-   */
   public get hasReward() {
     return this.rewardPool.length > 0;
   }
@@ -95,24 +96,28 @@ export class Battle {
    *
    * @memberof Battle
    */
-  public reinitializeEnemy = async () => {
+  public continueInitializeActiveEnemy = async () => {
     if (this.activeEnemyItem === undefined)
-      return Battle.logger.error('Try to reinitialize Enemy but active enemy was undefined');
+      return Battle.logger.error('Try to continue initialize active Enemy but active enemy was undefined');
 
     await this.initializeEnemy(this.activeEnemyItem);
   };
 
   public start = async (enemyItem?: EnemyItem) => {
     const currentEnemy = enemyItem ?? this.activeEnemyItem;
-    if (currentEnemy === undefined) return Battle.logger.error('Try to start battle without enemy');
+    if (currentEnemy === undefined) {
+      Battle.logger.error('Try to start battle without enemy', this);
+      throw new Error('Try to start battle without enemy');
+    }
 
+    this.battleStatus.enemyLoading();
     await this.initializeEnemy(currentEnemy);
     await TimerSpace.space(Battle.BaseBattleInterval);
 
+    this.battleStatus.fighting();
     this.master.startBattle();
     this.enemy?.startBattle();
 
-    this.setInBattle();
     events.emit(EventKeys.Core.SetActiveComponent, this);
   };
 
@@ -121,13 +126,13 @@ export class Battle {
       return Battle.logger.error('Try to stop battle but enemy was undefined');
     }
 
-    if (this.inBattle === false) {
+    if (!this.isFighting) {
       return Battle.logger.error('Try to stop battle but already stoped');
     }
 
     this.master.stopBattle();
     this.enemy.stopBattle();
-    this.setNotInBattle();
+    this.battleStatus.initial();
   };
 
   /**
@@ -180,14 +185,6 @@ export class Battle {
     }
   };
 
-  private setInBattle = () => {
-    this.inBattle = true;
-  };
-
-  private setNotInBattle = () => {
-    this.inBattle = false;
-  };
-
   private generateEnemyId = (enemyId: string) => {
     const currentEnemyBattleCount = this.battleCountMap.get(enemyId);
     return enemyId + `${currentEnemyBattleCount ?? 0}`;
@@ -217,4 +214,6 @@ export class Battle {
   };
 }
 
-export const battle = Battle.create();
+const battle = Battle.create();
+
+export { battle, Battle };
