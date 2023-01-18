@@ -1,6 +1,7 @@
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { Timer } from '../fisher-timer';
 import { Person } from '../fisher-person';
+import { Assets } from '../assets';
 
 export enum ActionMode {
   Attack = 'Attack',
@@ -52,6 +53,10 @@ export abstract class BaseDotAction extends BaseAction {
 
   public get isFinished() {
     return this.effectiveTimes >= this.totalEffectiveTimes;
+  }
+
+  public get media() {
+    return Assets[this.id as keyof typeof Assets];
   }
 
   abstract readonly timer: Timer;

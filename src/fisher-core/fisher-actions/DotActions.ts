@@ -2,10 +2,10 @@ import { Person } from '../fisher-person';
 import { Timer } from '../fisher-timer';
 import { BaseDotAction } from './BaseAction';
 
-export class PersonStateDotAction extends BaseDotAction {
-  public override readonly id = 'PersonStateDotAction';
+export class PosionDotAction extends BaseDotAction {
+  public override readonly id = 'posion';
 
-  public name = '内功气劲';
+  public name = '剧毒';
 
   public chance = 30;
 
@@ -35,22 +35,22 @@ export class PersonStateDotAction extends BaseDotAction {
   };
 
   public damage = () => {
-    if (this.person === undefined) return BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`);
-
-    return this.person.attributePanel.BaseAttackPower;
+    this.checkPersonIsAvailable();
+    return this.person!.attributePanel.BaseAttackPower;
   };
 
   private action = () => {
-    if (this.person === undefined)
-      return BaseDotAction.logger.error(`Try to run ${this.id} action but person was undefined!`);
-
-    if (this.person.target === undefined) return BaseDotAction.logger.error('Try to effective dot to undefined target');
+    this.checkPersonIsAvailable();
+    if (this.person!.target === undefined) {
+      BaseDotAction.logger.error('Try to effective dot to undefined target', this);
+      throw new Error('Try to effective dot to undefined target');
+    }
 
     this.effectiveTimes += 1;
-    this.person.target.hurt(this.damage());
+    this.person!.target.hurt(this.damage());
 
     if (this.isFinished) {
-      this.person.target.actionManager.undeployDotAction(this.id);
+      this.person!.target.actionManager.undeployDotAction(this.id);
       BaseDotAction.logger.debug(`Current DotAction ${this.id} ${this.name} finished. clear dotAction`);
       return this.timer.stopTimer();
     }
@@ -58,5 +58,12 @@ export class PersonStateDotAction extends BaseDotAction {
 
   public resetDot = () => {
     this.effectiveTimes = 0;
+  };
+
+  private checkPersonIsAvailable = () => {
+    if (this.person === undefined) {
+      BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`, this);
+      throw new Error(`Try to run ${this.id} but person was undefined!`);
+    }
   };
 }
