@@ -5,7 +5,7 @@ import {
   BaseDotAction,
   NormalAttackAction,
   CritAttackAction,
-  PersonStateDotAction,
+  PosionDotAction,
 } from '../fisher-actions';
 import { Timer } from '../fisher-timer';
 import { roll } from '../utils';
@@ -54,9 +54,8 @@ export class ActionManager {
   };
 
   private registerDotActions = () => {
-    // if (this.person.hasPersonStateAction)
-    const personStateDotAction = new PersonStateDotAction();
-    this.dotActionMap.set(personStateDotAction.id, personStateDotAction);
+    const posionDotAction = new PosionDotAction();
+    this.dotActionMap.set(posionDotAction.id, posionDotAction);
   };
 
   public startAttacking = () => {
@@ -79,14 +78,14 @@ export class ActionManager {
     this.activeDotActionMap.set(dotAction.id, dotAction);
     dotAction.effective();
 
-    ActionManager.logger.debug(`Dot action ${dotAction.id} deployed in ${this.person.mode} ${this.person.name}`);
+    ActionManager.logger.debug(`Dot action ${dotAction.id} deployed in ${this.person.id}`);
   };
 
   public undeployDotAction = (dotActionId: string) => {
     this.activeDotActionMap.get(dotActionId)?.abort();
     this.activeDotActionMap.delete(dotActionId);
 
-    ActionManager.logger.debug(`Dot action ${dotActionId} deleted in ${this.person.mode} ${this.person.name}`);
+    ActionManager.logger.debug(`Dot action ${dotActionId} deleted in ${this.person.id}`);
   };
 
   private attackActionHandler = () => {
@@ -115,7 +114,7 @@ export class ActionManager {
 
     this.nextAttackAction = _nextAttackAction;
 
-    ActionManager.logger.debug(`${this.person.name} next attack action: ${this.nextAttackAction.name}`);
+    ActionManager.logger.debug(`${this.person.id} next attack action: ${this.nextAttackAction.name}`);
   };
 
   private pickCritAction = (): CritAttackAction | undefined => {

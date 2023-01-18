@@ -33,6 +33,11 @@ class Experience {
   public setExperience = (value: number) => {
     this.experience = value;
   };
+
+  public setLevel = (level: number) => {
+    const levelExperience = experienceCalculator.getLevelExperience(level - 1);
+    this.addExperience(levelExperience);
+  };
 }
 
 export { Experience };

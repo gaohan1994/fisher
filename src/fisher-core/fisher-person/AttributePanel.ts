@@ -6,11 +6,12 @@ import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './At
 
 const DefenceFormulaCoe = 0.06;
 
-const BaseAttributeData = {
-  BaseMaxHp: 5,
-  BaseAttackPower: 2,
-  BaseDefencePower: 0.5,
-};
+enum BaseAttributeData {
+  InitializeMaxHp = 500,
+  BaseMaxHp = 20,
+  BaseAttackPower = 2,
+  BaseDefencePower = 0.5,
+}
 
 const emptyBonusAttributes: IBonusEquipmentsAttributes = {
   MaxHp: 0,
@@ -144,7 +145,7 @@ export class AttributePanel {
   }
 
   public get BaseMaxHp() {
-    return this.experience.level * BaseAttributeData.BaseMaxHp;
+    return BaseAttributeData.InitializeMaxHp + this.experience.level * BaseAttributeData.BaseMaxHp;
   }
 
   public get BonusMaxHp() {
