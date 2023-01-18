@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Fab, Avatar, Tooltip, Box, Collapse } from '@mui/material';
-import { Assets } from '@FisherCore';
+import { master } from '@FisherCore';
 import { miniBarStore } from './MiniBarStore';
 import { FuiMaster } from './Master';
 
@@ -9,7 +9,7 @@ const FuiMiniBar: FC = observer(() => {
   const renderFloatButton = () => (
     <Tooltip title="角色详情" placement="bottom">
       <Fab onClick={miniBarStore.toggleMiniBar}>
-        <Avatar src={Assets.avatar} />
+        <Avatar src={master.media} />
       </Fab>
     </Tooltip>
   );

@@ -12,7 +12,7 @@ const FuiMaster = () => {
     <Card sx={{ bgcolor: FuiColor.masterPanel.background }}>
       <CardHeader
         title={<Typography color={FuiColor.common.white}>{master.name}</Typography>}
-        avatar={<Avatar src={Assets.avatar} sx={{ bgcolor: FuiColor.masterPanel.avatarBgColor }} />}
+        avatar={<Avatar src={master.media} sx={{ bgcolor: FuiColor.masterPanel.avatarBgColor }} />}
         action={
           <IconButton onClick={miniBarStore.closeMiniBar} sx={{ color: FuiColor.common.white }}>
             <CloseIcon />

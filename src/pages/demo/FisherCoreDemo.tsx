@@ -8,7 +8,6 @@ import { FisherRewardDemo } from './FisherRewardDemo';
 import { ExperienceDemo } from './ExperienceDemo';
 import { MiningDemo } from './MiningDemo';
 import { ReikiDemo } from './ReikiDemo';
-import { FisherPersonDemo } from './FisherPersonDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { StoreDemo } from './StoreDemo';
 import { ForgeDemo } from './ForgeDemo';
@@ -25,9 +24,6 @@ const FisherCoreDemo: FC = () => (
     <FuiSetting />
     <FuiMiniBar />
     <DemoStack>
-      <Paper>
-        <FisherPersonDemo person={core.master} />
-      </Paper>
       <Paper>
         <FisherBattleDemo />
       </Paper>
