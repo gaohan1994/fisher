@@ -1,8 +1,8 @@
-import { Box, Toolbar, Typography, AppBar, IconButton, Tooltip, Button } from '@mui/material';
+import { Avatar, Box, Toolbar, Typography, AppBar, IconButton, Tooltip, Button } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { version } from '@FisherCore';
+import { Assets, version } from '@FisherCore';
 
-const FuiCoreInfo = () => {
+const FuiAppbar = () => {
   const onGithub = () => {
     window.open('https://github.com/gaohan1994/fisher', 'fisher');
   };
@@ -11,7 +11,8 @@ const FuiCoreInfo = () => {
       <Box sx={{ display: 'flex' }}>
         <AppBar>
           <Toolbar>
-            <Typography component="div" sx={{ flexGrow: 1 }}>
+            <Avatar src={Assets.logo} />
+            <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
               Fisher - 一个放置类 MMO 游戏
             </Typography>
             <Box>
@@ -29,4 +30,4 @@ const FuiCoreInfo = () => {
   );
 };
 
-export { FuiCoreInfo };
+export { FuiAppbar };
