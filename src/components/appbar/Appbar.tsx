@@ -12,26 +12,22 @@ const FuiAppbar = observer(() => {
   };
 
   return (
-    <Toolbar>
-      <Box sx={{ display: 'flex' }}>
-        <AppBar sx={{ bgcolor: FuiColor.appbar.background }}>
-          <Toolbar>
-            <Avatar src={Assets.logo} />
-            <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
-              Fisher - {activeComponent !== undefined ? activeComponent.name : '一个放置类 MMO 游戏'}
-            </Typography>
-            <Box>
-              <Button sx={{ color: '#fff' }}>v{version}</Button>
-              <Tooltip title="去gayhub点个赞">
-                <IconButton size="large" onClick={onGithub} color="inherit">
-                  <GitHubIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </Toolbar>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: FuiColor.appbar.background }}>
+      <Toolbar>
+        <Avatar src={Assets.logo} />
+        <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
+          Fisher - {activeComponent !== undefined ? activeComponent.name : '一个放置类 MMO 游戏'}
+        </Typography>
+        <Box>
+          <Button sx={{ color: '#fff' }}>v{version}</Button>
+          <Tooltip title="去gayhub点个赞">
+            <IconButton size="large" onClick={onGithub} color="inherit">
+              <GitHubIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 });
 

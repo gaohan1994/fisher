@@ -6,7 +6,6 @@ import { Game } from './game';
 
 const Application: FC = observer(() => (
   <FuiTheme>
-    <FuiAppbar />
     <FuiNotifycation />
     {core.gameReady ? <Game /> : <FuiLauncher />}
   </FuiTheme>
