@@ -18,16 +18,26 @@ const GithubButton = () => {
   );
 };
 
-const FuiAppbar = observer(() => {
-  const { activeComponent } = core;
+const FuiSlogan = () => (
+  <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
+    Fisher - 一个放置类 MMO 游戏
+  </Typography>
+);
 
+const ActiveTitle = observer(() => {
+  return (
+    <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
+      {core.master.name} - {core.activeComponent?.name}
+    </Typography>
+  );
+});
+
+const FuiAppbar = observer(() => {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: FuiColor.appbar.background }}>
       <Toolbar>
         <Avatar src={Assets.logo} />
-        <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>
-          Fisher - {activeComponent !== undefined ? activeComponent.name : '一个放置类 MMO 游戏'}
-        </Typography>
+        {core.gameReady ? <ActiveTitle /> : <FuiSlogan />}
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <Button sx={{ color: '#fff' }}>v{version}</Button>
           <GithubButton />

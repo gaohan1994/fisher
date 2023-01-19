@@ -25,6 +25,8 @@ export class Backpack {
 
   public readonly id = 'Backpack';
 
+  public name = '背包';
+
   public static instance: Backpack;
 
   public static create(): Backpack {

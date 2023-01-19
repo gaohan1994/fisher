@@ -30,7 +30,7 @@ export class FisherCore {
     return this.archiveManager.hasActiveArchive;
   }
 
-  private componentManager = ComponentManager.create();
+  public componentManager = ComponentManager.create();
 
   public get activeComponent() {
     return this.componentManager.activeComponent;

@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { core } from '@FisherCore';
-import { FuiNotifycation, FuiTheme, FuiLauncher, FuiAppbar } from '@Components';
-import { Game } from './game';
+import { FuiNotifycation, FuiTheme, FuiLauncher } from '@Components';
+import { GameRouterProvider } from './router';
 
 const Application: FC = observer(() => (
   <FuiTheme>
     <FuiNotifycation />
-    {core.gameReady ? <Game /> : <FuiLauncher />}
+    {core.gameReady ? <GameRouterProvider /> : <FuiLauncher />}
   </FuiTheme>
 ));
 

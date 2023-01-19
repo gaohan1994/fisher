@@ -6,6 +6,7 @@ import { forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
 import { bank, Bank } from '../fisher-bank';
 import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
+
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle;
 
 type ActiveControlComponent = Mining | Reiki | Forge | Battle;
@@ -110,4 +111,5 @@ class ComponentManager {
   };
 }
 
-export { ComponentManager };
+export { ComponentManager, ComponentId };
+export type { FisherComponent };

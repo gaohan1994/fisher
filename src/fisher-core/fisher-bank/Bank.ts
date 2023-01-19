@@ -28,6 +28,8 @@ export class Bank {
 
   public readonly id = 'Bank';
 
+  public readonly name = '金币';
+
   public gold: number = 0;
 
   public get archive(): ArchiveInterface.ArchiveBank {
