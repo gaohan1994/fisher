@@ -1,4 +1,4 @@
-import { common, yellow, grey, green } from '@mui/material/colors';
+import { common, yellow, grey, green, blueGrey, brown } from '@mui/material/colors';
 
 const FuiSize = {
   item: {
@@ -8,6 +8,22 @@ const FuiSize = {
 
 const FuiColor = {
   common,
+
+  main: {
+    background: '#303030',
+  },
+
+  appbar: {
+    background: grey.A700,
+  },
+
+  menu: {
+    background: grey[800],
+  },
+
+  card: {
+    background: blueGrey[900],
+  },
 
   gold: yellow[600],
 

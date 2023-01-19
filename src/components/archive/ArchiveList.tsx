@@ -1,20 +1,40 @@
 import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Box, Typography, List, ListItem, ListSubheader } from '@mui/material';
+import { Box, Typography, List, ListItem, IconButton, Stack, Tooltip } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { core } from '@FisherCore';
 import { FuiArchive } from './Archive';
+
+const Div = styled('div')(({ theme }) => ({
+  ...theme.typography.button,
+  padding: theme.spacing(1),
+}));
 
 const FuiArchiveList: FC = observer(() => {
   const { archiveManager } = core;
 
-  const ArchiveListHead = () => <ListSubheader>共 {archiveManager.archiveList.length} 个存档 </ListSubheader>;
+  const RefreshButton = () => (
+    <Tooltip title="刷新">
+      <IconButton>
+        <RefreshIcon />
+      </IconButton>
+    </Tooltip>
+  );
+
+  const ArchiveListHead = () => (
+    <Stack direction="row" sx={{ mb: 1 }}>
+      <Div sx={{ flex: 1 }}>共 {archiveManager.archiveList.length} 个存档</Div>
+      <RefreshButton />
+    </Stack>
+  );
 
   if (!archiveManager.hasArchive) {
     return (
-      <Box mb={2}>
+      <Box mb={1}>
         <ArchiveListHead />
-        <Typography variant="h5" textAlign="center">
-          存档列表空，请选择开始新游戏
+        <Typography variant="h5" textAlign="center" component="div" sx={{ mt: 2 }}>
+          存档列表空，请创建新角色
         </Typography>
       </Box>
     );
@@ -27,11 +47,11 @@ const FuiArchiveList: FC = observer(() => {
         sx={{
           overflow: 'auto',
           maxHeight: '70vh',
-          pt: 0,
+          p: 0,
         }}
       >
         {archiveManager.archiveList.map((item) => (
-          <ListItem key={item.archiveKey} sx={{ mb: 2 }}>
+          <ListItem key={item.archiveKey} sx={{ pl: 0, pr: 0 }}>
             <FuiArchive archive={item} />
           </ListItem>
         ))}

@@ -24,8 +24,8 @@ const ArchiveCreateModal: FC<{ open: boolean; onClose: () => void }> = ({ open, 
 
   return (
     <Fragment>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>新建存档</DialogTitle>
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+        <DialogTitle>新建角色</DialogTitle>
         <DialogContent>
           <Stack>
             <TextField
@@ -38,7 +38,7 @@ const ArchiveCreateModal: FC<{ open: boolean; onClose: () => void }> = ({ open, 
               onChange={(event) => setMasterName(event.target.value)}
             />
             <Button variant="contained" onClick={onConfrimCreateArchive}>
-              确定
+              开始游戏
             </Button>
           </Stack>
         </DialogContent>
@@ -59,11 +59,12 @@ const FuiArchiveCreateButton: FC = () => {
         fullWidth
         size="large"
         variant="contained"
-        sx={{ mt: 2 }}
+        color="primary"
+        sx={{ mt: 1 }}
         onClick={() => setOpen(true)}
         endIcon={<AddCircleOutlineIcon />}
       >
-        开始新游戏
+        创建新角色
       </Button>
     </Fragment>
   );

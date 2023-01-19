@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import { Avatar, Box, Toolbar, Typography, AppBar, IconButton, Tooltip, Button } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Assets, core, version } from '@FisherCore';
+import { FuiColor } from '../theme';
 
 const FuiAppbar = observer(() => {
   const { activeComponent } = core;
@@ -13,7 +14,7 @@ const FuiAppbar = observer(() => {
   return (
     <Toolbar>
       <Box sx={{ display: 'flex' }}>
-        <AppBar>
+        <AppBar sx={{ bgcolor: FuiColor.appbar.background }}>
           <Toolbar>
             <Avatar src={Assets.logo} />
             <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>

@@ -30,24 +30,22 @@ const Alerts: FC = observer(() => {
   }
 
   return (
-    <List>
-      <ListItem>
-        {alerts.map((item, index) => {
-          const [alert, dispose] = item;
-          return (
-            <Snackbar
-              open={open}
-              key={`${alert.message}${index}`}
-              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-              <Alert onClose={dispose.disposer} severity={alert.color} sx={{ width: '100%' }}>
-                {alert.message}
-              </Alert>
-            </Snackbar>
-          );
-        })}
-      </ListItem>
-    </List>
+    <Fragment>
+      {alerts.map((item, index) => {
+        const [alert, dispose] = item;
+        return (
+          <Snackbar
+            open={open}
+            key={`${alert.message}${index}`}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <Alert onClose={dispose.disposer} severity={alert.color} sx={{ width: '100%' }}>
+              {alert.message}
+            </Alert>
+          </Snackbar>
+        );
+      })}
+    </Fragment>
   );
 });
 

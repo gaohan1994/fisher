@@ -64,21 +64,10 @@ export class FisherCore {
     return this.componentManager.battle;
   }
 
-  // 推送
   public readonly prompt = prompt;
 
-  // 玩家
   public readonly master = master;
 
-  /**
-   * Creates an instance of FisherCore.
-   *
-   * - 初始化各个模块如
-   * - 从资源池中注册游戏数据包如 PackagesData
-   * - 从存档中取出用户数据并初始化
-   *
-   * @memberof FisherCore
-   */
   constructor() {
     makeAutoObservable(this);
   }

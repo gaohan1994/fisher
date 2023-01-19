@@ -11,16 +11,25 @@ import {
   Typography,
   CardActions,
   Tooltip,
+  CardActionArea,
+  Stack,
+  Avatar,
+  styled,
+  Box,
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
-import { Archive, core } from '@FisherCore';
+import { Archive, Assets, core } from '@FisherCore';
 import { notifycationStore } from '../notifycation';
 import { FuiColor } from '../theme';
 
 interface Props {
   archive: Archive;
 }
+
+const BetweenStack = styled(Stack)(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+}));
 
 function formatTime(timestramp: number) {
   return dayjs(timestramp).format('YYYY-MM-DD HH:MM');
@@ -45,7 +54,7 @@ const FuiArchiveDeleteButton: FC<Props> = ({ archive }) => {
   return (
     <Fragment>
       <Tooltip title="删除这个存档，数据将会丢失">
-        <Button onClick={onOpen} endIcon={<DeleteForeverIcon />} color="error">
+        <Button onClick={onOpen} endIcon={<DeleteForeverIcon />} color="error" size="small" variant="contained">
           删除存档
         </Button>
       </Tooltip>
@@ -79,27 +88,34 @@ const FuiArchive: FC<Props> = ({ archive }) => {
   }, [archive, archiveManager]);
 
   return (
-    <Card variant="outlined" sx={{ width: '100%' }}>
-      <CardContent>
-        <Typography variant="h5" mb={1}>
-          {archive.masterName}
-        </Typography>
+    <Card variant="outlined" sx={{ width: '100%', bgcolor: FuiColor.card.background }}>
+      <CardActionArea onClick={onLoadArchive}>
+        <CardContent>
+          <BetweenStack direction="row">
+            <Box>
+              <Typography variant="h5" mb={1}>
+                {archive.masterName}
+              </Typography>
+              <Typography>当前活动：无</Typography>
+              <Typography>等级：50</Typography>
+              <Typography mb={1} color={FuiColor.gold}>
+                金币：{archive.bank?.gold ?? 0}
+              </Typography>
+            </Box>
 
-        <Typography mb={1} color={FuiColor.gold}>
-          金币：{archive.bank?.gold ?? 0}
-        </Typography>
-
-        <Typography variant="body2" color="text.secondary">
-          存档创建时间：{formatTime(archive.createTime)}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          最后更新时间：{formatTime(archive.lastUpdateTime)}
-        </Typography>
-      </CardContent>
-      <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={onLoadArchive} color="success" startIcon={<AssignmentTurnedInOutlinedIcon />}>
-          加载存档
-        </Button>
+            <Stack direction="column" alignItems="flex-end">
+              <Avatar src={Assets.logo} />
+              <Typography variant="body2" color="text.secondary">
+                存档创建时间：{formatTime(archive.createTime)}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                最后更新时间：{formatTime(archive.lastUpdateTime)}
+              </Typography>
+            </Stack>
+          </BetweenStack>
+        </CardContent>
+      </CardActionArea>
+      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
         <FuiArchiveDeleteButton archive={archive} />
       </CardActions>
     </Card>

@@ -7,8 +7,8 @@ import FisherCoreDemo from './FisherCoreDemo';
 export const FisherLauncher: FC = observer(() => {
   return (
     <FuiTheme>
-      <FuiAppbar />
       <FuiNotifycation />
+      <FuiAppbar />
       {core.gameReady ? <FisherCoreDemo /> : <FuiLauncher />}
     </FuiTheme>
   );
