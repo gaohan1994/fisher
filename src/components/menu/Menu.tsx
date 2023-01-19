@@ -1,6 +1,12 @@
+import { observer } from 'mobx-react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import { core } from '@FisherCore';
+import { fuiRouteHandler } from '../route';
 
-const FuiMenu = () => {
+const FuiMenu = observer(() => {
+  const { activeComponentId } = core;
+  const navigate = useNavigate();
   return (
     <Drawer
       variant="permanent"
@@ -16,18 +22,20 @@ const FuiMenu = () => {
       <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton selected={index === 1}>
-                <ListItemIcon> </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {fuiRouteHandler.values.map(([id, componentRoute]) => {
+            return (
+              <ListItem key={id} disablePadding>
+                <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
+                  <ListItemIcon> </ListItemIcon>
+                  <ListItemText primary={componentRoute.name} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
     </Drawer>
   );
-};
+});
 
 export { FuiMenu };

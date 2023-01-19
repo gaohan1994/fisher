@@ -1,5 +1,6 @@
 import { FuiAppbar, FuiMenu } from '@Components';
 import { Box, Toolbar } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 
 const Game = () => {
   return (
@@ -8,7 +9,7 @@ const Game = () => {
       <FuiMenu />
       <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
         <Toolbar />
-        asdasd
+        <Outlet />
       </Box>
     </Box>
   );

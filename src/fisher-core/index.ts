@@ -1,6 +1,6 @@
 import { Assets } from './assets';
 import { Archive } from './fisher-archive';
-import { version, core, FisherCore } from './fisher-core';
+import { version, core, FisherCore, ComponentId, FisherComponent } from './fisher-core';
 import { experienceCalculator, MaxLevel } from './fisher-experience';
 import { Mining, Reiki, Forge } from './fisher-modules';
 import { IAttributeKeys } from './fisher-person';
@@ -12,8 +12,9 @@ export {
 
   // core modules
   core,
-  FisherCore,
   version,
+  ComponentId,
+  FisherCore,
 
   // skills
   Mining,
@@ -23,6 +24,7 @@ export {
   experienceCalculator,
   IAttributeKeys,
 };
+export type { FisherComponent };
 
 export * from './fisher-timer';
 export * from './fisher-item';
