@@ -40,7 +40,7 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
 
   const isActive = React.useMemo(() => activeRecipe?.id === recipe.id, [activeRecipe, recipe]);
   return (
-    <Card sx={{ bgcolor: FuiColor.card.background }}>
+    <Card sx={{ bgcolor: FuiColor.primary.background }}>
       <CardActionArea onClick={handleClick}>
         <CardHeader
           title={recipe.name}
@@ -67,18 +67,6 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
           <FuiRecipeRewardAvatars recipe={recipe} />
         </CardContent>
       </CardActionArea>
-      <Popover
-        id="reward-popover"
-        open={open}
-        onClose={handleClose}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <FuiRecipeRewardDetail recipe={recipe} />
-      </Popover>
       <CardContent>
         <Stack spacing={2}>
           {isActive ? <FuiLineProgress value={skill.progress} /> : <FuiLineProgress value={0} />}
@@ -93,6 +81,18 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
           )}
         </Stack>
       </CardContent>
+      <Popover
+        id="reward-popover"
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <FuiRecipeRewardDetail recipe={recipe} />
+      </Popover>
     </Card>
   );
 });

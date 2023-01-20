@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, AvatarGroup, Box, Stack, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Badge, Box, Stack, Typography } from '@mui/material';
 import { IRecipeItem, IRecipeRandomRewardItem, NormalItem, Recipe } from '@FisherCore';
 import { useRecipe } from '../../application/hook';
 import { FuiItem } from '../item';
@@ -9,11 +9,13 @@ interface Props {
   recipe: Recipe;
 }
 const FuiRecipeRewardAvatars: React.FC<Props> = ({ recipe }) => {
-  const { rewardItemAvatars, randomRewardItemAvatars } = useRecipe(recipe);
+  const { rewardItems, randomRewardItems } = useRecipe(recipe);
   return (
     <AvatarGroup sx={{ mt: 1 }} max={6}>
-      {[...rewardItemAvatars, ...randomRewardItemAvatars].map((avatar, index) => (
-        <Avatar key={index} src={avatar} />
+      {[...rewardItems, ...randomRewardItems].map(([recipeItem, item]) => (
+        <Badge key={item.id} badgeContent={recipeItem.itemQuantity} color="primary">
+          <Avatar src={item.media} />
+        </Badge>
       ))}
     </AvatarGroup>
   );

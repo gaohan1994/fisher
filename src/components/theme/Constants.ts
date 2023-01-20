@@ -13,15 +13,7 @@ const FuiColor = {
     background: '#303030',
   },
 
-  appbar: {
-    background: blueGrey[900],
-  },
-
-  menu: {
-    background: grey[800],
-  },
-
-  card: {
+  primary: {
     background: blueGrey[900],
   },
 

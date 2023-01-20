@@ -34,7 +34,7 @@ const ActiveTitle = observer(() => {
 
 const FuiAppbar = observer(() => {
   return (
-    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: FuiColor.appbar.background }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: FuiColor.primary.background }}>
       <Toolbar>
         <Avatar src={Assets.logo} />
         {core.gameReady ? <ActiveTitle /> : <FuiSlogan />}
