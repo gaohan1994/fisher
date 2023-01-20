@@ -30,7 +30,7 @@ const Home = () => {
         </List>
         <List>
           <ListSubheader>采集模块</ListSubheader>
-          <ListItem>采矿</ListItem>
+          <ListItem>采集晶石</ListItem>
           <ListItem>打坐</ListItem>
           <ListItem>锻造</ListItem>
         </List>
