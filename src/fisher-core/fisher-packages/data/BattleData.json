@@ -2,19 +2,19 @@
   "moduleName": "Battle",
   "enemy": [
     {
-      "id": "LowSpritMonster",
+      "id": "LowSpiritMonster",
       "name": "水灵小妖",
       "desc": "灵力较低的小妖怪，常出现在水源丰富的地界",
-      "media": "LowSpritMonster",
+      "media": "LowSpiritMonster",
       "level": 1,
       "goldReward": 1,
       "itemRewards": [{ "itemId": "NormalReiki" }]
     },
     {
-      "id": "FireSpritMonster",
+      "id": "FireSpiritMonster",
       "name": "火灵小妖",
       "desc": "灵力较低的小妖怪，常出现在火源丰富的地界",
-      "media": "FireSpritMonster",
+      "media": "FireSpiritMonster",
       "level": 5,
       "unlockLevel": 5,
       "goldReward": 5,
@@ -29,7 +29,7 @@
       "desc": "",
       "media": "",
       "unlockLevel": 1,
-      "enemies": ["LowSpritMonster", "FireSpritMonster"]
+      "enemies": ["LowSpiritMonster", "FireSpiritMonster"]
     }
   ]
 }

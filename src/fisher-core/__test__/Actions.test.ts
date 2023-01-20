@@ -9,7 +9,7 @@ beforeEach(() => {
 });
 
 const testPerson1: IEnemyItem = {
-  id: 'LowSpritMonster1',
+  id: 'LowSpiritMonster1',
   name: '水灵小妖',
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: '',
@@ -17,7 +17,7 @@ const testPerson1: IEnemyItem = {
 };
 
 const testPerson2: IEnemyItem = {
-  id: 'LowSpritMonster2',
+  id: 'LowSpiritMonster2',
   name: '水灵小妖',
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: '',

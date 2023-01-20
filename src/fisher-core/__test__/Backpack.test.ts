@@ -169,7 +169,7 @@ describe('Backpack', () => {
     test('should success run sellItems', () => {
       const backpack = core.backpack;
       const item1 = new TestItem(testBackpackItemPayload);
-      const item2 = new TestItem(Object.assign({}, testBackpackItemPayload, { id: 'LowSpiritMine1' }));
+      const item2 = new TestItem(Object.assign({}, testBackpackItemPayload, { id: 'LowMine1' }));
 
       backpack.addItem(item1, 10);
       backpack.addItem(item2, 10);

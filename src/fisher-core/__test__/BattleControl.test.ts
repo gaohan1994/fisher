@@ -8,7 +8,7 @@ import { EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Enemy } from '../fisher-person';
 
-const testEnemyItem = store.findEnemyById('LowSpritMonster');
+const testEnemyItem = store.findEnemyById('LowSpiritMonster');
 
 describe('BattleControl', () => {
   test('should success set active enemy item', () => {

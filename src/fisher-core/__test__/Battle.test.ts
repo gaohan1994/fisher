@@ -36,12 +36,12 @@ describe('Battle', () => {
     const battle = new Battle();
     expect(battle.isInitial).toBe(true);
 
-    const enemyItem = store.findEnemyById('LowSpritMonster');
+    const enemyItem = store.findEnemyById('LowSpiritMonster');
     battle.setEnemyItem(enemyItem);
 
     expect(battle.isEnemyLoading).toBe(true);
     expect(battle.enemy instanceof Enemy).toBeTruthy();
-    expect(battle.enemy?.id === 'LowSpritMonster').toBeTruthy();
+    expect(battle.enemy?.id === 'LowSpiritMonster').toBeTruthy();
 
     test('start battle should success set fighting status and start attack actions and active component', () => {
       vi.useFakeTimers();
