@@ -88,7 +88,7 @@ const FuiArchive: FC<Props> = ({ archive }) => {
   }, [archive, archiveManager]);
 
   return (
-    <Card variant="outlined" sx={{ width: '100%', bgcolor: FuiColor.card.background }}>
+    <Card variant="outlined" sx={{ width: '100%', bgcolor: FuiColor.primary.background }}>
       <CardActionArea onClick={onLoadArchive}>
         <CardContent>
           <BetweenStack direction="row">
