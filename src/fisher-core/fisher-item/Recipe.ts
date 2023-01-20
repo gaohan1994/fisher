@@ -71,4 +71,4 @@ class Recipe extends Item {
 }
 
 export { Recipe };
-export type { IRecipe, IRecipeItem };
+export type { IRecipe, IRecipeItem, IRecipeRandomRewardItem };
