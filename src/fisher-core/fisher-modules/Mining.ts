@@ -3,6 +3,7 @@ import { ICollectionModuleData, store } from '../fisher-packages';
 import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { Collection } from './Collection';
+import { Assets } from '../assets';
 
 class Mining extends Collection<ICollectionModuleData> {
   public static instance: Mining;
@@ -16,7 +17,9 @@ class Mining extends Collection<ICollectionModuleData> {
 
   public id = 'Mining';
 
-  public name = '采矿';
+  public name = '采集晶石';
+
+  public media = Assets.mining;
 
   public skill = new Skill(this.id);
 

@@ -4,6 +4,10 @@ import { experienceCalculator, MaxLevel } from './ExperienceCalculator';
 class Experience {
   public experience = 0;
 
+  public get maxLevel() {
+    return MaxLevel;
+  }
+
   public get level() {
     let result = 1;
 

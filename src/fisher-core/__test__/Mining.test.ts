@@ -12,7 +12,7 @@ describe('Mining', () => {
   test('should success initialize Mining', () => {
     const core = FisherCore.create();
     expect(core.mining.id).toBe('Mining');
-    expect(core.mining.name).toBe('采矿');
+    expect(core.mining.name).toBe('采集晶石');
     expect(core.mining.experience).toBe(0);
   });
 

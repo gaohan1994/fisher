@@ -4,8 +4,8 @@
     "items": [
       {
         "id": "LowSpiritMine",
-        "name": "低灵矿石",
-        "desc": "一种很常见的矿石，灵气和纯度较低",
+        "name": "灵晶石",
+        "desc": "一种很常见的晶石，灵气和纯度较低",
         "media": "LowSpiritMine",
         "price": 5
       },
@@ -13,7 +13,7 @@
         "id": "FiveElementsStone",
         "name": "五行晶石",
         "desc": "蕴含金木水火土五种属性的晶石",
-        "media": "WoodStone",
+        "media": "FiveElementsStone",
         "price": 25
       },
       {
@@ -55,7 +55,7 @@
     "recipes": [
       {
         "id": "Mining:Recipe:LowSpiritMine",
-        "name": "挖矿：低灵矿石",
+        "name": "采集：灵晶石",
         "desc": "",
         "media": "",
         "interval": 2000,
@@ -65,7 +65,7 @@
       },
       {
         "id": "Mining:Recipe:FiveElementsStone",
-        "name": "挖矿：五行矿石",
+        "name": "采集：五行晶石",
         "desc": "采集五行晶石，有概率采集到伴生的五种属性的晶石",
         "media": "",
         "interval": 5000,
