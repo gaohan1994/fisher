@@ -1,4 +1,4 @@
-import { FuiAppbar, FuiMenu } from '@Components';
+import { FuiAppbar, FuiMenu } from '@Fui';
 import { Box, Toolbar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 

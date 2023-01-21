@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Box, Button, colors, LinearProgress, Stack, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
 import { core, store } from '@FisherCore';
-import { FuiItem } from '../../components/item';
+import { FuiItem } from '@Fui';
 
 export const ForgeDemo: FC = observer(() => {
   const { forge } = core;

@@ -1,4 +1,4 @@
-import { FuiContainer } from '@Components';
+import { FuiContainer } from '@Fui';
 import { List, ListItem, ListSubheader, Stack, Typography } from '@mui/material';
 
 const Home = () => {

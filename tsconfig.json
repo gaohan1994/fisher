@@ -21,7 +21,7 @@
       "@": ["./src"],
       "@FisherCore": ["./src/fisher-core"],
       "@FisherLogger": ["./src/fisher-logger"],
-      "@Components": ["./src/components"]
+      "@Fui": ["./src/fisher-ui"]
     }
   },
   "include": ["src"],

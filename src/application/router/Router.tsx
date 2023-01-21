@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ComponentId } from '@FisherCore';
-import { fuiRouteHandler } from '@Components';
+import { fuiRouteHandler } from '@Fui';
 import { Game, Home } from '../game';
 import { FuiMining } from '../mining';
 

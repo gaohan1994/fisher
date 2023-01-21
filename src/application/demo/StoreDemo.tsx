@@ -1,7 +1,6 @@
 import { store } from '@FisherCore';
 import { DemoLayout } from './DemoLayout';
-import { FuiEquipment } from '../../components/equipment';
-import { FuiItem } from '../../components/item';
+import { FuiEquipment, FuiItem } from '@Fui';
 import { Stack, Typography } from '@mui/material';
 
 export const StoreDemo = () => {

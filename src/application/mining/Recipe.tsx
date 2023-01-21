@@ -16,7 +16,7 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StarIcon from '@mui/icons-material/Star';
 import { core, Recipe } from '@FisherCore';
-import { FuiColor, FuiIconText, FuiLineProgress, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Components';
+import { FuiColor, FuiIconText, FuiLineProgress, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Fui';
 import { useRecipe } from '../hook';
 
 interface Props {

@@ -2,9 +2,8 @@ import { Fragment, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { DemoLayout } from './DemoLayout';
-import { FuiBattle } from '../../components/battle';
 import { core } from '@FisherCore';
-import { FuiItem } from '../../components/item';
+import { FuiItem, FuiBattle } from '@Fui';
 
 export const FisherBattleDemo = observer(() => {
   const { battle } = core;

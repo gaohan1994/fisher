@@ -2,7 +2,7 @@ import { FC, Fragment, useCallback } from 'react';
 import { observer } from 'mobx-react';
 import { Box, Button, LinearProgress, Typography } from '@mui/material';
 import { EquipmentItem, EquipmentSlot, Person, store } from '@FisherCore';
-import { FuiMaster } from '@Components';
+import { FuiMaster } from '@Fui';
 import { DemoLayout } from './DemoLayout';
 
 interface FisherPersonDemoProps {

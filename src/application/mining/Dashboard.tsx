@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Box, Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiColor, FuiLineProgress } from '@Components';
+import { FuiColor, FuiLineProgress } from '@Fui';
 
 const FuiDashboard: React.FC = observer(() => {
   const { name, media, skill, activeRecipe } = core.mining;
