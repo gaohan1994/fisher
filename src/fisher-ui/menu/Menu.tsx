@@ -1,8 +1,14 @@
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
-import { core } from '@FisherCore';
+import { ComponentId, core } from '@FisherCore';
 import { fuiRouteHandler } from '../route';
+
+const visibleCoreComponents = [ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
+
+function checkIsVisibleComponent(componentId: any) {
+  return visibleCoreComponents.includes(componentId);
+}
 
 const FuiMenu = observer(() => {
   const { activeComponentId } = core;
@@ -23,14 +29,16 @@ const FuiMenu = observer(() => {
       <Box sx={{ overflow: 'auto' }}>
         <List>
           {fuiRouteHandler.values.map(([id, componentRoute]) => {
-            return (
-              <ListItem key={id} disablePadding>
-                <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
-                  <ListItemIcon> </ListItemIcon>
-                  <ListItemText primary={componentRoute.name} />
-                </ListItemButton>
-              </ListItem>
-            );
+            if (checkIsVisibleComponent(id)) {
+              return (
+                <ListItem key={id} disablePadding>
+                  <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
+                    <ListItemIcon> </ListItemIcon>
+                    <ListItemText primary={componentRoute.name} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            }
           })}
         </List>
       </Box>
