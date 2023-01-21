@@ -10,7 +10,7 @@ interface FisherPersonDemoProps {
 }
 
 export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person }) => {
-  const { Hp, name, attributePanel, experience, actionManager, personEquipmentManager } = person;
+  const { Hp, attributePanel, experience, actionManager, personEquipmentManager } = person;
 
   const useEquipmentBySlot = useCallback((slot: EquipmentSlot, equipmentId: string) => {
     const equipment = store.findItemById<EquipmentItem>(equipmentId);
@@ -20,14 +20,13 @@ export const FisherPersonDemo: FC<FisherPersonDemoProps> = observer(({ person })
   return (
     <DemoLayout title="玩家模块">
       <FuiMaster />
-      <Typography>{name}</Typography>
       <Box>
         <Typography>
           生命值 {Hp < 0 ? '0' : Hp} / {attributePanel.MaxHp}
         </Typography>
         <Typography>攻击：{attributePanel.AttackPower}</Typography>
         <Fragment>
-          {actionManager.activeDotActions.map((dot, index) => (
+          {actionManager?.activeDotActions.map((dot, index) => (
             <Fragment key={`${dot.id}${index}`}>
               <Typography>
                 次数 {dot.effectiveTimes} / {dot.totalEffectiveTimes}
