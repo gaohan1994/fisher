@@ -30,10 +30,10 @@
         "name": "寒玉谷",
         "desc": "寒玉谷是一处破败了的小福地，蕴含灵气，有概率获得寒玉灵气",
         "media": "",
-        "interval": 2000,
+        "interval": 10000,
         "unlockLevel": 1,
-        "rewardExperience": 5,
-        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 1 }],
+        "rewardExperience": 50,
+        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 10 }],
         "randomRewardItems": [{ "probability": 30, "itemId": "ColdJadeReiki", "itemQuantity": 1 }]
       },
       {
@@ -41,10 +41,10 @@
         "name": "黑木崖",
         "desc": "魔教总部，曾经众多高手曾在这里战斗过",
         "media": "",
-        "interval": 3500,
+        "interval": 20000,
         "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 1 }],
+        "rewardExperience": 100,
+        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 20 }],
         "randomRewardItems": [{ "probability": 10, "itemId": "SwordReiki", "itemQuantity": 1 }]
       }
     ]

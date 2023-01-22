@@ -21,7 +21,7 @@ import {
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
-  items: Array<Item | EquipmentItem>;
+  items: Array<Item | NormalItem>;
   recipes: Recipe[];
 }
 

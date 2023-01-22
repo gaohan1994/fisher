@@ -2,6 +2,7 @@ import logo from './common/logo.png';
 import empty from './common/empty.png';
 import coin from './common/coin.png';
 import mining from './common/mining.png';
+import reiki from './common/reiki.png';
 
 import LowSpiritMine from './item/LowSpiritMine.png';
 import WoodStone from './item/WoodStone.png';
@@ -25,6 +26,7 @@ export const Assets = {
   empty,
   coin,
   mining,
+  reiki,
 
   // normal items
   WoodStone,

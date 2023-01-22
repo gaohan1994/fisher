@@ -3,6 +3,7 @@ import { ICollectionModuleData, store } from '../fisher-packages';
 import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { Collection } from './Collection';
+import { Assets } from '../assets';
 
 class Reiki extends Collection<ICollectionModuleData> {
   public static instance: Reiki;
@@ -17,6 +18,8 @@ class Reiki extends Collection<ICollectionModuleData> {
   public id = 'Reiki';
 
   public name = '打坐';
+
+  public media = Assets.reiki;
 
   public skill = new Skill(this.id);
 
