@@ -1,7 +1,6 @@
 import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Box, Typography, List, ListItem, IconButton, Stack, Tooltip } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, Box, Typography, List, ListItem, IconButton, Stack, Tooltip } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { core } from '@FisherCore';
 import { FuiArchive } from './Archive';

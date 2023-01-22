@@ -17,6 +17,8 @@ const FuiColor = {
     background: blueGrey[900],
   },
 
+  progress: '#ffcd38',
+
   gold: yellow[600],
 
   masterPanel: {

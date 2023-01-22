@@ -1,6 +1,5 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { FC, PropsWithChildren } from 'react';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -25,6 +24,11 @@ declare module '@mui/material/styles' {
 }
 declare module '@mui/material/LinearProgress' {
   interface LinearProgressPropsColorOverrides {
+    progress: true;
+  }
+}
+declare module '@mui/material/CircularProgress' {
+  interface CircularProgressPropsColorOverrides {
     progress: true;
   }
 }

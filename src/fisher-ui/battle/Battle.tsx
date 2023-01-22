@@ -1,9 +1,17 @@
 import { FC } from 'react';
 import { observer } from 'mobx-react';
-import { IconButton, Tooltip, Typography, CircularProgress, LinearProgress, Stack, Avatar } from '@mui/material';
+import {
+  Button,
+  IconButton,
+  Tooltip,
+  Typography,
+  CircularProgress,
+  LinearProgress,
+  Stack,
+  Avatar,
+} from '@mui/material';
 import { core, store, Person } from '@FisherCore';
 import { BaseDotAction } from '../../fisher-core/fisher-actions';
-import Button from '@mui/material/Button';
 
 interface FuiBattleDotsProps {
   dots: BaseDotAction[];
