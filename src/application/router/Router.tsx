@@ -3,6 +3,7 @@ import { ComponentId } from '@FisherCore';
 import { fuiRouteHandler } from '@Fui';
 import { Game, Home } from '../game';
 import { FuiMining } from '../mining';
+import { FuiReiki } from '../reiki';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Reiki)?.path,
-        element: <FuiMining />,
+        element: <FuiReiki />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Forge)?.path,
