@@ -4,7 +4,7 @@ import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText
 import { ComponentId, core } from '@FisherCore';
 import { fuiRouteHandler } from '../route';
 
-const visibleCoreComponents = [ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
+const visibleCoreComponents = [ComponentId.Battle, ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
 
 function checkIsVisibleComponent(componentId: any) {
   return visibleCoreComponents.includes(componentId);
