@@ -4,7 +4,7 @@ import { core } from '@FisherCore';
 import { FuiContainer, FuiDashboard } from '@Fui';
 import { FuiMiningRecipe } from './Recipe';
 
-const FuiMining = observer(() => {
+const PageMining = observer(() => {
   const { mining } = core;
   const {
     packages: { recipes },
@@ -24,4 +24,4 @@ const FuiMining = observer(() => {
   );
 });
 
-export { FuiMining };
+export { PageMining };

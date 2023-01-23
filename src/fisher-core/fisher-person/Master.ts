@@ -20,7 +20,7 @@ class Master {
 
   public person = new Person(this.id);
 
-  public name = '';
+  public name = '角色名称';
 
   private _media = 'knight';
 

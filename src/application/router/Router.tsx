@@ -2,10 +2,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ComponentId } from '@FisherCore';
 import { fuiRouteHandler } from '@Fui';
 import { Game, Home } from '../game';
-import { FuiMining } from '../mining';
-import { FuiReiki } from '../reiki';
-import { FuiBattle } from '../battle';
+import { PageMining } from '../mining';
+import { PageReiki } from '../reiki';
+import { PageBattle } from '../battle';
 import FisherCoreDemo from '../demo/FisherCoreDemo';
+import { PageMaster } from '../master';
 
 const router = createBrowserRouter([
   {
@@ -17,20 +18,24 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: fuiRouteHandler.getComponentRoute(ComponentId.Master)?.path,
+        element: <PageMaster />,
+      },
+      {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Mining)?.path,
-        element: <FuiMining />,
+        element: <PageMining />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Reiki)?.path,
-        element: <FuiReiki />,
+        element: <PageReiki />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Forge)?.path,
-        element: <FuiMining />,
+        element: <PageMining />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,
-        element: <FuiBattle />,
+        element: <PageBattle />,
       },
       {
         path: 'demo',

@@ -1,7 +1,7 @@
 import { FuiContainer } from '@Fui';
 
-const FuiBattle = () => {
+const PageBattle = () => {
   return <FuiContainer>FuiBattle</FuiContainer>;
 };
 
-export { FuiBattle };
+export { PageBattle };

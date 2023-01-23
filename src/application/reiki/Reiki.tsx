@@ -4,7 +4,7 @@ import { core } from '@FisherCore';
 import { FuiContainer, FuiDashboard } from '@Fui';
 import { FuiReikiRecipe } from './Recipe';
 
-const FuiReiki = observer(() => {
+const PageReiki = observer(() => {
   const { reiki } = core;
   const {
     packages: { recipes },
@@ -24,4 +24,4 @@ const FuiReiki = observer(() => {
   );
 });
 
-export { FuiReiki };
+export { PageReiki };

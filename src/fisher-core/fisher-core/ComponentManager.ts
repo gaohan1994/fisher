@@ -79,13 +79,13 @@ class ComponentManager {
   constructor() {
     makeAutoObservable(this);
 
+    this.componentMap.set(ComponentId.Master, master);
     this.componentMap.set(ComponentId.Bank, bank);
     this.componentMap.set(ComponentId.Backpack, backpack);
     this.componentMap.set(ComponentId.Battle, battle);
     this.componentMap.set(ComponentId.Mining, mining);
     this.componentMap.set(ComponentId.Reiki, reiki);
     this.componentMap.set(ComponentId.Forge, forge);
-    this.componentMap.set(ComponentId.Master, master);
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);

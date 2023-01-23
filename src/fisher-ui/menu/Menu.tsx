@@ -15,7 +15,13 @@ import { ComponentId, core } from '@FisherCore';
 import { fuiRouteHandler } from '../route';
 import { isDevelopment } from '../env';
 
-const visibleComponents = [ComponentId.Battle, ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
+const visibleComponents = [
+  ComponentId.Master,
+  ComponentId.Battle,
+  ComponentId.Mining,
+  ComponentId.Reiki,
+  ComponentId.Forge,
+];
 
 function checkIsVisibleComponent(componentId: any) {
   return visibleComponents.includes(componentId);
