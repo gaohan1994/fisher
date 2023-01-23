@@ -64,9 +64,11 @@ export class FisherCore {
     return this.componentManager.battle;
   }
 
-  public readonly prompt = prompt;
+  public get master() {
+    return this.componentManager.master;
+  }
 
-  public readonly master = master;
+  public readonly prompt = prompt;
 
   constructor() {
     makeAutoObservable(this);

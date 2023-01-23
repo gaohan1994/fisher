@@ -6,8 +6,9 @@ import { forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
 import { bank, Bank } from '../fisher-bank';
 import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
+import { Master, master } from '../fisher-person';
 
-type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle;
+type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle | Master;
 
 type ActiveControlComponent = Mining | Reiki | Forge | Battle;
 
@@ -20,6 +21,7 @@ enum ComponentId {
   Reiki = 'Reiki',
   Forge = 'Forge',
   Battle = 'Battle',
+  Master = 'Master',
 }
 
 class ComponentManager {
@@ -70,9 +72,20 @@ class ComponentManager {
     return this.componentMap.get(ComponentId.Battle) as Battle;
   }
 
+  public get master() {
+    return this.componentMap.get(ComponentId.Master) as Master;
+  }
+
   constructor() {
     makeAutoObservable(this);
-    this.initializeComponentMap();
+
+    this.componentMap.set(ComponentId.Bank, bank);
+    this.componentMap.set(ComponentId.Backpack, backpack);
+    this.componentMap.set(ComponentId.Battle, battle);
+    this.componentMap.set(ComponentId.Mining, mining);
+    this.componentMap.set(ComponentId.Reiki, reiki);
+    this.componentMap.set(ComponentId.Forge, forge);
+    this.componentMap.set(ComponentId.Master, master);
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
@@ -99,15 +112,6 @@ class ComponentManager {
     if (this.activeComponent !== undefined) {
       this.activeComponent?.stop();
     }
-  };
-
-  private initializeComponentMap = () => {
-    this.componentMap.set(ComponentId.Bank, bank);
-    this.componentMap.set(ComponentId.Backpack, backpack);
-    this.componentMap.set(ComponentId.Battle, battle);
-    this.componentMap.set(ComponentId.Mining, mining);
-    this.componentMap.set(ComponentId.Reiki, reiki);
-    this.componentMap.set(ComponentId.Forge, forge);
   };
 }
 

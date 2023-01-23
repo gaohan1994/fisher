@@ -16,7 +16,9 @@ class Master {
     return Master.instance;
   }
 
-  public person = new Person('Master');
+  public readonly id = 'Master';
+
+  public person = new Person(this.id);
 
   public name = '';
 
