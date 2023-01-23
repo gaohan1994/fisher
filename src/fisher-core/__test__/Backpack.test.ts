@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 import { Bank } from '../fisher-bank';
 import { FisherCore } from '../fisher-core';
 import { EventKeys, events } from '../fisher-events';
-import { NormalItem, TestItem } from '../fisher-item';
+import { ItemType, NormalItem, TestItem } from '../fisher-item';
 import { Store } from '../fisher-packages';
 
 let store: Store;
@@ -234,6 +234,17 @@ describe('Backpack', () => {
       events.emit(EventKeys.Backpack.SellItem, backpack.getItem(item), 2);
       expect(backpack.checkItem(item)).toBeFalsy();
       expect(bank.gold).toBe(25);
+    });
+
+    test('should success return items by type', () => {
+      const backpack = core.backpack;
+      const item = new TestItem(testBackpackItemPayload);
+      backpack.addItem(item, 5);
+      backpack.addItemById('WoodSword', 10);
+      backpack.addItemById('ClothHat', 10);
+
+      expect(backpack.getItemsByType(ItemType.Test).length).toBe(1);
+      expect(backpack.getItemsByType(ItemType.Equipment).length).toBe(2);
     });
   });
 });

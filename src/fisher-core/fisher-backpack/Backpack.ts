@@ -2,7 +2,7 @@ import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { prompt } from '../fisher-prompt';
-import { BackpackItem, Item } from '../fisher-item';
+import { BackpackItem, Item, ItemType } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
@@ -111,6 +111,18 @@ export class Backpack {
       return undefined;
     }
     return this.getItem(item);
+  };
+
+  public getItemsByType = <T = Item>(itemType: ItemType) => {
+    let result: Array<[T, BackpackItem]> = [];
+
+    this.items.forEach((backpackItem, item) => {
+      if (item.type === itemType) {
+        result.push([item as any, backpackItem]);
+      }
+    });
+
+    return result;
   };
 
   public addItem = (item: Item, quantity: number) => {
