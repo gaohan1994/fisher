@@ -1,13 +1,24 @@
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from '@mui/material';
 import { ComponentId, core } from '@FisherCore';
 import { fuiRouteHandler } from '../route';
+import { isDevelopment } from '../env';
 
-const visibleCoreComponents = [ComponentId.Battle, ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
+const visibleComponents = [ComponentId.Battle, ComponentId.Mining, ComponentId.Reiki, ComponentId.Forge];
 
 function checkIsVisibleComponent(componentId: any) {
-  return visibleCoreComponents.includes(componentId);
+  return visibleComponents.includes(componentId);
 }
 
 const FuiMenu = observer(() => {
@@ -33,13 +44,19 @@ const FuiMenu = observer(() => {
               return (
                 <ListItem key={id} disablePadding>
                   <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
-                    <ListItemIcon> </ListItemIcon>
+                    {componentRoute.component?.media && (
+                      <ListItemIcon>
+                        <Avatar sx={{ width: 30, height: 30 }} src={componentRoute.component?.media} />
+                      </ListItemIcon>
+                    )}
                     <ListItemText primary={componentRoute.name} />
                   </ListItemButton>
                 </ListItem>
               );
             }
+            return null;
           })}
+          {isDevelopment && <ListItem onClick={() => navigate('demo')}>Demo</ListItem>}
         </List>
       </Box>
     </Drawer>

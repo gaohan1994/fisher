@@ -28,10 +28,13 @@ class FuiRoute {
 
   public path: string;
 
+  public component: any;
+
   constructor(component: FisherComponent) {
     this.id = component.id;
     this.name = component.name;
     this.path = this.id.toLocaleLowerCase();
+    this.component = component;
   }
 }
 

@@ -10,7 +10,7 @@ import { ReikiDemo } from './ReikiDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { StoreDemo } from './StoreDemo';
 import { ForgeDemo } from './ForgeDemo';
-import { FuiMiniBar, FuiColor, FuiMenu } from '@Fui';
+import { FuiMiniBar } from '@Fui';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
   <Stack p={1} spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
@@ -20,7 +20,6 @@ const DemoStack: FC<PropsWithChildren> = ({ children }) => (
 
 const FisherCoreDemo: FC = () => (
   <Stack direction="column" spacing={2}>
-    <FuiMenu />
     <FuiMiniBar />
     <DemoStack>
       <Paper>

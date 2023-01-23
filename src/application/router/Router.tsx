@@ -5,6 +5,7 @@ import { Game, Home } from '../game';
 import { FuiMining } from '../mining';
 import { FuiReiki } from '../reiki';
 import { FuiBattle } from '../battle';
+import FisherCoreDemo from '../demo/FisherCoreDemo';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,
         element: <FuiBattle />,
+      },
+      {
+        path: 'demo',
+        element: <FisherCoreDemo />,
       },
     ],
   },

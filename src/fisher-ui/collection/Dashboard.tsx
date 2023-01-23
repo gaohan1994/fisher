@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Box, Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
-import { Forge, Mining, Reiki } from '@FisherCore';
+import { Mining, Reiki } from '@FisherCore';
 import { FuiColor } from '../theme';
 import { FuiLineProgress } from '../progress';
 
