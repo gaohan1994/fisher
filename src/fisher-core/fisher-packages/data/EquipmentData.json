@@ -1,12 +1,6 @@
 {
   "moduleName": "Equipment",
   "data": {
-    "emptyEquipment": {
-      "id": "EmptyEquipment",
-      "name": "空",
-      "desc": "",
-      "price": 0
-    },
     "items": [
       {
         "id": "WoodSword",

@@ -2,17 +2,14 @@
  * @vitest-environment jsdom
  */
 import { beforeEach, describe, expect, test } from 'vitest';
-import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '../fisher-item';
 import { PersonEquipment } from '../fisher-person';
 import { FisherCore } from '../fisher-core';
-import { EmptyEquipment } from '../fisher-packages';
 
 let core: FisherCore;
 beforeEach(() => {
   core = FisherCore.create();
 });
-
-const emptyEquipment = EmptyEquipment;
 
 const testEquipmentData = {
   id: 'JadeCloudHairpin',
@@ -31,7 +28,7 @@ describe('PersonEquipment', () => {
       slot: EquipmentSlot.Helmet,
     });
     expect(personEquipment.slot).toBe(EquipmentSlot.Helmet);
-    expect(personEquipment.emptyEquipment).toStrictEqual(emptyEquipment);
+    expect(personEquipment.emptyEquipment).toStrictEqual(new EmptyEquipment(EquipmentSlot.Helmet));
     expect(personEquipment.equipment).toBeUndefined();
     expect(personEquipment.isEmpty).toBeTruthy();
   });

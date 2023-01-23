@@ -1,7 +1,6 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
-import { EquipmentItem, EquipmentSlot, NormalItem } from '../fisher-item';
-import { EmptyEquipment } from '../fisher-packages';
+import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '../fisher-item';
 
 interface IPersonEquipment {
   slot: EquipmentSlot;
@@ -18,7 +17,7 @@ type IEquipmentUpdateReturned = [EquipmentItem, number];
  * @class PersonEquipment
  */
 export class PersonEquipment {
-  public emptyEquipment: NormalItem = EmptyEquipment;
+  public emptyEquipment: EmptyEquipment;
 
   public equipment: EquipmentItem | undefined;
 
@@ -31,6 +30,7 @@ export class PersonEquipment {
     this.equipment = equipment;
     this.quantity = quantity ?? 0;
     this.slot = slot;
+    this.emptyEquipment = new EmptyEquipment(this.slot);
   }
 
   /**

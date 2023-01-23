@@ -1,4 +1,5 @@
 import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
+import { EquipmentSlot } from './EquipmentConstants';
 import { Item, ItemType, IItem } from './Item';
 
 export interface IEquipmentItem extends IItem {
@@ -25,16 +26,6 @@ export interface IEquipmentAttribute {
   value: number;
 }
 
-/**
- * 可装备槽位
- *
- * @export
- * @enum {number}
- */
-export enum EquipmentSlot {
-  Weapon = 'Weapon',
-  Helmet = 'Helmet',
-}
 export class EquipmentItem extends Item {
   type = ItemType.Equipment;
 

@@ -10,7 +10,7 @@ import {
   makeMiningPackagesData,
   makeReikiPackagesData,
 } from './FisherPackages';
-import { EmptyEquipment } from './EmptyEquipment';
+
 /**
  * 游戏模块数据库
  *
@@ -35,8 +35,6 @@ export class Store {
 
   public Forge: Recipe[] = [];
 
-  public EmptyEquipment: NormalItem = EmptyEquipment;
-
   public Equipments: EquipmentItem[] = [];
 
   public EquipmentSets: EquipmentSet[] = [];
@@ -47,7 +45,6 @@ export class Store {
 
   public get items() {
     return [
-      this.EmptyEquipment,
       ...this.Mining.items,
       ...this.Mining.recipes,
       ...this.Reiki.items,

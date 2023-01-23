@@ -1,4 +1,3 @@
-export * from './EmptyEquipment';
 export * from './Store';
 export * from './Common';
 
