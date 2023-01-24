@@ -60,6 +60,18 @@ describe('PersonEquipmentManager interfaces', () => {
         expect(backpack.items.get(equip)?.quantity).toBe(1);
       });
     });
+
+    test('should reduce backpack item when success use equipment', () => {
+      const { backpack } = core;
+      const personEquipmentManager = new PersonEquipmentManager();
+      const equip = new EquipmentItem(testEquipmentData);
+
+      backpack.addItem(equip, 1);
+      expect(backpack.getItem(equip)?.quantity).toBe(1);
+
+      personEquipmentManager.useEquipment(equip);
+      expect(backpack.getItem(equip)).toBeUndefined();
+    });
   });
 
   describe('should calculate equipment set after update equipments', () => {

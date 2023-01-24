@@ -112,10 +112,14 @@ export class PersonEquipmentManager extends EventEmitter {
 
   @action
   private onPersonEquipmentChange = (
-    personEquipment: PersonEquipment,
+    currentPersonEquipment: PersonEquipment,
     previousEquipment: EquipmentItem | undefined = undefined,
     previousQuantity: number = 1
   ) => {
+    if (!currentPersonEquipment.isEmpty) {
+      this.reduceEquipmentAfterUseEquipment(currentPersonEquipment.equipment!, currentPersonEquipment.quantity);
+    }
+
     if (previousEquipment !== undefined) {
       this.putEquipmentToBackpack(previousEquipment, previousQuantity);
     }
@@ -173,5 +177,10 @@ export class PersonEquipmentManager extends EventEmitter {
   @action
   private putEquipmentToBackpack = (equipment: EquipmentItem, quantity: number) => {
     events.emit(EventKeys.Backpack.AddItem, equipment, quantity);
+  };
+
+  @action
+  private reduceEquipmentAfterUseEquipment = (equipment: EquipmentItem, quantity: number) => {
+    events.emit(EventKeys.Backpack.ReduceItem, equipment, quantity);
   };
 }
