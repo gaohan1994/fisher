@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { Fab, Avatar, Tooltip, Box, Collapse } from '@mui/material';
 import { master } from '@FisherCore';
 import { miniBarStore } from './MiniBarStore';
-import { FuiMaster } from './Master';
 
 const FuiMiniBar: FC = observer(() => {
   const renderFloatButton = () => (
@@ -27,7 +26,7 @@ const FuiMiniBar: FC = observer(() => {
       }}
     >
       <Collapse in={miniBarStore.visible} sx={{ mb: 1 }}>
-        <FuiMaster />
+        mini master
       </Collapse>
       {renderFloatButton()}
     </Box>
