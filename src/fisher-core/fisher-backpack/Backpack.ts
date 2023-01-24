@@ -113,16 +113,16 @@ export class Backpack {
     return this.getItem(item);
   };
 
-  public getItemsByType = <T = Item>(itemType: ItemType) => {
-    let result: Array<[T, BackpackItem]> = [];
+  public getItemsByType = <T>(itemType: ItemType): BackpackItem<T>[] => {
+    let result: BackpackItem[] = [];
 
     this.items.forEach((backpackItem, item) => {
       if (item.type === itemType) {
-        result.push([item as any, backpackItem]);
+        result.push(backpackItem);
       }
     });
 
-    return result;
+    return result as BackpackItem<T>[];
   };
 
   public addItem = (item: Item, quantity: number) => {
@@ -164,7 +164,14 @@ export class Backpack {
   public reduceItem = (item: Item, quantity: number) => {
     const backpackItem = this.items.get(item);
     const reduceQuantity = Math.abs(quantity);
-    invariant(backpackItem !== undefined && reduceQuantity !== 0, `Fail to reduce ${item.id} x ${reduceQuantity}`);
+
+    if (backpackItem === undefined) {
+      return Backpack.logger.error(`Fail to reduce item can not find backpack item ${item.id}`);
+    }
+
+    if (reduceQuantity === 0) {
+      return Backpack.logger.error(`Try to reduce item with quantity 0`);
+    }
 
     backpackItem.quantity -= reduceQuantity;
     if (backpackItem.quantity <= 0) {

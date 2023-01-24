@@ -7,14 +7,14 @@ import { Item } from './Item';
  * @export
  * @class BackpackItem
  */
-export class BackpackItem {
+export class BackpackItem<T = Item> {
   /**
    * 物品基本信息
    *
    * @type {Item}
    * @memberof BackpackItem
    */
-  public item: Item;
+  public item: T;
 
   /**
    * 物品数量
@@ -24,7 +24,7 @@ export class BackpackItem {
    */
   public quantity: number;
 
-  constructor(item: Item, quantity: number) {
+  constructor(item: T, quantity: number) {
     makeAutoObservable(this);
 
     this.item = item;
@@ -38,7 +38,7 @@ export class BackpackItem {
    * @memberof BackpackItem
    */
   public calculatePrice = (quantity: number) => {
-    const totalPrice = this.item.price * quantity;
+    const totalPrice = (this.item as Item).price * quantity;
     return Math.max(Math.floor(totalPrice), 0);
   };
 }

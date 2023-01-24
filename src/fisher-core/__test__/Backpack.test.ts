@@ -108,20 +108,6 @@ describe('Backpack', () => {
   });
 
   describe('backpack reduce item interface', () => {
-    test('should throw error when reduce item quantity === 0 or item does not exsit', () => {
-      expect(() => {
-        const backpack = core.backpack;
-        const item = new TestItem(testBackpackItemPayload);
-        backpack.reduceItem(item, 0);
-      }).toThrowError(`Fail to reduce ${testBackpackItemPayload.id} x 0`);
-
-      expect(() => {
-        const backpack = core.backpack;
-        const item = new TestItem(testBackpackItemPayload);
-        backpack.reduceItem(item, 10);
-      }).toThrowError(`Fail to reduce ${testBackpackItemPayload.id} x 10`);
-    });
-
     test('should success reduce item quantity', () => {
       const backpack = core.backpack;
       const item = new TestItem(testBackpackItemPayload);
