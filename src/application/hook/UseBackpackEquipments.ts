@@ -26,6 +26,13 @@ const useBackpackEquipments = () => {
   );
 
   const masterUseBackpackEquipment = React.useCallback((equipment: EquipmentItem) => {
+    const currentSlotPersonEquipment = master.personEquipmentManager.equipmentMap.get(equipment.slot)!;
+    const currentSlotPersonEquipmentIsEmpty = currentSlotPersonEquipment.isEmpty;
+    const currentSlotEquipmentSameAsPassedEquipment = currentSlotPersonEquipment.equipment?.id === equipment.id;
+    if (!currentSlotPersonEquipmentIsEmpty && currentSlotEquipmentSameAsPassedEquipment) {
+      return;
+    }
+
     master.personEquipmentManager.useEquipment(equipment);
   }, []);
 

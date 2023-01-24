@@ -98,13 +98,6 @@ export class PersonEquipmentManager extends EventEmitter {
     );
   };
 
-  private checkIsValidEquipmentSlot = (equipmentSlot: EquipmentSlot, equipment: EquipmentItem) => {
-    if (equipment.slot !== equipmentSlot)
-      throw new Error(
-        `Fail to use equipment ${equipment.id}, can not match slot, equipmentSlot: ${equipment.slot} expect slot: ${equipmentSlot}`
-      );
-  };
-
   @action
   public getActiveEquipmentSetById(equipmentSetId: string) {
     return this.equipmentSets.find((item) => item.id === equipmentSetId);
