@@ -2,28 +2,24 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { List, ListItem, Typography } from '@mui/material';
 import { EquipmentItem, store } from '@FisherCore';
-import { FuiItem } from '../item';
+import { FuiItem, FuiItemProps } from '../item';
 import { FuiColor } from '../theme';
 import { makeFuiAttributeBonusText } from '../attribute';
 import { FuiEquipmentSet } from './EquipmentSet';
 
-interface FuiEquipmentProps {
+interface FuiEquipmentDetailProps {
   equipment: EquipmentItem;
 }
 
-const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
-  const renderEquipmentPopover = () => {
-    const listItemSx = { p: 0, mt: 1 };
-    return (
-      <List sx={{ pt: 0 }}>
-        {equipment.hasAttributes && <ListItem sx={listItemSx}>{renderEquipmentAttributes()}</ListItem>}
-        {equipment.hasEquipmentSet && <ListItem sx={listItemSx}>{renderEquipmentSet()}</ListItem>}
-      </List>
-    );
-  };
+interface FuiEquipmentProps extends Omit<FuiItemProps, 'item'> {
+  equipment: EquipmentItem;
+}
+
+const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = ({ equipment }) => {
+  const { attributes, equipmentSetId } = equipment;
+  const listItemSx = { p: 0, mt: 1 };
 
   const renderEquipmentAttributes = () => {
-    const { attributes } = equipment;
     return attributes.map((attribute) => (
       <Typography key={attribute.key} variant="caption" color={FuiColor.equipment.attribute}>
         {makeFuiAttributeBonusText(attribute.key, attribute.value)}
@@ -32,11 +28,20 @@ const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment }) => {
   };
 
   const renderEquipmentSet = () => {
-    const equipmentSet = store.findEquipmentSetById(equipment.equipmentSetId ?? '');
+    const equipmentSet = store.findEquipmentSetById(equipmentSetId ?? '');
     return <FuiEquipmentSet equipmentSet={equipmentSet} />;
   };
 
-  return <FuiItem item={equipment} renderPopover={renderEquipmentPopover} />;
+  return (
+    <List sx={{ pt: 0 }}>
+      {equipment.hasAttributes && <ListItem sx={listItemSx}>{renderEquipmentAttributes()}</ListItem>}
+      {equipment.hasEquipmentSet && <ListItem sx={listItemSx}>{renderEquipmentSet()}</ListItem>}
+    </List>
+  );
+};
+const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment, ...rest }) => {
+  const equipmentDetail = () => <FuiEquipmentDetail equipment={equipment} />;
+  return <FuiItem {...rest} item={equipment} renderDetail={equipmentDetail} />;
 });
 
-export { FuiEquipment };
+export { FuiEquipment, FuiEquipmentDetail };
