@@ -1,15 +1,26 @@
 import { FC, Fragment, useState, PropsWithChildren, ReactNode } from 'react';
-import { Avatar, Box, colors, Popover, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import { coinItem, Item } from '@FisherCore';
+import { Avatar, Box, Popover, Badge, styled, BadgeProps } from '@mui/material';
+import { core, Item } from '@FisherCore';
 import { FuiColor, FuiSize } from '../theme';
+import { FuiItemDetail } from './ItemDetail';
+
+const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+  '& .MuiBadge-badge': {
+    right: 10,
+    bottom: 10,
+  },
+}));
 
 interface FuiItemProps {
   item: Item;
+  showBorder?: boolean;
+  showQuantity?: boolean;
   onClick?: () => void;
-  renderPopover?: () => ReactNode;
+  renderDetail?: () => ReactNode;
 }
 
-export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, onClick, renderPopover }) => {
+const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, showBorder, showQuantity, onClick, renderDetail }) => {
+  const { backpack } = core;
   const [itemDesc, setItemDesc] = useState<HTMLElement | null>(null);
 
   const showItemDesc = (event: React.MouseEvent<HTMLElement>) => {
@@ -21,21 +32,34 @@ export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, onClick, re
   };
 
   const open = Boolean(itemDesc);
+  const itemQuantity = showQuantity ? backpack.getItem(item)?.quantity : undefined;
+
   return (
     <Fragment>
       <Box
-        sx={{ border: 1, borderColor: open ? FuiColor.item.activeBorderColor : FuiColor.item.borderColor }}
+        sx={{
+          border: 1,
+          borderColor: open || showBorder ? FuiColor.item.activeBorderColor : FuiColor.item.borderColor,
+        }}
         aria-owns={open ? 'mouse-over-popover' : undefined}
         aria-haspopup="true"
         onMouseEnter={showItemDesc}
         onMouseLeave={closeItemDesc}
         onClick={onClick}
       >
-        <Avatar
-          src={item.media}
-          variant="square"
-          sx={{ width: FuiSize.item.size, height: FuiSize.item.size, p: 1, bgcolor: FuiColor.item.background }}
-        />
+        <StyledBadge
+          badgeContent={itemQuantity}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <Avatar
+            src={item.media}
+            variant="square"
+            sx={{ width: FuiSize.item.size, height: FuiSize.item.size, p: 1, bgcolor: FuiColor.item.background }}
+          />
+        </StyledBadge>
       </Box>
       <Popover
         id="mouse-over-popover"
@@ -53,29 +77,11 @@ export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ item, onClick, re
         onClose={closeItemDesc}
         disableRestoreFocus
       >
-        <Card sx={{ bgcolor: FuiColor.item.background, minWidth: 200, maxWidth: 300 }}>
-          <CardHeader
-            avatar={<Avatar src={item.media} variant="square" />}
-            title={
-              <Typography variant="body2" sx={{ color: colors.common.white }}>
-                {item.name}
-              </Typography>
-            }
-            subheader={
-              <Stack direction="row" spacing={1}>
-                <Avatar src={coinItem.media} sx={{ width: 20, height: 20 }} variant="square" />
-                <Typography sx={{ color: FuiColor.gold }}>{item.price}</Typography>
-              </Stack>
-            }
-          />
-          <CardContent sx={{ pt: 0 }}>
-            {renderPopover?.()}
-            <Typography variant="caption" sx={{ color: FuiColor.item.desc }}>
-              {item.desc}
-            </Typography>
-          </CardContent>
-        </Card>
+        <FuiItemDetail item={item}>{renderDetail?.()}</FuiItemDetail>
       </Popover>
     </Fragment>
   );
 };
+
+export { FuiItem };
+export type { FuiItemProps };
