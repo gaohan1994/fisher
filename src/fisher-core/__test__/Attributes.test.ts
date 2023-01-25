@@ -30,7 +30,7 @@ const equip2: IEquipmentItem = {
   desc: '',
   media: '',
   price: 5,
-  slot: EquipmentSlot.Weapon,
+  slot: EquipmentSlot.PrimaryWeapon,
   requirements: [],
   attributes: [
     { key: IAttributeKeys.AttackPower, value: 10 },

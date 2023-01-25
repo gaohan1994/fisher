@@ -89,7 +89,7 @@ describe('BattleControl', () => {
       desc: '用寻常木头做的剑',
       media: 'woodsword',
       price: 5,
-      slot: 'Weapon',
+      slot: 'PrimaryWeapon',
       attributes: [{ key: 'AttackPower', value: 4000 }],
     });
     vi.useFakeTimers();
@@ -123,7 +123,7 @@ describe('BattleControl', () => {
       desc: '用寻常木头做的剑',
       media: 'woodsword',
       price: 5,
-      slot: 'Weapon',
+      slot: 'PrimaryWeapon',
       attributes: [{ key: 'AttackPower', value: 4000 }],
     });
     vi.useFakeTimers();
@@ -131,7 +131,7 @@ describe('BattleControl', () => {
     const spyAction = vi.fn();
     events.on(EventKeys.Core.MasterDeath, spyAction);
 
-    battleControl.master.personEquipmentManager.removeEquipment(EquipmentSlot.Weapon);
+    battleControl.master.personEquipmentManager.removeEquipment(EquipmentSlot.PrimaryWeapon);
     battleControl.enemy?.personEquipmentManager.useEquipment(debugWeapon);
     battleControl.startBattle();
 

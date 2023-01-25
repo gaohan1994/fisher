@@ -12,7 +12,7 @@ const FuiMasterEquipments: React.FC = observer(() => {
   const { master } = core;
   const { activePersonEquipment, setActivePersonEquipment } = fuiMasterEquipmentsStore;
 
-  const leftEquipments = [master.weapon];
+  const leftEquipments = [master.primaryWeapon];
   const rightEquipments = [master.helmet];
 
   const onEquipmentClick = React.useCallback((personEquipment: PersonEquipment) => {

@@ -54,7 +54,7 @@ const FuiBattleInfo: FC<BattleDescProps> = observer(({ person }) => {
           person.personEquipmentManager.useEquipment(weapon);
         }}
       >
-        Weapon
+        PrimaryWeapon
       </Button>
     </Stack>
   );

@@ -48,8 +48,8 @@ class Master {
     return this.person.personEquipmentManager;
   }
 
-  public get weapon() {
-    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Weapon);
+  public get primaryWeapon() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.PrimaryWeapon);
   }
 
   public get helmet() {

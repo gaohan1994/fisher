@@ -5,13 +5,15 @@
  * @enum {number}
  */
 enum EquipmentSlot {
-  Weapon = 'Weapon',
+  PrimaryWeapon = 'PrimaryWeapon',
+  SecondaryWeapon = 'SecondaryWeapon',
   Helmet = 'Helmet',
 }
 
 const EquipmentSlotName = {
   [EquipmentSlot.Helmet]: '头盔',
-  [EquipmentSlot.Weapon]: '武器',
+  [EquipmentSlot.PrimaryWeapon]: '主武器',
+  [EquipmentSlot.SecondaryWeapon]: '副武器',
 };
 
 export { EquipmentSlot, EquipmentSlotName };

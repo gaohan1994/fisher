@@ -13,7 +13,7 @@ const testEquipmentSetData = {
   name: '新手套装',
   desc: '给新手用的套装，为新人保驾护航',
   media: '',
-  slots: ['Weapon'],
+  slots: ['PrimaryWeapon'],
   equipmentIds: ['WoodSword', 'ClothHat'],
   setAttributes: [
     {

@@ -37,7 +37,7 @@ export class PersonEquipmentManager extends EventEmitter {
     super();
     makeObservable(this);
 
-    this.equipmentMap.set(EquipmentSlot.Weapon, new PersonEquipment({ slot: EquipmentSlot.Weapon }));
+    this.equipmentMap.set(EquipmentSlot.PrimaryWeapon, new PersonEquipment({ slot: EquipmentSlot.PrimaryWeapon }));
     this.equipmentMap.set(EquipmentSlot.Helmet, new PersonEquipment({ slot: EquipmentSlot.Helmet }));
 
     this.on(PersonEquipmentManagerEvents.EquipmentChange, this.onPersonEquipmentChange);
