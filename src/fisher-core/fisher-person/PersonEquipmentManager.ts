@@ -45,6 +45,8 @@ class PersonEquipmentManager {
     }
   };
 
+  public loadArchiveEquipments = () => {};
+
   public useEquipment = (equipment: EquipmentItem) => {
     const { slot } = equipment;
     const currentSlotEquipment = this.equipmentMap.get(slot);
@@ -54,15 +56,10 @@ class PersonEquipmentManager {
       throw new Error(`Fail to use equipment, can not find current slot: ${slot}`);
     }
 
-    const [previousEquipment, previousQuantity] = currentSlotEquipment.updateEquipment(equipment, 1) ?? [];
+    const previousEquipment = currentSlotEquipment.updateEquipment(equipment);
     this.equipmentMap.set(slot, currentSlotEquipment);
 
-    this.personEquipmentEvents.emit(
-      PersonEquipmentEventKeys.EquipmentChange,
-      currentSlotEquipment,
-      previousEquipment,
-      previousQuantity
-    );
+    this.personEquipmentEvents.emit(PersonEquipmentEventKeys.EquipmentChange, currentSlotEquipment, previousEquipment);
     PersonEquipmentManager.logger.debug(`use equipment, slot: ${slot} equipmentId ${equipment.id}`);
   };
 
@@ -74,18 +71,11 @@ class PersonEquipmentManager {
         `Fail to remove equipment, can not find current slot: ${equipmentSlot}`
       );
 
-    const [previousEquipment, previousQuantity] = currentSlotEquipment.removeEquipment();
+    const previousEquipment = currentSlotEquipment.removeEquipment();
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
-    this.personEquipmentEvents.emit(
-      PersonEquipmentEventKeys.EquipmentChange,
-      currentSlotEquipment,
-      previousEquipment,
-      previousQuantity
-    );
-    PersonEquipmentManager.logger.debug(
-      `remove equipment, slot: ${equipmentSlot} equipmentId ${previousEquipment.id}, quantity: ${previousQuantity}`
-    );
+    this.personEquipmentEvents.emit(PersonEquipmentEventKeys.EquipmentChange, currentSlotEquipment, previousEquipment);
+    PersonEquipmentManager.logger.debug(`remove equipment, slot: ${equipmentSlot} equipmentId ${previousEquipment.id}`);
   };
 
   public getActiveEquipmentSetById(equipmentSetId: string) {

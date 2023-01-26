@@ -38,10 +38,9 @@ describe('PersonEquipment', () => {
     expect(previosIsEmpty).toBeTruthy();
 
     const equip = new EquipmentItem(testEquipmentData);
-    const result = personEquipment.updateEquipment(equip, 2);
+    const result = personEquipment.updateEquipment(equip);
 
     expect(personEquipment.equipment).toBe(equip);
-    expect(personEquipment.quantity).toBe(2);
     expect(personEquipment.isEmpty).toBeFalsy();
 
     test('should return undefined if previos equipment was empty', () => {
@@ -52,16 +51,11 @@ describe('PersonEquipment', () => {
   test('should success update equipment when prev equipment was not empty', () => {
     const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     const equip = new EquipmentItem(testEquipmentData);
-    personEquipment.updateEquipment(equip, 3);
+    personEquipment.updateEquipment(equip);
 
-    const result = personEquipment.updateEquipment(equip, 2);
+    const result = personEquipment.updateEquipment(equip);
     expect(personEquipment.equipment).toBe(equip);
-    expect(personEquipment.quantity).toBe(2);
-
-    test('should return undefined if previos equipment was empty', () => {
-      expect(result?.[0]).toBe(equip);
-      expect(result?.[1]).toBe(3);
-    });
+    expect(result).toBe(equip);
   });
 
   test('should fail to remove equipment when prev equipment was empty', () => {
@@ -74,15 +68,10 @@ describe('PersonEquipment', () => {
   test('should success to remove equipment when prev equipment was not empty', () => {
     const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     const equip = new EquipmentItem(testEquipmentData);
-    personEquipment.updateEquipment(equip, 1);
-    const [previousEquipment, previousQuantity] = personEquipment.removeEquipment();
+    personEquipment.updateEquipment(equip);
+    const previousEquipment = personEquipment.removeEquipment();
 
     expect(personEquipment.equipment).toBeUndefined();
-    expect(personEquipment.quantity).toBe(0);
-
-    test('should return previous equipment after remove equipment', () => {
-      expect(previousEquipment).toBe(equip);
-      expect(previousQuantity).toBe(1);
-    });
+    expect(previousEquipment).toBe(equip);
   });
 });
