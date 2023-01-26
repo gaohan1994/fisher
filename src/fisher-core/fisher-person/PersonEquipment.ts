@@ -2,10 +2,8 @@ import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '../fisher-item';
 
-interface IPersonEquipment {
-  slot: EquipmentSlot;
-  equipment?: EquipmentItem;
-  quantity?: number;
+interface IPersonEquipmentOptions {
+  quantity: number;
 }
 
 type IEquipmentUpdateReturned = [EquipmentItem, number];
@@ -25,11 +23,11 @@ export class PersonEquipment {
 
   public slot: EquipmentSlot;
 
-  constructor({ slot, equipment, quantity }: IPersonEquipment) {
+  constructor(slot: EquipmentSlot, equipment?: EquipmentItem, options?: IPersonEquipmentOptions) {
     makeAutoObservable(this);
-    this.equipment = equipment;
-    this.quantity = quantity ?? 0;
     this.slot = slot;
+    this.equipment = equipment;
+    this.quantity = options?.quantity ?? 0;
     this.emptyEquipment = new EmptyEquipment(this.slot);
   }
 

@@ -24,9 +24,7 @@ const testEquipmentData = {
 
 describe('PersonEquipment', () => {
   test('should success initialize personEquipment', () => {
-    const personEquipment = new PersonEquipment({
-      slot: EquipmentSlot.Helmet,
-    });
+    const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     expect(personEquipment.slot).toBe(EquipmentSlot.Helmet);
     expect(personEquipment.emptyEquipment).toStrictEqual(new EmptyEquipment(EquipmentSlot.Helmet));
     expect(personEquipment.equipment).toBeUndefined();
@@ -34,7 +32,7 @@ describe('PersonEquipment', () => {
   });
 
   test('should success update equipment if previos equipment was empty', () => {
-    const personEquipment = new PersonEquipment({ slot: EquipmentSlot.Helmet });
+    const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
 
     const previosIsEmpty = personEquipment.isEmpty;
     expect(previosIsEmpty).toBeTruthy();
@@ -52,7 +50,7 @@ describe('PersonEquipment', () => {
   });
 
   test('should success update equipment when prev equipment was not empty', () => {
-    const personEquipment = new PersonEquipment({ slot: EquipmentSlot.Helmet });
+    const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     const equip = new EquipmentItem(testEquipmentData);
     personEquipment.updateEquipment(equip, 3);
 
@@ -67,16 +65,14 @@ describe('PersonEquipment', () => {
   });
 
   test('should fail to remove equipment when prev equipment was empty', () => {
-    const personEquipment = new PersonEquipment({
-      slot: EquipmentSlot.Helmet,
-    });
+    const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     expect(() => personEquipment.removeEquipment()).toThrow(
       'Fail to remove equipment, current slot equipment was empty'
     );
   });
 
   test('should success to remove equipment when prev equipment was not empty', () => {
-    const personEquipment = new PersonEquipment({ slot: EquipmentSlot.Helmet });
+    const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     const equip = new EquipmentItem(testEquipmentData);
     personEquipment.updateEquipment(equip, 1);
     const [previousEquipment, previousQuantity] = personEquipment.removeEquipment();
