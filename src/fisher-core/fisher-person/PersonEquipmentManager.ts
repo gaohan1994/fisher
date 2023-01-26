@@ -1,12 +1,11 @@
-import { EventEmitter } from 'smar-util';
-import { action, computed, makeObservable, observable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
+import { EventEmitter } from 'smar-util';
 import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
-import { EventKeys, events } from '../fisher-events';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
 
-enum PersonEquipmentManagerEvents {
+enum PersonEquipmentEventKeys {
   EquipmentChange = 'EquipmentChange',
 }
 
@@ -14,45 +13,38 @@ enum PersonEquipmentManagerEvents {
  * @export
  * @class PersonEquipmentManager
  */
-export class PersonEquipmentManager extends EventEmitter {
+class PersonEquipmentManager {
   public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'PersonEquipmentManager');
 
-  @observable
   public equipmentMap: Map<EquipmentSlot, PersonEquipment> = new Map();
 
-  @computed
   public get equipments() {
     return [...this.equipmentMap.values()];
   }
 
-  @observable
   public equipmentSetMap = new Map<EquipmentSet, EquipmentItem[]>();
 
-  @computed
   public get equipmentSets() {
     return [...this.equipmentSetMap.keys()];
   }
 
+  public personEquipmentEvents = new EventEmitter();
+
   constructor() {
-    super();
-    makeObservable(this);
-
-    this.equipmentMap.set(EquipmentSlot.PrimaryWeapon, new PersonEquipment({ slot: EquipmentSlot.PrimaryWeapon }));
-    this.equipmentMap.set(EquipmentSlot.Helmet, new PersonEquipment({ slot: EquipmentSlot.Helmet }));
-
-    this.on(PersonEquipmentManagerEvents.EquipmentChange, this.onPersonEquipmentChange);
+    makeAutoObservable(this);
+    this.initializeEquipmentMap();
+    this.personEquipmentEvents.on(PersonEquipmentEventKeys.EquipmentChange, this.onPersonEquipmentChange);
   }
 
-  /**
-   * use equipment
-   * if previous equipment wasn't empty
-   * put unused equipment to backpack
-   *
-   * @param {EquipmentSlot} equipmentSlot
-   * @param {EquipmentItem} equipment
-   * @memberof PersonEquipmentManager
-   */
-  @action
+  private initializeEquipmentMap = () => {
+    for (const key in EquipmentSlot) {
+      if (Object.prototype.hasOwnProperty.call(EquipmentSlot, key)) {
+        const slot = EquipmentSlot[key as EquipmentSlot];
+        this.equipmentMap.set(slot, new PersonEquipment(slot));
+      }
+    }
+  };
+
   public useEquipment = (equipment: EquipmentItem) => {
     const { slot } = equipment;
     const currentSlotEquipment = this.equipmentMap.get(slot);
@@ -62,24 +54,18 @@ export class PersonEquipmentManager extends EventEmitter {
       throw new Error(`Fail to use equipment, can not find current slot: ${slot}`);
     }
 
-    const result = currentSlotEquipment.updateEquipment(equipment, 1);
+    const [previousEquipment, previousQuantity] = currentSlotEquipment.updateEquipment(equipment, 1) ?? [];
     this.equipmentMap.set(slot, currentSlotEquipment);
 
-    const [previousEquipment, previousQuantity] = [result?.[0], result?.[1]];
-    this.emit(PersonEquipmentManagerEvents.EquipmentChange, currentSlotEquipment, previousEquipment, previousQuantity);
-
+    this.personEquipmentEvents.emit(
+      PersonEquipmentEventKeys.EquipmentChange,
+      currentSlotEquipment,
+      previousEquipment,
+      previousQuantity
+    );
     PersonEquipmentManager.logger.debug(`use equipment, slot: ${slot} equipmentId ${equipment.id}`);
   };
 
-  /**
-   * remove equipment
-   * if previous equipment wasn't empty
-   * put removed equipment to backpack
-   *
-   * @param {EquipmentSlot} equipmentSlot
-   * @memberof PersonEquipmentManager
-   */
-  @action
   public removeEquipment = (equipmentSlot: EquipmentSlot) => {
     const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
 
@@ -91,38 +77,31 @@ export class PersonEquipmentManager extends EventEmitter {
     const [previousEquipment, previousQuantity] = currentSlotEquipment.removeEquipment();
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
-    this.emit(PersonEquipmentManagerEvents.EquipmentChange, currentSlotEquipment, previousEquipment, previousQuantity);
-
+    this.personEquipmentEvents.emit(
+      PersonEquipmentEventKeys.EquipmentChange,
+      currentSlotEquipment,
+      previousEquipment,
+      previousQuantity
+    );
     PersonEquipmentManager.logger.debug(
       `remove equipment, slot: ${equipmentSlot} equipmentId ${previousEquipment.id}, quantity: ${previousQuantity}`
     );
   };
 
-  @action
   public getActiveEquipmentSetById(equipmentSetId: string) {
     return this.equipmentSets.find((item) => item.id === equipmentSetId);
   }
 
-  @action
-  private onPersonEquipmentChange = (
-    currentPersonEquipment: PersonEquipment,
-    previousEquipment: EquipmentItem | undefined = undefined,
-    previousQuantity: number = 1
-  ) => {
-    if (!currentPersonEquipment.isEmpty) {
-      this.reduceEquipmentAfterUseEquipment(currentPersonEquipment.equipment!, currentPersonEquipment.quantity);
-    }
-
-    if (previousEquipment !== undefined) {
-      this.putEquipmentToBackpack(previousEquipment, previousQuantity);
-    }
-
-    // clear equipment set effects before recalculate
-    this.clearEquipmentSetEffectBeforeRecalculate();
+  private onPersonEquipmentChange = () => {
     this.callculateEquipmentSets();
   };
 
-  @action
+  private callculateEquipmentSets = () => {
+    this.clearEquipmentSetEffectBeforeRecalculate();
+    this.calculateEquipmentSetMap();
+    this.calculateActiveEquipmentSetsAttributes();
+  };
+
   private clearEquipmentSetEffectBeforeRecalculate = () => {
     this.equipmentSetMap.forEach((_, equipmentSet) => {
       equipmentSet.calculateEquipmentsActiveSetAttributes([]);
@@ -131,15 +110,6 @@ export class PersonEquipmentManager extends EventEmitter {
     this.equipmentSetMap.clear();
   };
 
-  @action
-  private callculateEquipmentSets = () => {
-    // calculate equipment set map first
-    // then calculate active equipment set attributes
-    this.calculateEquipmentSetMap();
-    this.calculateActiveEquipmentSetsAttributes();
-  };
-
-  @action
   private calculateEquipmentSetMap = () => {
     this.equipmentMap.forEach((personEquipment) => {
       const { equipment } = personEquipment;
@@ -160,20 +130,11 @@ export class PersonEquipmentManager extends EventEmitter {
     });
   };
 
-  @action
   private calculateActiveEquipmentSetsAttributes = () => {
     this.equipmentSetMap.forEach((equipments, equipmentSet) => {
       equipmentSet.calculateEquipmentsActiveSetAttributes(equipments);
     });
   };
-
-  @action
-  private putEquipmentToBackpack = (equipment: EquipmentItem, quantity: number) => {
-    events.emit(EventKeys.Backpack.AddItem, equipment, quantity);
-  };
-
-  @action
-  private reduceEquipmentAfterUseEquipment = (equipment: EquipmentItem, quantity: number) => {
-    events.emit(EventKeys.Backpack.ReduceItem, equipment, quantity);
-  };
 }
+
+export { PersonEquipmentManager, PersonEquipmentEventKeys };

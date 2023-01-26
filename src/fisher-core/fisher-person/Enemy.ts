@@ -68,7 +68,7 @@ export class Enemy {
     if (randomRewards) {
       this.randomRewards = randomRewards;
     }
-    this.person = new Person(this.id);
+    this.person = new Person(this.mode);
   }
 
   /**

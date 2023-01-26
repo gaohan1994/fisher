@@ -3,22 +3,23 @@
  */
 import { beforeEach, describe, expect, test } from 'vitest';
 import { Backpack } from '../fisher-backpack';
-import { EquipmentItem, EquipmentSlot, ItemType } from '../fisher-item';
+import { EquipmentItem, EquipmentSlot, IEquipmentItem, ItemType } from '../fisher-item';
 import { store } from '../fisher-packages';
-import { PersonEquipmentManager } from '../fisher-person';
+import { Person, PersonEquipmentManager } from '../fisher-person';
 import { FisherCore } from '../fisher-core';
+import { PersonMode } from '../fisher-person/Constants';
 
 let core: FisherCore;
 beforeEach(() => {
   core = FisherCore.create();
+  core.backpack.items.clear();
 });
 
-const testEquipmentData = {
+const testEquipmentData: IEquipmentItem = {
   id: 'JadeCloudHairpin',
   name: '流云白玉簪',
   desc: '雕工上乘，玉质极佳，但不是什么法器',
   media: '',
-  type: ItemType.Equipment,
   price: 5,
   slot: EquipmentSlot.Helmet,
   requirements: [],
@@ -36,7 +37,8 @@ describe('PersonEquipmentManager interfaces', () => {
 
   describe('shou success use equipment', () => {
     test('should success use equipment if previous equipment was empty', () => {
-      const personEquipmentManager = new PersonEquipmentManager();
+      const person = new Person(PersonMode.Enemy);
+      const { personEquipmentManager } = person;
       const equip = new EquipmentItem(testEquipmentData);
 
       personEquipmentManager.useEquipment(equip);
@@ -46,24 +48,22 @@ describe('PersonEquipmentManager interfaces', () => {
     });
 
     test('should success use equipment if previous equipment was not empty', () => {
-      const personEquipmentManager = new PersonEquipmentManager();
+      const { backpack, master } = core;
+
+      const prevEquip = new EquipmentItem(Object.assign({}, testEquipmentData, { id: 'JadeCloudHairpin1' }));
+      master.person.personEquipmentManager.useEquipment(prevEquip);
+
       const equip = new EquipmentItem(testEquipmentData);
+      master.person.personEquipmentManager.useEquipment(equip);
 
-      personEquipmentManager.useEquipment(equip);
-
-      test('should put previous equipment into backpack', () => {
-        const backpack = Backpack.create();
-        personEquipmentManager.useEquipment(equip);
-
-        expect(backpack.items.has(equip)).toBeTruthy();
-        expect(backpack.items.get(equip)?.item).toStrictEqual(equip);
-        expect(backpack.items.get(equip)?.quantity).toBe(1);
-      });
+      expect(backpack.items.has(prevEquip)).toBeTruthy();
+      expect(backpack.items.get(prevEquip)?.item).toStrictEqual(prevEquip);
+      expect(backpack.items.get(prevEquip)?.quantity).toBe(1);
     });
 
     test('should reduce backpack item when success use equipment', () => {
-      const { backpack } = core;
-      const personEquipmentManager = new PersonEquipmentManager();
+      const { backpack, master } = core;
+      const { personEquipmentManager } = master;
       const equip = new EquipmentItem(testEquipmentData);
 
       backpack.addItem(equip, 1);

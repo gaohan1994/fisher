@@ -39,10 +39,7 @@ class ArchiveManager {
   }
 
   private initialize = async () => {
-    // load archive map
     await this.refreshArchiveMap();
-
-    // load active archive
     await this.refreshActiveArchive();
   };
 

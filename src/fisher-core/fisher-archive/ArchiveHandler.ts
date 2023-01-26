@@ -5,6 +5,7 @@ import { Bank } from '../fisher-bank';
 import { Archive } from './Archive';
 import { Backpack } from '../fisher-backpack';
 import { archiveStore } from './Constants';
+import { Master } from '../fisher-person';
 
 class ArchiveHandler {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'ArchiveHandler');
@@ -19,6 +20,7 @@ class ArchiveHandler {
     makeAutoObservable(this);
     events.on(EventKeys.Update.BankUpdate, this.onBankUpdate);
     events.on(EventKeys.Update.BackpackUpdate, this.onBackpackUpdate);
+    events.on(EventKeys.Update.MasterUpdate, this.onMasterUpdate);
   }
 
   public setActiveArchive = (archive: Archive) => {
@@ -70,6 +72,13 @@ class ArchiveHandler {
   private onBackpackUpdate = async (backpack: Backpack) => {
     if (this.checkActiveArchiveAvailable()) {
       this.activeArchive!.updateBackpack(backpack.archive);
+      await this.saveActiveArchive();
+    }
+  };
+
+  private onMasterUpdate = async (master: Master) => {
+    if (this.checkActiveArchiveAvailable()) {
+      this.activeArchive!.updateMaster(master.archive);
       await this.saveActiveArchive();
     }
   };

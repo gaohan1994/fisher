@@ -5,6 +5,7 @@ import { Experience } from '../fisher-experience';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
+import { PersonMode } from './Constants';
 
 /**
  * 人物类
@@ -16,7 +17,7 @@ import { ActionManager } from './ActionsManager';
 export class Person {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Person');
 
-  public id: string;
+  public mode: PersonMode;
 
   public experience = new Experience();
 
@@ -30,11 +31,11 @@ export class Person {
 
   public actionManager = new ActionManager(this);
 
-  public Hp = this.attributePanel.MaxHp;
+  public Hp: number = this.attributePanel.MaxHp;
 
-  constructor(id: string) {
+  constructor(mode: PersonMode) {
     makeAutoObservable(this);
-    this.id = id;
+    this.mode = mode;
   }
 
   public setTarget = (person: Person | undefined) => {
@@ -42,7 +43,7 @@ export class Person {
   };
 
   public hurt = (value: number) => {
-    Person.logger.debug(`${this.id} hurt damage: ${value}`);
+    Person.logger.debug(`${this.mode} hurt damage: ${value}`);
     this.Hp -= value;
   };
 

@@ -21,6 +21,8 @@ class Archive {
 
   public backpack?: ArchiveInterface.ArchiveBackpack | undefined = undefined;
 
+  public master?: ArchiveInterface.ArchiveMaster | undefined = undefined;
+
   public get values(): ArchiveInterface.ArchiveValues {
     return {
       archiveKey: this.archiveKey,
@@ -30,6 +32,7 @@ class Archive {
       deletedAt: this.deletedAt,
       bank: this.bank,
       backpack: this.backpack,
+      master: this.master,
     };
   }
 
@@ -56,6 +59,10 @@ class Archive {
     if (options.backpack) {
       this.backpack = options.backpack;
     }
+
+    if (options.master) {
+      this.master = options.master;
+    }
   }
 
   public static create(masterName: string): Archive {
@@ -70,6 +77,11 @@ class Archive {
 
   public updateBackpack = (value: ArchiveInterface.ArchiveBackpack) => {
     this.backpack = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateMaster = (value: ArchiveInterface.ArchiveMaster) => {
+    this.master = value;
     this.refreshLastUpdateTime();
   };
 

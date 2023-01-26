@@ -7,6 +7,7 @@ namespace ArchiveInterface {
     deletedAt?: number;
     bank?: ArchiveBank;
     backpack?: ArchiveBackpack;
+    master?: ArchiveMaster;
   }
 
   export interface ArchiveBank {
@@ -14,6 +15,8 @@ namespace ArchiveInterface {
   }
 
   export type ArchiveBackpack = Array<ArchiveBackpackItem>;
+
+  export interface ArchiveMaster {}
 
   interface ArchiveBackpackItem {
     id: string;
