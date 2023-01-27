@@ -8,6 +8,7 @@ import { EventKeys, events } from '../fisher-events';
 import { BattleStatus } from './BattleStatus';
 import { BattleControl } from './BattleControl';
 import { Enemy } from '../fisher-person';
+import { Assets } from '../assets';
 
 class Battle {
   private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -26,6 +27,8 @@ class Battle {
   public readonly id = 'Battle';
 
   public name = '斩妖除魔';
+
+  public media = Assets.battle;
 
   public battleStatus = new BattleStatus();
 

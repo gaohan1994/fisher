@@ -22,18 +22,21 @@ class FuiRouteHandler {
 }
 
 class FuiRoute {
-  public id: string;
+  public component: FisherComponent;
 
-  public name: string;
+  public get id() {
+    return this.component.id;
+  }
 
-  public path: string;
+  public get name() {
+    return this.component.name;
+  }
 
-  public component: any;
+  public get path() {
+    return this.id.toLocaleLowerCase();
+  }
 
   constructor(component: FisherComponent) {
-    this.id = component.id;
-    this.name = component.name;
-    this.path = this.id.toLocaleLowerCase();
     this.component = component;
   }
 }

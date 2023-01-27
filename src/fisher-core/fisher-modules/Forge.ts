@@ -1,3 +1,4 @@
+import { Assets } from '../assets';
 import { EventKeys, events } from '../fisher-events';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
@@ -17,6 +18,8 @@ class Forge extends Collection<Recipe[]> {
   public id = 'Forge';
 
   public name = '锻造';
+
+  public media = Assets.forge;
 
   public skill = new Skill(this.id);
 
