@@ -1,13 +1,20 @@
 import localforage from 'localforage';
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
+import { FisherCore } from '../fisher-core';
+import { Timer } from '../fisher-timer';
+import { EventKeys, events } from '../fisher-events';
 import { Archive } from './Archive';
 import { ArchiveInterface } from './Types';
 import { ArchiveHandler } from './ArchiveHandler';
 import { ArchiveConstants, archiveStore } from './Constants';
 
+const ArchiveAutoSaveInterval = 1000 * 10;
+
 class ArchiveManager {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'ArchiveManager');
+
+  private readonly _core: FisherCore;
 
   private archiveMap = new Map<string, Archive>();
 
@@ -25,6 +32,8 @@ class ArchiveManager {
 
   private archiveHandler = new ArchiveHandler();
 
+  private archiveAutoSaveTimer = new Timer('ArchiveAutoSaveTimer', () => this.autoSaveArchiveAction());
+
   public get activeArchive() {
     return this.archiveHandler.activeArchive;
   }
@@ -33,9 +42,13 @@ class ArchiveManager {
     return this.archiveHandler.hasActiveArchive;
   }
 
-  constructor() {
+  constructor(core: FisherCore) {
     makeAutoObservable(this);
+
+    this._core = core;
     this.initialize();
+    this.archiveAutoSaveTimer.startTimer(ArchiveAutoSaveInterval);
+    events.on(EventKeys.Archive.SaveFullArchive, this.onSaveFullArchive);
   }
 
   private initialize = async () => {
@@ -55,7 +68,19 @@ class ArchiveManager {
     await this.refreshActiveArchive();
   };
 
+  public onSaveFullArchive = async () => {
+    await this.archiveHandler.saveFullArchive(this._core);
+  };
+
+  private autoSaveArchiveAction = async () => {
+    if (this.hasActiveArchive) {
+      ArchiveManager.logger.debug(`Auto save archive ${this.activeArchive!.archiveKey}`);
+      this.onSaveFullArchive();
+    }
+  };
+
   public exitActiveArchive = async () => {
+    await this.onSaveFullArchive();
     await this.archiveHandler.exitActiveArchive();
     await this.saveActiveArchiveKey(null);
     await this.refreshActiveArchive();
@@ -104,6 +129,9 @@ class ArchiveManager {
 
     if (activeArchive !== undefined) {
       this.archiveHandler.setActiveArchive(activeArchive);
+      this.archiveAutoSaveTimer.startTimer(ArchiveAutoSaveInterval);
+    } else {
+      this.archiveAutoSaveTimer.stopTimer();
     }
   };
 

@@ -16,7 +16,10 @@ namespace ArchiveInterface {
 
   export type ArchiveBackpack = Array<ArchiveBackpackItem>;
 
-  export interface ArchiveMaster {}
+  export interface ArchiveMaster {
+    experience: number;
+    equipmentIds: string[];
+  }
 
   interface ArchiveBackpackItem {
     id: string;

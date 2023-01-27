@@ -5,7 +5,7 @@ import { Bank } from '../fisher-bank';
 import { Archive } from './Archive';
 import { Backpack } from '../fisher-backpack';
 import { archiveStore } from './Constants';
-import { Master } from '../fisher-person';
+import { FisherCore } from '../fisher-core';
 
 class ArchiveHandler {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'ArchiveHandler');
@@ -20,7 +20,6 @@ class ArchiveHandler {
     makeAutoObservable(this);
     events.on(EventKeys.Update.BankUpdate, this.onBankUpdate);
     events.on(EventKeys.Update.BackpackUpdate, this.onBackpackUpdate);
-    events.on(EventKeys.Update.MasterUpdate, this.onMasterUpdate);
   }
 
   public setActiveArchive = (archive: Archive) => {
@@ -43,6 +42,16 @@ class ArchiveHandler {
 
     ArchiveHandler.logger.info(`Success create archive ${archive.archiveKey}, master name ${masterName}`);
     return [archive.archiveKey, archive];
+  };
+
+  public saveFullArchive = async (core: FisherCore) => {
+    if (this.checkActiveArchiveAvailable()) {
+      const { bank, backpack, master } = core;
+      this.activeArchive!.updateBank(bank.archive);
+      this.activeArchive!.updateBackpack(backpack.archive);
+      this.activeArchive!.updateMaster(master.archive);
+      await this.saveActiveArchive();
+    }
   };
 
   public deleteArchive = async (archive: Archive) => {
@@ -72,13 +81,6 @@ class ArchiveHandler {
   private onBackpackUpdate = async (backpack: Backpack) => {
     if (this.checkActiveArchiveAvailable()) {
       this.activeArchive!.updateBackpack(backpack.archive);
-      await this.saveActiveArchive();
-    }
-  };
-
-  private onMasterUpdate = async (master: Master) => {
-    if (this.checkActiveArchiveAvailable()) {
-      this.activeArchive!.updateMaster(master.archive);
       await this.saveActiveArchive();
     }
   };
