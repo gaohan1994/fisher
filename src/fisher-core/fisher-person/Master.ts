@@ -8,6 +8,8 @@ import { Person } from './Person';
 import { PersonEquipment } from './PersonEquipment';
 import { PersonEquipmentEventKeys } from './PersonEquipmentManager';
 
+const EquipmentChangeQuantity = 1;
+
 class Master {
   public static instance: Master;
 
@@ -59,11 +61,15 @@ class Master {
   }
 
   public get archive(): ArchiveInterface.ArchiveMaster {
-    return {};
+    return {
+      experience: this.person.experience.experience,
+      equipmentIds: this.person.personEquipmentManager.equipmentIds,
+    };
   }
 
   constructor() {
     makeAutoObservable(this);
+
     events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
     this.person.personEquipmentManager.personEquipmentEvents.on(
       PersonEquipmentEventKeys.EquipmentChange,
@@ -72,24 +78,27 @@ class Master {
   }
 
   private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
-    // this.person.experience.setExperience(0);
-    // this.person.personEquipmentManager.loadArchiveEquipments();
+    const { master, masterName } = values;
+    this.name = masterName;
+    this.person.experience.setExperience(master?.experience ?? 0);
+    this.person.personEquipmentManager.loadArchiveEquipments(master?.equipmentIds ?? []);
   };
 
   public deathPenalty = () => {};
 
   private onMasterEquipmentChange = (
     currentPersonEquipment: PersonEquipment,
-    previousEquipment: EquipmentItem | undefined = undefined,
-    previousQuantity: number = 1
+    previousEquipment: EquipmentItem | undefined = undefined
   ) => {
     if (!currentPersonEquipment.isEmpty) {
-      this.reduceEquipmentAfterUseEquipment(currentPersonEquipment.equipment!, currentPersonEquipment.quantity);
+      this.reduceEquipmentAfterUseEquipment(currentPersonEquipment.equipment!, EquipmentChangeQuantity);
     }
 
     if (previousEquipment !== undefined) {
-      this.putEquipmentToBackpack(previousEquipment, previousQuantity);
+      this.putEquipmentToBackpack(previousEquipment, EquipmentChangeQuantity);
     }
+
+    events.emit(EventKeys.Archive.SaveFullArchive);
   };
 
   private putEquipmentToBackpack = (equipment: EquipmentItem, quantity: number) => {

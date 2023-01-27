@@ -26,10 +26,10 @@ namespace EventKeys {
   export enum Update {
     BackpackUpdate = 'BackpackUpdate',
     BankUpdate = 'BankUpdate',
-    MasterUpdate = 'MasterUpdate',
   }
 
   export enum Archive {
+    SaveFullArchive = 'SaveFullArchive',
     LoadArchive = 'LoadArchive',
     ExitArchive = 'ExitArchive',
   }

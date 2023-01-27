@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { master } from '../fisher-person';
 import { prompt } from '../fisher-prompt';
 import { events } from '../fisher-events';
 import { ArchiveManager } from '../fisher-archive';
@@ -24,7 +23,7 @@ export class FisherCore {
 
   public events = events;
 
-  public archiveManager = new ArchiveManager();
+  public archiveManager = new ArchiveManager(this);
 
   public get gameReady() {
     return this.archiveManager.hasActiveArchive;

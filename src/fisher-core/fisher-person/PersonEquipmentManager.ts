@@ -22,6 +22,19 @@ class PersonEquipmentManager {
     return [...this.equipmentMap.values()];
   }
 
+  public get equipmentIds() {
+    let result: string[] = [];
+
+    for (let index = 0; index < this.equipments.length; index++) {
+      const personEquipment = this.equipments[index];
+      if (!personEquipment.isEmpty) {
+        result.push(personEquipment.equipment!.id);
+      }
+    }
+
+    return result;
+  }
+
   public equipmentSetMap = new Map<EquipmentSet, EquipmentItem[]>();
 
   public get equipmentSets() {
@@ -45,9 +58,19 @@ class PersonEquipmentManager {
     }
   };
 
-  public loadArchiveEquipments = () => {};
+  public loadArchiveEquipments = (equipmentIds: string[]) => {
+    this.initializeEquipmentMap();
 
-  public useEquipment = (equipment: EquipmentItem) => {
+    for (let index = 0; index < equipmentIds.length; index++) {
+      const equipmentId = equipmentIds[index];
+      const equipment = store.findEquipmentById(equipmentId);
+      this.setEquipment(equipment);
+    }
+
+    this.callculateEquipmentSets();
+  };
+
+  public setEquipment = (equipment: EquipmentItem) => {
     const { slot } = equipment;
     const currentSlotEquipment = this.equipmentMap.get(slot);
 
@@ -59,8 +82,14 @@ class PersonEquipmentManager {
     const previousEquipment = currentSlotEquipment.updateEquipment(equipment);
     this.equipmentMap.set(slot, currentSlotEquipment);
 
+    return [currentSlotEquipment, previousEquipment];
+  };
+
+  public useEquipment = (equipment: EquipmentItem) => {
+    const [currentSlotEquipment, previousEquipment] = this.setEquipment(equipment);
+
     this.personEquipmentEvents.emit(PersonEquipmentEventKeys.EquipmentChange, currentSlotEquipment, previousEquipment);
-    PersonEquipmentManager.logger.debug(`use equipment, slot: ${slot} equipmentId ${equipment.id}`);
+    PersonEquipmentManager.logger.debug(`use equipment, slot: ${equipment.slot} equipmentId ${equipment.id}`);
   };
 
   public removeEquipment = (equipmentSlot: EquipmentSlot) => {

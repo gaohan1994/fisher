@@ -47,12 +47,13 @@ const FuiMenu = observer(() => {
         <List>
           {fuiRouteHandler.values.map(([id, componentRoute]) => {
             if (checkIsVisibleComponent(id)) {
+              const { component } = componentRoute as any;
               return (
                 <ListItem key={id} disablePadding>
                   <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
-                    {componentRoute.component?.media && (
+                    {component?.media && (
                       <ListItemIcon>
-                        <Avatar sx={{ width: 30, height: 30 }} src={componentRoute.component?.media} />
+                        <Avatar sx={{ width: 30, height: 30 }} src={component?.media} />
                       </ListItemIcon>
                     )}
                     <ListItemText primary={componentRoute.name} />
