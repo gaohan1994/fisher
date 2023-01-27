@@ -2,15 +2,14 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Typography, Card, CardContent, CardHeader, List, ListItem, Stack } from '@mui/material';
 import { core, PersonEquipment } from '@FisherCore';
+import { EquipmentControlActions, FuiEquipment, FuiEquipmentControl } from '../equipment';
 import { FuiItem } from '../item';
-import { FuiEquipment } from '../equipment';
 import { FuiColor } from '../theme';
 import { fuiMasterEquipmentsStore } from './EquipmentsStore';
-import { FuiActiveEquipmentControl } from './ActiveEquipmentControl';
 
 const FuiMasterEquipments: React.FC = observer(() => {
   const { master } = core;
-  const { activePersonEquipment, setActivePersonEquipment } = fuiMasterEquipmentsStore;
+  const { activePersonEquipment, setActivePersonEquipment, clearActivePersonEquipment } = fuiMasterEquipmentsStore;
 
   const leftEquipments = [master.primaryWeapon];
   const rightEquipments = [master.helmet];
@@ -47,7 +46,13 @@ const FuiMasterEquipments: React.FC = observer(() => {
   return (
     <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
       {renderEquipmentList(leftEquipments)}
-      <FuiActiveEquipmentControl />
+      {activePersonEquipment && !activePersonEquipment.isEmpty && (
+        <FuiEquipmentControl
+          equipment={activePersonEquipment.equipment!}
+          actions={[EquipmentControlActions.RemoveEquipment]}
+          actionCallback={() => clearActivePersonEquipment()}
+        />
+      )}
       {renderEquipmentList(rightEquipments)}
     </Stack>
   );

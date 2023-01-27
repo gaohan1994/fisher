@@ -2,7 +2,7 @@ import React from 'react';
 import { BackpackItem, core, EquipmentItem, EquipmentSlot, ItemType } from '@FisherCore';
 
 const useBackpackEquipments = () => {
-  const { backpack, master } = core;
+  const { backpack } = core;
 
   const backpackEquipmentList = backpack.getItemsByType<EquipmentItem>(ItemType.Equipment);
   const backpackEquipmentMap = new Map<EquipmentSlot, BackpackItem<EquipmentItem>[]>();
@@ -25,21 +25,9 @@ const useBackpackEquipments = () => {
     [backpackEquipmentMap]
   );
 
-  const masterUseBackpackEquipment = React.useCallback((equipment: EquipmentItem) => {
-    const currentSlotPersonEquipment = master.personEquipmentManager.equipmentMap.get(equipment.slot)!;
-    const currentSlotPersonEquipmentIsEmpty = currentSlotPersonEquipment.isEmpty;
-    const currentSlotEquipmentSameAsPassedEquipment = currentSlotPersonEquipment.equipment?.id === equipment.id;
-    if (!currentSlotPersonEquipmentIsEmpty && currentSlotEquipmentSameAsPassedEquipment) {
-      return;
-    }
-
-    master.personEquipmentManager.useEquipment(equipment);
-  }, []);
-
   return {
     backpackEquipmentList,
     getBackpackSlotEquipments,
-    masterUseBackpackEquipment,
   };
 };
 

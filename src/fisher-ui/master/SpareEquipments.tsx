@@ -1,19 +1,43 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Divider, Typography, Card, CardContent, Box, Stack, Switch, FormControlLabel } from '@mui/material';
-import { EquipmentItem, BackpackItem, EquipmentSlot, EquipmentSlotName, core } from '@FisherCore';
+import {
+  Divider,
+  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  Box,
+  Stack,
+  Switch,
+  FormControlLabel,
+} from '@mui/material';
+import { EquipmentItem, BackpackItem, EquipmentSlot, EquipmentSlotName } from '@FisherCore';
 import { FuiColor } from '../theme';
-import { FuiEquipment } from '../equipment';
+import { EquipmentControlActions, FuiEquipment, FuiEquipmentControl } from '../equipment';
 import { useBackpackEquipments } from '../../application/hook';
 import { fuiMasterEquipmentsStore } from './EquipmentsStore';
 
 const FuiSpareEquipments: React.FC = observer(() => {
+  const { activeSpareEquipment, clearActiveSpareEquipment } = fuiMasterEquipmentsStore;
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
-      <CardContent>
-        <FuiSlotEquipmentSwitch />
-        <FuiFullBackpackEquipments />
-        <FuiSlotBackpackEquipments />
+      <CardHeader title={<FuiSlotEquipmentSwitch />} sx={{ pb: 0 }} />
+      <CardContent sx={{ pt: 0 }}>
+        <Stack direction="row" spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ flex: 1 }}>
+            <FuiFullBackpackEquipments />
+            <FuiSlotBackpackEquipments />
+          </div>
+          <div style={{ width: 200 }}>
+            {activeSpareEquipment && (
+              <FuiEquipmentControl
+                equipment={activeSpareEquipment}
+                actions={[EquipmentControlActions.UseEquipment]}
+                actionCallback={() => clearActiveSpareEquipment()}
+              />
+            )}
+          </div>
+        </Stack>
       </CardContent>
     </Card>
   );
@@ -70,7 +94,7 @@ interface FuiSpareEquipmentRenderProps {
   backpackEquipments: BackpackItem<EquipmentItem>[];
 }
 const FuiSpareEquipmentRender: React.FC<FuiSpareEquipmentRenderProps> = observer(({ title, backpackEquipments }) => {
-  const { masterUseBackpackEquipment } = useBackpackEquipments();
+  const { activeSpareEquipment, setActiveSpareEquipment } = fuiMasterEquipmentsStore;
   return (
     <Box sx={{ mt: 1 }}>
       <Typography variant="body2" sx={{ mb: 1 }}>
@@ -82,8 +106,9 @@ const FuiSpareEquipmentRender: React.FC<FuiSpareEquipmentRenderProps> = observer
           {backpackEquipments.map(({ item, quantity }) => (
             <FuiEquipment
               key={`${item.id}${quantity}`}
+              showBorder={activeSpareEquipment?.id === item.id}
               equipment={item}
-              onClick={() => masterUseBackpackEquipment(item)}
+              onClick={() => setActiveSpareEquipment(item)}
               showQuantity
             />
           ))}

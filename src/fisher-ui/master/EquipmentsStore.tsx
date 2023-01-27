@@ -1,8 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import { PersonEquipment } from '@FisherCore';
+import { EquipmentItem, PersonEquipment } from '@FisherCore';
 
 class FuiMasterEquipmentsStore {
   public activePersonEquipment: PersonEquipment | undefined = undefined;
+
+  public activeSpareEquipment: EquipmentItem | undefined = undefined;
 
   public showEquipmentsBySlot = false;
 
@@ -20,6 +22,14 @@ class FuiMasterEquipmentsStore {
 
   public clearActivePersonEquipment = () => {
     this.activePersonEquipment = undefined;
+  };
+
+  public setActiveSpareEquipment = (equipment: EquipmentItem) => {
+    this.activeSpareEquipment = equipment;
+  };
+
+  public clearActiveSpareEquipment = () => {
+    this.activeSpareEquipment = undefined;
   };
 
   public changeSlotEquipmentVisible = (visible: boolean) => {
