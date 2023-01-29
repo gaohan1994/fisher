@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { store, Recipe, IRecipeItem, IRecipeRandomRewardItem, NormalItem } from '@FisherCore';
+import { store, Recipe, IRecipeItem, IRecipeRandomRewardItem, NormalItem, BackpackItem, core } from '@FisherCore';
 
 type IUseRecipeItem = [IRecipeItem, NormalItem];
 type IUseRecipeRandomItem = [IRecipeRandomRewardItem, NormalItem];
+type IUseCostItem = [IRecipeItem, NormalItem];
 
 interface IUseRecipe {
   recipe: Recipe;
@@ -11,6 +12,7 @@ interface IUseRecipe {
   rewardItemAvatars: string[];
   randomRewardItems: IUseRecipeRandomItem[];
   randomRewardItemAvatars: string[];
+  costItems: IUseCostItem[];
 }
 
 const useRecipe = (recipe: Recipe): IUseRecipe => {
@@ -29,6 +31,11 @@ const useRecipe = (recipe: Recipe): IUseRecipe => {
     [randomRewardItems]
   );
 
+  const costItems: IUseCostItem[] = useMemo(
+    () => (recipe.hasCostItems ? recipe.costItems!.map((item) => [item, store.findItemById(item.itemId)]) : []),
+    [recipe]
+  );
+
   return {
     recipe,
     intervalSecond: recipe.interval / 1000,
@@ -36,8 +43,9 @@ const useRecipe = (recipe: Recipe): IUseRecipe => {
     rewardItemAvatars,
     randomRewardItems,
     randomRewardItemAvatars,
+    costItems,
   };
 };
 
 export { useRecipe };
-export type { IUseRecipeItem, IUseRecipeRandomItem };
+export type { IUseRecipeItem, IUseRecipeRandomItem, IUseCostItem };
