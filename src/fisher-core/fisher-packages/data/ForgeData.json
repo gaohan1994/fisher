@@ -23,6 +23,18 @@
         "rewardExperience": 10,
         "rewardItems": [{ "itemId": "ClothHat", "itemQuantity": 1 }],
         "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
+      },
+      {
+        "id": "Forge:EastDragonSword",
+        "name": "锻造：东海龙王之剑",
+        "desc": "制作东海龙王之剑",
+        "media": "",
+        "interval": 5000,
+        "unlockLevel": 1,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "EastDragonSword", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 3, "itemId": "FlashEastDragonSword", "itemQuantity": 1 }],
+        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
       }
     ]
   }

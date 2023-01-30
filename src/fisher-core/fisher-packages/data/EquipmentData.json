@@ -31,6 +31,24 @@
         "slot": "Helmet",
         "requirements": [],
         "attributes": [{ "key": "MaxHp", "value": 20 }]
+      },
+      {
+        "id": "EastDragonSword",
+        "name": "东海龙王之剑",
+        "desc": "拥有东海龙王力量的武器",
+        "media": "EastDragonSword",
+        "price": 5000,
+        "slot": "PrimaryWeapon",
+        "attributes": [{ "key": "AttackPower", "value": 210 }]
+      },
+      {
+        "id": "FlashEastDragonSword",
+        "name": "闪光的东海龙王之剑",
+        "desc": "充满东海龙王力量的武器",
+        "media": "FlashEastDragonSword",
+        "price": 5000,
+        "slot": "PrimaryWeapon",
+        "attributes": [{ "key": "AttackPower", "value": 220 }]
       }
     ]
   }

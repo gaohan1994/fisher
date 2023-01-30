@@ -18,6 +18,7 @@ import posion from './actions/posion.png';
 import EmptyPrimaryWeapon from './equipments/EmptyPrimaryWeapon.png';
 import EmptyHelmet from './equipments/EmptyHelmet.png';
 import woodsword from './equipments/woodsword.png';
+import FlashEastDragonSword from './equipments/FlashEastDragonSword.png';
 import ninja from './person/ninja.png';
 import knight from './person/knight.png';
 
@@ -50,6 +51,7 @@ export const Assets = {
   EmptyPrimaryWeapon,
   EmptyHelmet,
   woodsword,
+  FlashEastDragonSword,
 
   // enemy assets
   LowSpiritMonster,
