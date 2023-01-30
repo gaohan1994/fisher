@@ -33,9 +33,9 @@ class Mining extends Collection<ICollectionModuleData> {
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
 
-  public onLoadArchive(value: ArchiveInterface.ArchiveValues): void {
+  public onLoadArchive = (value: ArchiveInterface.ArchiveValues) => {
     this.skill.experience.setExperience(value.mining?.experience ?? 0);
-  }
+  };
 
   public start = (recipe: Recipe) => {
     this.skill.setActiveRecipe(recipe);

@@ -80,6 +80,7 @@ class RecipeHandler {
     executeRewards.forEach((reward) => reward.execute());
 
     this.recipeEvents.emit(RecipeEventKeys.UpdateActiveRecipeStatus);
+    events.emit(EventKeys.Archive.SaveFullArchive);
   };
 
   private createRewards = (): Reward[] => {

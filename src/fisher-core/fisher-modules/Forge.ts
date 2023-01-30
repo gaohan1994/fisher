@@ -37,9 +37,9 @@ class Forge extends Collection<Recipe[]> {
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
 
-  public onLoadArchive(value: ArchiveInterface.ArchiveValues): void {
+  public onLoadArchive = (value: ArchiveInterface.ArchiveValues) => {
     this.skill.experience.setExperience(value.forge?.experience ?? 0);
-  }
+  };
 
   public setActiveRecipe = (value: Recipe) => {
     this.skill.setActiveRecipe(value);
