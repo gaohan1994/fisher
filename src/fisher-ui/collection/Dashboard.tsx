@@ -1,15 +1,15 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Box, Card, CardContent, CardHeader, Chip, Stack, Typography } from '@mui/material';
-import { Mining, Reiki } from '@FisherCore';
+import { Forge, Mining, Reiki } from '@FisherCore';
 import { FuiColor } from '../theme';
 import { FuiLineProgress } from '../progress';
 
 interface Props {
-  collection: Mining | Reiki;
+  collection: Mining | Reiki | Forge;
 }
 const FuiDashboard: React.FC<Props> = observer(({ collection }) => {
-  const { name, media, skill, activeRecipe } = collection;
+  const { name, media, skill, activeRecipe, isActive } = collection;
   return (
     <Card sx={{ width: '100%', bgcolor: FuiColor.primary.background, p: 2, mb: 2 }}>
       <CardHeader
@@ -30,7 +30,7 @@ const FuiDashboard: React.FC<Props> = observer(({ collection }) => {
       />
       <CardContent sx={{ p: 0, m: 0 }}>
         <Typography variant="caption" color="secondary" component="div" textAlign="center" sx={{ mb: 1 }}>
-          {activeRecipe
+          {activeRecipe && isActive
             ? `正在${activeRecipe.name}，${collection.name}间隔 ${activeRecipe.interval / 1000} 秒，每次经验奖励 ${
                 activeRecipe.rewardExperience
               } 点`
