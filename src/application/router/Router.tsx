@@ -1,12 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ComponentId } from '@FisherCore';
 import { fuiRouteHandler } from '@Fui';
+import FisherCoreDemo from '../demo/FisherCoreDemo';
 import { Game, Home } from '../game';
 import { PageMining } from '../mining';
 import { PageReiki } from '../reiki';
 import { PageBattle } from '../battle';
-import FisherCoreDemo from '../demo/FisherCoreDemo';
 import { PageMaster } from '../master';
+import { PageForge } from '../forge';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Forge)?.path,
-        element: <PageMining />,
+        element: <PageForge />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,

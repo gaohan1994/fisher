@@ -6,7 +6,7 @@ const PageMaster: React.FC = () => {
   return (
     <FuiContainer>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <FuiMasterEquipmentsCard />
         </Grid>
       </Grid>
