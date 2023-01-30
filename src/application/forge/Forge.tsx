@@ -16,7 +16,7 @@ const PageForge = observer(() => {
         <Grid item xs>
           <Grid container spacing={2}>
             {packages.map((item) => (
-              <Grid item xs={6}>
+              <Grid item xs={6} key={item.id}>
                 <FuiForgeRecipe recipe={item} />
               </Grid>
             ))}
