@@ -23,12 +23,6 @@ export class FisherCore {
 
   public events = events;
 
-  public archiveManager = new ArchiveManager(this);
-
-  public get gameReady() {
-    return this.archiveManager.hasActiveArchive;
-  }
-
   public componentManager = ComponentManager.create();
 
   public get activeComponent() {
@@ -68,6 +62,12 @@ export class FisherCore {
   }
 
   public readonly prompt = prompt;
+
+  public archiveManager = new ArchiveManager(this);
+
+  public get gameReady() {
+    return this.archiveManager.hasActiveArchive;
+  }
 
   constructor() {
     makeAutoObservable(this);

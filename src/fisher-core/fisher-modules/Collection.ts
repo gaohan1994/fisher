@@ -1,3 +1,4 @@
+import { ArchiveInterface } from '../fisher-archive';
 import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 
@@ -9,6 +10,12 @@ abstract class Collection<CollectionPackages> {
   public abstract get packages(): CollectionPackages;
 
   public abstract skill: Skill;
+
+  public get archive(): ArchiveInterface.ArchiveCollection {
+    return {
+      experience: this.skill.experience.experience,
+    };
+  }
 
   public get level() {
     return this.skill.experience.level;
@@ -33,6 +40,8 @@ abstract class Collection<CollectionPackages> {
   abstract start(recipe?: Recipe): void;
 
   abstract stop(): void;
+
+  abstract onLoadArchive(value: ArchiveInterface.ArchiveValues): void;
 
   public addExperience = (value: number) => {
     this.skill.experience.addExperience(value);

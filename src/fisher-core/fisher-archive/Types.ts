@@ -8,6 +8,9 @@ namespace ArchiveInterface {
     bank?: ArchiveBank;
     backpack?: ArchiveBackpack;
     master?: ArchiveMaster;
+    mining?: ArchiveCollection;
+    reiki?: ArchiveCollection;
+    forge?: ArchiveCollection;
   }
 
   export interface ArchiveBank {
@@ -15,6 +18,10 @@ namespace ArchiveInterface {
   }
 
   export type ArchiveBackpack = Array<ArchiveBackpackItem>;
+
+  export interface ArchiveCollection {
+    experience: number;
+  }
 
   export interface ArchiveMaster {
     experience: number;

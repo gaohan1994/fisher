@@ -47,7 +47,6 @@ class ArchiveManager {
 
     this._core = core;
     this.initialize();
-    this.archiveAutoSaveTimer.startTimer(ArchiveAutoSaveInterval);
     events.on(EventKeys.Archive.SaveFullArchive, this.onSaveFullArchive);
   }
 

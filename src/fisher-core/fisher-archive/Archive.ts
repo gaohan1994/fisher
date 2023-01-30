@@ -17,11 +17,17 @@ class Archive {
     return this.deletedAt !== undefined;
   }
 
-  public bank?: ArchiveInterface.ArchiveBank | undefined = undefined;
+  public bank: ArchiveInterface.ArchiveBank | undefined = undefined;
 
-  public backpack?: ArchiveInterface.ArchiveBackpack | undefined = undefined;
+  public backpack: ArchiveInterface.ArchiveBackpack | undefined = undefined;
 
-  public master?: ArchiveInterface.ArchiveMaster | undefined = undefined;
+  public master: ArchiveInterface.ArchiveMaster | undefined = undefined;
+
+  public mining: ArchiveInterface.ArchiveCollection | undefined = undefined;
+
+  public reiki: ArchiveInterface.ArchiveCollection | undefined = undefined;
+
+  public forge: ArchiveInterface.ArchiveCollection | undefined = undefined;
 
   public get values(): ArchiveInterface.ArchiveValues {
     return {
@@ -33,6 +39,9 @@ class Archive {
       bank: this.bank,
       backpack: this.backpack,
       master: this.master,
+      mining: this.mining,
+      reiki: this.reiki,
+      forge: this.forge,
     };
   }
 
@@ -63,6 +72,18 @@ class Archive {
     if (options.master) {
       this.master = options.master;
     }
+
+    if (options.mining) {
+      this.mining = options.mining;
+    }
+
+    if (options.reiki) {
+      this.reiki = options.reiki;
+    }
+
+    if (options.forge) {
+      this.forge = options.forge;
+    }
   }
 
   public static create(masterName: string): Archive {
@@ -82,6 +103,21 @@ class Archive {
 
   public updateMaster = (value: ArchiveInterface.ArchiveMaster) => {
     this.master = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateMining = (value: ArchiveInterface.ArchiveCollection) => {
+    this.mining = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateReiki = (value: ArchiveInterface.ArchiveCollection) => {
+    this.reiki = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateForge = (value: ArchiveInterface.ArchiveCollection) => {
+    this.forge = value;
     this.refreshLastUpdateTime();
   };
 

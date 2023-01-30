@@ -4,6 +4,7 @@ import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { Collection } from './Collection';
 import { Assets } from '../assets';
+import { ArchiveInterface } from '../fisher-archive';
 
 class Mining extends Collection<ICollectionModuleData> {
   public static instance: Mining;
@@ -25,6 +26,15 @@ class Mining extends Collection<ICollectionModuleData> {
 
   public get packages() {
     return store.Mining;
+  }
+
+  constructor() {
+    super();
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
+  }
+
+  public onLoadArchive(value: ArchiveInterface.ArchiveValues): void {
+    this.skill.experience.setExperience(value.mining?.experience ?? 0);
   }
 
   public start = (recipe: Recipe) => {

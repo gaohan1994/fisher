@@ -4,6 +4,7 @@ import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { Collection } from './Collection';
 import { Assets } from '../assets';
+import { ArchiveInterface } from '../fisher-archive';
 
 class Reiki extends Collection<ICollectionModuleData> {
   public static instance: Reiki;
@@ -25,6 +26,15 @@ class Reiki extends Collection<ICollectionModuleData> {
 
   public get packages() {
     return store.Reiki;
+  }
+
+  constructor() {
+    super();
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
+  }
+
+  public onLoadArchive(value: ArchiveInterface.ArchiveValues): void {
+    this.skill.experience.setExperience(value.reiki?.experience ?? 0);
   }
 
   public start = (recipe: Recipe) => {

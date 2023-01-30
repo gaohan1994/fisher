@@ -1,4 +1,5 @@
 import { Assets } from '../assets';
+import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
@@ -29,6 +30,15 @@ class Forge extends Collection<Recipe[]> {
 
   public get packages() {
     return store.Forge;
+  }
+
+  constructor() {
+    super();
+    events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
+  }
+
+  public onLoadArchive(value: ArchiveInterface.ArchiveValues): void {
+    this.skill.experience.setExperience(value.forge?.experience ?? 0);
   }
 
   public setActiveRecipe = (value: Recipe) => {
