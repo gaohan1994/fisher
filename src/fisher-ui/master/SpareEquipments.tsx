@@ -12,23 +12,22 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import { EquipmentItem, BackpackItem, EquipmentSlot, EquipmentSlotName } from '@FisherCore';
-import { FuiColor } from '../theme';
+import { FuiColor, FuiSize } from '../theme';
 import { EquipmentControlActions, FuiEquipment, FuiEquipmentControl } from '../equipment';
 import { useBackpackEquipments } from '../../application/hook';
 import { fuiMasterEquipmentsStore } from './EquipmentsStore';
 
 const FuiSpareEquipments: React.FC = observer(() => {
-  const { activeSpareEquipment, clearActiveSpareEquipment } = fuiMasterEquipmentsStore;
+  const { showEquipmentsBySlot, activeSpareEquipment, clearActiveSpareEquipment } = fuiMasterEquipmentsStore;
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
       <CardHeader title={<FuiSlotEquipmentSwitch />} sx={{ pb: 0 }} />
       <CardContent sx={{ pt: 0 }}>
         <Stack direction="row" spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flex: 1 }}>
-            <FuiFullBackpackEquipments />
-            <FuiSlotBackpackEquipments />
+            {!showEquipmentsBySlot ? <FuiFullBackpackEquipments /> : <FuiSlotBackpackEquipments />}
           </div>
-          <div style={{ width: 200 }}>
+          <div style={{ width: FuiSize.item.detail }}>
             {activeSpareEquipment && (
               <FuiEquipmentControl
                 equipment={activeSpareEquipment}
@@ -65,7 +64,6 @@ const FuiFullBackpackEquipments = observer(() => {
 });
 
 const FuiSlotBackpackEquipments = observer(() => {
-  const { showEquipmentsBySlot } = fuiMasterEquipmentsStore;
   const { getBackpackSlotEquipments } = useBackpackEquipments();
 
   const renderList = [];
@@ -76,10 +74,6 @@ const FuiSlotBackpackEquipments = observer(() => {
         backpackEquipments={getBackpackSlotEquipments(slot as EquipmentSlot)}
       />
     );
-  }
-
-  if (!showEquipmentsBySlot) {
-    return null;
   }
 
   return (

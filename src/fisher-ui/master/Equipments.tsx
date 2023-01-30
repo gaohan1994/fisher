@@ -44,8 +44,9 @@ const FuiMasterEquipments: React.FC = observer(() => {
   );
 
   return (
-    <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+    <Stack direction="row" spacing={2}>
       {renderEquipmentList(leftEquipments)}
+      {renderEquipmentList(rightEquipments)}
       {activePersonEquipment && !activePersonEquipment.isEmpty && (
         <FuiEquipmentControl
           equipment={activePersonEquipment.equipment!}
@@ -53,7 +54,6 @@ const FuiMasterEquipments: React.FC = observer(() => {
           actionCallback={() => clearActivePersonEquipment()}
         />
       )}
-      {renderEquipmentList(rightEquipments)}
     </Stack>
   );
 });

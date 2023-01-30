@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { Avatar, colors, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
 import { coinItem, Item } from '@FisherCore';
-import { FuiColor } from '../theme';
+import { FuiColor, FuiSize } from '../theme';
 
 interface FuiItemDetailProps {
   item: Item;
@@ -9,7 +9,7 @@ interface FuiItemDetailProps {
 
 const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, children }) => {
   return (
-    <Card sx={{ bgcolor: FuiColor.item.background, minWidth: 200, maxWidth: 300 }}>
+    <Card sx={{ bgcolor: FuiColor.item.background, width: FuiSize.item.detail }}>
       <CardHeader
         avatar={<Avatar src={item.media} variant="square" />}
         title={

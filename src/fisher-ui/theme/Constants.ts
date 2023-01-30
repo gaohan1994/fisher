@@ -3,6 +3,7 @@ import { common, yellow, grey, green, blueGrey } from '@mui/material/colors';
 const FuiSize = {
   item: {
     size: 50,
+    detail: 280,
   },
 };
 
