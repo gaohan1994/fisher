@@ -4,6 +4,7 @@ import equipmentDataJson from './data/EquipmentData.json';
 import equipmentSetDataJson from './data/EquipmentSetData.json';
 import battleDataJson from './data/BattleData.json';
 import forgeDataJson from './data/ForgeData.json';
+import ShopDataJson from './data/ShopData.json';
 import {
   Item,
   IItem,
@@ -18,6 +19,8 @@ import {
   IEnemyItem,
   IEquipmentSet,
   EquipmentSet,
+  IShopCategory,
+  ShopCategory,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -42,12 +45,6 @@ export function makeReikiPackagesData(): ICollectionModuleData {
   return makePackageCollectionDataSource(reikiDataJson);
 }
 
-/**
- * 生成装备数据
- *
- * @param {PackageEquipmentJsonDataSource} dataSource
- * @return {*}
- */
 export function makeEquipmentPackagesData() {
   return generateEquipments(equipmentDataJson.data.items);
 }
@@ -56,16 +53,14 @@ export function makeEquipmentSetData() {
   return generateEquipmentSets(equipmentSetDataJson.data.items);
 }
 
-export function makeForgePackagesData() {
-  return generatePackagesRecipes(forgeDataJson.data.recipes);
+export function makeForgePackagesData(): [Recipe[], NormalItem[]] {
+  return [generatePackagesRecipes(forgeDataJson.data.recipes), generatePackagesItems(forgeDataJson.data.bluePrints)];
 }
 
-/**
- * 生成战斗模块数据
- *
- * @export
- * @return {*}
- */
+export function makeShopData() {
+  return generateShopCategories(ShopDataJson.data);
+}
+
 export function makeBattlePackageData() {
   const { area: areaJson, enemy: enemyJson } = battleDataJson;
   const battleEnemies = generateEnemies(enemyJson as IEnemyItem[]);
@@ -93,16 +88,10 @@ function makePackageCollectionDataSource(dataSource: PackageCollectionJsonDataSo
   return { items, recipes };
 }
 
-/**
- * 生成普通物品
- */
 function generatePackagesItems(itemsJson: IItem[]) {
   return itemsJson.map((item) => new NormalItem(item));
 }
 
-/**
- * 生成配方
- */
 function generatePackagesRecipes(itemsJson: IRecipe[]) {
   return itemsJson.map((item) => new Recipe(item));
 }
@@ -117,4 +106,8 @@ function generateEquipmentSets(itemsJson: IEquipmentSet[]) {
 
 function generateEnemies(itemsJson: IEnemyItem[]) {
   return itemsJson.map((item) => new EnemyItem(item));
+}
+
+function generateShopCategories(itemsJson: IShopCategory[]) {
+  return itemsJson.map((item) => new ShopCategory(item));
 }

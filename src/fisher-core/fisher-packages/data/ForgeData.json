@@ -1,6 +1,15 @@
 {
   "moduleName": "Forge",
   "data": {
+    "bluePrints": [
+      {
+        "id": "BluePrint:EastDragonSword",
+        "name": "图纸：东海龙王之剑",
+        "desc": "制作东海龙王之剑的图纸",
+        "media": "blueprint",
+        "price": 5000
+      }
+    ],
     "recipes": [
       {
         "id": "Forge:WoodSword",

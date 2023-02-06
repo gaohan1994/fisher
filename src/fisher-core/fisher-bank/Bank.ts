@@ -3,17 +3,12 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { prompt } from '../fisher-prompt';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
+import { store } from '../fisher-packages';
+import { ShopCategory } from '../fisher-item';
+import { ShopCategoryHandler } from './ShopCategoryHandler';
+import { Cart } from './Cart';
+import { Assets } from '../assets';
 
-/**
- * 金币模块
- * - 金币总额
- * - 金币修改
- *      - 添加金币
- *      - 减少金币
- *
- * @export
- * @class Bank
- */
 export class Bank {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
 
@@ -26,20 +21,35 @@ export class Bank {
     return Bank.instance;
   }
 
-  public readonly id = 'Bank';
-
-  public readonly name = '金币';
-
-  public gold: number = 0;
-
   public get archive(): ArchiveInterface.ArchiveBank {
     return {
       gold: this.gold,
     };
   }
 
+  public readonly id = 'Bank';
+
+  public readonly name = '商店';
+
+  public readonly media = Assets.bank;
+
+  public gold: number = 0;
+
+  public cart = new Cart();
+
+  public categoryHandlerMap = new Map<ShopCategory, ShopCategoryHandler>();
+
+  public get categoryHandlers() {
+    return [...this.categoryHandlerMap.values()];
+  }
+
   constructor() {
     makeAutoObservable(this);
+
+    for (let index = 0; index < store.Shop.length; index++) {
+      const shopCategory = store.Shop[index];
+      this.categoryHandlerMap.set(shopCategory, new ShopCategoryHandler(shopCategory));
+    }
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
     events.on(EventKeys.Bank.ReceiveGold, this.receiveGold);
@@ -69,6 +79,10 @@ export class Bank {
 
   public clearGold = () => {
     this.gold = 0;
+  };
+
+  public checkGoldBalanceReadyToPay = (paymentAmount: number) => {
+    return this.gold >= paymentAmount;
   };
 }
 

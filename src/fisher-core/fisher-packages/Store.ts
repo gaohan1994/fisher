@@ -1,5 +1,14 @@
 import invariant from 'invariant';
-import { Item, Recipe, BattleAreaItem, EquipmentItem, EnemyItem, EquipmentSet, NormalItem } from '../fisher-item';
+import {
+  Item,
+  Recipe,
+  BattleAreaItem,
+  EquipmentItem,
+  EnemyItem,
+  EquipmentSet,
+  NormalItem,
+  ShopCategory,
+} from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   ICollectionModuleData,
@@ -9,13 +18,9 @@ import {
   makeForgePackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
+  makeShopData,
 } from './FisherPackages';
 
-/**
- * 游戏模块数据库
- *
- * @class Store
- */
 export class Store {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'Store');
 
@@ -35,6 +40,8 @@ export class Store {
 
   public Forge: Recipe[] = [];
 
+  public ForgeBluePrints: NormalItem[] = [];
+
   public Equipments: EquipmentItem[] = [];
 
   public EquipmentSets: EquipmentSet[] = [];
@@ -43,16 +50,21 @@ export class Store {
 
   public BattleEnemies: EnemyItem[] = [];
 
+  public Shop: ShopCategory[] = [];
+
   public get items() {
     return [
       ...this.Mining.items,
       ...this.Mining.recipes,
       ...this.Reiki.items,
       ...this.Reiki.recipes,
+      ...this.Forge,
+      ...this.ForgeBluePrints,
       ...this.Equipments,
       ...this.EquipmentSets,
       ...this.BattleAreas,
       ...this.BattleEnemies,
+      ...this.Shop,
     ];
   }
 
@@ -63,6 +75,7 @@ export class Store {
     this.initializeEquipments();
     this.initializeEquipmentSets();
     this.initializeBattle();
+    this.initializeShop();
   };
 
   private initializeMining = () => {
@@ -76,7 +89,9 @@ export class Store {
   };
 
   private initializeForge = () => {
-    this.Forge = makeForgePackagesData();
+    const [forgeData, forgeBluePrintsData] = makeForgePackagesData();
+    this.Forge = forgeData;
+    this.ForgeBluePrints = forgeBluePrintsData;
     Store.logger.info('initialize Forge data');
   };
 
@@ -96,6 +111,11 @@ export class Store {
     this.BattleAreas = battleAreas;
     this.BattleEnemies = battleEnemies;
     Store.logger.info('initialize BattleArea and BattleEnemies data');
+  };
+
+  private initializeShop = () => {
+    this.Shop = makeShopData();
+    Store.logger.info('initialize shop data');
   };
 
   public findItemById = <T = Item>(itemId: string) => {
