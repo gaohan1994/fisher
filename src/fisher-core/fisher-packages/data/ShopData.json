@@ -1,0 +1,15 @@
+{
+  "moduleName": "Shop",
+  "data": [
+    {
+      "id": "ForgeBluePrints",
+      "name": "锻造图纸",
+      "itemIds": ["BluePrint:EastDragonSword"]
+    },
+    {
+      "id": "CookBluePrints",
+      "name": "炼丹药方",
+      "itemIds": []
+    }
+  ]
+}
