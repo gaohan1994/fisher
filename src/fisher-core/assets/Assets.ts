@@ -1,10 +1,12 @@
 import logo from './common/logo.png';
+import bank from './common/bank.png';
 import empty from './common/empty.png';
 import coin from './common/coin.png';
 import battle from './common/battle.png';
 import mining from './common/mining.png';
 import forge from './common/forge.png';
 import reiki from './common/reiki.png';
+import blueprint from './common/blueprint.png';
 
 import LowSpiritMine from './item/LowSpiritMine.png';
 import WoodStone from './item/WoodStone.png';
@@ -28,12 +30,14 @@ import FireSpiritMonster from './enemy/FireSpiritMonster.png';
 export const Assets = {
   // common assets
   logo,
+  bank,
   empty,
   coin,
   battle,
   mining,
   forge,
   reiki,
+  blueprint,
 
   // normal items
   WoodStone,
