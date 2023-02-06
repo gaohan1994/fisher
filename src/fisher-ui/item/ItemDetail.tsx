@@ -1,4 +1,5 @@
-import { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
+import numeral from 'numeral';
 import { Avatar, colors, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
 import { coinItem, Item } from '@FisherCore';
 import { FuiColor, FuiSize } from '../theme';
@@ -6,7 +7,6 @@ import { FuiColor, FuiSize } from '../theme';
 interface FuiItemDetailProps {
   item: Item;
 }
-
 const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, children }) => {
   return (
     <Card sx={{ bgcolor: FuiColor.item.background, width: FuiSize.item.detail }}>
@@ -17,15 +17,7 @@ const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, childr
             {item.name}
           </Typography>
         }
-        subheader={
-          typeof item.price === 'number' &&
-          Number(item.price) > 0 && (
-            <Stack direction="row" spacing={1}>
-              <Avatar src={coinItem.media} sx={{ width: 20, height: 20 }} variant="square" />
-              <Typography sx={{ color: FuiColor.gold }}>{item.price}</Typography>
-            </Stack>
-          )
-        }
+        subheader={typeof item.price === 'number' && Number(item.price) > 0 && <FuiCoin price={item.price} />}
       />
       <CardContent sx={{ pt: 0 }}>
         {children}
@@ -37,5 +29,15 @@ const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, childr
   );
 };
 
-export { FuiItemDetail };
-export type { FuiItemDetailProps };
+interface FuiCoinProps {
+  price: number;
+}
+const FuiCoin: React.FC<FuiCoinProps> = ({ price }) => (
+  <Stack direction="row" spacing={1}>
+    <Avatar src={coinItem.media} sx={{ width: 20, height: 20 }} variant="square" />
+    <Typography sx={{ color: FuiColor.gold }}>{numeral(price).format('0,0')}</Typography>
+  </Stack>
+);
+
+export { FuiItemDetail, FuiCoin };
+export type { FuiItemDetailProps, FuiCoinProps };

@@ -17,6 +17,7 @@ import { isDevelopment } from '../env';
 
 const visibleComponents = [
   ComponentId.Master,
+  ComponentId.Bank,
   ComponentId.Battle,
   ComponentId.Mining,
   ComponentId.Reiki,

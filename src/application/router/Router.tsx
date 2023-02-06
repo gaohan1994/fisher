@@ -8,6 +8,7 @@ import { PageReiki } from '../reiki';
 import { PageBattle } from '../battle';
 import { PageMaster } from '../master';
 import { PageForge } from '../forge';
+import { PageBank } from '../bank';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Master)?.path,
         element: <PageMaster />,
+      },
+      {
+        path: fuiRouteHandler.getComponentRoute(ComponentId.Bank)?.path,
+        element: <PageBank />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Mining)?.path,

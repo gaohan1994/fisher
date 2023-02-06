@@ -29,4 +29,12 @@ describe('Bank', () => {
       expect(bank.gold).toBe(200);
     });
   });
+
+  describe('Bank interface', () => {
+    test('should success calculate gold is ready to pay', () => {
+      expect(bank.checkGoldBalanceReadyToPay(1)).toBeFalsy();
+      bank.receiveGold(50);
+      expect(bank.checkGoldBalanceReadyToPay(1)).toBeTruthy();
+    });
+  });
 });
