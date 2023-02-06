@@ -7,3 +7,5 @@ export * from './Recipe';
 export * from './Battle';
 export * from './BackpackItem';
 export * from './Enemy';
+export * from './ShopCategory';
+export * from './CartItem';
