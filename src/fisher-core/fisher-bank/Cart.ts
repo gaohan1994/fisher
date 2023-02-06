@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { CartItem, Item } from '../fisher-item';
+import { CartEventKeys, cartEvents } from './Events';
 
 class Cart {
   public itemMap = new Map<string, CartItem>();
@@ -16,8 +17,17 @@ class Cart {
     return this.items.reduce((amount, item) => (amount += item.payment), 0);
   }
 
+  public get isCartEmpty() {
+    return this.itemMap.size === 0;
+  }
+
   constructor() {
     makeAutoObservable(this);
+
+    cartEvents.on(CartEventKeys.AddItem, this.addItem);
+    cartEvents.on(CartEventKeys.SetItem, this.setItem);
+    cartEvents.on(CartEventKeys.DeleteItem, this.deleteItem);
+    cartEvents.on(CartEventKeys.ClearItem, this.clearCart);
   }
 
   public addItem = (item: Item, quantity: number) => {
