@@ -12,15 +12,18 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Tooltip,
   Box,
 } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiCoin } from '@Fui';
+import { FuiCoin, notifycationStore } from '@Fui';
 import { FuiCartItem } from './CartItem';
+import { useCartAvailable } from '../hook';
 
 const FuiCart = observer(() => {
   const { bank } = core;
   const { cart } = bank;
+  const { available, reason } = useCartAvailable();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -35,6 +38,14 @@ const FuiCart = observer(() => {
     cart.clearCart();
     handleClose();
   };
+
+  const onPayCart = () => {
+    if (!available) {
+      return notifycationStore.alert('error', reason);
+    }
+    cart.payCart();
+  };
+
   return (
     <React.Fragment>
       <Card>
@@ -64,9 +75,12 @@ const FuiCart = observer(() => {
         </CardContent>
         <CardActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={handleClickOpen}>清空</Button>
-          <Button variant="contained" color="success" sx={{ width: '100%' }}>
-            购买
-          </Button>
+
+          <Tooltip title={reason}>
+            <Button onClick={onPayCart} variant="contained" color="success" sx={{ width: '100%' }}>
+              购买
+            </Button>
+          </Tooltip>
         </CardActions>
       </Card>
 

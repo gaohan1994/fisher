@@ -30,13 +30,13 @@ const Home = () => {
         </List>
         <List>
           <ListSubheader>采集模块</ListSubheader>
-          <ListItem>采集晶石</ListItem>
+          <ListItem>晶石</ListItem>
           <ListItem>打坐</ListItem>
           <ListItem>锻造</ListItem>
         </List>
         <List>
           <ListSubheader>战斗模块</ListSubheader>
-          <ListItem>斩妖除魔</ListItem>
+          <ListItem>除魔</ListItem>
         </List>
       </Stack>
     </FuiContainer>

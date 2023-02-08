@@ -18,7 +18,7 @@ class Mining extends Collection<ICollectionModuleData> {
 
   public id = 'Mining';
 
-  public name = '采集晶石';
+  public name = '晶石';
 
   public media = Assets.mining;
 

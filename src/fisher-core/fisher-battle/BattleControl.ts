@@ -38,7 +38,7 @@ class BattleControl {
 
   public startBattle = () => {
     if (this.enemy === undefined) {
-      BattleControl.logger.error(`Try to start battle with undefined enemy`, this);
+      BattleControl.logger.error(`Try to start battle with undefined enemy`);
       throw new Error(`Try to start battle with undefined enemy`);
     }
 
@@ -97,7 +97,7 @@ class BattleControl {
 
   private createActiveEnemy = () => {
     if (this.activeEnemyItem === undefined) {
-      BattleControl.logger.error(`Try to create active enemy with undefined item`, this);
+      BattleControl.logger.error(`Try to create active enemy with undefined item`);
       throw new Error(`Try to create active enemy with undefined item`);
     }
 

@@ -26,7 +26,7 @@ class Battle {
 
   public readonly id = 'Battle';
 
-  public name = '斩妖除魔';
+  public name = '除魔';
 
   public media = Assets.battle;
 
@@ -74,7 +74,7 @@ class Battle {
 
   public start = async () => {
     if (this.battleControl.enemy === undefined) {
-      Battle.logger.error('Fail to start battle, please set active enemy item first', this);
+      Battle.logger.error('Fail to start battle, please set active enemy item first');
       throw new Error('Fail to start battle, please set active enemy item first');
     }
 

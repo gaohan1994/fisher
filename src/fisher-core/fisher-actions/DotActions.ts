@@ -42,7 +42,7 @@ export class PosionDotAction extends BaseDotAction {
   private action = () => {
     this.checkPersonIsAvailable();
     if (this.person!.target === undefined) {
-      BaseDotAction.logger.error('Try to effective dot to undefined target', this);
+      BaseDotAction.logger.error('Try to effective dot to undefined target');
       throw new Error('Try to effective dot to undefined target');
     }
 
@@ -62,7 +62,7 @@ export class PosionDotAction extends BaseDotAction {
 
   private checkPersonIsAvailable = () => {
     if (this.person === undefined) {
-      BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`, this);
+      BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`);
       throw new Error(`Try to run ${this.id} but person was undefined!`);
     }
   };

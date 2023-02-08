@@ -126,9 +126,7 @@ export class Reward {
   };
 
   private executeGold = () => {
-    if (this.rewardGold > 0) {
-      events.emit(EventKeys.Bank.ReceiveGold, this.rewardGold);
-    }
+    events.emit(EventKeys.Bank.ReceiveGold, this.rewardGold);
   };
 
   private executeRewardItems = () => {

@@ -16,6 +16,7 @@ beforeEach(() => {
   backpack = core.backpack;
   backpack.items.clear();
   bank = core.bank;
+  bank.clearGold();
 });
 
 const testSkillId = 'Forge';
@@ -37,6 +38,14 @@ describe('FisherRewards', () => {
     expect(reward.rewardGold).toBe(50);
     reward.addRewardGold(50);
     expect(reward.rewardGold).toBe(100);
+
+    reward.execute();
+    expect(bank.gold).toEqual(100);
+
+    reward.setRewardGold(-50);
+    expect(reward.rewardGold).toBe(-50);
+    reward.execute();
+    expect(bank.gold).toEqual(50);
   });
 
   test('should success set reward items to reward', () => {
