@@ -32,9 +32,9 @@ describe('Bank', () => {
 
   describe('Bank interface', () => {
     test('should success calculate gold is ready to pay', () => {
-      expect(bank.checkGoldBalanceReadyToPay(1)).toBeFalsy();
+      expect(bank.checkGoldBalance(1)).toBeFalsy();
       bank.receiveGold(50);
-      expect(bank.checkGoldBalanceReadyToPay(1)).toBeTruthy();
+      expect(bank.checkGoldBalance(1)).toBeTruthy();
     });
   });
 });

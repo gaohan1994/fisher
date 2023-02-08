@@ -35,7 +35,7 @@ export class Bank {
 
   public gold: number = 0;
 
-  public cart = new Cart();
+  public cart = new Cart(this);
 
   public categoryHandlerMap = new Map<ShopCategory, ShopCategoryHandler>();
 
@@ -81,8 +81,8 @@ export class Bank {
     this.gold = 0;
   };
 
-  public checkGoldBalanceReadyToPay = (paymentAmount: number) => {
-    return this.gold >= paymentAmount;
+  public checkGoldBalance = (payment: number) => {
+    return this.gold >= payment;
   };
 }
 

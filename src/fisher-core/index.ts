@@ -4,35 +4,36 @@ import { version, core, FisherCore, ComponentId, FisherComponent } from './fishe
 import { experienceCalculator, MaxLevel } from './fisher-experience';
 import { Mining, Reiki, Forge } from './fisher-modules';
 import { IAttributeKeys } from './fisher-person';
+import { Bank, ShopCategoryHandler } from './fisher-bank';
+import { Backpack } from './fisher-backpack';
+import { Timer } from './fisher-timer';
+import { Reward } from './fisher-reward';
+import { Skill, RecipeHandler } from './fisher-skill';
 
 export {
+  FisherCore,
   Assets,
-  // archive module
   Archive,
-
-  // core modules
   core,
   version,
   ComponentId,
-  FisherCore,
-
-  // skills
   Mining,
   Reiki,
   Forge,
   MaxLevel,
   experienceCalculator,
   IAttributeKeys,
+  Bank,
+  ShopCategoryHandler,
+  Backpack,
+  Timer,
+  Reward,
+  Skill,
+  RecipeHandler,
 };
 export type { FisherComponent };
 
-export * from './fisher-timer';
 export * from './fisher-item';
-export * from './fisher-backpack';
-export * from './fisher-bank';
-export * from './fisher-reward';
-export * from './fisher-skill';
-export * from './fisher-modules';
 export * from './fisher-packages';
 export * from './fisher-person';
 export * from './fisher-prompt';
