@@ -75,7 +75,7 @@ class PersonEquipmentManager {
     const currentSlotEquipment = this.equipmentMap.get(slot);
 
     if (currentSlotEquipment === undefined) {
-      PersonEquipmentManager.logger.error(`Fail to use equipment, can not find current slot: ${slot}`, this, equipment);
+      PersonEquipmentManager.logger.error(`Fail to use equipment, can not find current slot: ${slot}`, equipment);
       throw new Error(`Fail to use equipment, can not find current slot: ${slot}`);
     }
 
