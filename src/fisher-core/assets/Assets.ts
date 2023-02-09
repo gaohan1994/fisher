@@ -50,8 +50,9 @@ import Monster from './enemy/Monster.png';
 import LowSpiritMonster from './enemy/LowSpiritMonster.png';
 import FireSpiritMonster from './enemy/FireSpiritMonster.png';
 
+import LowHealPotion from './food/LowHealPotion.png';
+
 export const Assets = {
-  // common assets
   logo,
   bank,
   backpack,
@@ -75,7 +76,6 @@ export const Assets = {
   ChestGold,
   ChestNormal,
 
-  // normal items
   WoodStone,
   EarthStone,
   FireStone,
@@ -84,7 +84,6 @@ export const Assets = {
   FiveElementsStone,
   LowSpiritMine,
 
-  // actions
   posion,
 
   // equipment assets
@@ -110,7 +109,7 @@ export const Assets = {
   LowSpiritMonster,
   FireSpiritMonster,
 
-  // person assets
   ninja,
   knight,
+  LowHealPotion,
 };
