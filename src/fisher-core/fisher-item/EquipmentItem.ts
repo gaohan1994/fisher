@@ -1,5 +1,5 @@
 import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
-import { EquipmentSlot } from './EquipmentConstants';
+import { EquipmentSlot } from './Constants';
 import { Item, ItemType, IItem } from './Item';
 
 export interface IEquipmentItem extends IItem {

@@ -1,5 +1,5 @@
 import { Assets } from '../assets';
-import { EquipmentSlot, EquipmentSlotName } from './EquipmentConstants';
+import { EquipmentSlot, EquipmentSlotName } from './Constants';
 import { ItemType, AbstractItem } from './Item';
 
 class EmptyEquipment extends AbstractItem {

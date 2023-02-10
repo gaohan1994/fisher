@@ -1,9 +1,3 @@
-/**
- * 可装备槽位
- *
- * @export
- * @enum {number}
- */
 enum EquipmentSlot {
   PrimaryWeapon = 'PrimaryWeapon',
   SecondaryWeapon = 'SecondaryWeapon',
@@ -34,4 +28,12 @@ const EquipmentSlotName = {
   [EquipmentSlot.Bracelet]: '手镯',
 };
 
-export { EquipmentSlot, EquipmentSlotName };
+enum PotionSlot {
+  Heal = 'Heal',
+}
+
+const PotionSlotName = {
+  [PotionSlot.Heal]: '丹药',
+};
+
+export { EquipmentSlot, EquipmentSlotName, PotionSlot, PotionSlotName };
