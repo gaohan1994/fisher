@@ -1,16 +1,6 @@
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Avatar,
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-} from '@mui/material';
+import { Avatar, Box, Drawer, List, ListItem, ListItemButton, ListItemText, Stack, Toolbar } from '@mui/material';
 import { ComponentId, core } from '@FisherCore';
 import { fuiRouteHandler } from '../route';
 import { isDevelopment } from '../env';
@@ -35,10 +25,10 @@ const FuiMenu = observer(() => {
     <Drawer
       variant="permanent"
       sx={{
-        width: 300,
+        width: 70,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
-          width: 300,
+          width: 70,
           boxSizing: 'border-box',
         },
       }}
@@ -51,20 +41,22 @@ const FuiMenu = observer(() => {
               const { component } = componentRoute as any;
               return (
                 <ListItem key={id} disablePadding>
-                  <ListItemButton selected={activeComponentId === id} onClick={() => navigate(componentRoute.path)}>
-                    {component?.media && (
-                      <ListItemIcon>
-                        <Avatar sx={{ width: 30, height: 30 }} src={component?.media} />
-                      </ListItemIcon>
-                    )}
-                    <ListItemText primary={componentRoute.name} />
+                  <ListItemButton
+                    sx={{ justifyContent: 'center', alignItems: 'center' }}
+                    selected={activeComponentId === id}
+                    onClick={() => navigate(componentRoute.path)}
+                  >
+                    <Stack>
+                      {component?.media && <Avatar sx={{ width: 30, height: 30 }} src={component?.media} />}
+                      <ListItemText primary={componentRoute.name} />
+                    </Stack>
                   </ListItemButton>
                 </ListItem>
               );
             }
             return null;
           })}
-          {isDevelopment && <ListItem onClick={() => navigate('demo')}>Demo</ListItem>}
+          {isDevelopment && <ListItem onClick={() => navigate('demo')}>测试</ListItem>}
         </List>
       </Box>
     </Drawer>
