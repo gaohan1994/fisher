@@ -9,3 +9,4 @@ export * from './BackpackItem';
 export * from './Enemy';
 export * from './ShopCategory';
 export * from './CartItem';
+export * from './ItemChecker';

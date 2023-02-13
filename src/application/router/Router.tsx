@@ -9,6 +9,7 @@ import { PageBattle } from '../battle';
 import { PageMaster } from '../master';
 import { PageForge } from '../forge';
 import { PageBank } from '../bank';
+import { PageBackpack } from '../backpack';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Master)?.path,
         element: <PageMaster />,
+      },
+      {
+        path: fuiRouteHandler.getComponentRoute(ComponentId.Backpack)?.path,
+        element: <PageBackpack />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Bank)?.path,
