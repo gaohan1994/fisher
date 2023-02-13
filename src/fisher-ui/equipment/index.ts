@@ -1,2 +1,2 @@
 export * from './Equipment';
-export * from './EquipmentControl';
+export * from './EquipmentActions';

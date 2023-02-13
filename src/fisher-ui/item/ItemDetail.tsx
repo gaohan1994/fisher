@@ -2,14 +2,14 @@ import React, { FC, PropsWithChildren } from 'react';
 import numeral from 'numeral';
 import { Avatar, colors, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
 import { coinItem, Item } from '@FisherCore';
-import { FuiColor, FuiSize } from '../theme';
+import { FuiColor } from '../theme';
 
 interface FuiItemDetailProps {
   item: Item;
 }
 const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, children }) => {
   return (
-    <Card sx={{ bgcolor: FuiColor.item.background, width: FuiSize.item.detail }}>
+    <Card sx={{ bgcolor: FuiColor.item.background }}>
       <CardHeader
         avatar={<Avatar src={item.media} variant="square" />}
         title={
