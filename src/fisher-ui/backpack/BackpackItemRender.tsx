@@ -4,7 +4,7 @@ import { BackpackItem, isEquipmentItem } from '@FisherCore';
 import { FuiItem, FuiItemDetail, FuiItemProps } from '../item';
 import { FuiEquipment, FuiEquipmentDetail } from '../equipment';
 
-interface BackpackItemRenderProps extends Pick<FuiItemProps, 'onClick' | 'showBorder'> {
+interface BackpackItemRenderProps extends Pick<FuiItemProps, 'onClick' | 'showBorder' | 'renderItem'> {
   backpackItem: BackpackItem;
 }
 const FuiBackpackItemRender: React.FC<BackpackItemRenderProps> = observer(({ backpackItem, ...rest }) => {

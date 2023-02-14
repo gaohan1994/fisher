@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { Grid, Typography, Card, CardContent, CardHeader, Stack, Switch, FormControlLabel } from '@mui/material';
 import { core } from '@FisherCore';
-import { EquipmentControlActions, FuiColor, FuiContainer, FuiBackpackItemRender, FuiCoin } from '@Fui';
+import { FuiColor, FuiContainer, FuiBackpackItemRender, FuiCoin, FuiBackpackBatchSellAction } from '@Fui';
 import { backpackStore } from './BackpackStore';
 import { FuiFullBackpackEquipments, FuiSlotBackpackEquipments } from './EquipmentRender';
 import { FuiBackpackItemControl } from './BackpackItemControl';
@@ -21,6 +21,11 @@ const PageBackpack = observer(() => {
                     背包
                   </Typography>
                   <FuiCoin price={bank.gold} />
+                </Stack>
+              }
+              subheader={
+                <Stack direction="row" sx={{ mt: 2 }}>
+                  <FuiBackpackBatchSellAction />
                 </Stack>
               }
             />
