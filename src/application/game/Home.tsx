@@ -1,5 +1,5 @@
 import { FuiContainer } from '@Fui';
-import { List, ListItem, ListSubheader, Stack, Typography } from '@mui/material';
+import { Link, List, ListItem, ListSubheader, Stack, Typography } from '@mui/material';
 
 const Home = () => {
   return (
@@ -39,6 +39,10 @@ const Home = () => {
           <ListItem>除魔</ListItem>
         </List>
       </Stack>
+
+      <Link href="https://www.flaticon.com/free-icons/sword" title="sword icons">
+        icons created by Freepik - Flaticon
+      </Link>
     </FuiContainer>
   );
 };
