@@ -170,11 +170,17 @@ describe('Backpack', () => {
     const backpack = core.backpack;
     const item = new TestItem(testBackpackItemPayload);
     backpack.addItem(item, 10);
-    const backpackItem = backpack.items.get(item);
-    if (!backpackItem) return;
+    const backpackItem = backpack.items.get(item)!;
+
     backpack.toggleSelectItem(backpackItem);
     expect(backpack.selectedItems.size).toBe(1);
     expect(backpack.selectedItems.has(backpackItem)).toBeTruthy();
+    expect(backpack.selectedItemsPriceAmount).toEqual(item.price * 10);
+
+    backpack.addSelectItem(backpackItem);
+    expect(backpack.selectedItems.size).toBe(1);
+    expect(backpack.selectedItems.has(backpackItem)).toBeTruthy();
+    expect(backpack.selectedItemsPriceAmount).toEqual(item.price * 10);
   });
 
   describe('Backpack events', () => {

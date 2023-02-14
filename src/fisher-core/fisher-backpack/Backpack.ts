@@ -51,6 +51,16 @@ export class Backpack {
 
   public selectedItems = new Set<BackpackItem>();
 
+  public get selectedItemsPriceAmount() {
+    let result = 0;
+
+    this.selectedItems.forEach((item) => {
+      result += item.calculatePrice(item.quantity);
+    });
+
+    return result;
+  }
+
   constructor() {
     makeAutoObservable(this);
 
@@ -197,6 +207,14 @@ export class Backpack {
     } else {
       this.selectedItems.add(item);
     }
+  };
+
+  public addSelectItem = (item: BackpackItem) => {
+    this.selectedItems.add(item);
+  };
+
+  public resetSelectItems = () => {
+    this.selectedItems.clear();
   };
 
   /**
