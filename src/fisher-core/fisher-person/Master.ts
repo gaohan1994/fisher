@@ -22,7 +22,9 @@ class Master {
 
   public readonly id = 'Master';
 
-  public name = '角色名称';
+  public name = '角色';
+
+  public displayName = '';
 
   private _media = 'knight';
 
@@ -79,7 +81,7 @@ class Master {
 
   private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
     const { master, masterName } = values;
-    this.name = masterName;
+    this.displayName = masterName;
     this.person.experience.setExperience(master?.experience ?? 0);
     this.person.personEquipmentManager.loadArchiveEquipments(master?.equipmentIds ?? []);
   };

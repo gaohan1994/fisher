@@ -6,6 +6,7 @@ import { BackpackItem, Item, ItemType } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
+import { Assets } from '../assets';
 
 /**
  * 背包系统
@@ -27,6 +28,8 @@ export class Backpack {
 
   public name = '背包';
 
+  public media = Assets.backpack;
+
   public static instance: Backpack;
 
   public static create(): Backpack {
@@ -47,6 +50,16 @@ export class Backpack {
   }
 
   public selectedItems = new Set<BackpackItem>();
+
+  public get selectedItemsPriceAmount() {
+    let result = 0;
+
+    this.selectedItems.forEach((item) => {
+      result += item.calculatePrice(item.quantity);
+    });
+
+    return result;
+  }
 
   constructor() {
     makeAutoObservable(this);
@@ -196,6 +209,14 @@ export class Backpack {
     }
   };
 
+  public addSelectItem = (item: BackpackItem) => {
+    this.selectedItems.add(item);
+  };
+
+  public resetSelectItems = () => {
+    this.selectedItems.clear();
+  };
+
   /**
    * if pass quantity use passed quantity
    * if not pass quantity default sell all item quantity
@@ -211,14 +232,17 @@ export class Backpack {
 
     events.emit(EventKeys.Bank.ReceiveGold, sellPrice);
     events.emit(EventKeys.Update.BackpackUpdate, this);
-
     Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${sellPrice}`);
+
+    return this;
   };
 
   public sellItems = (items: BackpackItem[]) => {
     for (let index = 0; index < items.length; index++) {
       this.sellItem(items[index]);
     }
+
+    return this;
   };
 
   public sellSelectedItems = () => {

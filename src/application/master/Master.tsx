@@ -1,18 +1,14 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { FuiSpareEquipments, FuiContainer, FuiMasterEquipmentsCard } from '@Fui';
+import { FuiContainer } from '@Fui';
+import { FuiMasterEquipmentsCard } from './Equipments';
 
 const PageMaster: React.FC = () => {
   return (
     <FuiContainer>
       <Grid container spacing={2}>
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <FuiMasterEquipmentsCard />
-        </Grid>
-      </Grid>
-      <Grid container sx={{ mt: 2 }}>
-        <Grid item xs={12}>
-          <FuiSpareEquipments />
         </Grid>
       </Grid>
     </FuiContainer>

@@ -14,3 +14,4 @@ export * from './recipe';
 export * from './item';
 export * from './collection';
 export * from './env';
+export * from './backpack';

@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { core, EquipmentItem } from '@FisherCore';
-import { Dialog, DialogTitle, DialogActions, Button, Stack } from '@mui/material';
-import { FuiItemDetail } from '../item';
-import { FuiEquipmentDetail } from './Equipment';
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 
 interface Props {
   equipment: EquipmentItem;
@@ -37,11 +37,9 @@ const UseEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ eq
     actionCallback?.(EquipmentControlActions.UseEquipment);
   }, [equipment, actionCallback]);
   return (
-    <React.Fragment>
-      <Button onClick={onUseEquipment} variant="contained" color="success">
-        使用装备
-      </Button>
-    </React.Fragment>
+    <Button onClick={onUseEquipment} variant="contained" color="success" startIcon={<VerifiedUserIcon />}>
+      使用装备
+    </Button>
   );
 });
 
@@ -58,9 +56,11 @@ const RemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({
   }, [equipment, actionCallback]);
   return (
     <React.Fragment>
-      <Button onClick={() => setOpen(true)} variant="contained" color="secondary">
-        卸下装备
-      </Button>
+      <Tooltip title="卸下装备">
+        <IconButton aria-label="remove" onClick={() => setOpen(true)}>
+          <DoNotDisturbOnIcon />
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
         <DialogTitle>确定卸下装备 {equipment.name} 么？</DialogTitle>
         <DialogActions>
@@ -74,27 +74,4 @@ const RemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({
   );
 });
 
-const FuiEquipmentControl: React.FC<Props> = observer(({ equipment, actions = [], actionCallback = () => {} }) => (
-  <Stack spacing={1}>
-    <FuiItemDetail item={equipment}>
-      <FuiEquipmentDetail equipment={equipment} />
-    </FuiItemDetail>
-    {actions.length > 0 && (
-      <Stack direction="row" spacing={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-        {actions.map((action) => {
-          if (action === EquipmentControlActions.UseEquipment) {
-            return <UseEquipmentButton equipment={equipment} actionCallback={actionCallback} />;
-          }
-
-          if (action === EquipmentControlActions.RemoveEquipment) {
-            return <RemoveEquipmentButton equipment={equipment} actionCallback={actionCallback} />;
-          }
-
-          return null;
-        })}
-      </Stack>
-    )}
-  </Stack>
-));
-
-export { FuiEquipmentControl, EquipmentControlActions };
+export { UseEquipmentButton, RemoveEquipmentButton, EquipmentControlActions };

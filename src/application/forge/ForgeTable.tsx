@@ -105,23 +105,21 @@ enum UnavailableReasons {
 const FuiForgeButton: React.FC = observer(() => {
   const { isActive, activeRecipe, activeRecipeAvailable, skill, start, stop } = core.forge;
 
-  const unavailableReason = React.useMemo(() => {
-    if (!skill.recipeHandler.hasActiveRecipe) {
-      return UnavailableReasons.InActiveRecipe;
-    }
+  let unavailableReason: UnavailableReasons | undefined = undefined;
 
-    if (!skill.recipeHandler.activeRecipeUnlockLevelAvailable) {
-      return UnavailableReasons.UnlockLevel;
-    }
+  if (!skill.recipeHandler.hasActiveRecipe) {
+    unavailableReason = UnavailableReasons.InActiveRecipe;
+  }
 
-    if (!skill.recipeHandler.activeRecipeBearCostAvailable) {
-      return UnavailableReasons.CanNotBearCost;
-    }
+  if (!skill.recipeHandler.activeRecipeUnlockLevelAvailable) {
+    unavailableReason = UnavailableReasons.UnlockLevel;
+  }
 
-    return undefined;
-  }, []);
+  if (!skill.recipeHandler.activeRecipeBearCostAvailable) {
+    unavailableReason = UnavailableReasons.CanNotBearCost;
+  }
 
-  const onForgeClick = () => {
+  const onForgeClick = React.useCallback(() => {
     if (unavailableReason !== undefined) {
       return notifycationStore.alert('error', unavailableReason);
     }
@@ -130,7 +128,7 @@ const FuiForgeButton: React.FC = observer(() => {
       return stop();
     }
     start();
-  };
+  }, [isActive, unavailableReason]);
 
   return (
     <Tooltip title={unavailableReason}>

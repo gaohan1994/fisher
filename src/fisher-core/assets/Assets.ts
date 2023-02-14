@@ -1,5 +1,6 @@
 import logo from './common/logo.png';
 import bank from './common/bank.png';
+import backpack from './common/backpack.png';
 import empty from './common/empty.png';
 import coin from './common/coin.png';
 import battle from './common/battle.png';
@@ -31,6 +32,7 @@ export const Assets = {
   // common assets
   logo,
   bank,
+  backpack,
   empty,
   coin,
   battle,

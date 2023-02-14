@@ -12,7 +12,7 @@ beforeEach(() => {
 
 describe('Person', () => {
   test('should success constructor Person', () => {
-    const person = new Person('TestId');
+    const person = new Person(PersonMode.Master);
     expect(person.actionManager instanceof ActionManager).toBeTruthy();
     expect(person.personEquipmentManager instanceof PersonEquipmentManager).toBeTruthy();
     expect(person.personEquipmentManager.equipmentMap.has(EquipmentSlot.Helmet)).toBeTruthy();
@@ -20,7 +20,7 @@ describe('Person', () => {
   });
 
   test('should initialize master', () => {
-    expect(master.name).toBe('');
+    expect(master.name).toBe('角色');
     expect(master.mode).toBe(PersonMode.Master);
   });
 });
