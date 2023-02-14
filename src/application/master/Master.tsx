@@ -6,10 +6,9 @@ import { FuiMasterEquipmentsCard } from './Equipments';
 const PageMaster: React.FC = () => {
   return (
     <FuiContainer>
+      <FuiMasterEquipmentsCard />
       <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <FuiMasterEquipmentsCard />
-        </Grid>
+        <Grid item xs={4}></Grid>
       </Grid>
     </FuiContainer>
   );

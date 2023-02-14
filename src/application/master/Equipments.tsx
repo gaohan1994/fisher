@@ -44,7 +44,7 @@ const FuiMasterEquipments: React.FC = observer(() => {
 });
 
 const FuiMasterEquipmentsCard: React.FC = () => (
-  <Card sx={{ bgcolor: FuiColor.primary.background }}>
+  <Card sx={{ bgcolor: FuiColor.primary.background, width: 'fit-content' }}>
     <CardHeader title={<Typography variant="body2">人物装备</Typography>} sx={{ pb: 0 }} />
     <CardContent>
       <FuiMasterEquipments />
