@@ -19,7 +19,17 @@ import FiveElementsStone from './item/FiveElementsStone.png';
 
 import posion from './actions/posion.png';
 import EmptyPrimaryWeapon from './equipments/EmptyPrimaryWeapon.png';
+import EmptySecondaryWeapon from './equipments/EmptySecondaryWeapon.png';
 import EmptyHelmet from './equipments/EmptyHelmet.png';
+import EmptyJacket from './equipments/EmptyJacket.png';
+import EmptyVest from './equipments/EmptyVest.png';
+import EmptyShoe from './equipments/EmptyShoe.png';
+import EmptyHandGuard from './equipments/EmptyHandGuard.png';
+import EmptyBelt from './equipments/EmptyBelt.png';
+import EmptyNecklace from './equipments/EmptyNecklace.png';
+import EmptyEarring from './equipments/EmptyEarring.png';
+import EmptyRing from './equipments/EmptyRing.png';
+import EmptyBracelet from './equipments/EmptyBracelet.png';
 import woodsword from './equipments/woodsword.png';
 import FlashEastDragonSword from './equipments/FlashEastDragonSword.png';
 import ninja from './person/ninja.png';
@@ -55,7 +65,17 @@ export const Assets = {
 
   // equipment assets
   EmptyPrimaryWeapon,
+  EmptySecondaryWeapon,
   EmptyHelmet,
+  EmptyJacket,
+  EmptyVest,
+  EmptyShoe,
+  EmptyHandGuard,
+  EmptyBelt,
+  EmptyNecklace,
+  EmptyEarring,
+  EmptyRing,
+  EmptyBracelet,
   woodsword,
   FlashEastDragonSword,
 

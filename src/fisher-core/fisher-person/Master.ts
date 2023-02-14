@@ -57,9 +57,38 @@ class Master {
   public get primaryWeapon() {
     return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.PrimaryWeapon);
   }
-
+  public get secondaryWeapon() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.SecondaryWeapon);
+  }
   public get helmet() {
     return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Helmet);
+  }
+  public get jacket() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Jacket);
+  }
+  public get vest() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Vest);
+  }
+  public get Shoe() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Shoe);
+  }
+  public get handGuard() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.HandGuard);
+  }
+  public get belt() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Belt);
+  }
+  public get necklace() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Necklace);
+  }
+  public get earring() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Earring);
+  }
+  public get ring() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Ring);
+  }
+  public get bracelet() {
+    return this.person.personEquipmentManager.equipmentMap.get(EquipmentSlot.Bracelet);
   }
 
   public get archive(): ArchiveInterface.ArchiveMaster {

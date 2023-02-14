@@ -9,8 +9,10 @@ import { FuiColor } from '../../fisher-ui/theme';
 const FuiMasterEquipments: React.FC = observer(() => {
   const { master } = core;
 
-  const leftEquipments = [master.primaryWeapon];
-  const rightEquipments = [master.helmet];
+  const leftEquipments = [master.primaryWeapon, master.helmet, master.jacket, master.belt];
+  const rightEquipments = [master.secondaryWeapon, master.handGuard, master.vest, master.Shoe];
+  const leftJewelryEquipments = [master.necklace, master.earring];
+  const rightJewelryEquipments = [master.ring, master.bracelet];
 
   const renderEquipmentList = (personEquipments: Array<PersonEquipment | undefined>) => (
     <List sx={{ p: 0 }}>
@@ -35,6 +37,8 @@ const FuiMasterEquipments: React.FC = observer(() => {
     <Stack direction="row">
       {renderEquipmentList(leftEquipments)}
       {renderEquipmentList(rightEquipments)}
+      {renderEquipmentList(leftJewelryEquipments)}
+      {renderEquipmentList(rightJewelryEquipments)}
     </Stack>
   );
 });
