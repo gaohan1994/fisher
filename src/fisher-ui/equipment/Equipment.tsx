@@ -33,7 +33,7 @@ const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = ({ equipment }) => {
   };
 
   return (
-    <List sx={{ pt: 0 }}>
+    <List sx={{ pt: 0, minWidth: 200 }}>
       {equipment.hasAttributes && <ListItem sx={listItemSx}>{renderEquipmentAttributes()}</ListItem>}
       {equipment.hasEquipmentSet && <ListItem sx={listItemSx}>{renderEquipmentSet()}</ListItem>}
     </List>

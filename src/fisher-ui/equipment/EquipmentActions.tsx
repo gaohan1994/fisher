@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { core, EquipmentItem } from '@FisherCore';
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 
 interface Props {
@@ -56,11 +56,9 @@ const RemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({
   }, [equipment, actionCallback]);
   return (
     <React.Fragment>
-      <Tooltip title="卸下装备">
-        <IconButton aria-label="remove" onClick={() => setOpen(true)}>
-          <DoNotDisturbOnIcon />
-        </IconButton>
-      </Tooltip>
+      <Button onClick={() => setOpen(true)} variant="contained" color="error" startIcon={<DoNotDisturbOnIcon />}>
+        卸下装备
+      </Button>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
         <DialogTitle>确定卸下装备 {equipment.name} 么？</DialogTitle>
         <DialogActions>
