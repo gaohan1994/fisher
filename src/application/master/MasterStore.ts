@@ -1,23 +1,23 @@
 import { makeAutoObservable } from 'mobx';
-import { PersonEquipment } from '@FisherCore';
+import { EquipmentItem } from '@FisherCore';
 
 class MasterStore {
-  public activePersonEquipment: PersonEquipment | undefined = undefined;
+  public activeEquipment: EquipmentItem | undefined = undefined;
 
-  public get hasActivePersonEquipment() {
-    return this.activePersonEquipment !== undefined;
+  public get hasActiveEquipment() {
+    return this.activeEquipment !== undefined;
   }
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  public setActivePersonEquipment = (value: PersonEquipment) => {
-    this.activePersonEquipment = value;
+  public setActiveEquipment = (value: EquipmentItem) => {
+    this.activeEquipment = value;
   };
 
-  public clearActivePersonEquipment = () => {
-    this.activePersonEquipment = undefined;
+  public clearActiveEquipment = () => {
+    this.activeEquipment = undefined;
   };
 }
 
