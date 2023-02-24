@@ -39,9 +39,8 @@ const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = ({ equipment }) => {
     </List>
   );
 };
-const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment, ...rest }) => {
-  const equipmentDetail = () => <FuiEquipmentDetail equipment={equipment} />;
-  return <FuiItem {...rest} item={equipment} renderDetail={equipmentDetail} />;
-});
+const FuiEquipment: FC<FuiEquipmentProps> = observer(({ equipment, ...rest }) => (
+  <FuiItem {...rest} item={equipment} itemDetail={<FuiEquipmentDetail equipment={equipment} />} />
+));
 
 export { FuiEquipment, FuiEquipmentDetail };

@@ -12,26 +12,72 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   },
 }));
 
+enum FuiItemDetailPopover {
+  MouseOver,
+  Click,
+}
+
 interface FuiItemProps {
   item: Item;
   showBorder?: boolean;
   showQuantity?: boolean;
-  onClick?: () => void;
-  renderDetail?: () => ReactNode;
+  onClick?: (...rest: any[]) => void;
+  itemDetail?: ReactNode;
+  popoverDetail?: ReactNode;
   renderItem?: () => ReactNode;
+  popover?: FuiItemDetailPopover;
 }
 
 const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
-  ({ item, showBorder, showQuantity, onClick, renderDetail, renderItem }) => {
+  ({
+    item,
+    showBorder,
+    showQuantity,
+    popover = FuiItemDetailPopover.MouseOver,
+    onClick,
+    itemDetail,
+    popoverDetail,
+    renderItem,
+  }) => {
     const { backpack } = core;
+    const [borderActive, setBorderActive] = useState(false);
     const [itemDesc, setItemDesc] = useState<HTMLElement | null>(null);
 
-    const showItemDesc = (event: React.MouseEvent<HTMLElement>) => {
-      setItemDesc(event.currentTarget);
+    const onItemMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+      showMouseOverPopover(event);
+      setBorderActive(true);
+    };
+
+    const onItemMouseLeave = () => {
+      closeMouseOverPopover();
+      setBorderActive(false);
+    };
+
+    const showMouseOverPopover = (event: React.MouseEvent<HTMLElement>) => {
+      if (popover === FuiItemDetailPopover.MouseOver) {
+        setItemDesc(event.currentTarget);
+      }
+    };
+
+    const closeMouseOverPopover = () => {
+      if (popover === FuiItemDetailPopover.MouseOver) {
+        setItemDesc(null);
+      }
+    };
+
+    const showClickPopover = (event: React.MouseEvent<HTMLElement>) => {
+      if (popover === FuiItemDetailPopover.Click) {
+        setItemDesc(event.currentTarget);
+      }
     };
 
     const closeItemDesc = () => {
       setItemDesc(null);
+    };
+
+    const onItemClick = (event: any) => {
+      showClickPopover(event);
+      onClick?.(event);
     };
 
     const open = Boolean(itemDesc);
@@ -43,13 +89,14 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
           sx={{
             border: 1,
             position: 'relative',
-            borderColor: open || showBorder ? FuiColor.item.activeBorderColor : FuiColor.item.borderColor,
+            borderColor:
+              borderActive || open || showBorder ? FuiColor.item.activeBorderColor : FuiColor.item.borderColor,
           }}
-          aria-owns={open ? 'mouse-over-popover' : undefined}
+          aria-owns={open ? 'equipment-popover' : undefined}
           aria-haspopup="true"
-          onMouseEnter={showItemDesc}
-          onMouseLeave={closeItemDesc}
-          onClick={onClick}
+          onMouseEnter={onItemMouseEnter}
+          onMouseLeave={onItemMouseLeave}
+          onClick={onItemClick}
         >
           <StyledBadge
             badgeContent={itemQuantity}
@@ -67,14 +114,14 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
           {renderItem?.()}
         </Box>
         <Popover
-          id="mouse-over-popover"
-          sx={{ pointerEvents: 'none' }}
+          id="equipment-popover"
+          sx={popover === FuiItemDetailPopover.MouseOver ? { pointerEvents: 'none' } : {}}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'left',
           }}
           open={open}
@@ -82,12 +129,13 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
           onClose={closeItemDesc}
           disableRestoreFocus
         >
-          <FuiItemDetail item={item}>{renderDetail?.()}</FuiItemDetail>
+          <FuiItemDetail item={item}>{itemDetail}</FuiItemDetail>
+          {popoverDetail}
         </Popover>
       </Fragment>
     );
   }
 );
 
-export { FuiItem };
+export { FuiItem, FuiItemDetailPopover };
 export type { FuiItemProps };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, CardContent, Avatar, Card } from '@mui/material';
-import { Assets, PersonEquipment } from '@FisherCore';
+import { Assets, EquipmentItem, EquipmentSlotName, PersonEquipment } from '@FisherCore';
 
 interface FuiEmptyEquipmentDetailBaseProps {
   text: React.ReactNode;
@@ -19,18 +19,17 @@ const FuiEmptyEquipmentDetailBase: React.FC<FuiEmptyEquipmentDetailBaseProps> = 
   );
 };
 
-interface FuiEmptyPersonEquipmentDetailProps {
-  personEquipment: PersonEquipment;
+interface FuiEmptySlotEquipmentDetailProps {
+  equipment?: EquipmentItem;
 }
-const FuiEmptyPersonEquipmentDetail: React.FC<FuiEmptyPersonEquipmentDetailProps> = ({ personEquipment }) => (
-  <FuiEmptyEquipmentDetailBase
-    text={personEquipment.emptyEquipment.name}
-    media={personEquipment.emptyEquipment.media}
-  />
-);
+const FuiEmptyEquipmentDetail: React.FC<FuiEmptySlotEquipmentDetailProps> = ({ equipment }) => {
+  if (equipment === undefined) {
+    return <FuiEmptyEquipmentDetailBase text="空" media={Assets.EmptyEquipmentSlot} />;
+  }
 
-const FuiEmptyEquipmentDetail: React.FC = () => (
-  <FuiEmptyEquipmentDetailBase text="空" media={Assets.EmptyEquipmentSlot} />
-);
+  const name = EquipmentSlotName[equipment.slot];
+  const equipmentSlodAssets = Assets[`Empty${equipment.slot}` as keyof typeof Assets];
+  return <FuiEmptyEquipmentDetailBase text={`${name}-空`} media={equipmentSlodAssets} />;
+};
 
-export { FuiEmptyPersonEquipmentDetail, FuiEmptyEquipmentDetail };
+export { FuiEmptyEquipmentDetail };
