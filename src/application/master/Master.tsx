@@ -1,59 +1,36 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Typography, Card, CardContent, CardHeader, List, ListItem, Stack, Box } from '@mui/material';
+import { Typography, Card, CardContent, CardHeader, List, ListItem, Stack, Box, Divider } from '@mui/material';
 import { core, PersonEquipment } from '@FisherCore';
-import {
-  FuiColor,
-  FuiContainer,
-  FuiEquipment,
-  FuiItem,
-  FuiEmptyEquipmentDetail,
-  FuiEquipmentDetail,
-  FuiItemDetail,
-  RemoveEquipmentButton,
-  FuiItemDetailPopover,
-} from '@Fui';
+import { FuiColor, FuiContainer, FuiEquipment, FuiItem, RemoveEquipmentButton, FuiItemDetailPopover } from '@Fui';
 import { masterStore } from './MasterStore';
+import { PageBackpack } from '../backpack';
 
 const PageMaster: React.FC = observer(() => {
   const { master } = core;
-  const { activeEquipment, clearActiveEquipment } = masterStore;
   const leftEquipments = [master.primaryWeapon, master.helmet, master.jacket, master.belt];
   const rightEquipments = [master.secondaryWeapon, master.handGuard, master.vest, master.Shoe];
   const leftJewelryEquipments = [master.necklace, master.earring];
   const rightJewelryEquipments = [master.ring, master.bracelet];
 
   return (
-    <FuiContainer>
-      <Card sx={{ bgcolor: FuiColor.primary.background, width: 'fit-content' }}>
-        <CardHeader title={<Typography variant="body2">人物装备</Typography>} sx={{ pb: 0 }} />
-        <CardContent>
-          <Stack direction="row">
-            <EquipmentColumn personEquipments={leftEquipments} />
-            <EquipmentColumn personEquipments={rightEquipments} />
-            <EquipmentColumn personEquipments={leftJewelryEquipments} />
-            <EquipmentColumn personEquipments={rightJewelryEquipments} />
-          </Stack>
-        </CardContent>
-      </Card>
-      <Card sx={{ bgcolor: FuiColor.primary.background, mt: 2 }}>
-        <CardHeader title={<Typography variant="body2">选中装备</Typography>} sx={{ pb: 0 }} />
-        <CardContent>
-          <Box sx={{ width: 240 }}>
-            {activeEquipment === undefined ? (
-              <FuiEmptyEquipmentDetail equipment={activeEquipment} />
-            ) : (
-              <React.Fragment>
-                <RemoveEquipmentButton equipment={activeEquipment} actionCallback={clearActiveEquipment} />
-                <FuiItemDetail item={activeEquipment}>
-                  <FuiEquipmentDetail equipment={activeEquipment} />
-                </FuiItemDetail>
-              </React.Fragment>
-            )}
-          </Box>
-        </CardContent>
-      </Card>
-    </FuiContainer>
+    <React.Fragment>
+      <FuiContainer>
+        <Card sx={{ bgcolor: FuiColor.primary.background, width: 'fit-content' }}>
+          <CardHeader title={<Typography variant="body2">人物装备</Typography>} sx={{ pb: 0 }} />
+          <CardContent>
+            <Stack direction="row">
+              <EquipmentColumn personEquipments={leftEquipments} />
+              <EquipmentColumn personEquipments={rightEquipments} />
+              <EquipmentColumn personEquipments={leftJewelryEquipments} />
+              <EquipmentColumn personEquipments={rightJewelryEquipments} />
+            </Stack>
+          </CardContent>
+        </Card>
+        <Divider sx={{ mt: 2, mb: 2 }} />
+      </FuiContainer>
+      <PageBackpack />
+    </React.Fragment>
   );
 });
 
