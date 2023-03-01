@@ -126,7 +126,7 @@ const FuiBackpackItemSellAction: React.FC<BackpackItemSellActionProps> = observe
                   max={backpackItem.quantity}
                   onChange={(_, value) => setSellQuantity(value as number)}
                 />
-                <ButtonGroup>
+                <ButtonGroup fullWidth>
                   <Button onClick={sellOneItem} variant="contained" color="warning">
                     只卖一份
                   </Button>

@@ -1,12 +1,14 @@
 import { makeAutoObservable } from 'mobx';
-import { BackpackItem, EquipmentItem } from '@FisherCore';
+import { BackpackItem } from '@FisherCore';
 
+enum FuiBackpackTabs {
+  FullItems,
+  Equipments,
+}
 class BackpackStore {
   public activeBackpackItem: BackpackItem | undefined = undefined;
 
-  public activeEquipment: EquipmentItem | undefined = undefined;
-
-  public showEquipmentsBySlot = false;
+  public activeTab = FuiBackpackTabs.FullItems;
 
   constructor() {
     makeAutoObservable(this);
@@ -20,18 +22,10 @@ class BackpackStore {
     this.activeBackpackItem = undefined;
   };
 
-  public setActiveEquipment = (equipment: EquipmentItem) => {
-    this.activeEquipment = equipment;
-  };
-
-  public clearActiveEquipment = () => {
-    this.activeEquipment = undefined;
-  };
-
-  public changeSlotEquipmentVisible = (visible: boolean) => {
-    this.showEquipmentsBySlot = visible;
+  public setActiveBackpackTab = (value: FuiBackpackTabs) => {
+    this.activeTab = value;
   };
 }
 
 const backpackStore = new BackpackStore();
-export { backpackStore };
+export { backpackStore, FuiBackpackTabs };

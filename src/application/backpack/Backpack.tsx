@@ -1,73 +1,87 @@
+import React from 'react';
 import { observer } from 'mobx-react';
-import { Grid, Typography, Card, CardContent, CardHeader, Stack, Switch, FormControlLabel } from '@mui/material';
+import { Grid, Typography, Card, CardContent, CardHeader, Stack, Tabs, Tab, Box } from '@mui/material';
 import { core } from '@FisherCore';
 import { FuiColor, FuiContainer, FuiBackpackItemRender, FuiCoin, FuiBackpackBatchSellAction } from '@Fui';
-import { backpackStore } from './BackpackStore';
-import { FuiFullBackpackEquipments, FuiSlotBackpackEquipments } from './EquipmentRender';
+import { backpackStore, FuiBackpackTabs } from './BackpackStore';
+import { FuiSlotBackpackEquipments } from './EquipmentRender';
 import { FuiBackpackItemControl } from './BackpackItemControl';
 
-const PageBackpack = observer(() => {
-  const { backpack, bank } = core;
-  const { showEquipmentsBySlot, activeBackpackItem, setActiveBackpackItem } = backpackStore;
-  return (
-    <FuiContainer>
-      <Grid container spacing={2}>
-        <Grid item xs={9}>
-          <Card sx={{ bgcolor: FuiColor.primary.background }}>
-            <CardHeader
-              title={
-                <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography sx={{ fontWeight: 'bold' }} variant="h5">
-                    背包
-                  </Typography>
-                  <FuiCoin price={bank.gold} />
-                </Stack>
-              }
-              subheader={
-                <Stack direction="row" sx={{ mt: 2 }}>
-                  <FuiBackpackBatchSellAction />
-                </Stack>
-              }
-            />
-            <CardContent sx={{ pt: 0 }}>
-              {backpack.items.size === 0 && <Typography>暂无物品</Typography>}
-              {backpack.items.size > 0 && (
-                <Stack direction="row">
-                  {backpack.backpackItems.map((backpackItem) => (
-                    <FuiBackpackItemRender
-                      key={backpackItem.item.id}
-                      backpackItem={backpackItem}
-                      showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
-                      onClick={() => setActiveBackpackItem(backpackItem)}
-                    />
-                  ))}
-                </Stack>
-              )}
-              {!showEquipmentsBySlot ? <FuiFullBackpackEquipments /> : <FuiSlotBackpackEquipments />}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={3}>
-          <FuiBackpackItemControl />
-        </Grid>
+const PageBackpack = () => (
+  <FuiContainer>
+    <Grid container spacing={2}>
+      <Grid item xs={9}>
+        <Card sx={{ bgcolor: FuiColor.primary.background }}>
+          <PageBackpackHeader />
+          <CardContent sx={{ pt: 0 }}>
+            <PageBackpackTabs />
+          </CardContent>
+        </Card>
       </Grid>
-    </FuiContainer>
+      <Grid item xs={3}>
+        <FuiBackpackItemControl />
+      </Grid>
+    </Grid>
+  </FuiContainer>
+);
+
+const PageBackpackHeader = observer(() => {
+  const { bank } = core;
+  return (
+    <CardHeader
+      title={
+        <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Typography sx={{ fontWeight: 'bold' }} variant="h5">
+            背包
+          </Typography>
+          <FuiCoin price={bank.gold} />
+        </Stack>
+      }
+    />
   );
 });
 
-const FuiSlotEquipmentSwitch = observer(() => {
-  const { showEquipmentsBySlot, changeSlotEquipmentVisible } = backpackStore;
+const PageBackpackTabs = observer(() => {
+  const { backpack } = core;
+  const { activeBackpackItem, setActiveBackpackItem, activeTab, setActiveBackpackTab } = backpackStore;
+
+  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
+    setActiveBackpackTab(newValue as any);
+  };
+
+  const BackpackFullItemsTab = () => {
+    if (backpack.items.size === 0) {
+      return <Typography>暂无物品</Typography>;
+    }
+    return (
+      <React.Fragment>
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <FuiBackpackBatchSellAction />
+        </Box>
+        <Stack direction="row">
+          {backpack.backpackItems.map((backpackItem) => (
+            <FuiBackpackItemRender
+              key={backpackItem.item.id}
+              backpackItem={backpackItem}
+              showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
+              onClick={() => setActiveBackpackItem(backpackItem)}
+            />
+          ))}
+        </Stack>
+      </React.Fragment>
+    );
+  };
+
   return (
-    <FormControlLabel
-      label={<Typography variant="body2">分类显示装备</Typography>}
-      control={
-        <Switch
-          checked={showEquipmentsBySlot}
-          color="warning"
-          onChange={(event) => changeSlotEquipmentVisible(event.target.checked)}
-        />
-      }
-    />
+    <React.Fragment>
+      <Tabs value={activeTab} onChange={handleChange} aria-label="wrapped label tabs example">
+        <Tab value={FuiBackpackTabs.FullItems} label="全部" wrapped />
+        <Tab value={FuiBackpackTabs.Equipments} label="装备" />
+      </Tabs>
+
+      {activeTab === FuiBackpackTabs.FullItems && <BackpackFullItemsTab />}
+      {activeTab === FuiBackpackTabs.Equipments && <FuiSlotBackpackEquipments />}
+    </React.Fragment>
   );
 });
 

@@ -18,6 +18,7 @@ import MetalStone from './item/MetalStone.png';
 import FiveElementsStone from './item/FiveElementsStone.png';
 
 import posion from './actions/posion.png';
+import EmptyEquipmentSlot from './equipments/EmptyEquipmentSlot.png';
 import EmptyPrimaryWeapon from './equipments/EmptyPrimaryWeapon.png';
 import EmptySecondaryWeapon from './equipments/EmptySecondaryWeapon.png';
 import EmptyHelmet from './equipments/EmptyHelmet.png';
@@ -64,6 +65,7 @@ export const Assets = {
   posion,
 
   // equipment assets
+  EmptyEquipmentSlot,
   EmptyPrimaryWeapon,
   EmptySecondaryWeapon,
   EmptyHelmet,
