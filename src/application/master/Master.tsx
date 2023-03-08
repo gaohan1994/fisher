@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { observer } from 'mobx-react';
-import { Typography, Card, CardContent, CardHeader, List, ListItem, Stack, Box, Divider } from '@mui/material';
+import { Card, CardContent, CardHeader, List, ListItem, Stack, Box, Divider } from '@mui/material';
 import { core, PersonEquipment } from '@FisherCore';
-import { FuiColor, FuiContainer, FuiEquipment, FuiItem, RemoveEquipmentButton, FuiItemDetailPopover } from '@Fui';
-import { masterStore } from './MasterStore';
+import {
+  FuiColor,
+  FuiContainer,
+  FuiEquipment,
+  FuiItem,
+  RemoveEquipmentButton,
+  FuiItemDetailPopover,
+  FuiCardTitle,
+  FuiPersonAttributePanel,
+} from '@Fui';
 import { PageBackpack } from '../backpack';
+import { masterStore } from './MasterStore';
+
+interface MasterCardProps {
+  title: string;
+}
+const MasterCard: React.FC<PropsWithChildren<MasterCardProps>> = ({ title, children }) => (
+  <Card sx={{ bgcolor: FuiColor.primary.background, width: 'fit-content' }}>
+    <CardHeader title={<FuiCardTitle value={title} />} sx={{ pb: 0 }} />
+    <CardContent>{children}</CardContent>
+  </Card>
+);
 
 const PageMaster: React.FC = observer(() => {
   const { master } = core;
@@ -16,17 +35,19 @@ const PageMaster: React.FC = observer(() => {
   return (
     <React.Fragment>
       <FuiContainer>
-        <Card sx={{ bgcolor: FuiColor.primary.background, width: 'fit-content' }}>
-          <CardHeader title={<Typography variant="body2">人物装备</Typography>} sx={{ pb: 0 }} />
-          <CardContent>
+        <Stack direction="row" spacing={2}>
+          <MasterCard title="人物装备">
             <Stack direction="row">
               <EquipmentColumn personEquipments={leftEquipments} />
               <EquipmentColumn personEquipments={rightEquipments} />
               <EquipmentColumn personEquipments={leftJewelryEquipments} />
               <EquipmentColumn personEquipments={rightJewelryEquipments} />
             </Stack>
-          </CardContent>
-        </Card>
+          </MasterCard>
+          <MasterCard title="属性">
+            <FuiPersonAttributePanel person={master.person} />
+          </MasterCard>
+        </Stack>
         <Divider sx={{ mt: 2, mb: 2 }} />
       </FuiContainer>
       <PageBackpack />
