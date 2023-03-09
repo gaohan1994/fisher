@@ -1,0 +1,28 @@
+{
+  "moduleName": "RewardChest",
+  "data": {
+    "items": [
+      {
+        "id": "NoobChest",
+        "name": "新手宝箱",
+        "desc": "给新手提供的宝箱，内含一套新手装备",
+        "media": "ChestNormal",
+        "price": 1,
+        "rewardItems": [
+          {
+            "itemId": "WoodSword",
+            "itemQuantity": 1
+          },
+          {
+            "itemId": "NoobDagger",
+            "itemQuantity": 1
+          },
+          {
+            "itemId": "ClothHat",
+            "itemQuantity": 1
+          }
+        ]
+      }
+    ]
+  }
+}

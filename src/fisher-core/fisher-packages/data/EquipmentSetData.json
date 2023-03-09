@@ -7,7 +7,7 @@
         "name": "新手套装",
         "desc": "给新手用的套装，为新人保驾护航",
         "media": "",
-        "equipmentIds": ["WoodSword", "ClothHat"],
+        "equipmentIds": ["WoodSword", "NoobDagger", "ClothHat"],
         "setAttributes": [
           {
             "slot": 2,
@@ -15,6 +15,10 @@
               { "key": "AttackPower", "value": 10 },
               { "key": "MaxHp", "value": 100 }
             ]
+          },
+          {
+            "slot": 3,
+            "attributes": [{ "key": "AttackPower", "value": 10 }]
           }
         ]
       }
