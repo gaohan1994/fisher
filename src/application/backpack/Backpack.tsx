@@ -40,34 +40,10 @@ const PageBackpackHeader = observer(() => {
 });
 
 const PageBackpackTabs = observer(() => {
-  const { backpack } = core;
-  const { activeBackpackItem, setActiveBackpackItem, activeTab, setActiveBackpackTab } = backpackStore;
+  const { activeTab, setActiveBackpackTab } = backpackStore;
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
     setActiveBackpackTab(newValue as any);
-  };
-
-  const BackpackFullItemsTab = () => {
-    if (backpack.items.size === 0) {
-      return <Typography>暂无物品</Typography>;
-    }
-    return (
-      <React.Fragment>
-        <Box sx={{ mt: 2, mb: 2 }}>
-          <FuiBackpackBatchSellAction />
-        </Box>
-        <Stack direction="row">
-          {backpack.backpackItems.map((backpackItem) => (
-            <FuiBackpackItemRender
-              key={backpackItem.item.id}
-              backpackItem={backpackItem}
-              showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
-              onClick={() => setActiveBackpackItem(backpackItem)}
-            />
-          ))}
-        </Stack>
-      </React.Fragment>
-    );
   };
 
   return (
@@ -79,6 +55,32 @@ const PageBackpackTabs = observer(() => {
 
       {activeTab === FuiBackpackTabs.FullItems && <BackpackFullItemsTab />}
       {activeTab === FuiBackpackTabs.Equipments && <FuiSlotBackpackEquipments />}
+    </React.Fragment>
+  );
+});
+
+const BackpackFullItemsTab = observer(() => {
+  const { backpack } = core;
+  const { activeBackpackItem, setActiveBackpackItem } = backpackStore;
+
+  if (backpack.items.size === 0) {
+    return <Typography>暂无物品</Typography>;
+  }
+  return (
+    <React.Fragment>
+      <Box sx={{ mt: 2, mb: 2 }}>
+        <FuiBackpackBatchSellAction />
+      </Box>
+      <Stack direction="row">
+        {backpack.backpackItems.map((backpackItem) => (
+          <FuiBackpackItemRender
+            key={`${backpackItem.item.id}-${backpackItem.quantity}`}
+            backpackItem={backpackItem}
+            showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
+            onClick={() => setActiveBackpackItem(backpackItem)}
+          />
+        ))}
+      </Stack>
     </React.Fragment>
   );
 });
