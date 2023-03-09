@@ -3,8 +3,10 @@ import { Experience } from '../fisher-experience';
 import { Person } from './Person';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './Attributes';
+import { EquipmentSlot } from '../fisher-item';
 
 const DefenceFormulaCoe = 0.06;
+const DefaultAttackSpeed = 3000;
 
 enum BaseAttributeData {
   InitializeMaxHp = 500,
@@ -81,7 +83,6 @@ class AttributePanel {
 
   /**
    * 基础攻击力增幅
-   * @todo 暂时为1
    */
   public get BaseAttackPowerMultiplier() {
     return 1;
@@ -95,10 +96,6 @@ class AttributePanel {
     return this.BonusEquipmentsAttributes.AttackPower;
   }
 
-  /**
-   * 攻击力加成百分比乘数
-   * @todo 暂时为1
-   */
   public get BonusAttackPowerMultiplier() {
     return 1 + this.BonusEquipmentsAttributes.AttackPowerMultiplier;
   }
@@ -126,10 +123,38 @@ class AttributePanel {
   }
 
   /**
-   * Unit: ms
+   * return the smaller attack speed of primary and secondary weapons
+   *
+   *
+   * @readonly
+   * @memberof AttributePanel
    */
+  public get WeaponAttackSpeed() {
+    const primaryWeapon = this.equipmentManager.equipmentMap.get(EquipmentSlot.PrimaryWeapon)!;
+    const primaryWeaponAttackSpeed = !primaryWeapon.isEmpty ? primaryWeapon.equipment?.attackSpeed : undefined;
+
+    const secondaryWeapon = this.equipmentManager.equipmentMap.get(EquipmentSlot.SecondaryWeapon)!;
+    const secondaryWeaponAttackSpeed = !secondaryWeapon.isEmpty ? secondaryWeapon.equipment?.attackSpeed : undefined;
+
+    if (primaryWeaponAttackSpeed === undefined && secondaryWeaponAttackSpeed === undefined) {
+      return undefined;
+    }
+
+    if (primaryWeaponAttackSpeed !== undefined && secondaryWeaponAttackSpeed !== undefined) {
+      return Math.min(primaryWeaponAttackSpeed, secondaryWeaponAttackSpeed);
+    }
+
+    return primaryWeaponAttackSpeed || secondaryWeaponAttackSpeed;
+  }
+
   public get AttackSpeed() {
-    return 2000;
+    let baseAttackSpeed = DefaultAttackSpeed;
+
+    if (this.WeaponAttackSpeed !== undefined) {
+      baseAttackSpeed = this.WeaponAttackSpeed;
+    }
+
+    return baseAttackSpeed;
   }
 
   public get DefencePower() {

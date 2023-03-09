@@ -13,6 +13,10 @@ enum IAttributeKeys {
   DefencePowerMultiplier = 'DefencePowerMultiplier',
   // 减甲
   DefenceCorruption = 'DefenceCorruption',
+  // 攻速
+  AttackSpeed = 'AttackSpeed',
+  // 攻速加成
+  AttackSpeedMultiplier = 'AttackSpeedMultiplier',
 }
 
 type IBonusEquipmentsAttributesKeys =

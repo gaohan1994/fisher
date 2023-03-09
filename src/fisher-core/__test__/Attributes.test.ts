@@ -3,6 +3,7 @@ import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot, IEquipmentItem } from '../fisher-item';
 import { IAttributeKeys, Master, Person } from '../fisher-person';
 import { BaseAttributeData } from '../fisher-person/AttributePanel';
+import { PersonMode } from '../fisher-person/Constants';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -52,7 +53,7 @@ describe('Person Attribute', () => {
 
   describe('should calculate bonus equipments attributes', () => {
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person('');
+      const person = new Person(PersonMode.Enemy);
 
       const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equip1), new EquipmentItem(equip2)];
       person.personEquipmentManager.useEquipment(equipmentItem1);
@@ -67,7 +68,7 @@ describe('Person Attribute', () => {
     });
 
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person('');
+      const person = new Person(PersonMode.Enemy);
 
       const [equipWithSet1, equipWithSet2] = [
         Object.assign({}, equip1, { id: 'WoodSword', equipmentSetId: 'NoobSet' }),
@@ -119,7 +120,36 @@ describe('Person Attribute', () => {
 
     expect(attributePanel.MaxHp).toBe(520 + 20);
     expect(attributePanel.AttackPower).toBe(2 + 10 * 1.01);
-    expect(attributePanel.AttackSpeed).toBe(2000);
     expect(attributePanel.DefencePower).toBe(0.5 + 5 * 1.05);
+  });
+
+  test('should success calculate AttackSpeed', () => {
+    const person = new Person(PersonMode.Enemy);
+
+    const withoutAttackSpeedPrimaryWeaponItem = new EquipmentItem(equip2);
+    const withoutAttackSpeedSecondaryWeaponItem = new EquipmentItem(
+      Object.assign({}, equip2, { slot: EquipmentSlot.SecondaryWeapon })
+    );
+    person.personEquipmentManager.useEquipment(withoutAttackSpeedPrimaryWeaponItem);
+    person.personEquipmentManager.useEquipment(withoutAttackSpeedSecondaryWeaponItem);
+    expect(person.attributePanel.WeaponAttackSpeed).toBeUndefined();
+    expect(person.attributePanel.AttackSpeed).toBe(3000);
+
+    const attackSpeedSecondaryWeaponItem = new EquipmentItem(
+      Object.assign({}, equip2, { slot: EquipmentSlot.SecondaryWeapon, attackSpeed: 1800 })
+    );
+    person.personEquipmentManager.useEquipment(attackSpeedSecondaryWeaponItem);
+    expect(person.attributePanel.WeaponAttackSpeed).toEqual(1800);
+    expect(person.attributePanel.AttackSpeed).toBe(1800);
+
+    const attackSpeedPrimaryWeaponItem = new EquipmentItem(Object.assign({}, equip2, { attackSpeed: 1700 }));
+    person.personEquipmentManager.useEquipment(attackSpeedPrimaryWeaponItem);
+    expect(person.attributePanel.WeaponAttackSpeed).toEqual(1700);
+    expect(person.attributePanel.AttackSpeed).toBe(1700);
+
+    const lowerAttackSpeedPrimaryWeaponItem = new EquipmentItem(Object.assign({}, equip2, { attackSpeed: 2500 }));
+    person.personEquipmentManager.useEquipment(lowerAttackSpeedPrimaryWeaponItem);
+    expect(person.attributePanel.WeaponAttackSpeed).toEqual(1800);
+    expect(person.attributePanel.AttackSpeed).toBe(1800);
   });
 });
