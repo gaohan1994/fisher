@@ -9,9 +9,40 @@
         "media": "woodsword",
         "price": 5,
         "slot": "PrimaryWeapon",
+        "attackSpeed": 2000,
         "attributes": [{ "key": "AttackPower", "value": 40 }],
         "equipmentSetId": "NoobSet"
       },
+      {
+        "id": "EastDragonSword",
+        "name": "东海龙王之剑",
+        "desc": "拥有东海龙王力量的武器",
+        "media": "EastDragonSword",
+        "price": 5000,
+        "slot": "PrimaryWeapon",
+        "attributes": [{ "key": "AttackPower", "value": 210 }]
+      },
+      {
+        "id": "FlashEastDragonSword",
+        "name": "闪光的东海龙王之剑",
+        "desc": "充满东海龙王力量的武器",
+        "media": "FlashEastDragonSword",
+        "price": 5000,
+        "slot": "PrimaryWeapon",
+        "attributes": [{ "key": "AttackPower", "value": 220 }]
+      },
+
+      {
+        "id": "NoobDagger",
+        "name": "新手短刀",
+        "desc": "为新手准备的短刀",
+        "media": "dagger",
+        "price": 5,
+        "slot": "SecondaryWeapon",
+        "attackSpeed": 1800,
+        "attributes": [{ "key": "AttackPower", "value": 10 }]
+      },
+
       {
         "id": "ClothHat",
         "name": "新手布帽",
@@ -31,24 +62,6 @@
         "slot": "Helmet",
         "requirements": [],
         "attributes": [{ "key": "MaxHp", "value": 20 }]
-      },
-      {
-        "id": "EastDragonSword",
-        "name": "东海龙王之剑",
-        "desc": "拥有东海龙王力量的武器",
-        "media": "EastDragonSword",
-        "price": 5000,
-        "slot": "PrimaryWeapon",
-        "attributes": [{ "key": "AttackPower", "value": 210 }]
-      },
-      {
-        "id": "FlashEastDragonSword",
-        "name": "闪光的东海龙王之剑",
-        "desc": "充满东海龙王力量的武器",
-        "media": "FlashEastDragonSword",
-        "price": 5000,
-        "slot": "PrimaryWeapon",
-        "attributes": [{ "key": "AttackPower", "value": 220 }]
       }
     ]
   }
