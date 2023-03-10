@@ -9,14 +9,9 @@ import {
   DialogContent,
   Typography,
   Button,
-  Stack,
-  Checkbox,
   ButtonGroup,
   Grid,
 } from '@mui/material';
-import BallotIcon from '@mui/icons-material/Ballot';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { FuiBackpackItemDetailRender } from './BackpackItemRender';
 import { PrettoSlider } from './PrettoSlider';
 

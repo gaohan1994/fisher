@@ -1,3 +1,4 @@
+import { makeAutoObservable, makeObservable, observable, computed, action } from 'mobx';
 import { IItem, Item, ItemType } from './Item';
 import { EquipmentItem, IEquipmentAttribute } from './EquipmentItem';
 
@@ -15,32 +16,41 @@ interface ISetAtttribute {
 export class EquipmentSet extends Item {
   type = ItemType.EquipmentSet;
 
+  @observable
   public equipmentIdSet = new Set<string>();
 
+  @computed
   public get equipmentIds() {
     return [...this.equipmentIdSet.values()];
   }
 
+  @observable
   private activeEquipmentMap = new Map<string, EquipmentItem>();
 
+  @computed
   public get activeEquipmentLength() {
     return this.activeEquipmentMap.size;
   }
 
+  @observable
   public setAttributeMap = new Map<EquipmentSetSlotControl, IEquipmentAttribute[]>();
 
+  @computed
   public get setAttributes() {
     return [...this.setAttributeMap];
   }
 
+  @observable
   public extra: EquipmentSetExtra | undefined = undefined;
 
+  @computed
   public get hasExtraAttributes() {
     return this.extra !== undefined;
   }
 
   constructor(options: IEquipmentSet) {
     super(options);
+    makeObservable(this);
 
     // initialize equipment slot id
     for (let index = 0; index < options.equipmentIds.length; index++) {
@@ -59,6 +69,7 @@ export class EquipmentSet extends Item {
     }
   }
 
+  @action
   public calculateEquipmentsActiveSetAttributes = (equipments: EquipmentItem[]) => {
     this.checkEquipmentsIsBelongToCurrentEquipmentSet(equipments);
 
@@ -67,6 +78,7 @@ export class EquipmentSet extends Item {
     this.calculateExtraAttributes();
   };
 
+  @action
   private calculateSlotAttributes = () => {
     this.setAttributeMap.forEach((_, setSlotControl) => {
       if (this.activeEquipmentLength >= setSlotControl.slot) {
@@ -77,6 +89,7 @@ export class EquipmentSet extends Item {
     });
   };
 
+  @action
   private calculateExtraAttributes = () => {
     if (this.extra === undefined) return;
 
@@ -90,6 +103,7 @@ export class EquipmentSet extends Item {
     }
   };
 
+  @action
   private checkEquipmentsIsBelongToCurrentEquipmentSet = (equipments: EquipmentItem[]) => {
     for (let index = 0; index < equipments.length; index++) {
       const equipment = equipments[index];
@@ -102,6 +116,7 @@ export class EquipmentSet extends Item {
     }
   };
 
+  @action
   private setActiveEquipmentMap = (equipments: EquipmentItem[]) => {
     this.activeEquipmentMap.clear();
 
@@ -111,6 +126,7 @@ export class EquipmentSet extends Item {
     }
   };
 
+  @action
   public checkEquipmentIsActive = (equipment: EquipmentItem) => {
     return this.activeEquipmentMap.has(equipment.id);
   };
@@ -121,6 +137,7 @@ export class EquipmentSetExtra {
   public attributes: IEquipmentAttribute[];
 
   constructor(equipmentsFullSlotCount: number, attributes: IEquipmentAttribute[]) {
+    makeAutoObservable(this);
     this.setSlotControl = new EquipmentSetSlotControl(equipmentsFullSlotCount);
     this.attributes = attributes;
   }
@@ -131,6 +148,7 @@ class EquipmentSetSlotControl {
   public active: boolean = false;
 
   constructor(slot: number) {
+    makeAutoObservable(this);
     this.slot = slot;
   }
 
