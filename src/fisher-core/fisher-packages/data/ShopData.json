@@ -10,6 +10,11 @@
       "id": "CookBluePrints",
       "name": "炼丹药方",
       "itemIds": []
+    },
+    {
+      "id": "Others",
+      "name": "杂货",
+      "itemIds": ["NoobChest"]
     }
   ]
 }

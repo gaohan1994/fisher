@@ -58,6 +58,7 @@ export class Store {
 
   public get items() {
     return [
+      ...this.RewardChests,
       ...this.Mining.items,
       ...this.Mining.recipes,
       ...this.Reiki.items,

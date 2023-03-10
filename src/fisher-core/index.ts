@@ -7,7 +7,7 @@ import { IAttributeKeys } from './fisher-person';
 import { Bank, ShopCategoryHandler } from './fisher-bank';
 import { Backpack } from './fisher-backpack';
 import { Timer } from './fisher-timer';
-import { Reward } from './fisher-reward';
+import { Reward, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
 
 export {
@@ -28,6 +28,7 @@ export {
   Backpack,
   Timer,
   Reward,
+  RewardChestHandler,
   Skill,
   RecipeHandler,
 };

@@ -67,4 +67,24 @@ describe('Reward chest handler', () => {
     RewardChestHandler.openRewardChest(chestWithExperience);
     expect(mining.experience).toEqual(10);
   });
+
+  test('should success open reward chest in batches', () => {
+    const chest = new RewardChest(testChestItem);
+    expect(backpack.checkItem(chest, 1)).toBeFalsy();
+    backpack.addItem(chest, 10);
+
+    RewardChestHandler.openRewardChestBatches(chest, 5);
+
+    expect(backpack.checkItemById('WoodSword', 5)).toBeTruthy();
+    expect(backpack.checkItemById('NoobDagger', 5)).toBeTruthy();
+    expect(backpack.checkItemById('ClothHat', 5)).toBeTruthy();
+    expect(backpack.getItem(chest)?.quantity).toEqual(5);
+
+    RewardChestHandler.openRewardChestBatches(chest, 5);
+
+    expect(backpack.checkItemById('WoodSword', 10)).toBeTruthy();
+    expect(backpack.checkItemById('NoobDagger', 10)).toBeTruthy();
+    expect(backpack.checkItemById('ClothHat', 10)).toBeTruthy();
+    expect(backpack.checkItem(chest)).toBeFalsy();
+  });
 });
