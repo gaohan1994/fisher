@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { BackpackItem, isEquipmentItem } from '@FisherCore';
-import { FuiItem, FuiItemDetail, FuiItemProps } from '../item';
+import { FuiItem, FuiItemDetail, FuiItemDetailPopover, FuiItemProps } from '../item';
 import { FuiEquipment, FuiEquipmentDetail } from '../equipment';
 
 interface BackpackItemRenderProps extends Pick<FuiItemProps, 'onClick' | 'showBorder' | 'renderItem'> {
@@ -9,6 +9,7 @@ interface BackpackItemRenderProps extends Pick<FuiItemProps, 'onClick' | 'showBo
 }
 const FuiBackpackItemRender: React.FC<BackpackItemRenderProps> = observer(({ backpackItem, ...rest }) => {
   const commonProps = {
+    popover: FuiItemDetailPopover.None,
     showQuantity: true,
   };
 

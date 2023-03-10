@@ -13,6 +13,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
 }));
 
 enum FuiItemDetailPopover {
+  None,
   MouseOver,
   Click,
 }
