@@ -10,3 +10,4 @@ export * from './Enemy';
 export * from './ShopCategory';
 export * from './CartItem';
 export * from './ItemChecker';
+export * from './RewardChest';

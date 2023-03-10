@@ -1,3 +1,4 @@
+import RewardChestDataJson from './data/RewardChestData.json';
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
 import equipmentDataJson from './data/EquipmentData.json';
@@ -21,6 +22,8 @@ import {
   EquipmentSet,
   IShopCategory,
   ShopCategory,
+  IRewardChest,
+  RewardChest,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -37,6 +40,10 @@ type PackageCollectionJsonDataSource = PackageJsonDataSource<{
   items: IItem[];
   recipes: IRecipe[];
 }>;
+
+export function makeRewardChestsData() {
+  return generateRewardChests(RewardChestDataJson.data.items);
+}
 
 export function makeMiningPackagesData(): ICollectionModuleData {
   return makePackageCollectionDataSource(miningDataJson);
@@ -110,4 +117,8 @@ function generateEnemies(itemsJson: IEnemyItem[]) {
 
 function generateShopCategories(itemsJson: IShopCategory[]) {
   return itemsJson.map((item) => new ShopCategory(item));
+}
+
+function generateRewardChests(itemsJson: IRewardChest[]) {
+  return itemsJson.map((item) => new RewardChest(item));
 }

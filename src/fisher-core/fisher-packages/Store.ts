@@ -8,6 +8,7 @@ import {
   EquipmentSet,
   NormalItem,
   ShopCategory,
+  RewardChest,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -18,6 +19,7 @@ import {
   makeForgePackagesData,
   makeMiningPackagesData,
   makeReikiPackagesData,
+  makeRewardChestsData,
   makeShopData,
 } from './FisherPackages';
 
@@ -33,6 +35,8 @@ export class Store {
     }
     return Store.instance;
   }
+
+  public RewardChests: RewardChest[] = [];
 
   public Mining: ICollectionModuleData = { items: [], recipes: [] };
 
@@ -54,6 +58,7 @@ export class Store {
 
   public get items() {
     return [
+      ...this.RewardChests,
       ...this.Mining.items,
       ...this.Mining.recipes,
       ...this.Reiki.items,
@@ -69,6 +74,7 @@ export class Store {
   }
 
   public initializePackages = async () => {
+    this.initializeRewardChests();
     this.initializeMining();
     this.initializeReiki();
     this.initializeForge();
@@ -76,6 +82,11 @@ export class Store {
     this.initializeEquipmentSets();
     this.initializeBattle();
     this.initializeShop();
+  };
+
+  private initializeRewardChests = () => {
+    this.RewardChests = makeRewardChestsData();
+    Store.logger.info('initialize RewardChest data');
   };
 
   private initializeMining = () => {

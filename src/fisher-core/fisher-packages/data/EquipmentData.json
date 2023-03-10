@@ -40,7 +40,8 @@
         "price": 5,
         "slot": "SecondaryWeapon",
         "attackSpeed": 1800,
-        "attributes": [{ "key": "AttackPower", "value": 10 }]
+        "attributes": [{ "key": "AttackPower", "value": 10 }],
+        "equipmentSetId": "NoobSet"
       },
 
       {

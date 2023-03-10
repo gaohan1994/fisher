@@ -9,6 +9,8 @@ import forge from './common/forge.png';
 import reiki from './common/reiki.png';
 import blueprint from './common/blueprint.png';
 
+import ChestGold from './item/ChestGold.png';
+import ChestNormal from './item/ChestNormal.png';
 import LowSpiritMine from './item/LowSpiritMine.png';
 import WoodStone from './item/WoodStone.png';
 import EarthStone from './item/EarthStone.png';
@@ -52,6 +54,10 @@ export const Assets = {
   forge,
   reiki,
   blueprint,
+
+  // chest
+  ChestGold,
+  ChestNormal,
 
   // normal items
   WoodStone,
