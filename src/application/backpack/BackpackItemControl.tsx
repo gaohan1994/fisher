@@ -1,7 +1,13 @@
 import React from 'react';
 import { Grid, Divider, Typography, Card, CardContent, CardHeader } from '@mui/material';
-import { core, isEquipmentItem } from '@FisherCore';
-import { FuiBackpackItemSellAction, FuiColor, FuiBackpackItemDetailRender, UseEquipmentButton } from '@Fui';
+import { Backpack, BackpackItem, core, isEquipmentItem, isRewardChest, RewardChest } from '@FisherCore';
+import {
+  FuiBackpackItemSellAction,
+  FuiColor,
+  FuiBackpackItemDetailRender,
+  UseEquipmentButton,
+  FuiOpenRewardChestAction,
+} from '@Fui';
 import { backpackStore } from './BackpackStore';
 import { observer } from 'mobx-react';
 
@@ -50,9 +56,18 @@ const FuiBackpackItemActions = observer(() => {
       </Grid>
 
       {isEquipmentItem(activeBackpackItem!.item) && (
+        <Grid item xs={6}>
+          <UseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
+        </Grid>
+      )}
+
+      {isRewardChest(activeBackpackItem!.item) && (
         <React.Fragment>
           <Grid item xs={6}>
-            <UseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
+            <FuiOpenRewardChestAction
+              rewardChest={activeBackpackItem! as BackpackItem<RewardChest>}
+              actionCallback={onBackpackItemActionCallback}
+            />
           </Grid>
         </React.Fragment>
       )}
