@@ -20,6 +20,33 @@
       "goldReward": 5,
       "itemRewards": [{ "itemId": "NormalReiki" }],
       "randomRewards": [{ "itemId": "ClothHat", "probability": 10 }]
+    },
+    {
+      "id": "SmallPigMonster",
+      "name": "小猪妖",
+      "desc": "灵力较低的小猪妖，常出现在农田附近",
+      "media": "Monster",
+      "level": 5,
+      "goldReward": 5,
+      "itemRewards": [{ "itemId": "NormalReiki" }]
+    },
+    {
+      "id": "YangZhouEarthMonster",
+      "name": "扬州城土地妖",
+      "desc": "霍乱扬州城的土地妖，实力强大",
+      "media": "Monster",
+      "level": 5,
+      "goldReward": 5,
+      "itemRewards": [{ "itemId": "NormalReiki" }]
+    },
+    {
+      "id": "ShrimpSoldier",
+      "name": "虾兵",
+      "desc": "守卫东海的虾兵，在东海随处可见",
+      "media": "Monster",
+      "level": 1,
+      "goldReward": 1,
+      "itemRewards": [{ "itemId": "WaterReiki" }]
     }
   ],
   "area": [
@@ -29,7 +56,15 @@
       "desc": "",
       "media": "",
       "unlockLevel": 1,
-      "enemies": ["LowSpiritMonster", "FireSpiritMonster"]
+      "enemies": ["LowSpiritMonster", "FireSpiritMonster", "SmallPigMonster", "YangZhouEarthMonster"]
+    },
+    {
+      "id": "Battle:EastSea",
+      "name": "东海",
+      "desc": "",
+      "media": "",
+      "unlockLevel": 1,
+      "enemies": ["ShrimpSoldier"]
     }
   ]
 }

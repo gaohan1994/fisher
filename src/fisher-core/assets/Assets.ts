@@ -8,6 +8,7 @@ import mining from './common/mining.png';
 import forge from './common/forge.png';
 import reiki from './common/reiki.png';
 import blueprint from './common/blueprint.png';
+import attack from './common/attack.png';
 
 import ChestGold from './item/ChestGold.png';
 import ChestNormal from './item/ChestNormal.png';
@@ -39,6 +40,7 @@ import FlashEastDragonSword from './equipments/FlashEastDragonSword.png';
 import ninja from './person/ninja.png';
 import knight from './person/knight.png';
 
+import Monster from './enemy/Monster.png';
 import LowSpiritMonster from './enemy/LowSpiritMonster.png';
 import FireSpiritMonster from './enemy/FireSpiritMonster.png';
 
@@ -54,6 +56,7 @@ export const Assets = {
   forge,
   reiki,
   blueprint,
+  attack,
 
   // chest
   ChestGold,
@@ -90,6 +93,7 @@ export const Assets = {
   FlashEastDragonSword,
 
   // enemy assets
+  Monster,
   LowSpiritMonster,
   FireSpiritMonster,
 

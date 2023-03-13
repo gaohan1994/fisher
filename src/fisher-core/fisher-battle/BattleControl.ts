@@ -48,8 +48,6 @@ class BattleControl {
 
   public stopBattle = () => {
     this.master.person.stopBattle();
-
-    console.log('this.enemy', this.enemy);
     this.enemy?.person.stopBattle();
   };
 
