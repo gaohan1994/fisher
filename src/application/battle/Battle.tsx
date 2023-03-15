@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Divider, Grid } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiContainer } from '@Fui';
+import { FuiContainer, FuiPersonAttributePanel } from '@Fui';
 import { BattleEnemySelector } from './BattleEnemySelector';
 import { BattleRewards } from './BattleRewards';
 import { FuiBattlePersonInfo } from './BattlePersonInfo';
@@ -15,7 +15,9 @@ const PageBattle: React.FC = observer(() => {
       <Divider sx={{ m: 2 }} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <FuiBattlePersonInfo man={battle.master} />
+          <FuiBattlePersonInfo man={battle.master}>
+            <FuiPersonAttributePanel person={battle.master.person} />
+          </FuiBattlePersonInfo>
         </Grid>
         <Grid item xs={6}>
           {battle.enemy?.person && <FuiBattlePersonInfo man={battle.enemy} />}

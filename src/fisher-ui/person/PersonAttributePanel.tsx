@@ -10,14 +10,26 @@ interface Props {
 }
 const FuiPersonAttributePanel: FC<Props> = observer(({ person }) => (
   <Stack sx={{ width: 250 }}>
-    <PanelAttribute attribute={IAttributeKeys.MaxHp} value={person.attributePanel.MaxHp} />
+    <PanelAttribute
+      attribute={IAttributeKeys.MaxHp}
+      value={person.attributePanel.MaxHp}
+    />
     <PanelAttribute
       attribute={IAttributeKeys.AttackSpeed}
       value={numeral(person.attributePanel.AttackSpeed / 1000).format('0.0')}
     />
-    <PanelAttribute attribute={IAttributeKeys.AttackPower} value={person.attributePanel.AttackPower} />
-    <PanelAttribute attribute={IAttributeKeys.DefencePower} value={person.attributePanel.DefencePower} />
-    <PanelAttribute attribute={IAttributeKeys.DefenceCorruption} value={person.attributePanel.DefenceCorruption} />
+    <PanelAttribute
+      attribute={IAttributeKeys.AttackPower}
+      value={person.attributePanel.AttackPower}
+    />
+    <PanelAttribute
+      attribute={IAttributeKeys.DefencePower}
+      value={person.attributePanel.DefencePower}
+    />
+    <PanelAttribute
+      attribute={IAttributeKeys.DefenceCorruption}
+      value={person.attributePanel.DefenceCorruption}
+    />
   </Stack>
 ));
 
