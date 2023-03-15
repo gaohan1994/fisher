@@ -1,6 +1,6 @@
 import { FC, Fragment, useState, PropsWithChildren, ReactNode } from 'react';
 import { Avatar, Box, Popover, Badge, styled, BadgeProps } from '@mui/material';
-import { core, Item } from '@FisherCore';
+import { coinItem, core, Item } from '@FisherCore';
 import { FuiColor, FuiSize } from '../theme';
 import { FuiItemDetail } from './ItemDetail';
 import { observer } from 'mobx-react';
@@ -22,6 +22,7 @@ interface FuiItemProps {
   item: Item;
   showBorder?: boolean;
   showQuantity?: boolean;
+  quantity?: number;
   onClick?: (...rest: any[]) => void;
   itemDetail?: ReactNode;
   popoverDetail?: ReactNode;
@@ -34,6 +35,7 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
     item,
     showBorder,
     showQuantity,
+    quantity,
     popover = FuiItemDetailPopover.MouseOver,
     onClick,
     itemDetail,
@@ -82,7 +84,7 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
     };
 
     const open = Boolean(itemDesc);
-    const itemQuantity = showQuantity ? backpack.getItem(item)?.quantity : undefined;
+    const itemQuantity = showQuantity ? quantity ?? backpack.getItem(item)?.quantity : undefined;
 
     return (
       <Fragment>
@@ -138,5 +140,33 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
   }
 );
 
-export { FuiItem, FuiItemDetailPopover };
+const FuiEmptyItem: React.FC = () => (
+  <Box
+    sx={{
+      border: 1,
+      borderColor: FuiColor.item.borderColor,
+      position: 'relative',
+      width: FuiSize.item.size,
+      height: FuiSize.item.size,
+      bgcolor: FuiColor.item.background,
+    }}
+  />
+);
+
+interface FuiGoldItemProps extends Omit<FuiItemProps, 'item'> {
+  gold: number;
+}
+const FuiGoldItem: React.FC<FuiGoldItemProps> = ({ gold, ...rest }) => (
+  <FuiItem item={coinItem} showQuantity quantity={gold} {...rest} />
+);
+
+interface FuiExperienceItemProps extends Omit<FuiItemProps, 'item'> {
+  componentId: string;
+  experience: number;
+}
+const FuiExperienceItem: React.FC<FuiExperienceItemProps> = ({ componentId, experience, ...rest }) => (
+  <FuiItem item={coinItem} showQuantity quantity={experience} {...rest} />
+);
+
+export { FuiItem, FuiItemDetailPopover, FuiEmptyItem, FuiGoldItem, FuiExperienceItem };
 export type { FuiItemProps };

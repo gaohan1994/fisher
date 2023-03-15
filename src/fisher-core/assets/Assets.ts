@@ -3,11 +3,13 @@ import bank from './common/bank.png';
 import backpack from './common/backpack.png';
 import empty from './common/empty.png';
 import coin from './common/coin.png';
+import experience from './common/experience.png';
 import battle from './common/battle.png';
 import mining from './common/mining.png';
 import forge from './common/forge.png';
 import reiki from './common/reiki.png';
 import blueprint from './common/blueprint.png';
+import attack from './common/attack.png';
 
 import ChestGold from './item/ChestGold.png';
 import ChestNormal from './item/ChestNormal.png';
@@ -39,6 +41,7 @@ import FlashEastDragonSword from './equipments/FlashEastDragonSword.png';
 import ninja from './person/ninja.png';
 import knight from './person/knight.png';
 
+import Monster from './enemy/Monster.png';
 import LowSpiritMonster from './enemy/LowSpiritMonster.png';
 import FireSpiritMonster from './enemy/FireSpiritMonster.png';
 
@@ -49,11 +52,13 @@ export const Assets = {
   backpack,
   empty,
   coin,
+  experience,
   battle,
   mining,
   forge,
   reiki,
   blueprint,
+  attack,
 
   // chest
   ChestGold,
@@ -90,6 +95,7 @@ export const Assets = {
   FlashEastDragonSword,
 
   // enemy assets
+  Monster,
   LowSpiritMonster,
   FireSpiritMonster,
 

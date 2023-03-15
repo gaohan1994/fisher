@@ -33,6 +33,14 @@ export class Reward {
 
   public rewardSkillExperience: Map<string, number> = new Map();
 
+  public get hasRewardExperience() {
+    return this.rewardSkillExperience.size > 0;
+  }
+
+  public get rewardExperience() {
+    return [...this.rewardSkillExperience];
+  }
+
   static create = ({ gold, itemId, itemQuantity, componentId, experience }: ICreateRewardOptions): Reward => {
     const reward = new Reward();
 

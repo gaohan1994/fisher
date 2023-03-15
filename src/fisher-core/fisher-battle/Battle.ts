@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { store } from '../fisher-packages';
-import { EnemyItem } from '../fisher-item';
+import { BattleAreaItem, EnemyItem } from '../fisher-item';
 import { RewardPool } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
@@ -49,6 +49,21 @@ class Battle {
   }
 
   public battleControl = new BattleControl();
+
+  public get activeBattleArea(): BattleAreaItem | undefined {
+    if (this.battleControl.activeEnemyItem === undefined) {
+      return undefined;
+    }
+
+    const _activeBattleArea = this.packages.find((area) =>
+      area.enemies.some((enemy) => enemy.id === this.battleControl.activeEnemyItem!.id)
+    );
+    return _activeBattleArea!;
+  }
+
+  public get activeEnemyItem() {
+    return this.battleControl.activeEnemyItem;
+  }
 
   public get master() {
     return this.battleControl.master;

@@ -10,10 +10,6 @@ const FuiSize = {
 const FuiColor = {
   common,
 
-  main: {
-    background: '#303030',
-  },
-
   primary: {
     background: blueGrey[900],
   },

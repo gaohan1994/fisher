@@ -5,3 +5,4 @@ export * from './Attributes';
 export * from './ActionsManager';
 export * from './PersonEquipment';
 export * from './PersonEquipmentManager';
+export * from './Constants';
