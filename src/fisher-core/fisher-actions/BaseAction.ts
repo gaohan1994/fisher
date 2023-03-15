@@ -51,6 +51,10 @@ export abstract class BaseDotAction extends BaseAction {
 
   public abstract totalEffectiveTimes: number;
 
+  public get remainingEffectiveTimes() {
+    return this.totalEffectiveTimes - this.effectiveTimes;
+  }
+
   public get isFinished() {
     return this.effectiveTimes >= this.totalEffectiveTimes;
   }
