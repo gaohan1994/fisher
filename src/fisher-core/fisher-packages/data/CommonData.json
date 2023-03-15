@@ -5,6 +5,12 @@
       "name": "金币",
       "desc": "",
       "media": "coin"
+    },
+    "experience": {
+      "id": "Experience",
+      "name": "经验",
+      "desc": "",
+      "media": "experience"
     }
   }
 }

@@ -3,6 +3,7 @@ import bank from './common/bank.png';
 import backpack from './common/backpack.png';
 import empty from './common/empty.png';
 import coin from './common/coin.png';
+import experience from './common/experience.png';
 import battle from './common/battle.png';
 import mining from './common/mining.png';
 import forge from './common/forge.png';
@@ -51,6 +52,7 @@ export const Assets = {
   backpack,
   empty,
   coin,
+  experience,
   battle,
   mining,
   forge,
