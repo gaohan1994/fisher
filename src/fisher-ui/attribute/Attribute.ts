@@ -75,3 +75,4 @@ function makeFuiAttributeBonusText(key: IAttributeKeys[number], value: number): 
 }
 
 export { makeFuiAttribute, makeFuiAttributeBonusText };
+export type { FuiAttribute };

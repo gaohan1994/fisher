@@ -43,6 +43,43 @@ class PersonEquipmentManager {
 
   public personEquipmentEvents = new EventEmitter();
 
+  public get primaryWeapon() {
+    return this.equipmentMap.get(EquipmentSlot.PrimaryWeapon)!;
+  }
+  public get secondaryWeapon() {
+    return this.equipmentMap.get(EquipmentSlot.SecondaryWeapon)!;
+  }
+  public get helmet() {
+    return this.equipmentMap.get(EquipmentSlot.Helmet)!;
+  }
+  public get jacket() {
+    return this.equipmentMap.get(EquipmentSlot.Jacket)!;
+  }
+  public get vest() {
+    return this.equipmentMap.get(EquipmentSlot.Vest)!;
+  }
+  public get Shoe() {
+    return this.equipmentMap.get(EquipmentSlot.Shoe)!;
+  }
+  public get handGuard() {
+    return this.equipmentMap.get(EquipmentSlot.HandGuard)!;
+  }
+  public get belt() {
+    return this.equipmentMap.get(EquipmentSlot.Belt)!;
+  }
+  public get necklace() {
+    return this.equipmentMap.get(EquipmentSlot.Necklace)!;
+  }
+  public get earring() {
+    return this.equipmentMap.get(EquipmentSlot.Earring)!;
+  }
+  public get ring() {
+    return this.equipmentMap.get(EquipmentSlot.Ring)!;
+  }
+  public get bracelet() {
+    return this.equipmentMap.get(EquipmentSlot.Bracelet)!;
+  }
+
   constructor() {
     makeAutoObservable(this);
     this.initializeEquipmentMap();
