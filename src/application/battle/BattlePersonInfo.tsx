@@ -1,26 +1,34 @@
 import React from 'react';
-import { observer } from 'mobx-react';
-import { Card, CardHeader, CardContent, Divider, Box, Avatar, Stack, Typography } from '@mui/material';
-import { Enemy, Master, PersonMode } from '@FisherCore';
-import { FuiDotAction, FuiLineProgress } from '@Fui';
+import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
+import { Assets, Enemy, Master, Person, PersonMode } from '@FisherCore';
 import { FuiBattleControl } from './BattleControl';
 
 interface Props {
   man: Master | Enemy;
+  action?: React.ReactNode;
 }
-const FuiBattlePersonInfo: React.FC<Props> = ({ man }) => {
-  return (
-    <Card>
-      <CardHeader
-        avatar={<Avatar src={man.media} />}
-        title={man.mode === PersonMode.Master ? (man as Master).displayName : man.name}
-        subheader={`等级：1`}
-      />
-      <CardContent sx={{ pt: 0, pb: 0 }}>
-        <FuiBattleControl person={man.person} />
-      </CardContent>
-    </Card>
-  );
-};
+const FuiBattlePersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ man, action, children }) => (
+  <Card>
+    <CardHeader
+      avatar={<Avatar src={man.media} />}
+      title={man.mode === PersonMode.Master ? (man as Master).displayName : man.name}
+      subheader={`等级：1`}
+      action={action}
+    />
+    <CardContent sx={{ pt: 0, pb: 0 }}>
+      <FuiBattleControl person={man.person} />
+      {children}
+    </CardContent>
+  </Card>
+);
 
-export { FuiBattlePersonInfo };
+const FuiBattleEmptyEnemyInfo: React.FC = () => (
+  <Card>
+    <CardHeader avatar={<Avatar src={Assets.logo} />} title="?" subheader="等级：?" />
+    <CardContent sx={{ pt: 0, pb: 0 }}>
+      <FuiBattleControl person={new Person(PersonMode.Enemy)} />
+    </CardContent>
+  </Card>
+);
+
+export { FuiBattlePersonInfo, FuiBattleEmptyEnemyInfo };

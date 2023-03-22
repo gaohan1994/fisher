@@ -10,17 +10,21 @@ import { ReikiDemo } from './ReikiDemo';
 import { FisherBattleDemo } from './FisherBattleDemo';
 import { StoreDemo } from './StoreDemo';
 import { ForgeDemo } from './ForgeDemo';
-import { FuiMiniBar } from '@Fui';
 
 const DemoStack: FC<PropsWithChildren> = ({ children }) => (
-  <Stack p={1} spacing={2} direction="row" justifyContent="flex-start" alignItems="flex-start">
+  <Stack
+    p={1}
+    spacing={2}
+    direction="row"
+    justifyContent="flex-start"
+    alignItems="flex-start"
+  >
     {children}
   </Stack>
 );
 
 const FisherCoreDemo: FC = () => (
   <Stack direction="column" spacing={2}>
-    <FuiMiniBar />
     <DemoStack>
       <Paper>
         <FisherBattleDemo />
