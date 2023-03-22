@@ -10,6 +10,11 @@ import forge from './common/forge.png';
 import reiki from './common/reiki.png';
 import blueprint from './common/blueprint.png';
 import attack from './common/attack.png';
+import Hp from './common/Hp.png';
+import AttackPower from './common/AttackPower.png';
+import AttackSpeed from './common/AttackSpeed.png';
+import DefenceCorruption from './common/DefenceCorruption.png';
+import DefencePower from './common/DefencePower.png';
 
 import ChestGold from './item/ChestGold.png';
 import ChestNormal from './item/ChestNormal.png';
@@ -59,6 +64,12 @@ export const Assets = {
   reiki,
   blueprint,
   attack,
+  Hp,
+  MaxHp: Hp,
+  AttackPower,
+  AttackSpeed,
+  DefenceCorruption,
+  DefencePower,
 
   // chest
   ChestGold,
