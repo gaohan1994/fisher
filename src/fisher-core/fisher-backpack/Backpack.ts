@@ -109,7 +109,7 @@ export class Backpack {
     return this.checkItem(item, quantity);
   };
 
-  public getItem = (item: Item): BackpackItem | undefined => {
+  public getItem = <T extends Item>(item: T): BackpackItem | undefined => {
     if (!this.checkItem(item)) {
       return Backpack.logger.error(`Try to get item ${item.id} but doesn't exsit in backpack`);
     }

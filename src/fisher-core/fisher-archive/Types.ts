@@ -26,6 +26,7 @@ namespace ArchiveInterface {
   export interface ArchiveMaster {
     experience: number;
     equipmentIds: string[];
+    healPotionId: string | undefined;
   }
 
   interface ArchiveBackpackItem {

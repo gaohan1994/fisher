@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
 import { Experience } from '../fisher-experience';
+import { HealPotionHandler } from '../fisher-potion';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
@@ -19,6 +20,10 @@ export class Person {
 
   public mode: PersonMode;
 
+  public get isMaster() {
+    return this.mode === PersonMode.Master;
+  }
+
   public experience = new Experience();
 
   public isAttacking = false;
@@ -30,6 +35,8 @@ export class Person {
   public attributePanel = new AttributePanel(this);
 
   public actionManager = new ActionManager(this);
+
+  public healPotionHandler = new HealPotionHandler();
 
   public Hp: number = this.attributePanel.MaxHp;
 
@@ -44,7 +51,7 @@ export class Person {
 
   public hurt = (value: number) => {
     Person.logger.debug(`${this.mode} hurt damage: ${value}`);
-    this.Hp -= value;
+    this.reduceHp(value);
   };
 
   public hurtRange = (value: number, rangeScope: number = 10) => {
@@ -53,7 +60,15 @@ export class Person {
   };
 
   public heal = (value: number) => {
-    this.Hp += value;
+    this.addHp(value);
+  };
+
+  private addHp = (value: number) => {
+    this.Hp = Math.min(this.attributePanel.MaxHp, this.Hp + value);
+  };
+
+  private reduceHp = (value: number) => {
+    this.Hp = Math.max(0, this.Hp - value);
   };
 
   public startBattle = () => {

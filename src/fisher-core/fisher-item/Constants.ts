@@ -1,9 +1,3 @@
-/**
- * 可装备槽位
- *
- * @export
- * @enum {number}
- */
 enum EquipmentSlot {
   PrimaryWeapon = 'PrimaryWeapon',
   SecondaryWeapon = 'SecondaryWeapon',

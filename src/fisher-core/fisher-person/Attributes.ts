@@ -31,5 +31,15 @@ type IBonusEquipmentsAttributes = {
   [key in IBonusEquipmentsAttributesKeys]: number;
 };
 
+type IBonusPotionAttributesKeys = IBonusEquipmentsAttributesKeys;
+type IBonusPotionAttributes = {
+  [key in IBonusPotionAttributesKeys]: number;
+};
+
 export { IAttributeKeys };
-export type { IBonusEquipmentsAttributesKeys, IBonusEquipmentsAttributes };
+export type {
+  IBonusEquipmentsAttributesKeys,
+  IBonusEquipmentsAttributes,
+  IBonusPotionAttributesKeys,
+  IBonusPotionAttributes,
+};
