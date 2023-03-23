@@ -9,6 +9,7 @@ import {
   NormalItem,
   ShopCategory,
   RewardChest,
+  HealPotion,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -17,6 +18,7 @@ import {
   makeEquipmentPackagesData,
   makeEquipmentSetData,
   makeForgePackagesData,
+  makeHealPotionData,
   makeMiningPackagesData,
   makeReikiPackagesData,
   makeRewardChestsData,
@@ -56,6 +58,8 @@ export class Store {
 
   public Shop: ShopCategory[] = [];
 
+  public HealPotions: HealPotion[] = [];
+
   public get items() {
     return [
       ...this.RewardChests,
@@ -70,6 +74,7 @@ export class Store {
       ...this.BattleAreas,
       ...this.BattleEnemies,
       ...this.Shop,
+      ...this.HealPotions,
     ];
   }
 
@@ -82,6 +87,7 @@ export class Store {
     this.initializeEquipmentSets();
     this.initializeBattle();
     this.initializeShop();
+    this.initializePotions();
   };
 
   private initializeRewardChests = () => {
@@ -129,6 +135,11 @@ export class Store {
     Store.logger.info('initialize shop data');
   };
 
+  private initializePotions = () => {
+    this.HealPotions = makeHealPotionData();
+    Store.logger.info('initialize potion data');
+  };
+
   public findItemById = <T = Item>(itemId: string) => {
     const result = this.items.find((item) => item.id === itemId);
     invariant(result !== undefined, 'Could not find Item id: ' + itemId);
@@ -152,4 +163,6 @@ export class Store {
   };
 }
 
-export const store = Store.create();
+const store = Store.create();
+(window as any).store = store;
+export { store };

@@ -1,0 +1,15 @@
+{
+  "moduleName": "Potion",
+  "data": {
+    "healPotions": [
+      {
+        "id": "LowHealPotion",
+        "name": "下品回灵丹",
+        "desc": "生命值恢复50点",
+        "media": "LowHealPotion",
+        "price": 5,
+        "healValue": 50
+      }
+    ]
+  }
+}

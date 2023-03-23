@@ -34,3 +34,4 @@ class AttributePotion extends Potion {
 }
 
 export { HealPotion, Potion };
+export type { IHealPotion };

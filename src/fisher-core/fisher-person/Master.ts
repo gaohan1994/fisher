@@ -58,6 +58,7 @@ class Master {
     return {
       experience: this.person.experience.experience,
       equipmentIds: this.person.personEquipmentManager.equipmentIds,
+      healPotionId: this.person.healPotionHandler.potionSlot.potionId,
     };
   }
 
@@ -76,6 +77,10 @@ class Master {
     this.displayName = masterName;
     this.person.experience.setExperience(master?.experience ?? 0);
     this.person.personEquipmentManager.loadArchiveEquipments(master?.equipmentIds ?? []);
+
+    if (master?.healPotionId !== undefined) {
+      this.person.healPotionHandler.potionSlot.setPotionById(master.healPotionId);
+    }
   };
 
   public deathPenalty = () => {};
