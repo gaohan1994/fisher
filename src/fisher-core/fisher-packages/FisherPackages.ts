@@ -5,6 +5,7 @@ import equipmentDataJson from './data/EquipmentData.json';
 import equipmentSetDataJson from './data/EquipmentSetData.json';
 import battleDataJson from './data/BattleData.json';
 import forgeDataJson from './data/ForgeData.json';
+import cookDataJson from './data/CookData.json';
 import ShopDataJson from './data/ShopData.json';
 import PotionDataJson from './data/PotionData.json';
 import {
@@ -65,6 +66,14 @@ export function makeEquipmentSetData() {
 
 export function makeForgePackagesData(): [Recipe[], NormalItem[]] {
   return [generatePackagesRecipes(forgeDataJson.data.recipes), generatePackagesItems(forgeDataJson.data.bluePrints)];
+}
+
+export function makeCookPackagesData(): [Recipe[], NormalItem[], NormalItem[]] {
+  return [
+    generatePackagesRecipes(cookDataJson.data.recipes),
+    generatePackagesItems(cookDataJson.data.bluePrints),
+    generatePackagesItems(cookDataJson.data.shopItems),
+  ];
 }
 
 export function makeShopData() {

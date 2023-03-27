@@ -43,7 +43,10 @@
         "rewardExperience": 10,
         "rewardItems": [{ "itemId": "EastDragonSword", "itemQuantity": 1 }],
         "randomRewardItems": [{ "probability": 3, "itemId": "FlashEastDragonSword", "itemQuantity": 1 }],
-        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
+        "costItems": [
+          { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+          { "itemId": "BluePrint:EastDragonSword", "itemQuantity": 1 }
+        ]
       }
     ]
   }

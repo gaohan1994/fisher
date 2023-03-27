@@ -46,13 +46,14 @@ class ArchiveHandler {
 
   public saveFullArchive = async (core: FisherCore) => {
     if (this.checkActiveArchiveAvailable()) {
-      const { bank, backpack, master, mining, reiki, forge } = core;
+      const { bank, backpack, master, mining, reiki, forge, cook } = core;
       this.activeArchive!.updateBank(bank.archive);
       this.activeArchive!.updateBackpack(backpack.archive);
       this.activeArchive!.updateMaster(master.archive);
       this.activeArchive!.updateMining(mining.archive);
       this.activeArchive!.updateReiki(reiki.archive);
       this.activeArchive!.updateForge(forge.archive);
+      this.activeArchive!.updateCook(cook.archive);
       await this.saveActiveArchive();
     }
   };

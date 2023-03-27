@@ -15,6 +15,7 @@ import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   ICollectionModuleData,
   makeBattlePackageData,
+  makeCookPackagesData,
   makeEquipmentPackagesData,
   makeEquipmentSetData,
   makeForgePackagesData,
@@ -48,6 +49,12 @@ export class Store {
 
   public ForgeBluePrints: NormalItem[] = [];
 
+  public Cook: Recipe[] = [];
+
+  public CookBluePrints: NormalItem[] = [];
+
+  public CookShopItems: NormalItem[] = [];
+
   public Equipments: EquipmentItem[] = [];
 
   public EquipmentSets: EquipmentSet[] = [];
@@ -69,6 +76,9 @@ export class Store {
       ...this.Reiki.recipes,
       ...this.Forge,
       ...this.ForgeBluePrints,
+      ...this.Cook,
+      ...this.CookBluePrints,
+      ...this.CookShopItems,
       ...this.Equipments,
       ...this.EquipmentSets,
       ...this.BattleAreas,
@@ -83,6 +93,7 @@ export class Store {
     this.initializeMining();
     this.initializeReiki();
     this.initializeForge();
+    this.initializeCook();
     this.initializeEquipments();
     this.initializeEquipmentSets();
     this.initializeBattle();
@@ -110,6 +121,14 @@ export class Store {
     this.Forge = forgeData;
     this.ForgeBluePrints = forgeBluePrintsData;
     Store.logger.info('initialize Forge data');
+  };
+
+  private initializeCook = () => {
+    const [cookData, cookBluePrintsData, cookShopItems] = makeCookPackagesData();
+    this.Cook = cookData;
+    this.CookBluePrints = cookBluePrintsData;
+    this.CookShopItems = cookShopItems;
+    Store.logger.info('initialize Cook data');
   };
 
   private initializeEquipments = () => {

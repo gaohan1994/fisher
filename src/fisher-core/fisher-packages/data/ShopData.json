@@ -9,7 +9,7 @@
     {
       "id": "CookBluePrints",
       "name": "炼丹药方",
-      "itemIds": []
+      "itemIds": ["BluePrint:LowHealPotion", "DrugBag"]
     },
     {
       "id": "Others",

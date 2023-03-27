@@ -7,6 +7,7 @@ import experience from './common/experience.png';
 import battle from './common/battle.png';
 import mining from './common/mining.png';
 import forge from './common/forge.png';
+import cook from './common/cook.png';
 import reiki from './common/reiki.png';
 import blueprint from './common/blueprint.png';
 import attack from './common/attack.png';
@@ -62,6 +63,7 @@ export const Assets = {
   battle,
   mining,
   forge,
+  cook,
   reiki,
   blueprint,
   attack,

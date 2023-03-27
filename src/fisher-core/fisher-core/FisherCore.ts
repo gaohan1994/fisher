@@ -53,6 +53,10 @@ export class FisherCore {
     return this.componentManager.forge;
   }
 
+  public get cook() {
+    return this.componentManager.cook;
+  }
+
   public get battle() {
     return this.componentManager.battle;
   }
