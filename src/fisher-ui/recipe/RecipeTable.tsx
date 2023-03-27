@@ -1,22 +1,25 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip } from '@mui/material';
-import { core, EquipmentItem, ItemType, NormalItem } from '@FisherCore';
+import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Divider } from '@mui/material';
+import { EquipmentItem, Forge, Cook, ItemType, NormalItem, Recipe, Skill } from '@FisherCore';
 import { FuiColor, FuiEquipment, FuiItem, FuiLineProgress, notifycationStore } from '@Fui';
-import { IUseRecipeItem, useRecipe } from '../hook';
+import { IUseRecipeItem, useRecipe } from '../../application/hook';
 
-interface FuiForgeTableBoxProps {
-  title: string;
+interface FuiRecipeTableRowProps {
+  title: React.ReactNode;
 }
-const FuiForgeTableBox: React.FC<React.PropsWithChildren<FuiForgeTableBoxProps>> = ({ title, children }) => (
+const FuiRecipeTableRow: React.FC<React.PropsWithChildren<FuiRecipeTableRowProps>> = ({ title, children }) => (
   <Box sx={{ mb: 2 }}>
     <Typography sx={{ mb: 1 }}>{title}</Typography>
     {children}
   </Box>
 );
 
-const FuiForgeTable = observer(() => {
-  const { activeRecipe, isActive, skill } = core.forge;
+interface FuiRecipeTableProps {
+  coreComponent: Forge | Cook;
+}
+const FuiRecipeTable: React.FC<FuiRecipeTableProps> = observer(({ coreComponent }) => {
+  const { activeRecipe, isActive, skill } = coreComponent;
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
       <CardHeader
@@ -29,17 +32,22 @@ const FuiForgeTable = observer(() => {
       />
       <CardContent>
         {activeRecipe === undefined && <Typography sx={{ mb: 2 }}>请先选择锻造图纸</Typography>}
-        {activeRecipe !== undefined && <FuiForgeRecipeDesc />}
+        {activeRecipe !== undefined && <FuiRecipeDesc activeRecipe={activeRecipe} skill={skill} />}
         {isActive ? <FuiLineProgress value={skill.progress} /> : <FuiLineProgress value={0} />}
-        <FuiForgeButton />
+        <FuiRecipeButton coreComponent={coreComponent} />
       </CardContent>
     </Card>
   );
 });
 
-const FuiForgeRecipeDesc: React.FC = observer(() => {
-  const { activeRecipe, skill } = core.forge;
-  const { rewardItems, randomRewardItems, costItems } = useRecipe(activeRecipe!);
+const RecipeDivider = () => <Divider sx={{ mt: 2, mb: 2 }} />;
+
+interface FuiRecipeDescProps {
+  activeRecipe: Recipe;
+  skill: Skill;
+}
+const FuiRecipeDesc: React.FC<FuiRecipeDescProps> = observer(({ activeRecipe, skill }) => {
+  const { rewardItems, randomRewardItems, costItems } = useRecipe(activeRecipe);
 
   const renderRecipeItem = React.useCallback((item: NormalItem) => {
     if (item.type === ItemType.Equipment) {
@@ -86,12 +94,20 @@ const FuiForgeRecipeDesc: React.FC = observer(() => {
 
   return (
     <React.Fragment>
-      <FuiForgeTableBox title="产物">{rewardItems.map(renderRecipeRow)}</FuiForgeTableBox>
+      <FuiRecipeTableRow title="制作产物">{rewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
+      <RecipeDivider />
       {activeRecipe!.hasRandomRewardItems && (
-        <FuiForgeTableBox title="上级产物">{randomRewardItems.map(renderRecipeRow)}</FuiForgeTableBox>
+        <React.Fragment>
+          <FuiRecipeTableRow title="上级制作产物">{randomRewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
+          <RecipeDivider />
+        </React.Fragment>
       )}
+
       {activeRecipe!.hasCostItems && (
-        <FuiForgeTableBox title="所需材料">{costItems.map(renderRecipeCostRow)}</FuiForgeTableBox>
+        <React.Fragment>
+          <FuiRecipeTableRow title="所需材料">{costItems.map(renderRecipeCostRow)}</FuiRecipeTableRow>
+          <RecipeDivider />
+        </React.Fragment>
       )}
     </React.Fragment>
   );
@@ -99,11 +115,11 @@ const FuiForgeRecipeDesc: React.FC = observer(() => {
 
 enum UnavailableReasons {
   InActiveRecipe = '请先选择锻造图纸',
-  CanNotBearCost = '锻造材料不足',
-  UnlockLevel = '锻造等级不足',
+  CanNotBearCost = '制作材料不足',
+  UnlockLevel = '技能等级不足',
 }
-const FuiForgeButton: React.FC = observer(() => {
-  const { isActive, activeRecipe, activeRecipeAvailable, skill, start, stop } = core.forge;
+const FuiRecipeButton: React.FC<FuiRecipeTableProps> = observer(({ coreComponent }) => {
+  const { isActive, activeRecipe, activeRecipeAvailable, skill, start, stop } = coreComponent;
 
   let unavailableReason: UnavailableReasons | undefined = undefined;
 
@@ -119,7 +135,7 @@ const FuiForgeButton: React.FC = observer(() => {
     unavailableReason = UnavailableReasons.CanNotBearCost;
   }
 
-  const onForgeClick = React.useCallback(() => {
+  const onRecipeButtonClick = React.useCallback(() => {
     if (unavailableReason !== undefined) {
       return notifycationStore.alert('error', unavailableReason);
     }
@@ -127,6 +143,7 @@ const FuiForgeButton: React.FC = observer(() => {
     if (isActive) {
       return stop();
     }
+
     start();
   }, [isActive, unavailableReason]);
 
@@ -136,7 +153,7 @@ const FuiForgeButton: React.FC = observer(() => {
         variant="contained"
         sx={{ width: '100%', mt: 2 }}
         color={!activeRecipeAvailable ? 'error' : 'primary'}
-        onClick={onForgeClick}
+        onClick={onRecipeButtonClick}
       >
         {activeRecipe === undefined && UnavailableReasons.InActiveRecipe}
         {activeRecipe !== undefined && `${isActive ? '停止' : '开始'}${activeRecipe.name}`}
@@ -145,4 +162,4 @@ const FuiForgeButton: React.FC = observer(() => {
   );
 });
 
-export { FuiForgeTable };
+export { FuiRecipeTable };

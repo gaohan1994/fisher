@@ -7,12 +7,12 @@ import { isDevelopment } from '../env';
 
 const visibleComponents = [
   ComponentId.Master,
-  ComponentId.Backpack,
   ComponentId.Bank,
   ComponentId.Battle,
   ComponentId.Mining,
   ComponentId.Reiki,
   ComponentId.Forge,
+  ComponentId.Cook,
 ];
 
 function checkIsVisibleComponent(componentId: any) {
