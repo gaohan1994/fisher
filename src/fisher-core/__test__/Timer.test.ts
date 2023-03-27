@@ -70,4 +70,25 @@ describe('Timer', () => {
 
     vi.clearAllTimers();
   });
+
+  test('should success reset progress', () => {
+    vi.useFakeTimers();
+
+    const action = vi.fn();
+    const timer = new Timer('Test', action, { showProgress: true });
+
+    expect(timer.progress).toBe(0);
+    timer.startTimer(1000);
+
+    vi.advanceTimersByTime(100);
+    expect(timer.progress).toBe(10);
+
+    timer.resetProgress();
+    expect(timer.progress).toEqual(0);
+
+    vi.advanceTimersByTime(100);
+    expect(timer.progress).toBe(10);
+
+    vi.clearAllTimers();
+  });
 });

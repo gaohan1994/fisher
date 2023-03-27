@@ -125,7 +125,7 @@ export class Timer {
     this.tryTriggerAction();
   };
 
-  private resetProgress = () => {
+  public resetProgress = () => {
     if (!this.isProgressMode) {
       return Timer.logger.error('Try to reset progress not in a progress timer');
     }
