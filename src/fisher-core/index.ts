@@ -2,7 +2,7 @@ import { Assets } from './assets';
 import { Archive } from './fisher-archive';
 import { version, core, FisherCore, ComponentId, FisherComponent } from './fisher-core';
 import { experienceCalculator, MaxLevel } from './fisher-experience';
-import { Mining, Reiki, Forge } from './fisher-modules';
+import { Mining, Reiki, Forge, Cook } from './fisher-modules';
 import { IAttributeKeys, PersonMode } from './fisher-person';
 import { Bank, ShopCategoryHandler } from './fisher-bank';
 import { Backpack } from './fisher-backpack';
@@ -21,6 +21,7 @@ export {
   Mining,
   Reiki,
   Forge,
+  Cook,
   MaxLevel,
   experienceCalculator,
   IAttributeKeys,

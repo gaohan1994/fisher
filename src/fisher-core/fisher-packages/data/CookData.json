@@ -1,0 +1,40 @@
+{
+  "moduleName": "Cook",
+  "data": {
+    "shopItems": [
+      {
+        "id": "DrugBag",
+        "name": "药囊",
+        "desc": "可以装入药品的小袋子",
+        "media": "",
+        "price": 10
+      }
+    ],
+    "bluePrints": [
+      {
+        "id": "BluePrint:LowHealPotion",
+        "name": "药方：还灵丹",
+        "desc": "制作还灵丹的药方",
+        "media": "blueprint",
+        "price": 50
+      }
+    ],
+    "recipes": [
+      {
+        "id": "Cook:LowHealPotion",
+        "name": "炼药：还灵丹",
+        "desc": "制作还灵丹",
+        "media": "",
+        "interval": 3000,
+        "unlockLevel": 1,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "LowHealPotion", "itemQuantity": 1 }],
+        "costItems": [
+          { "itemId": "NormalReiki", "itemQuantity": 5 },
+          { "itemId": "DrugBag", "itemQuantity": 1 },
+          { "itemId": "BluePrint:LowHealPotion", "itemQuantity": 1 }
+        ]
+      }
+    ]
+  }
+}

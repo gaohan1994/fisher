@@ -4,7 +4,7 @@
     "healPotions": [
       {
         "id": "LowHealPotion",
-        "name": "下品回灵丹",
+        "name": "还灵丹",
         "desc": "生命值恢复50点",
         "media": "LowHealPotion",
         "price": 5,

@@ -2,17 +2,17 @@ import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { battle, Battle } from '../fisher-battle';
-import { forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
+import { cook, Cook, forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
 import { bank, Bank } from '../fisher-bank';
 import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
 import { Master, master } from '../fisher-person';
 
-type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Battle | Master;
+type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Master;
 
-type ActiveControlComponent = Mining | Reiki | Forge | Battle;
+type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle;
 
-type ComponentWithExperience = Mining | Reiki | Forge;
+type ComponentWithExperience = Mining | Reiki | Forge | Cook;
 
 enum ComponentId {
   Bank = 'Bank',
@@ -20,6 +20,7 @@ enum ComponentId {
   Mining = 'Mining',
   Reiki = 'Reiki',
   Forge = 'Forge',
+  Cook = 'Cook',
   Battle = 'Battle',
   Master = 'Master',
 }
@@ -68,6 +69,10 @@ class ComponentManager {
     return this.componentMap.get(ComponentId.Forge) as Forge;
   }
 
+  public get cook() {
+    return this.componentMap.get(ComponentId.Cook) as Cook;
+  }
+
   public get battle() {
     return this.componentMap.get(ComponentId.Battle) as Battle;
   }
@@ -86,6 +91,7 @@ class ComponentManager {
     this.componentMap.set(ComponentId.Mining, mining);
     this.componentMap.set(ComponentId.Reiki, reiki);
     this.componentMap.set(ComponentId.Forge, forge);
+    this.componentMap.set(ComponentId.Cook, cook);
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);

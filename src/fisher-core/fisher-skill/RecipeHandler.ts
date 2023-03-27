@@ -169,12 +169,10 @@ class RecipeHandler {
    * set cost control map if active recipe has cost items
    */
   private updateActiveCostControl = () => {
-    if (!this.hasActiveRecipe) {
-      return this.costControlMap.clear();
-    }
+    this.costControlMap.clear();
 
-    if (!this.activeRecipe!.hasCostItems) {
-      return this.costControlMap.clear();
+    if (!this.hasActiveRecipe || !this.activeRecipe!.hasCostItems) {
+      return;
     }
 
     this.activeRecipe!.costItems!.forEach((item) => {

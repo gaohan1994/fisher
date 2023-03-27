@@ -29,6 +29,8 @@ class Archive {
 
   public forge: ArchiveInterface.ArchiveCollection | undefined = undefined;
 
+  public cook: ArchiveInterface.ArchiveCollection | undefined = undefined;
+
   public get values(): ArchiveInterface.ArchiveValues {
     return {
       archiveKey: this.archiveKey,
@@ -42,6 +44,7 @@ class Archive {
       mining: this.mining,
       reiki: this.reiki,
       forge: this.forge,
+      cook: this.cook,
     };
   }
 
@@ -84,6 +87,10 @@ class Archive {
     if (options.forge) {
       this.forge = options.forge;
     }
+
+    if (options.cook) {
+      this.cook = options.cook;
+    }
   }
 
   public static create(masterName: string): Archive {
@@ -118,6 +125,11 @@ class Archive {
 
   public updateForge = (value: ArchiveInterface.ArchiveCollection) => {
     this.forge = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateCook = (value: ArchiveInterface.ArchiveCollection) => {
+    this.cook = value;
     this.refreshLastUpdateTime();
   };
 

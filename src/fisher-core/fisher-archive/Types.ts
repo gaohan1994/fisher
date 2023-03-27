@@ -11,6 +11,7 @@ namespace ArchiveInterface {
     mining?: ArchiveCollection;
     reiki?: ArchiveCollection;
     forge?: ArchiveCollection;
+    cook?: ArchiveCollection;
   }
 
   export interface ArchiveBank {

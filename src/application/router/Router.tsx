@@ -8,6 +8,7 @@ import { PageReiki } from '../reiki';
 import { PageBattle } from '../battle';
 import { PageMaster } from '../master';
 import { PageForge } from '../forge';
+import { PageCook } from '../cook';
 import { PageBank } from '../bank';
 import { PageBackpack } from '../backpack';
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Forge)?.path,
         element: <PageForge />,
+      },
+      {
+        path: fuiRouteHandler.getComponentRoute(ComponentId.Cook)?.path,
+        element: <PageCook />,
       },
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,
