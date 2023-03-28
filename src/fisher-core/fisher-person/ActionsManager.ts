@@ -67,6 +67,10 @@ export class ActionManager {
     this.attackActionTimer.stopTimer();
   };
 
+  public resetAttackActionProgress = () => {
+    this.attackActionTimer.resetProgress();
+  };
+
   public clearActiveDotActions = () => {
     this.activeDotActionMap.forEach((dot) => dot.abort());
     this.activeDotActionMap.clear();

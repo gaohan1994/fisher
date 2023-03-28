@@ -33,5 +33,7 @@ class AttributePotion extends Potion {
   }
 }
 
+type PotionVariants = HealPotion | AttributePotion;
+
 export { HealPotion, Potion };
-export type { IHealPotion };
+export type { IHealPotion, PotionVariants };
