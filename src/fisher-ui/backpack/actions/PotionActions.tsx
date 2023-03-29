@@ -1,27 +1,27 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { core, HealPotion, isHealPotion, PotionVariants } from '@FisherCore';
+import { BackpackItem, core, HealPotion, isHealPotion, PotionVariants } from '@FisherCore';
 import { Button } from '@mui/material';
 
 interface SetPotionSlotProps {
-  potion: PotionVariants;
+  backpackItem: BackpackItem<PotionVariants>;
   actionCallback?: () => void;
 }
 
-const FuiSetPotionSlotButton: React.FC<SetPotionSlotProps> = observer(({ potion, actionCallback }) => {
+const FuiSetPotionSlotButton: React.FC<SetPotionSlotProps> = observer(({ backpackItem, actionCallback }) => {
   const { master } = core;
 
   const onSetPotionSlot = () => {
     actionCallback?.();
 
-    if (isHealPotion(potion)) {
-      onSetHealPotionSlot(potion);
+    if (isHealPotion(backpackItem.item)) {
+      onSetHealPotionSlot(backpackItem as BackpackItem<HealPotion>);
     }
   };
 
-  const onSetHealPotionSlot = (potion: HealPotion) => {
-    // todo set heal potion slot
+  const onSetHealPotionSlot = (potion: BackpackItem<HealPotion>) => {
+    master.person.healPotionHandler.potionSlot.setPotion(potion);
   };
 
   return (

@@ -12,8 +12,8 @@ import {
   ButtonGroup,
   Grid,
 } from '@mui/material';
-import { FuiBackpackItemDetailRender } from './BackpackItemRender';
-import { PrettoSlider } from './PrettoSlider';
+import { FuiBackpackItemDetailRender } from '../BackpackItemRender';
+import { PrettoSlider } from '../PrettoSlider';
 
 interface FuiOpenRewardChestActionProps {
   rewardChest: BackpackItem<RewardChest>;

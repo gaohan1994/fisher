@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { observer } from 'mobx-react';
 import { List, ListItem, Typography } from '@mui/material';
 import { EquipmentItem, store } from '@FisherCore';
-import { FuiItem, FuiItemProps } from '../item';
-import { FuiColor } from '../theme';
-import { makeFuiAttributeBonusText } from '../attribute';
+import { FuiColor } from '../../theme';
+import { makeFuiAttributeBonusText } from '../../attribute';
+import { FuiItem, FuiItemProps } from '../Item';
 import { FuiEquipmentSet } from './EquipmentSet';
 
 interface FuiEquipmentDetailProps {

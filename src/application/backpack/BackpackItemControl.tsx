@@ -1,16 +1,24 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { Grid, Divider, Typography, Card, CardContent, CardHeader } from '@mui/material';
-import { BackpackItem, core, HealPotion, isEquipmentItem, isHealPotion, isRewardChest, RewardChest } from '@FisherCore';
+import {
+  core,
+  BackpackItem,
+  isEquipmentItem,
+  isHealPotion,
+  isRewardChest,
+  PotionVariants,
+  RewardChest,
+} from '@FisherCore';
 import {
   FuiBackpackItemSellAction,
   FuiColor,
   FuiBackpackItemDetailRender,
-  UseEquipmentButton,
+  FuiUseEquipmentButton,
   FuiOpenRewardChestAction,
   FuiSetPotionSlotButton,
 } from '@Fui';
 import { backpackStore } from './BackpackStore';
-import { observer } from 'mobx-react';
 
 const FuiBackpackItemControl: React.FC = observer(() => {
   const { activeBackpackItem } = backpackStore;
@@ -53,7 +61,7 @@ const FuiBackpackItemActions: React.FC = observer(() => {
       </Grid>
       {isEquipmentItem(activeBackpackItem!.item) && (
         <Grid item xs={6}>
-          <UseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
+          <FuiUseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
         </Grid>
       )}
       {isRewardChest(activeBackpackItem!.item) && (
@@ -66,7 +74,7 @@ const FuiBackpackItemActions: React.FC = observer(() => {
       )}
       {isHealPotion(activeBackpackItem!.item) && (
         <Grid item xs={6}>
-          <FuiSetPotionSlotButton potion={activeBackpackItem!.item as HealPotion} />
+          <FuiSetPotionSlotButton backpackItem={activeBackpackItem! as BackpackItem<PotionVariants>} />
         </Grid>
       )}
     </Grid>

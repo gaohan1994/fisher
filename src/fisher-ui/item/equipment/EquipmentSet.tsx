@@ -2,8 +2,8 @@ import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
 import { Typography, Box } from '@mui/material';
 import { EquipmentSet, store } from '@FisherCore';
-import { makeFuiAttributeBonusText } from '../attribute';
-import { FuiColor } from '../theme';
+import { makeFuiAttributeBonusText } from '../../attribute';
+import { FuiColor } from '../../theme';
 
 interface Props {
   equipmentSet: EquipmentSet;

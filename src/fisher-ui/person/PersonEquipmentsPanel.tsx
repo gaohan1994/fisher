@@ -2,8 +2,8 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Box, List, ListItem, Stack } from '@mui/material';
 import { Person, PersonEquipment } from '@FisherCore';
-import { FuiEquipment, RemoveEquipmentButton } from '../equipment';
-import { FuiItem, FuiItemDetailPopover } from '../item';
+import { FuiItem, FuiItemDetailPopover, FuiEquipment } from '../item';
+import { FuiRemoveEquipmentButton } from '../backpack';
 
 interface PersonEquipmentsPanelProps {
   person: Person;
@@ -21,14 +21,19 @@ const PersonEquipmentsPanel: React.FC<PersonEquipmentsPanelProps> = ({ person })
     person.personEquipmentManager.vest,
     person.personEquipmentManager.Shoe,
   ];
-  const leftJewelryEquipments = [person.personEquipmentManager.necklace, person.personEquipmentManager.earring];
-  const rightJewelryEquipments = [person.personEquipmentManager.ring, person.personEquipmentManager.bracelet];
+
+  const jewelryEquipments = [
+    person.personEquipmentManager.necklace,
+    person.personEquipmentManager.earring,
+    person.personEquipmentManager.ring,
+    person.personEquipmentManager.bracelet,
+  ];
+
   return (
     <Stack direction="row">
       <EquipmentColumn personEquipments={leftEquipments} />
       <EquipmentColumn personEquipments={rightEquipments} />
-      <EquipmentColumn personEquipments={leftJewelryEquipments} />
-      <EquipmentColumn personEquipments={rightJewelryEquipments} />
+      <EquipmentColumn personEquipments={jewelryEquipments} />
     </Stack>
   );
 };
@@ -52,7 +57,7 @@ interface FuiPersonEquipmentProps {
 const FuiPersonEquipment: React.FC<FuiPersonEquipmentProps> = observer(({ personEquipment }) => {
   const masterEquipmentActions = !personEquipment.isEmpty && (
     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2, pb: 2 }}>
-      <RemoveEquipmentButton equipment={personEquipment.equipment!} />
+      <FuiRemoveEquipmentButton equipment={personEquipment.equipment!} />
     </Box>
   );
 
