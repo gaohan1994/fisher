@@ -5,7 +5,7 @@ import {
   FuiBackpackItemSellAction,
   FuiColor,
   FuiBackpackItemDetailRender,
-  UseEquipmentButton,
+  FuiUseEquipmentButton,
   FuiOpenRewardChestAction,
   FuiSetPotionSlotButton,
 } from '@Fui';
@@ -53,7 +53,7 @@ const FuiBackpackItemActions: React.FC = observer(() => {
       </Grid>
       {isEquipmentItem(activeBackpackItem!.item) && (
         <Grid item xs={6}>
-          <UseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
+          <FuiUseEquipmentButton equipment={activeBackpackItem!.item} actionCallback={onBackpackItemActionCallback} />
         </Grid>
       )}
       {isRewardChest(activeBackpackItem!.item) && (

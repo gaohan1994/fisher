@@ -2,8 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Box, List, ListItem, Stack } from '@mui/material';
 import { Person, PersonEquipment } from '@FisherCore';
-import { FuiEquipment, RemoveEquipmentButton } from '../equipment';
+import { FuiEquipment } from '../equipment';
 import { FuiItem, FuiItemDetailPopover } from '../item';
+import { FuiRemoveEquipmentButton } from '../backpack';
 
 interface PersonEquipmentsPanelProps {
   person: Person;
@@ -52,7 +53,7 @@ interface FuiPersonEquipmentProps {
 const FuiPersonEquipment: React.FC<FuiPersonEquipmentProps> = observer(({ personEquipment }) => {
   const masterEquipmentActions = !personEquipment.isEmpty && (
     <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2, pb: 2 }}>
-      <RemoveEquipmentButton equipment={personEquipment.equipment!} />
+      <FuiRemoveEquipmentButton equipment={personEquipment.equipment!} />
     </Box>
   );
 

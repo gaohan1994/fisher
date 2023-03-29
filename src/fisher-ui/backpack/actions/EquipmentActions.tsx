@@ -5,11 +5,6 @@ import { core, EquipmentItem } from '@FisherCore';
 import { Dialog, DialogTitle, DialogActions, Button } from '@mui/material';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 
-interface Props {
-  equipment: EquipmentItem;
-  actions?: EquipmentControlActions[];
-  actionCallback?: EquipmentControlActionCallback;
-}
 interface EquipmentControlActionProps {
   equipment: EquipmentItem;
   actionCallback?: EquipmentControlActionCallback;
@@ -22,7 +17,7 @@ enum EquipmentControlActions {
   RemoveEquipment = 'RemoveEquipment',
 }
 
-const UseEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ equipment, actionCallback }) => {
+const FuiUseEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ equipment, actionCallback }) => {
   const { master } = core;
   const onUseEquipment = React.useCallback(() => {
     const currentSlotPersonEquipment = master.personEquipmentManager.equipmentMap.get(equipment.slot)!;
@@ -43,7 +38,7 @@ const UseEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ eq
   );
 });
 
-const RemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ equipment, actionCallback }) => {
+const FuiRemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({ equipment, actionCallback }) => {
   const { master } = core;
 
   const [open, setOpen] = React.useState(false);
@@ -72,4 +67,4 @@ const RemoveEquipmentButton: React.FC<EquipmentControlActionProps> = observer(({
   );
 });
 
-export { UseEquipmentButton, RemoveEquipmentButton, EquipmentControlActions };
+export { FuiUseEquipmentButton, FuiRemoveEquipmentButton, EquipmentControlActions };
