@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Divider, Typography, Box, Stack } from '@mui/material';
 import { EquipmentItem, BackpackItem, EquipmentSlot, EquipmentSlotName } from '@FisherCore';
-import { FuiEquipment } from '../../fisher-ui/equipment';
+import { FuiEquipment } from '@Fui';
 import { useBackpackEquipments } from '../hook';
 import { backpackStore } from './BackpackStore';
 

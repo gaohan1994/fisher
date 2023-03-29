@@ -1,23 +1,21 @@
 import React from 'react';
 import { Typography, CardContent, Avatar, Card } from '@mui/material';
-import { Assets, EquipmentItem, EquipmentSlotName, PersonEquipment } from '@FisherCore';
+import { Assets, EquipmentItem, EquipmentSlotName } from '@FisherCore';
 
 interface FuiEmptyEquipmentDetailBaseProps {
   text: React.ReactNode;
   media?: string;
 }
-const FuiEmptyEquipmentDetailBase: React.FC<FuiEmptyEquipmentDetailBaseProps> = ({ text, media }) => {
-  return (
-    <Card sx={{ bgcolor: 'transparent' }} elevation={0}>
-      <CardContent
-        sx={{ height: 280, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Typography>{text}</Typography>
-        {media && <Avatar sx={{ mt: 1 }} src={media} variant="square" />}
-      </CardContent>
-    </Card>
-  );
-};
+const FuiEmptyEquipmentDetailBase: React.FC<FuiEmptyEquipmentDetailBaseProps> = ({ text, media }) => (
+  <Card sx={{ bgcolor: 'transparent' }} elevation={0}>
+    <CardContent
+      sx={{ height: 280, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+    >
+      <Typography>{text}</Typography>
+      {media && <Avatar sx={{ mt: 1 }} src={media} variant="square" />}
+    </CardContent>
+  </Card>
+);
 
 interface FuiEmptySlotEquipmentDetailProps {
   equipment?: EquipmentItem;

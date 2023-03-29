@@ -2,8 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Box, List, ListItem, Stack } from '@mui/material';
 import { Person, PersonEquipment } from '@FisherCore';
-import { FuiEquipment } from '../equipment';
-import { FuiItem, FuiItemDetailPopover } from '../item';
+import { FuiItem, FuiItemDetailPopover, FuiEquipment } from '../item';
 import { FuiRemoveEquipmentButton } from '../backpack';
 
 interface PersonEquipmentsPanelProps {

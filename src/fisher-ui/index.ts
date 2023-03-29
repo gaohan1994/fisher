@@ -1,4 +1,3 @@
-export * from './equipment';
 export * from './notifycation';
 export * from './theme';
 export * from './launcher';

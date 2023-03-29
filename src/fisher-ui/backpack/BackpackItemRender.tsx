@@ -1,8 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { BackpackItem, isEquipmentItem } from '@FisherCore';
-import { FuiItem, FuiItemDetail, FuiItemDetailPopover, FuiItemProps } from '../item';
-import { FuiEquipment, FuiEquipmentDetail } from '../equipment';
+import { FuiItem, FuiItemDetail, FuiItemDetailPopover, FuiItemProps, FuiEquipment, FuiEquipmentDetail } from '../item';
 
 interface BackpackItemRenderProps extends Pick<FuiItemProps, 'onClick' | 'showBorder' | 'renderItem'> {
   backpackItem: BackpackItem;

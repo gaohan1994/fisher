@@ -1,7 +1,7 @@
 import React from 'react';
 import { isEquipmentItem, Item } from '@FisherCore';
-import { FuiEquipment } from '../equipment';
 import { FuiItem, FuiItemDetailPopover, FuiItemProps } from './Item';
+import { FuiEquipment } from './equipment';
 
 interface Props<T = Item> extends Omit<FuiItemProps, 'item'> {
   item: T;
