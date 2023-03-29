@@ -21,7 +21,7 @@ const FuiSetPotionSlotButton: React.FC<SetPotionSlotProps> = observer(({ backpac
   };
 
   const onSetHealPotionSlot = (potion: BackpackItem<HealPotion>) => {
-    master.person.healPotionHandler.potionSlot.setPotion(potion);
+    master.healPotionHandler.potionSlot.setPotion(potion);
   };
 
   return (

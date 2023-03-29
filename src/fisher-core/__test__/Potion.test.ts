@@ -81,15 +81,13 @@ describe('Potion module', () => {
 
     backpack.addItem(healPotion, 50);
     const battle = new Battle();
-    battle.master.person.healPotionHandler.potionSlot.setPotion(
-      backpack.getItem(healPotion)! as BackpackItem<HealPotion>
-    );
+    battle.master.healPotionHandler.potionSlot.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
     battle.setEnemyItem(enemy);
     battle.start();
 
     vi.advanceTimersByTime(100);
     expect(battle.master.actionManager.attackActionTimer.progress).toBeGreaterThan(0);
-    battle.master.person.healPotionHandler.usePotion(battle.master.person);
+    battle.master.healPotionHandler.usePotion(battle.master.person);
     expect(battle.master.actionManager.attackActionTimer.progress).toEqual(0);
 
     vi.clearAllTimers();

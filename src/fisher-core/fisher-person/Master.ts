@@ -2,7 +2,8 @@ import { makeAutoObservable } from 'mobx';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
-import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EquipmentItem } from '../fisher-item';
+import { HealPotionHandler } from '../fisher-potion';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
 import { PersonEquipment } from './PersonEquipment';
@@ -34,6 +35,8 @@ class Master {
 
   public person = new Person(this.mode);
 
+  public healPotionHandler = new HealPotionHandler();
+
   public get level() {
     return this.person.experience.level;
   }
@@ -58,7 +61,7 @@ class Master {
     return {
       experience: this.person.experience.experience,
       equipmentIds: this.person.personEquipmentManager.equipmentIds,
-      healPotionId: this.person.healPotionHandler.potionSlot.potionId,
+      healPotionId: this.healPotionHandler.potionSlot.potionId,
     };
   }
 
@@ -79,7 +82,7 @@ class Master {
     this.person.personEquipmentManager.loadArchiveEquipments(master?.equipmentIds ?? []);
 
     if (master?.healPotionId !== undefined) {
-      this.person.healPotionHandler.potionSlot.setPotionById(master.healPotionId);
+      this.healPotionHandler.potionSlot.setPotionById(master.healPotionId);
     }
   };
 
