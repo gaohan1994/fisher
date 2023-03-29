@@ -17,9 +17,19 @@ class HealPotionHandler {
     }
 
     person.heal(this.potionSlot.potion!.item.healValue);
+    this.potionQuantityEffect(person);
+    this.personActionEffect(person);
+  };
 
+  private potionQuantityEffect = (person: Person) => {
     if (person.isMaster) {
       events.emit(EventKeys.Backpack.ReduceItem, this.potionSlot.potion!.item, 1);
+    }
+  };
+
+  private personActionEffect = (person: Person) => {
+    if (person.isMaster && person.isAttacking) {
+      person.actionManager.resetAttackActionProgress();
     }
   };
 }

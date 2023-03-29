@@ -1,7 +1,8 @@
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Backpack } from '../fisher-backpack';
+import { Battle } from '../fisher-battle';
 import { FisherCore } from '../fisher-core';
-import { BackpackItem, HealPotion } from '../fisher-item';
+import { BackpackItem, EnemyItem, HealPotion } from '../fisher-item';
 import { Person, PersonMode } from '../fisher-person';
 import { HealPotionHandler, PotionSlot } from '../fisher-potion';
 
@@ -20,6 +21,16 @@ const healPotion = new HealPotion({
   media: 'LowHealPotion',
   price: 5,
   healValue: 5,
+});
+
+const enemy = new EnemyItem({
+  id: 'Test:Potion:Enemy',
+  name: '水灵小妖',
+  desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
+  media: 'LowSpiritMonster',
+  level: 1,
+  goldReward: 1,
+  itemRewards: [{ itemId: 'NormalReiki' }],
 });
 
 describe('Potion module', () => {
@@ -63,5 +74,24 @@ describe('Potion module', () => {
     const masterPerson = new Person(PersonMode.Master);
     healPotionHandler.usePotion(masterPerson);
     expect(backpack.getItem(healPotion)?.quantity).toEqual(49);
+  });
+
+  test('should reset person attack progress after use heal potion', () => {
+    vi.useFakeTimers();
+
+    backpack.addItem(healPotion, 50);
+    const battle = new Battle();
+    battle.master.person.healPotionHandler.potionSlot.setPotion(
+      backpack.getItem(healPotion)! as BackpackItem<HealPotion>
+    );
+    battle.setEnemyItem(enemy);
+    battle.start();
+
+    vi.advanceTimersByTime(100);
+    expect(battle.master.actionManager.attackActionTimer.progress).toBeGreaterThan(0);
+    battle.master.person.healPotionHandler.usePotion(battle.master.person);
+    expect(battle.master.actionManager.attackActionTimer.progress).toEqual(0);
+
+    vi.clearAllTimers();
   });
 });
