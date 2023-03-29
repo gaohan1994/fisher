@@ -11,19 +11,15 @@ const PageMaster: React.FC = observer(() => {
   return (
     <React.Fragment>
       <FuiContainer>
-        <Grid container>
-          <Grid item xs={6}>
-            <Card sx={{ bgcolor: FuiColor.primary.background }}>
-              <CardHeader title={<FuiCardTitle value="人物装备" />} sx={{ pb: 0 }} />
-              <CardContent>
-                <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
-                  <PersonEquipmentsPanel person={master.person} />
-                  <FuiPersonAttributePanel person={master.person} />
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        <Card sx={{ bgcolor: FuiColor.primary.background }}>
+          <CardHeader title={<FuiCardTitle value="人物装备" />} sx={{ pb: 0 }} />
+          <CardContent>
+            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
+              <PersonEquipmentsPanel person={master.person} />
+              <FuiPersonAttributePanel person={master.person} />
+            </Stack>
+          </CardContent>
+        </Card>
         <Divider sx={{ mt: 2, mb: 2 }} />
       </FuiContainer>
       <PageBackpack />
