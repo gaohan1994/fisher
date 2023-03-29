@@ -1,17 +1,18 @@
 import React from 'react';
 import { Grid, Divider, Typography, Card, CardContent, CardHeader } from '@mui/material';
-import { BackpackItem, core, isEquipmentItem, isRewardChest, RewardChest } from '@FisherCore';
+import { BackpackItem, core, HealPotion, isEquipmentItem, isHealPotion, isRewardChest, RewardChest } from '@FisherCore';
 import {
   FuiBackpackItemSellAction,
   FuiColor,
   FuiBackpackItemDetailRender,
   UseEquipmentButton,
   FuiOpenRewardChestAction,
+  FuiSetPotionSlotButton,
 } from '@Fui';
 import { backpackStore } from './BackpackStore';
 import { observer } from 'mobx-react';
 
-const FuiBackpackItemControl = observer(() => {
+const FuiBackpackItemControl: React.FC = observer(() => {
   const { activeBackpackItem } = backpackStore;
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
@@ -35,7 +36,7 @@ const FuiBackpackItemControl = observer(() => {
   );
 });
 
-const FuiBackpackItemActions = observer(() => {
+const FuiBackpackItemActions: React.FC = observer(() => {
   const { backpack } = core;
   const { activeBackpackItem, clearActiveBackpackItem } = backpackStore;
 
@@ -61,6 +62,11 @@ const FuiBackpackItemActions = observer(() => {
             rewardChest={activeBackpackItem! as BackpackItem<RewardChest>}
             actionCallback={onBackpackItemActionCallback}
           />
+        </Grid>
+      )}
+      {isHealPotion(activeBackpackItem!.item) && (
+        <Grid item xs={6}>
+          <FuiSetPotionSlotButton potion={activeBackpackItem!.item as HealPotion} />
         </Grid>
       )}
     </Grid>
