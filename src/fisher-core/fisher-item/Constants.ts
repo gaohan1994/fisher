@@ -28,4 +28,14 @@ const EquipmentSlotName = {
   [EquipmentSlot.Bracelet]: '手镯',
 };
 
-export { EquipmentSlot, EquipmentSlotName };
+enum PotionVariant {
+  HealPotion = 'HealPotion',
+  AttributePotion = 'AttributePotion',
+}
+
+const PotionVariantName = {
+  [PotionVariant.HealPotion]: '恢复药水',
+  [PotionVariant.AttributePotion]: '属性药水',
+};
+
+export { EquipmentSlot, EquipmentSlotName, PotionVariant, PotionVariantName };

@@ -4,7 +4,7 @@ import { Battle } from '../fisher-battle';
 import { FisherCore } from '../fisher-core';
 import { BackpackItem, EnemyItem, HealPotion } from '../fisher-item';
 import { Person, PersonMode } from '../fisher-person';
-import { HealPotionHandler, PotionSlot } from '../fisher-potion';
+import { PotionHandler } from '../fisher-potion';
 
 let core: FisherCore;
 let backpack: Backpack;
@@ -35,30 +35,30 @@ const enemy = new EnemyItem({
 
 describe('Potion module', () => {
   test('Potion slot should success set', () => {
-    const potionSlot = new PotionSlot<HealPotion>();
-    expect(potionSlot.hasPotion).toBeFalsy();
-    expect(potionSlot.quantityAvailable).toBeFalsy();
-    expect(potionSlot.potionAvailable).toBeFalsy();
+    const potionHandler = new PotionHandler();
+    expect(potionHandler.hasPotion).toBeFalsy();
+    expect(potionHandler.quantityAvailable).toBeFalsy();
+    expect(potionHandler.potionAvailable).toBeFalsy();
 
     backpack.addItem(healPotion, 50);
-    potionSlot.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
+    potionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
 
-    expect(potionSlot.potion).toStrictEqual(backpack.getItem(healPotion));
-    expect(potionSlot.potionId).toEqual(healPotion.id);
-    expect(potionSlot.hasPotion).toBeTruthy();
-    expect(potionSlot.quantityAvailable).toBeTruthy();
-    expect(potionSlot.potionAvailable).toBeTruthy();
+    expect(potionHandler.potion).toStrictEqual(backpack.getItem(healPotion));
+    expect(potionHandler.potionId).toEqual(healPotion.id);
+    expect(potionHandler.hasPotion).toBeTruthy();
+    expect(potionHandler.quantityAvailable).toBeTruthy();
+    expect(potionHandler.potionAvailable).toBeTruthy();
 
-    potionSlot.clearPotion();
-    expect(potionSlot.hasPotion).toBeFalsy();
-    expect(potionSlot.quantityAvailable).toBeFalsy();
-    expect(potionSlot.potionAvailable).toBeFalsy();
+    potionHandler.clearPotion();
+    expect(potionHandler.hasPotion).toBeFalsy();
+    expect(potionHandler.quantityAvailable).toBeFalsy();
+    expect(potionHandler.potionAvailable).toBeFalsy();
   });
 
   test('should success use potion', () => {
-    const healPotionHandler = new HealPotionHandler();
+    const healPotionHandler = new PotionHandler();
     backpack.addItem(healPotion, 50);
-    healPotionHandler.potionSlot.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
+    healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
 
     const person = new Person(PersonMode.Enemy);
     person.hurt(50);
@@ -81,7 +81,7 @@ describe('Potion module', () => {
 
     backpack.addItem(healPotion, 50);
     const battle = new Battle();
-    battle.master.healPotionHandler.potionSlot.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
+    battle.master.healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
     battle.setEnemyItem(enemy);
     battle.start();
 

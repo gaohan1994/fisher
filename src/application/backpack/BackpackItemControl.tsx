@@ -1,15 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Grid, Divider, Typography, Card, CardContent, CardHeader } from '@mui/material';
-import {
-  core,
-  BackpackItem,
-  isEquipmentItem,
-  isHealPotion,
-  isRewardChest,
-  PotionVariants,
-  RewardChest,
-} from '@FisherCore';
+import { core, BackpackItem, isEquipmentItem, isRewardChest, RewardChest, isPotion, Potion } from '@FisherCore';
 import {
   FuiBackpackItemSellAction,
   FuiColor,
@@ -72,9 +64,9 @@ const FuiBackpackItemActions: React.FC = observer(() => {
           />
         </Grid>
       )}
-      {isHealPotion(activeBackpackItem!.item) && (
+      {isPotion(activeBackpackItem!.item) && (
         <Grid item xs={6}>
-          <FuiSetPotionSlotButton backpackItem={activeBackpackItem! as BackpackItem<PotionVariants>} />
+          <FuiSetPotionSlotButton backpackItem={activeBackpackItem! as BackpackItem<Potion>} />
         </Grid>
       )}
     </Grid>

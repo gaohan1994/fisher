@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Card, CardContent, CardHeader, Stack, Divider, Grid } from '@mui/material';
+import { Card, CardContent, CardHeader, Stack, Divider } from '@mui/material';
 import { core } from '@FisherCore';
 import { FuiColor, FuiContainer, FuiCardTitle, FuiPersonAttributePanel, PersonEquipmentsPanel } from '@Fui';
 import { PageBackpack } from '../backpack';

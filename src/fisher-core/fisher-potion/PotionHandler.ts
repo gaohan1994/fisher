@@ -1,11 +1,14 @@
 import { makeAutoObservable } from 'mobx';
-import { Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
-import { BackpackItem, Potion } from '../fisher-item';
+import { BackpackItem, EmptyPotion, Potion } from '../fisher-item';
+import { Backpack } from '../fisher-backpack';
+import { Person } from '../fisher-person';
 import { store } from '../fisher-packages';
 
-class PotionSlot<T extends Potion> {
-  public potion?: BackpackItem<T> = undefined;
+class PotionHandler {
+  public emptyPotion = new EmptyPotion();
+
+  public potion?: BackpackItem<Potion> = undefined;
 
   public get hasPotion() {
     return this.potion !== undefined;
@@ -49,13 +52,21 @@ class PotionSlot<T extends Potion> {
     this.setPotion(Backpack.instance.getItemById(potionId) as any);
   };
 
-  public setPotion = (value: BackpackItem<T>) => {
+  public setPotion = (value: BackpackItem<Potion>) => {
     this.potion = value;
   };
 
   public clearPotion = () => {
     this.potion = undefined;
   };
+
+  public usePotion = (person: Person) => {
+    if (!this.potionAvailable) {
+      throw new Error(`Try to use potion but potion is unavailable`);
+    }
+
+    this.potion!.item.usePotion(person);
+  };
 }
 
-export { PotionSlot };
+export { PotionHandler };
