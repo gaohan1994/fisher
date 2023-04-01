@@ -1,4 +1,4 @@
-import { common, yellow, grey, green, blueGrey } from '@mui/material/colors';
+import { common, yellow, grey, green, blueGrey, red } from '@mui/material/colors';
 
 const FuiSize = {
   item: {
@@ -9,6 +9,8 @@ const FuiSize = {
 
 const FuiColor = {
   common,
+  red: red[600],
+  green: green.A400,
 
   primary: {
     background: blueGrey[900],

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { prefixes, prefixLogger } from '@FisherLogger';
 import { EventKeys, events } from '../fisher-events';
 import { BackpackItem, EmptyPotion, Potion } from '../fisher-item';
 import { Backpack } from '../fisher-backpack';
@@ -6,6 +7,8 @@ import { Person } from '../fisher-person';
 import { store } from '../fisher-packages';
 
 class PotionHandler {
+  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'PotionHandler');
+
   public emptyPotion = new EmptyPotion();
 
   public potion?: BackpackItem<Potion> = undefined;
@@ -65,6 +68,7 @@ class PotionHandler {
       throw new Error(`Try to use potion but potion is unavailable`);
     }
 
+    PotionHandler.logger.debug(`use potion ${this.potion?.item.name}`);
     this.potion!.item.usePotion(person);
   };
 }

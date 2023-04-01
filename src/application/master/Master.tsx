@@ -2,7 +2,14 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Card, CardContent, CardHeader, Stack, Divider } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiColor, FuiContainer, FuiCardTitle, FuiPersonAttributePanel, PersonEquipmentsPanel } from '@Fui';
+import {
+  FuiColor,
+  FuiContainer,
+  FuiCardTitle,
+  FuiPersonAttributePanel,
+  PersonEquipmentsPanel,
+  FuiMasterPotionHandler,
+} from '@Fui';
 import { PageBackpack } from '../backpack';
 
 const PageMaster: React.FC = observer(() => {
@@ -16,6 +23,9 @@ const PageMaster: React.FC = observer(() => {
           <CardContent>
             <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
               <PersonEquipmentsPanel person={master.person} />
+              <Stack>
+                <FuiMasterPotionHandler potionHandler={master.healPotionHandler} />
+              </Stack>
               <FuiPersonAttributePanel person={master.person} />
             </Stack>
           </CardContent>
