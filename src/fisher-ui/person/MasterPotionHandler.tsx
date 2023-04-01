@@ -1,17 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { core, PotionHandler } from '@FisherCore';
+import { core, Person, PotionHandler } from '@FisherCore';
 import { FuiItem, FuiItemDetailPopover } from '../item';
 import { Card, CardHeader, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { FuiColor } from '../theme';
 
-interface FuiMasterPotionHandlerProps {
+interface FuiPotionHandlerProps {
+  title?: React.ReactNode;
+  subheader?: React.ReactNode;
   potionHandler: PotionHandler;
+  person: Person;
 }
-const FuiMasterPotionHandler: React.FC<FuiMasterPotionHandlerProps> = observer(({ potionHandler }) => {
-  const { master } = core;
-
+const FuiPotionHandler: React.FC<FuiPotionHandlerProps> = observer(({ title, subheader, potionHandler, person }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,7 +23,7 @@ const FuiMasterPotionHandler: React.FC<FuiMasterPotionHandlerProps> = observer((
     setAnchorEl(null);
   };
 
-  const onUsePotion = () => potionHandler.usePotion(master.person);
+  const onUsePotion = () => potionHandler.usePotion(person);
 
   const onClearPotion = () => {
     potionHandler.clearPotion();
@@ -52,16 +53,12 @@ const FuiMasterPotionHandler: React.FC<FuiMasterPotionHandlerProps> = observer((
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={onClearPotion}>卸下丹药</MenuItem>
+              <MenuItem onClick={onClearPotion}>卸下</MenuItem>
             </Menu>
           </React.Fragment>
         }
-        title="丹药"
-        subheader={
-          <Typography variant="caption" color={FuiColor.red}>
-            攻击时服用丹药会重置攻击进度条
-          </Typography>
-        }
+        title={title || '丹药'}
+        subheader={subheader}
       />
       <CardHeader
         sx={{ pt: 0 }}
@@ -89,4 +86,19 @@ const FuiMasterPotionHandler: React.FC<FuiMasterPotionHandlerProps> = observer((
   );
 });
 
-export { FuiMasterPotionHandler };
+const FuiMasterHealPotionHandler: React.FC = observer(() => {
+  const { master } = core;
+  return (
+    <FuiPotionHandler
+      person={master.person}
+      potionHandler={master.healPotionHandler}
+      subheader={
+        <Typography variant="caption" color={FuiColor.red}>
+          攻击时服用丹药会重置攻击进度条
+        </Typography>
+      }
+    />
+  );
+});
+
+export { FuiPotionHandler, FuiMasterHealPotionHandler };

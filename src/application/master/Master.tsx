@@ -8,7 +8,7 @@ import {
   FuiCardTitle,
   FuiPersonAttributePanel,
   PersonEquipmentsPanel,
-  FuiMasterPotionHandler,
+  FuiMasterHealPotionHandler,
 } from '@Fui';
 import { PageBackpack } from '../backpack';
 
@@ -24,7 +24,7 @@ const PageMaster: React.FC = observer(() => {
             <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
               <PersonEquipmentsPanel person={master.person} />
               <Stack>
-                <FuiMasterPotionHandler potionHandler={master.healPotionHandler} />
+                <FuiMasterHealPotionHandler />
               </Stack>
               <FuiPersonAttributePanel person={master.person} />
             </Stack>
