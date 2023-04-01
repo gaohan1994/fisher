@@ -10,6 +10,7 @@ import { Timer } from './fisher-timer';
 import { Reward, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
 import { BaseDotAction } from './fisher-actions';
+import { PotionHandler } from './fisher-potion';
 
 export {
   FisherCore,
@@ -35,9 +36,9 @@ export {
   Skill,
   RecipeHandler,
   BaseDotAction,
+  PotionHandler,
 };
 export type { FisherComponent };
-
 export * from './fisher-item';
 export * from './fisher-packages';
 export * from './fisher-person';

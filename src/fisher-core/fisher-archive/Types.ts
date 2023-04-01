@@ -1,3 +1,5 @@
+import { PotionVariant } from '../fisher-item';
+
 namespace ArchiveInterface {
   export interface ArchiveValues {
     archiveKey: string;
@@ -27,12 +29,17 @@ namespace ArchiveInterface {
   export interface ArchiveMaster {
     experience: number;
     equipmentIds: string[];
-    healPotionId: string | undefined;
+    potionHandlers: ArchivePotionHandler[];
   }
 
   interface ArchiveBackpackItem {
     id: string;
     quantity: number;
+  }
+
+  export interface ArchivePotionHandler {
+    variant: PotionVariant;
+    potionId: string;
   }
 
   export interface IArchive extends Omit<ArchiveValues, 'createTime' | 'lastUpdateTime'> {

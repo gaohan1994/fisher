@@ -57,7 +57,6 @@ const FuiMenu = observer(() => {
             }
             return null;
           })}
-          {isDevelopment && <ListItem onClick={() => navigate('demo')}>测试</ListItem>}
         </List>
       </Box>
     </Drawer>

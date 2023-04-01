@@ -1,11 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-import { BackpackItem, core, HealPotion, isHealPotion, PotionVariants } from '@FisherCore';
+import { BackpackItem, core, HealPotion, isHealPotion, Potion } from '@FisherCore';
 import { Button } from '@mui/material';
 
 interface SetPotionSlotProps {
-  backpackItem: BackpackItem<PotionVariants>;
+  backpackItem: BackpackItem<Potion>;
   actionCallback?: () => void;
 }
 
@@ -21,7 +21,7 @@ const FuiSetPotionSlotButton: React.FC<SetPotionSlotProps> = observer(({ backpac
   };
 
   const onSetHealPotionSlot = (potion: BackpackItem<HealPotion>) => {
-    master.person.healPotionHandler.potionSlot.setPotion(potion);
+    master.healPotionHandler.setPotion(potion);
   };
 
   return (

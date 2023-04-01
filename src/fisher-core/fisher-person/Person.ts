@@ -2,7 +2,6 @@ import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
 import { Experience } from '../fisher-experience';
-import { HealPotionHandler } from '../fisher-potion';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
@@ -35,8 +34,6 @@ export class Person {
   public attributePanel = new AttributePanel(this);
 
   public actionManager = new ActionManager(this);
-
-  public healPotionHandler = new HealPotionHandler();
 
   public Hp: number = this.attributePanel.MaxHp;
 

@@ -22,18 +22,14 @@ const PersonEquipmentsPanel: React.FC<PersonEquipmentsPanelProps> = ({ person })
     person.personEquipmentManager.Shoe,
   ];
 
-  const jewelryEquipments = [
-    person.personEquipmentManager.necklace,
-    person.personEquipmentManager.earring,
-    person.personEquipmentManager.ring,
-    person.personEquipmentManager.bracelet,
-  ];
-
+  const leftJewelryEquipments = [person.personEquipmentManager.necklace, person.personEquipmentManager.earring];
+  const rightJewelryEquipments = [person.personEquipmentManager.ring, person.personEquipmentManager.bracelet];
   return (
     <Stack direction="row">
       <EquipmentColumn personEquipments={leftEquipments} />
       <EquipmentColumn personEquipments={rightEquipments} />
-      <EquipmentColumn personEquipments={jewelryEquipments} />
+      <EquipmentColumn personEquipments={leftJewelryEquipments} />
+      <EquipmentColumn personEquipments={rightJewelryEquipments} />
     </Stack>
   );
 };

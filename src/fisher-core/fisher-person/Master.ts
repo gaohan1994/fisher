@@ -2,11 +2,12 @@ import { makeAutoObservable } from 'mobx';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
-import { EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EquipmentItem, PotionVariant } from '../fisher-item';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
 import { PersonEquipment } from './PersonEquipment';
 import { PersonEquipmentEventKeys } from './PersonEquipmentManager';
+import { PotionHandlerManager } from './PotionHandlerManager';
 
 const EquipmentChangeQuantity = 1;
 
@@ -34,6 +35,12 @@ class Master {
 
   public person = new Person(this.mode);
 
+  public potionHandlerManager = new PotionHandlerManager();
+
+  public get healPotionHandler() {
+    return this.potionHandlerManager.potionHandlerMap.get(PotionVariant.HealPotion)!;
+  }
+
   public get level() {
     return this.person.experience.level;
   }
@@ -58,13 +65,12 @@ class Master {
     return {
       experience: this.person.experience.experience,
       equipmentIds: this.person.personEquipmentManager.equipmentIds,
-      healPotionId: this.person.healPotionHandler.potionSlot.potionId,
+      potionHandlers: this.potionHandlerManager.potionHandlerArchives,
     };
   }
 
   constructor() {
     makeAutoObservable(this);
-
     events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
     this.person.personEquipmentManager.personEquipmentEvents.on(
       PersonEquipmentEventKeys.EquipmentChange,
@@ -77,10 +83,7 @@ class Master {
     this.displayName = masterName;
     this.person.experience.setExperience(master?.experience ?? 0);
     this.person.personEquipmentManager.loadArchiveEquipments(master?.equipmentIds ?? []);
-
-    if (master?.healPotionId !== undefined) {
-      this.person.healPotionHandler.potionSlot.setPotionById(master.healPotionId);
-    }
+    this.potionHandlerManager.loadArchivePotionHandlers(master?.potionHandlers ?? []);
   };
 
   public deathPenalty = () => {};

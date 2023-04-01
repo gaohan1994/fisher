@@ -1,2 +1,1 @@
-export * from './HealPotionHandler';
-export * from './PotionSlot';
+export * from './PotionHandler';
