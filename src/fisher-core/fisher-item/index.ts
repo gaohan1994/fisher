@@ -12,3 +12,5 @@ export * from './ItemChecker';
 export * from './RewardChest';
 export * from './Constants';
 export * from './Potion';
+export * from './Seed';
+export * from './Soil';

@@ -10,6 +10,8 @@ export enum ItemType {
   BattleArea = 'BattleArea',
   RewardChest = 'RewardChest',
   Potion = 'Potion',
+  Seed = 'Seed',
+  Soil = 'Soil',
 }
 
 export interface IItem {
