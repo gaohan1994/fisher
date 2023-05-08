@@ -1,4 +1,3 @@
-import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { random } from '../utils';
 import { EventKeys, events } from '../fisher-events';
@@ -12,10 +11,6 @@ const getSideEffectValue = () => GatherEffectValue + random(1, 10);
 
 class SoilHandler {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'SoilHandler');
-
-  constructor() {
-    makeAutoObservable(this);
-  }
 
   public seeding = (seed: Seed, soil: Soil) => {
     if (soil.seeded) {
