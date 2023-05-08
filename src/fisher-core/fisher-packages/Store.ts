@@ -10,6 +10,7 @@ import {
   ShopCategory,
   RewardChest,
   HealPotion,
+  Soil,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -24,6 +25,7 @@ import {
   makeReikiPackagesData,
   makeRewardChestsData,
   makeShopData,
+  makePlantSoilData,
 } from './FisherPackages';
 
 export class Store {
@@ -67,6 +69,8 @@ export class Store {
 
   public HealPotions: HealPotion[] = [];
 
+  public PlantSoils: Soil[] = [];
+
   public get items() {
     return [
       ...this.RewardChests,
@@ -99,6 +103,7 @@ export class Store {
     this.initializeBattle();
     this.initializeShop();
     this.initializePotions();
+    this.initializePlant();
   };
 
   private initializeRewardChests = () => {
@@ -157,6 +162,11 @@ export class Store {
   private initializePotions = () => {
     this.HealPotions = makeHealPotionData();
     Store.logger.info('initialize potion data');
+  };
+
+  private initializePlant = () => {
+    this.PlantSoils = makePlantSoilData();
+    Store.logger.info('initialize plant soils data');
   };
 
   public findItemById = <T = Item>(itemId: string) => {

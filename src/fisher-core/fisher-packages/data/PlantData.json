@@ -1,0 +1,39 @@
+{
+  "moduleName": "Plant",
+  "data": {
+    "soils": [
+      {
+        "id": "Plant:Soil:1",
+        "name": "土地",
+        "price": 100,
+        "unlockLevel": 1,
+        "desc": "",
+        "media": ""
+      },
+      {
+        "id": "Plant:Soil:2",
+        "name": "土地",
+        "price": 1000,
+        "unlockLevel": 2,
+        "desc": "",
+        "media": ""
+      },
+      {
+        "id": "Plant:Soil:3",
+        "name": "土地",
+        "price": 10000,
+        "unlockLevel": 3,
+        "desc": "",
+        "media": ""
+      },
+      {
+        "id": "Plant:Soil:4",
+        "name": "土地",
+        "price": 100000,
+        "unlockLevel": 4,
+        "desc": "",
+        "media": ""
+      }
+    ]
+  }
+}

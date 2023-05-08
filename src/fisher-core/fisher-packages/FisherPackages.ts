@@ -8,6 +8,7 @@ import forgeDataJson from './data/ForgeData.json';
 import cookDataJson from './data/CookData.json';
 import ShopDataJson from './data/ShopData.json';
 import PotionDataJson from './data/PotionData.json';
+import PlantDataJson from './data/PlantData.json';
 import {
   Item,
   IItem,
@@ -28,6 +29,7 @@ import {
   RewardChest,
   IHealPotion,
   HealPotion,
+  Soil,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -103,6 +105,13 @@ export function makeBattlePackageData() {
   });
 
   return { battleAreas, battleEnemies };
+}
+
+export function makePlantSoilData(): Soil[] {
+  const {
+    data: { soils },
+  } = PlantDataJson;
+  return soils.map((item) => new Soil(item));
 }
 
 function makePackageCollectionDataSource(dataSource: PackageCollectionJsonDataSource) {
