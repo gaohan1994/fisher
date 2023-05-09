@@ -14,6 +14,7 @@ namespace ArchiveInterface {
     reiki?: ArchiveCollection;
     forge?: ArchiveCollection;
     cook?: ArchiveCollection;
+    plant?: ArchivePlant;
   }
 
   export interface ArchiveBank {
@@ -40,6 +41,16 @@ namespace ArchiveInterface {
   export interface ArchivePotionHandler {
     variant: PotionVariant;
     potionId: string;
+  }
+
+  export interface ArchivePlant {
+    experience: number;
+    soils: ArchivePlantSoil[];
+  }
+
+  interface ArchivePlantSoil {
+    id: string;
+    isPurchased: boolean;
   }
 
   export interface IArchive extends Omit<ArchiveValues, 'createTime' | 'lastUpdateTime'> {
