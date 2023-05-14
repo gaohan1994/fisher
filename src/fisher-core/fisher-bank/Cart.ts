@@ -108,8 +108,8 @@ class Cart {
     const reward = new Reward();
 
     for (let index = 0; index < this.items.length; index++) {
-      const item = this.items[index];
-      reward.addRewardItem(item.item, item.quantity).addRewardGold(-item.payment);
+      const { item, quantity, payment } = this.items[index];
+      reward.addRewardItem(item, quantity).addRewardGold(-payment);
     }
 
     reward.execute();
