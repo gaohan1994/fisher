@@ -48,21 +48,22 @@ describe('Fight', () => {
       isMasterWin = result.isMasterWin;
     });
     Master.create().person.personEquipmentManager.useEquipment(debugWeapon);
-    const fight = new Fight(testEnemy, spyAction);
+    const fight = new Fight(testEnemy);
+    fight.event.on(Fight.EventKeys.FightEnd, spyAction);
 
-    expect(fight.master.person.isAttacking).toBeFalsy();
-    expect(fight.enemy.person.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
 
     fight.startFighting();
 
-    expect(fight.master.person.isAttacking).toBeTruthy();
-    expect(fight.enemy.person.isAttacking).toBeTruthy();
+    expect(fight.info.isAttacking).toBeTruthy();
+    expect(fight.info.isAttacking).toBeTruthy();
 
     vi.advanceTimersByTime(100);
 
     expect(spyAction).toBeCalled();
-    expect(fight.master.person.isAttacking).toBeFalsy();
-    expect(fight.enemy.person.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
     expect(winner instanceof Master).toBeTruthy();
     expect(loser instanceof Enemy).toBeTruthy();
     expect(isMasterWin).toBeTruthy();
@@ -73,18 +74,19 @@ describe('Fight', () => {
   test('should success stop fight', () => {
     vi.useFakeTimers();
     const spyAction = vi.fn();
-    const fight = new Fight(testEnemy, spyAction);
+    const fight = new Fight(testEnemy);
+    fight.event.on(Fight.EventKeys.FightEnd, spyAction);
 
     fight.startFighting();
 
-    expect(fight.master.person.isAttacking).toBeTruthy();
-    expect(fight.enemy.person.isAttacking).toBeTruthy();
+    expect(fight.info.isAttacking).toBeTruthy();
+    expect(fight.info.isAttacking).toBeTruthy();
 
     vi.advanceTimersByTime(50);
     fight.stopFighting();
 
-    expect(fight.master.person.isAttacking).toBeFalsy();
-    expect(fight.enemy.person.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
+    expect(fight.info.isAttacking).toBeFalsy();
 
     vi.clearAllTimers();
   });

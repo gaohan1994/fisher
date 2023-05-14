@@ -1,10 +1,7 @@
 import { makeAutoObservable, reaction } from 'mobx';
+import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Enemy, Master } from '../fisher-person';
-
-interface IOnFightEnd {
-  (result: IOnFightEndOptions): void;
-}
 
 interface IOnFightEndOptions {
   winner: Master | Enemy;
@@ -12,20 +9,37 @@ interface IOnFightEndOptions {
   isMasterWin: boolean;
 }
 
+interface IFightInfo {
+  master: Master;
+  enemy: Enemy;
+  isAttacking: boolean;
+}
+
 class Fight {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Fight');
 
-  public readonly master: Master;
+  public static readonly EventKeys = {
+    FightEnd: 'FightEnd',
+  };
 
-  public readonly enemy: Enemy;
+  private readonly master: Master;
 
-  private onFightEnd: IOnFightEnd;
+  private readonly enemy: Enemy;
 
-  constructor(enemy: Enemy, onFightEnd: IOnFightEnd) {
+  public readonly event = new EventEmitter();
+
+  public get info(): IFightInfo {
+    return {
+      master: this.master,
+      enemy: this.enemy,
+      isAttacking: this.master.person.isAttacking,
+    };
+  }
+
+  constructor(enemy: Enemy) {
     makeAutoObservable(this);
     this.master = Master.create();
     this.enemy = enemy;
-    this.onFightEnd = onFightEnd;
 
     reaction<boolean>(() => this.enemy.Hp <= 0, this.controlEnemyDeath);
     reaction<boolean>(() => this.master.Hp <= 0, this.controlMasterDeath);
@@ -53,22 +67,26 @@ class Fight {
   private controlEnemyDeath = (isDeath: boolean) => {
     if (isDeath) {
       this.stopFighting();
-      this.onFightEnd({
+      this.event.emit(Fight.EventKeys.FightEnd, {
         winner: this.master,
         loser: this.enemy,
         isMasterWin: true,
-      });
+      } as IOnFightEndOptions);
+
+      Fight.logger.info(`Fight end, enemy ${this.enemy.name} was death, emit ${Fight.EventKeys.FightEnd} event`);
     }
   };
 
   private controlMasterDeath = (isDeath: boolean) => {
     if (isDeath) {
       this.stopFighting();
-      this.onFightEnd({
+      this.event.emit(Fight.EventKeys.FightEnd, {
         winner: this.enemy,
         loser: this.master,
         isMasterWin: false,
-      });
+      } as IOnFightEndOptions);
+
+      Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.FightEnd} event`);
     }
   };
 }
