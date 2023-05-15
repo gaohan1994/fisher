@@ -57,10 +57,9 @@ interface EnemyItemProps {
 }
 const FuiEnmeyItem: React.FC<EnemyItemProps> = observer(({ enemy }) => {
   const { battle } = core;
-  const { battleControl } = battle;
 
   const onClickAttack = () => {
-    battleControl.setAcitveEnemyItem(enemy);
+    battle.setAcitveEnemyItem(enemy);
     battle.start();
   };
 

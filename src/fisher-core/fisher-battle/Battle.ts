@@ -1,19 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { store } from '../fisher-packages';
-import { BattleAreaItem, EnemyItem } from '../fisher-item';
+import { EnemyItem } from '../fisher-item';
 import { RewardPool } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
-import { BattleStatus } from './BattleStatus';
-import { BattleControl } from './BattleControl';
-import { Enemy } from '../fisher-person';
+import { Enemy, Master } from '../fisher-person';
 import { Assets } from '../assets';
+import { Fight } from '../fisher-fight';
+import { FisherBattleError } from '../fisher-error';
 
 class Battle {
-  private static logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
 
-  public static instance: Battle;
+  private static instance: Battle;
 
   public static create(): Battle {
     if (!Battle.instance) {
@@ -22,7 +22,11 @@ class Battle {
     return Battle.instance;
   }
 
-  public static BaseBattleInterval = 1000;
+  public get packages() {
+    return store.BattleAreas;
+  }
+
+  private static readonly BaseBattleInterval = 200;
 
   public readonly id = 'Battle';
 
@@ -30,94 +34,65 @@ class Battle {
 
   public media = Assets.battle;
 
-  public battleStatus = new BattleStatus();
+  public fight = new Fight();
 
-  public get isInitial() {
-    return this.battleStatus.isInitial;
-  }
-
-  public get isEnemyLoading() {
-    return this.battleStatus.isEnemyLoading;
-  }
-
-  public get isFighting() {
-    return this.battleStatus.isFighting;
-  }
-
-  public get packages() {
-    return store.BattleAreas;
-  }
-
-  public battleControl = new BattleControl();
-
-  public get activeBattleArea(): BattleAreaItem | undefined {
-    if (this.battleControl.activeEnemyItem === undefined) {
-      return undefined;
-    }
-
-    const _activeBattleArea = this.packages.find((area) =>
-      area.enemies.some((enemy) => enemy.id === this.battleControl.activeEnemyItem!.id)
-    );
-    return _activeBattleArea!;
-  }
-
-  public get activeEnemyItem() {
-    return this.battleControl.activeEnemyItem;
-  }
+  private activeEnemyItem: EnemyItem | undefined = undefined;
 
   public get master() {
-    return this.battleControl.master;
+    return this.fight.info.master;
   }
 
   public get enemy() {
-    return this.battleControl.enemy;
+    return this.fight.info.enemy;
+  }
+
+  public get isAttacking() {
+    return this.fight.info.isAttacking;
   }
 
   public rewardPool = new RewardPool();
 
   constructor() {
     makeAutoObservable(this);
-    events.on(EventKeys.Core.MasterDeath, this.onMasterDeath);
-    events.on(EventKeys.Core.EnemyDeath, this.onEnemyDeath);
+    this.fight.event.on(Fight.EventKeys.MasterWinFight, this.onMasterWinFight);
+    this.fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
   }
 
-  public setEnemyItem = async (enemyItem: EnemyItem) => {
-    this.battleStatus.enemyLoading();
-    this.battleControl.setAcitveEnemyItem(enemyItem);
-    await TimerSpace.space(Battle.BaseBattleInterval);
+  public setAcitveEnemyItem = async (enemyItem: EnemyItem | undefined) => {
+    this.activeEnemyItem = enemyItem;
   };
 
   public start = async () => {
-    if (this.battleControl.enemy === undefined) {
-      Battle.logger.error('Fail to start battle, please set active enemy item first');
-      throw new Error('Fail to start battle, please set active enemy item first');
+    if (this.activeEnemyItem === undefined) {
+      throw new FisherBattleError('Fail to start battle, please set active enemy', '请先设置战斗目标');
     }
 
-    this.battleStatus.fighting();
-    this.battleControl.startBattle();
-
+    this.fight.startFighting(new Enemy(this.activeEnemyItem));
     events.emit(EventKeys.Core.SetActiveComponent, this);
+    Battle.logger.info(`Start battle with enemy ${this.activeEnemyItem.name}`);
   };
 
   public stop = async () => {
-    if (!this.isFighting) {
-      return Battle.logger.error('Try to stop battle but already stoped');
-    }
-
-    this.battleStatus.initial();
-    this.battleControl.stopBattle();
+    this.fight.stopFighting();
+    Battle.logger.info('Stop battle');
   };
 
-  private onMasterDeath = async () => {
-    this.battleStatus.initial();
-  };
+  private onMasterLostFight = async () => {};
 
-  private onEnemyDeath = async (enemy: Enemy) => {
+  private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);
+    await this.continueNextFight();
   };
 
   private collectRewards = async (enemy: Enemy) => {
     this.rewardPool.collectRewards(enemy.provideRewards());
+  };
+
+  private continueNextFight = async () => {
+    if (this.activeEnemyItem !== undefined) {
+      await TimerSpace.space(Battle.BaseBattleInterval);
+      this.fight.startFighting(new Enemy(this.activeEnemyItem));
+    }
   };
 
   public executeRewards = () => {

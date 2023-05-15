@@ -22,7 +22,7 @@ const PageBattle: React.FC = observer(() => {
       <Divider sx={{ m: 2 }} />
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <FuiBattlePersonInfo man={battle.master} action={battle.isFighting && <FuiBattleStopButton />}>
+          <FuiBattlePersonInfo man={battle.master} action={battle.isAttacking && <FuiBattleStopButton />}>
             <BattlePersonStack>
               <FuiMasterHealPotionHandler />
             </BattlePersonStack>

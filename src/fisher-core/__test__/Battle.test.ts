@@ -2,10 +2,30 @@
  * @vitest-environment jsdom
  */
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { Battle, BattleControl, BattleStatus } from '../fisher-battle';
-import { Enemy } from '../fisher-person';
+import { Battle } from '../fisher-battle';
 import { FisherCore } from '../fisher-core';
-import { store } from '../fisher-packages';
+import { EnemyItem, EquipmentItem } from '../fisher-item';
+import { Fight } from '../fisher-fight';
+
+const debugWeapon = new EquipmentItem({
+  id: 'DebugWeapon',
+  name: 'DebugWeapon',
+  desc: 'DebugWeapon',
+  media: 'woodsword',
+  price: 5,
+  slot: 'PrimaryWeapon',
+  attackSpeed: 100,
+  attributes: [{ key: 'AttackPower', value: 4000 }],
+});
+const testEnemyItem = new EnemyItem({
+  id: 'LowSpiritMonster',
+  name: '水灵小妖',
+  desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
+  media: 'LowSpiritMonster',
+  level: 1,
+  goldReward: 1,
+  itemRewards: [{ itemId: 'NormalReiki' }],
+});
 
 let core: FisherCore;
 beforeEach(() => {
@@ -15,16 +35,9 @@ beforeEach(() => {
 describe('Battle', () => {
   test('should initialize Fisher battle', () => {
     const battle = new Battle();
-    expect(battle.battleControl instanceof BattleControl).toBeTruthy();
-    expect(battle.battleStatus instanceof BattleStatus).toBeTruthy();
+    expect(battle.fight instanceof Fight).toBeTruthy();
     expect(battle.rewardPool.pool.length).toBe(0);
     expect(battle.rewardPool.hasReward).toBeFalsy();
-  });
-
-  test('battle interfaces', async () => {
-    const battle = new Battle();
-
-    expect(battle.enemy).toBeUndefined();
     expect(() => {
       battle.start().catch((error) => {
         error.message === `Fail to start battle, please set active enemy item first`;
@@ -34,46 +47,28 @@ describe('Battle', () => {
 
   test('should set active enemy item and enemy loading status', () => {
     const battle = new Battle();
-    expect(battle.isInitial).toBe(true);
+    battle.master.personEquipmentManager.useEquipment(debugWeapon);
+    battle.setAcitveEnemyItem(testEnemyItem);
 
-    const enemyItem = store.findEnemyById('LowSpiritMonster');
-    battle.setEnemyItem(enemyItem);
+    vi.useFakeTimers();
+    battle.start();
 
-    expect(battle.isEnemyLoading).toBe(true);
-    expect(battle.enemy instanceof Enemy).toBeTruthy();
-    expect(battle.enemy?.id === 'LowSpiritMonster').toBeTruthy();
+    expect(battle.rewardPool.hasReward).toBeFalsy();
+    expect(battle.enemy!.id).toEqual(testEnemyItem.id);
+    expect(battle.master.person.isAttacking).toBeTruthy();
+    expect(battle.enemy!.person.isAttacking).toBeTruthy();
+    expect(core.activeComponent).toStrictEqual(battle);
 
-    test('start battle should success set fighting status and start attack actions and active component', () => {
-      vi.useFakeTimers();
-      battle.start();
+    vi.advanceTimersByTime(100);
 
-      expect(battle.isFighting).toBeTruthy();
-      expect(battle.master.person.isAttacking).toBeTruthy();
-      expect(battle.enemy!.person.isAttacking).toBeTruthy();
-      expect(core.activeComponent).toStrictEqual(battle);
+    expect(battle.rewardPool.hasReward).toBeTruthy();
+    battle.rewardPool.executeRewardPool();
+    expect(core.backpack.checkItemById('NormalReiki', 1)).toBeTruthy();
 
-      test('should set initial status and stop attack when stop battle', () => {
-        battle.stop();
-        expect(battle.isInitial).toBeTruthy();
-        expect(battle.master.person.isAttacking).toBeFalsy();
-        expect(battle.enemy!.person.isAttacking).toBeFalsy();
-      });
+    battle.stop();
+    expect(battle.master.person.isAttacking).toBeFalsy();
+    expect(battle.enemy!.person.isAttacking).toBeFalsy();
 
-      vi.clearAllTimers();
-    });
-  });
-
-  test('should success calculate battle status', () => {
-    const battleStatus = new BattleStatus();
-    expect(battleStatus.status === BattleStatus.IBattleStatus.Initial);
-    expect(battleStatus.isInitial).toBe(true);
-
-    battleStatus.fighting();
-    expect(battleStatus.status === BattleStatus.IBattleStatus.Fighting);
-    expect(battleStatus.isFighting).toBe(true);
-
-    battleStatus.enemyLoading();
-    expect(battleStatus.status === BattleStatus.IBattleStatus.EnemyLoading);
-    expect(battleStatus.isEnemyLoading).toBe(true);
+    vi.clearAllTimers();
   });
 });

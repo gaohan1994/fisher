@@ -54,6 +54,10 @@ class Fight {
   };
 
   public startFighting = (enemy: Enemy) => {
+    if (this.enemy !== undefined) {
+      this.stopFighting();
+    }
+
     this.setEnemy(enemy);
     this.setFightTargets();
 
@@ -75,18 +79,19 @@ class Fight {
 
   private controlEnemyDeath = (isDeath: boolean) => {
     if (isDeath) {
+      Fight.logger.info(`Fight end, enemy ${this.enemy!.name} was death, emit ${Fight.EventKeys.MasterWinFight} event`);
+
       this.stopFighting();
       this.event.emit(Fight.EventKeys.MasterWinFight, this.master, this.enemy);
-
-      Fight.logger.info(`Fight end, enemy ${this.enemy!.name} was death, emit ${Fight.EventKeys.MasterWinFight} event`);
     }
   };
 
   private controlMasterDeath = (isDeath: boolean) => {
     if (isDeath) {
+      Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.MasterLostFight} event`);
+
       this.stopFighting();
       this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy);
-      Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.MasterLostFight} event`);
     }
   };
 

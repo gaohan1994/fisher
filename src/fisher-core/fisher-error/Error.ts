@@ -1,5 +1,6 @@
 enum FisherErrorCode {
   Fight = 10007,
+  Battle = 10008,
 }
 
 abstract class FisherError extends Error {
@@ -22,4 +23,8 @@ class FisherFightError extends FisherError {
   code = FisherError.FisherErrorCode.Fight;
 }
 
-export { FisherError, FisherFightError };
+class FisherBattleError extends FisherError {
+  code = FisherError.FisherErrorCode.Battle;
+}
+
+export { FisherError, FisherFightError, FisherBattleError };
