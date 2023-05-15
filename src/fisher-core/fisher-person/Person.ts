@@ -46,6 +46,10 @@ export class Person {
     this.target = person;
   };
 
+  public clearTarget = () => {
+    this.target = undefined;
+  };
+
   public hurt = (value: number) => {
     Person.logger.debug(`${this.mode} hurt damage: ${value}`);
     this.reduceHp(value);

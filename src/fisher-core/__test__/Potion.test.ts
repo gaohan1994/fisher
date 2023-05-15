@@ -82,7 +82,7 @@ describe('Potion module', () => {
     backpack.addItem(healPotion, 50);
     const battle = new Battle();
     battle.master.healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
-    battle.setEnemyItem(enemy);
+    battle.setAcitveEnemyItem(enemy);
     battle.start();
 
     vi.advanceTimersByTime(100);
