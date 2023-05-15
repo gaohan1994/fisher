@@ -11,7 +11,7 @@ interface IOnFightEndOptions {
 
 interface IFightInfo {
   master: Master;
-  enemy: Enemy;
+  enemy: Enemy | undefined;
   isAttacking: boolean;
 }
 
@@ -24,7 +24,7 @@ class Fight {
 
   private readonly master: Master;
 
-  private readonly enemy: Enemy;
+  private readonly enemy: Enemy | undefined = undefined;
 
   public readonly event = new EventEmitter();
 
@@ -36,12 +36,11 @@ class Fight {
     };
   }
 
-  constructor(enemy: Enemy) {
+  constructor() {
     makeAutoObservable(this);
     this.master = Master.create();
-    this.enemy = enemy;
 
-    reaction<boolean>(() => this.enemy.Hp <= 0, this.controlEnemyDeath);
+    reaction<boolean>(() => this.enemy !== undefined && this.enemy.Hp <= 0, this.controlEnemyDeath);
     reaction<boolean>(() => this.master.Hp <= 0, this.controlMasterDeath);
   }
 
