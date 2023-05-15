@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Enemy, Master } from '../fisher-person';
 import { FisherCore } from '../fisher-core';
 import { Fight } from '../fisher-fight';
-import { EnemyItem, EquipmentItem } from '../fisher-item';
+import { EnemyItem, EquipmentItem, EquipmentSlot } from '../fisher-item';
 
 const debugWeapon = new EquipmentItem({
   id: 'DebugWeapon',
@@ -35,59 +35,57 @@ beforeEach(() => {
 });
 
 describe('Fight', () => {
+  test('should throw FisherFightError when try stop fight without enemy', () => {
+    const fight = new Fight();
+    expect(() => {
+      fight.stopFighting();
+    }).toThrowError('Please set enemy first');
+  });
+
+  test('should success stop fight', () => {
+    vi.useFakeTimers();
+
+    const fight = new Fight();
+    fight.startFighting(testEnemy);
+
+    expect(fight.info.enemy instanceof Enemy).toBeTruthy();
+    expect(fight.info.master.person.target).toStrictEqual(testEnemy.person);
+    expect(fight.info.enemy?.person.target !== undefined).toBeTruthy();
+    expect(fight.info.isAttacking).toBeTruthy();
+
+    vi.advanceTimersByTime(50);
+    fight.stopFighting();
+    expect(fight.info.master.person.target).toBeUndefined();
+    expect(fight.info.enemy!.person.target).toBeUndefined();
+
+    expect(fight.info.isAttacking).toBeFalsy();
+
+    vi.clearAllTimers();
+  });
+
   test('should success start fight', () => {
     vi.useFakeTimers();
 
-    let winner: any = undefined;
-    let loser: any = undefined;
-    let isMasterWin = false;
-
-    const spyAction = vi.fn().mockImplementation((result) => {
-      winner = result.winner;
-      loser = result.loser;
-      isMasterWin = result.isMasterWin;
+    const spyAction = vi.fn().mockImplementation((_master, _enemy) => {
+      expect(_master instanceof Master).toBeTruthy();
+      expect(_enemy instanceof Enemy).toBeTruthy();
     });
-    Master.create().person.personEquipmentManager.useEquipment(debugWeapon);
-    const fight = new Fight(testEnemy);
-    fight.event.on(Fight.EventKeys.FightEnd, spyAction);
+    core.master.person.personEquipmentManager.useEquipment(debugWeapon);
+    const fight = new Fight();
+    fight.event.on(Fight.EventKeys.MasterWinFight, spyAction);
 
     expect(fight.info.isAttacking).toBeFalsy();
-    expect(fight.info.isAttacking).toBeFalsy();
 
-    fight.startFighting();
+    fight.startFighting(testEnemy);
 
-    expect(fight.info.isAttacking).toBeTruthy();
     expect(fight.info.isAttacking).toBeTruthy();
 
     vi.advanceTimersByTime(100);
 
     expect(spyAction).toBeCalled();
     expect(fight.info.isAttacking).toBeFalsy();
-    expect(fight.info.isAttacking).toBeFalsy();
-    expect(winner instanceof Master).toBeTruthy();
-    expect(loser instanceof Enemy).toBeTruthy();
-    expect(isMasterWin).toBeTruthy();
 
-    vi.clearAllTimers();
-  });
-
-  test('should success stop fight', () => {
-    vi.useFakeTimers();
-    const spyAction = vi.fn();
-    const fight = new Fight(testEnemy);
-    fight.event.on(Fight.EventKeys.FightEnd, spyAction);
-
-    fight.startFighting();
-
-    expect(fight.info.isAttacking).toBeTruthy();
-    expect(fight.info.isAttacking).toBeTruthy();
-
-    vi.advanceTimersByTime(50);
-    fight.stopFighting();
-
-    expect(fight.info.isAttacking).toBeFalsy();
-    expect(fight.info.isAttacking).toBeFalsy();
-
+    core.master.personEquipmentManager.removeEquipment(EquipmentSlot.PrimaryWeapon);
     vi.clearAllTimers();
   });
 });

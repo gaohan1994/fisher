@@ -2,12 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Enemy, Master } from '../fisher-person';
-
-interface IOnFightEndOptions {
-  winner: Master | Enemy;
-  loser: Master | Enemy;
-  isMasterWin: boolean;
-}
+import { FisherFightError } from '../fisher-error';
 
 interface IFightInfo {
   master: Master;
@@ -19,12 +14,13 @@ class Fight {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Fight');
 
   public static readonly EventKeys = {
-    FightEnd: 'FightEnd',
+    MasterWinFight: 'MasterWinFight',
+    MasterLostFight: 'MasterLostFight',
   };
 
-  private readonly master: Master;
+  private readonly master: Master = Master.create();
 
-  private readonly enemy: Enemy | undefined = undefined;
+  private enemy: Enemy | undefined = undefined;
 
   public readonly event = new EventEmitter();
 
@@ -32,32 +28,46 @@ class Fight {
     return {
       master: this.master,
       enemy: this.enemy,
-      isAttacking: this.master.person.isAttacking,
+      isAttacking: this.enemy !== undefined && this.master.person.isAttacking,
     };
   }
 
   constructor() {
     makeAutoObservable(this);
-    this.master = Master.create();
 
     reaction<boolean>(() => this.enemy !== undefined && this.enemy.Hp <= 0, this.controlEnemyDeath);
     reaction<boolean>(() => this.master.Hp <= 0, this.controlMasterDeath);
   }
 
   public stopFighting = () => {
+    if (this.enemy === undefined) {
+      throw new FisherFightError('Please set enemy first', '请先设置战斗对象！');
+    }
+
     this.master.person.stopBattle();
     this.enemy.person.stopBattle();
+
+    this.master.person.clearTarget();
+    this.enemy.person.clearTarget();
+
     Fight.logger.info('stop fighting');
   };
 
-  public startFighting = () => {
+  public startFighting = (enemy: Enemy) => {
+    this.setEnemy(enemy);
     this.setFightTargets();
+
     this.master.person.startBattle();
-    this.enemy.person.startBattle();
+    this.enemy!.person.startBattle();
+
     Fight.logger.info('start fighting');
   };
 
   private setFightTargets = () => {
+    if (this.enemy === undefined) {
+      throw new FisherFightError('Please set enemy first', '请先设置战斗对象！');
+    }
+
     this.master.person.setTarget(this.enemy.person);
     this.enemy.person.setTarget(this.master.person);
     Fight.logger.debug(`Success set fight target, current masdter target: ${this.enemy.name}`);
@@ -66,27 +76,22 @@ class Fight {
   private controlEnemyDeath = (isDeath: boolean) => {
     if (isDeath) {
       this.stopFighting();
-      this.event.emit(Fight.EventKeys.FightEnd, {
-        winner: this.master,
-        loser: this.enemy,
-        isMasterWin: true,
-      } as IOnFightEndOptions);
+      this.event.emit(Fight.EventKeys.MasterWinFight, this.master, this.enemy);
 
-      Fight.logger.info(`Fight end, enemy ${this.enemy.name} was death, emit ${Fight.EventKeys.FightEnd} event`);
+      Fight.logger.info(`Fight end, enemy ${this.enemy!.name} was death, emit ${Fight.EventKeys.MasterWinFight} event`);
     }
   };
 
   private controlMasterDeath = (isDeath: boolean) => {
     if (isDeath) {
       this.stopFighting();
-      this.event.emit(Fight.EventKeys.FightEnd, {
-        winner: this.enemy,
-        loser: this.master,
-        isMasterWin: false,
-      } as IOnFightEndOptions);
-
-      Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.FightEnd} event`);
+      this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy);
+      Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.MasterLostFight} event`);
     }
+  };
+
+  private setEnemy = (enemy: Enemy) => {
+    this.enemy = enemy;
   };
 }
 
