@@ -10,12 +10,14 @@ import {
   ShopCategory,
   RewardChest,
   HealPotion,
+  DungeonItem,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
   ICollectionModuleData,
   makeBattlePackageData,
   makeCookPackagesData,
+  makeDungeonData,
   makeEquipmentPackagesData,
   makeEquipmentSetData,
   makeForgePackagesData,
@@ -63,6 +65,8 @@ export class Store {
 
   public BattleEnemies: EnemyItem[] = [];
 
+  public Dungeons: DungeonItem[] = [];
+
   public Shop: ShopCategory[] = [];
 
   public HealPotions: HealPotion[] = [];
@@ -83,6 +87,7 @@ export class Store {
       ...this.EquipmentSets,
       ...this.BattleAreas,
       ...this.BattleEnemies,
+      ...this.Dungeons,
       ...this.Shop,
       ...this.HealPotions,
     ];
@@ -97,6 +102,7 @@ export class Store {
     this.initializeEquipments();
     this.initializeEquipmentSets();
     this.initializeBattle();
+    this.initializeDungeon();
     this.initializeShop();
     this.initializePotions();
   };
@@ -147,6 +153,12 @@ export class Store {
     this.BattleAreas = battleAreas;
     this.BattleEnemies = battleEnemies;
     Store.logger.info('initialize BattleArea and BattleEnemies data');
+  };
+
+  private initializeDungeon = () => {
+    const dungeons = makeDungeonData();
+    this.Dungeons = dungeons;
+    Store.logger.info('initialize Dungeons data');
   };
 
   private initializeShop = () => {

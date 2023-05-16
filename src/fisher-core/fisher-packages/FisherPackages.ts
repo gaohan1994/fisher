@@ -8,6 +8,7 @@ import forgeDataJson from './data/ForgeData.json';
 import cookDataJson from './data/CookData.json';
 import ShopDataJson from './data/ShopData.json';
 import PotionDataJson from './data/PotionData.json';
+import DungeonDataJson from './data/DungeonData.json';
 import {
   Item,
   IItem,
@@ -28,6 +29,8 @@ import {
   RewardChest,
   IHealPotion,
   HealPotion,
+  IDungeonItem,
+  DungeonItem,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -82,6 +85,10 @@ export function makeShopData() {
 
 export function makeHealPotionData() {
   return generateHealPotions(PotionDataJson.data.healPotions);
+}
+
+export function makeDungeonData() {
+  return generateDungeonData(DungeonDataJson.data);
 }
 
 export function makeBattlePackageData() {
@@ -141,4 +148,8 @@ function generateRewardChests(itemsJson: IRewardChest[]) {
 
 function generateHealPotions(itemsJson: IHealPotion[]) {
   return itemsJson.map((item) => new HealPotion(item));
+}
+
+function generateDungeonData(itemsJson: IDungeonItem[]) {
+  return itemsJson.map((item) => new DungeonItem(item));
 }

@@ -22,7 +22,7 @@ class DungeonItem extends Item {
   public progress = 0;
 
   @observable
-  public progressExtraRewardMap = new Map<number, Reward[]>();
+  public progressExtraRewardMap = new Map<number, ICreateRewardOptions[]>();
 
   @computed
   public get currentEnemyItem() {
@@ -46,7 +46,7 @@ class DungeonItem extends Item {
     this.enemies = options.enemies.map((item) => new EnemyItem(item));
     if (options.progressExtraReward) {
       for (let enemyIndex in options.progressExtraReward) {
-        this.progressExtraRewardMap.set(Number(enemyIndex), options.progressExtraReward[enemyIndex].map(Reward.create));
+        this.progressExtraRewardMap.set(Number(enemyIndex), options.progressExtraReward[enemyIndex]);
       }
     }
   }
@@ -69,7 +69,12 @@ class DungeonItem extends Item {
       throw new FisherDungeonError(`Can not find enemy item ${enemy.id} in Dungeon ${this.id}`);
     }
 
-    return this.progressExtraRewardMap.get(enemyIndex);
+    const progressExtraRewards = this.progressExtraRewardMap.get(enemyIndex);
+    if (progressExtraRewards === undefined) {
+      return undefined;
+    }
+
+    return progressExtraRewards.map(Reward.create);
   };
 
   @action
@@ -79,3 +84,4 @@ class DungeonItem extends Item {
 }
 
 export { DungeonItem };
+export type { IDungeonItem };

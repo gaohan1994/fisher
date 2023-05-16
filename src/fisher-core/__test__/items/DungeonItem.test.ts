@@ -62,4 +62,22 @@ describe('DungeonItem', () => {
     const reward = dungeonItem.tryGetProgressExtraReward(new Enemy(new EnemyItem(enemy1)));
     expect(reward![0].hasRewardItems).toBeTruthy();
   });
+
+  test('should return undefined if enemy does not have extra reward', () => {
+    const dungeonItem = new DungeonItem(
+      Object.assign({}, testDungeonData, {
+        progressExtraReward: {
+          '1': [
+            {
+              itemId: 'FiveElementsStone',
+              itemQuantity: 1,
+            },
+          ],
+        },
+      })
+    );
+
+    const reward = dungeonItem.tryGetProgressExtraReward(new Enemy(new EnemyItem(enemy1)));
+    expect(reward).toBeUndefined();
+  });
 });
