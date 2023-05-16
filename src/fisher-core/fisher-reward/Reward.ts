@@ -4,7 +4,7 @@ import { Item } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { EventKeys, events } from '../fisher-events';
 
-interface ICreateRewardOptions {
+export interface ICreateRewardOptions {
   gold?: number;
   itemId?: string;
   itemQuantity?: number;

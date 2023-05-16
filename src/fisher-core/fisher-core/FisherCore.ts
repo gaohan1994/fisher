@@ -61,6 +61,10 @@ export class FisherCore {
     return this.componentManager.battle;
   }
 
+  public get dungeon() {
+    return this.componentManager.dungeon;
+  }
+
   public get master() {
     return this.componentManager.master;
   }
