@@ -12,6 +12,7 @@ export enum ItemType {
   Potion = 'Potion',
   Seed = 'Seed',
   Soil = 'Soil',
+  Dungeon = 'Dungeon',
 }
 
 export interface IItem {

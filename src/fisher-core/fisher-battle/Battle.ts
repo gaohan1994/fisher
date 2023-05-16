@@ -58,7 +58,7 @@ class Battle {
     this.fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
   }
 
-  public setAcitveEnemyItem = async (enemyItem: EnemyItem | undefined) => {
+  public setAcitveEnemyItem = async (enemyItem: EnemyItem) => {
     this.activeEnemyItem = enemyItem;
   };
 

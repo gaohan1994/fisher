@@ -7,10 +7,11 @@ import { bank, Bank } from '../fisher-bank';
 import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
 import { Master, master } from '../fisher-person';
+import { Dungeon, dungeon } from '../fisher-dungeon';
 
-type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Master;
+type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master;
 
-type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle;
+type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle | Dungeon;
 
 type ComponentWithExperience = Mining | Reiki | Forge | Cook;
 
@@ -22,6 +23,7 @@ enum ComponentId {
   Forge = 'Forge',
   Cook = 'Cook',
   Battle = 'Battle',
+  Dungeon = 'Dungeon',
   Master = 'Master',
 }
 
@@ -77,6 +79,10 @@ class ComponentManager {
     return this.componentMap.get(ComponentId.Battle) as Battle;
   }
 
+  public get dungeon() {
+    return this.componentMap.get(ComponentId.Dungeon) as Dungeon;
+  }
+
   public get master() {
     return this.componentMap.get(ComponentId.Master) as Master;
   }
@@ -88,6 +94,7 @@ class ComponentManager {
     this.componentMap.set(ComponentId.Bank, bank);
     this.componentMap.set(ComponentId.Backpack, backpack);
     this.componentMap.set(ComponentId.Battle, battle);
+    this.componentMap.set(ComponentId.Dungeon, dungeon);
     this.componentMap.set(ComponentId.Mining, mining);
     this.componentMap.set(ComponentId.Reiki, reiki);
     this.componentMap.set(ComponentId.Forge, forge);
