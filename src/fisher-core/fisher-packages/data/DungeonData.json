@@ -1,0 +1,219 @@
+{
+  "moduleName": "Dungeon",
+  "data": [
+    {
+      "id": "Dungeon:WoodPile",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "SmallWoodPile",
+          "name": "小型木桩",
+          "desc": "训练用的木桩",
+          "media": "",
+          "level": 1
+        },
+        {
+          "id": "MiddleWoodPile",
+          "name": "中型木桩",
+          "desc": "训练用的木桩",
+          "media": "",
+          "level": 2
+        },
+        {
+          "id": "LargeWoodPile",
+          "name": "大型木桩",
+          "desc": "训练用的木桩",
+          "media": "",
+          "level": 3
+        }
+      ],
+      "progressExtraReward": {
+        "2": [
+          {
+            "itemId": "LowSpiritMine",
+            "itemQuantity": 10
+          }
+        ]
+      }
+    },
+    {
+      "id": "Dungeon:MartialHall",
+      "name": "讲武堂",
+      "desc": "大家谈兵论道的地方，实力说话",
+      "media": "",
+      "enemies": [
+        {
+          "id": "LowMartialArtist",
+          "name": "低级武师",
+          "desc": "在讲武堂中随处可见的武师",
+          "media": "",
+          "level": 4
+        },
+        {
+          "id": "HighMartialArtist",
+          "name": "高阶武师",
+          "desc": "实力强大的习武人士",
+          "media": "",
+          "level": 6
+        },
+        {
+          "id": "XueSan",
+          "name": "薛三",
+          "desc": "讲武堂堂主，神秘的高手，可以以一敌三",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "青山道",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "迷雾鬼城",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        },
+        {
+          "id": "DrunkGhost",
+          "name": "醉死鬼",
+          "desc": "不知道喝了多少酒",
+          "media": "",
+          "level": 10
+        },
+        {
+          "id": "LiarGhost",
+          "name": "丢谎鬼",
+          "desc": "不说谎才是说谎",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "蛇岭",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "蜘蛛洞",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "鲲鹏迷窟",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "佛家幻境",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "贪",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        },
+        {
+          "id": "CryGhost",
+          "name": "嗔",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        },
+        {
+          "id": "CryGhost",
+          "name": "痴",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "东海龙宫大殿",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    },
+    {
+      "id": "东海龙宫王宫",
+      "name": "木桩机关",
+      "desc": "训练用的木桩",
+      "media": "",
+      "enemies": [
+        {
+          "id": "CryGhost",
+          "name": "爱哭鬼",
+          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "media": "",
+          "level": 10
+        }
+      ]
+    }
+  ]
+}

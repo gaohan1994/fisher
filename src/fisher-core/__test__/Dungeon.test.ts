@@ -6,7 +6,6 @@ import { FisherCore } from '../fisher-core';
 import { DungeonItem, EnemyItem, EquipmentItem } from '../fisher-item';
 import { Fight } from '../fisher-fight';
 import { Dungeon } from '../fisher-dungeon';
-import { Enemy } from '../fisher-person';
 
 const debugWeapon = new EquipmentItem({
   id: 'DebugWeapon',
