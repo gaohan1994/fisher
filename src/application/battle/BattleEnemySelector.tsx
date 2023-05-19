@@ -1,7 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Card, Tooltip, Grid, Tab, Tabs, Avatar, CardHeader, IconButton } from '@mui/material';
-import { Assets, core, EnemyItem } from '@FisherCore';
+import { Grid, Tab, Tabs } from '@mui/material';
+import { core } from '@FisherCore';
+import { BattleEnemyCard } from './BattleEnemyCard';
 
 const BattleEnemySelector: React.FC = observer(() => {
   const { battle } = core;
@@ -20,9 +21,9 @@ const BattleEnemySelector: React.FC = observer(() => {
       </Tabs>
       {packages.map((battleArea, index) => (
         <TabPanel value={value} index={index} key={`${value}-${index}`}>
-          {battleArea.enemies.map((enemy) => (
-            <Grid item xs={3} key={enemy.id}>
-              <FuiEnmeyItem enemy={enemy} />
+          {battleArea.enemies.map((enemyItem) => (
+            <Grid item xs={4} key={enemyItem.id}>
+              <BattleEnemyCard enemyItem={enemyItem} />
             </Grid>
           ))}
         </TabPanel>
@@ -51,33 +52,5 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
     )}
   </div>
 );
-
-interface EnemyItemProps {
-  enemy: EnemyItem;
-}
-const FuiEnmeyItem: React.FC<EnemyItemProps> = observer(({ enemy }) => {
-  const { battle } = core;
-
-  const onClickAttack = () => {
-    battle.setAcitveEnemyItem(enemy);
-    battle.start();
-  };
-
-  return (
-    <Card>
-      <CardHeader
-        title={enemy.name}
-        avatar={<Avatar src={enemy.media} />}
-        action={
-          <Tooltip title="战斗">
-            <IconButton onClick={onClickAttack}>
-              <Avatar src={Assets.attack} variant="square" sx={{ width: 30, height: 30 }} />
-            </IconButton>
-          </Tooltip>
-        }
-      />
-    </Card>
-  );
-});
 
 export { BattleEnemySelector };

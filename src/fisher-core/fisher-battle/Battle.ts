@@ -36,7 +36,7 @@ class Battle {
 
   public fight = new Fight();
 
-  private activeEnemyItem: EnemyItem | undefined = undefined;
+  public activeEnemyItem: EnemyItem | undefined = undefined;
 
   public get master() {
     return this.fight.info.master;
@@ -58,8 +58,12 @@ class Battle {
     this.fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
   }
 
-  public setAcitveEnemyItem = async (enemyItem: EnemyItem) => {
+  public setAcitveEnemyItem = (enemyItem: EnemyItem) => {
     this.activeEnemyItem = enemyItem;
+  };
+
+  public clearActiveEnemyItem = () => {
+    this.activeEnemyItem = undefined;
   };
 
   public start = async () => {
