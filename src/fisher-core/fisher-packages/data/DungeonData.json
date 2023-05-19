@@ -32,10 +32,6 @@
       "progressExtraReward": {
         "2": [
           {
-            "itemId": "TrainingSword",
-            "itemQuantity": 1
-          },
-          {
             "itemId": "LowSpiritMine",
             "itemQuantity": 10
           }

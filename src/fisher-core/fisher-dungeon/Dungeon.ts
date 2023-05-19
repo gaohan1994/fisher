@@ -8,6 +8,7 @@ import { Enemy, Master } from '../fisher-person';
 import { TimerSpace } from '../fisher-timer';
 import { FisherDungeonError } from '../fisher-error';
 import { EventKeys, events } from '../fisher-events';
+import { store } from '../fisher-packages';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');
@@ -22,6 +23,10 @@ class Dungeon {
   }
 
   private static readonly BaseInterval = 200;
+
+  public get packages() {
+    return store.Dungeons;
+  }
 
   public readonly id = 'Dungeon';
 
@@ -55,6 +60,10 @@ class Dungeon {
 
   public setActiveDungeonItem = (dungeonItem: DungeonItem) => {
     this.activeDungeonItem = dungeonItem;
+  };
+
+  public clearActiveDungeonItem = () => {
+    this.activeDungeonItem = undefined;
   };
 
   public start = async () => {

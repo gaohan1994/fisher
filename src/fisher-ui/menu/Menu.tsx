@@ -13,6 +13,7 @@ const visibleComponents = [
   ComponentId.Reiki,
   ComponentId.Forge,
   ComponentId.Cook,
+  ComponentId.Dungeon,
 ];
 
 function checkIsVisibleComponent(componentId: any) {

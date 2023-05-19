@@ -91,6 +91,7 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
         <Box
           sx={{
             border: 1,
+            width: 'fit-content',
             position: 'relative',
             borderColor:
               borderActive || open || showBorder ? FuiColor.item.activeBorderColor : FuiColor.item.borderColor,

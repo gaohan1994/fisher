@@ -10,6 +10,7 @@ import { PageForge } from '../forge';
 import { PageCook } from '../cook';
 import { PageBank } from '../bank';
 import { PageBackpack } from '../backpack';
+import { PageDungeon } from '../dungeon';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,
         element: <PageBattle />,
+      },
+      {
+        path: fuiRouteHandler.getComponentRoute(ComponentId.Dungeon)?.path,
+        element: <PageDungeon />,
       },
     ],
   },

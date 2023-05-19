@@ -1,13 +1,13 @@
 import { Assets } from './assets';
 import { Archive } from './fisher-archive';
 import { version, core, FisherCore, ComponentId, FisherComponent } from './fisher-core';
-import { experienceCalculator, MaxLevel } from './fisher-experience';
+import { Experience, experienceCalculator, MaxLevel } from './fisher-experience';
 import { Mining, Reiki, Forge, Cook } from './fisher-modules';
 import { IAttributeKeys, PersonMode } from './fisher-person';
 import { Bank, ShopCategoryHandler } from './fisher-bank';
 import { Backpack } from './fisher-backpack';
 import { Timer } from './fisher-timer';
-import { Reward, RewardChestHandler } from './fisher-reward';
+import { Reward, RewardPool, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
 import { BaseDotAction } from './fisher-actions';
 import { PotionHandler } from './fisher-potion';
@@ -24,6 +24,7 @@ export {
   Forge,
   Cook,
   MaxLevel,
+  Experience,
   experienceCalculator,
   IAttributeKeys,
   PersonMode,
@@ -32,6 +33,7 @@ export {
   Backpack,
   Timer,
   Reward,
+  RewardPool,
   RewardChestHandler,
   Skill,
   RecipeHandler,

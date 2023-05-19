@@ -13,3 +13,5 @@ export * from './item';
 export * from './collection';
 export * from './env';
 export * from './backpack';
+export * from './dashboard';
+export * from './reward';
