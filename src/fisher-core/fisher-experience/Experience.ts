@@ -2,6 +2,8 @@ import { makeAutoObservable } from 'mobx';
 import { experienceCalculator, MaxLevel } from './ExperienceCalculator';
 
 class Experience {
+  public static readonly MaxLevel = MaxLevel;
+
   public experience = 0;
 
   public get maxLevel() {

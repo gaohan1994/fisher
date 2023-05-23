@@ -43,4 +43,4 @@ class FuiRoute {
 
 const fuiRouteHandler = new FuiRouteHandler();
 
-export { fuiRouteHandler };
+export { fuiRouteHandler, FuiRoute };
