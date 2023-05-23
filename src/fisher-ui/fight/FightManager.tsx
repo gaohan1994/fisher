@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { Button, Divider, Grid, Stack } from '@mui/material';
 import { Enemy, Master } from '@FisherCore';
 import { FuiFightEmptyEnemyInfo, FuiFightPersonInfo } from './FightPersonInfo';
@@ -15,7 +16,7 @@ interface IFuiFightManager {
   onRetreatClick: () => void;
   enemy?: Enemy;
 }
-const FuiFightManager: React.FC<IFuiFightManager> = ({ master, enemy, onRetreatClick }) => (
+const FuiFightManager: React.FC<IFuiFightManager> = observer(({ master, enemy, onRetreatClick }) => (
   <Grid container spacing={2}>
     <Grid item xs={6}>
       <FuiFightPersonInfo
@@ -48,6 +49,6 @@ const FuiFightManager: React.FC<IFuiFightManager> = ({ master, enemy, onRetreatC
       )}
     </Grid>
   </Grid>
-);
+));
 
 export { FuiFightManager };

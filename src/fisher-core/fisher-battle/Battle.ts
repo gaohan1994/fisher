@@ -71,13 +71,15 @@ class Battle {
       throw new FisherBattleError('Fail to start battle, please set active enemy', '请先设置战斗目标');
     }
 
-    this.fight.startFighting(new Enemy(this.activeEnemyItem));
     events.emit(EventKeys.Core.SetActiveComponent, this);
+    this.fight.startFighting(new Enemy(this.activeEnemyItem));
     Battle.logger.info(`Start battle with enemy ${this.activeEnemyItem.name}`);
   };
 
   public stop = async () => {
     this.fight.stopFighting();
+    this.clearActiveEnemyItem();
+
     Battle.logger.info('Stop battle');
   };
 

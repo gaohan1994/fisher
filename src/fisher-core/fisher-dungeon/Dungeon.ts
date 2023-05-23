@@ -71,13 +71,16 @@ class Dungeon {
       throw new FisherDungeonError('Fail to start dungeon, please set active dungeon', '请先设置要攻略的副本');
     }
 
-    this.fight.startFighting(new Enemy(this.activeDungeonItem.currentEnemyItem));
     events.emit(EventKeys.Core.SetActiveComponent, this);
+    this.fight.startFighting(new Enemy(this.activeDungeonItem.currentEnemyItem));
+
     Dungeon.logger.info(`Start Dungeon ${this.activeDungeonItem.name}`);
   };
 
   public stop = async () => {
     this.fight.stopFighting();
+    this.clearActiveDungeonItem();
+
     Dungeon.logger.info('Stop Dungeon');
   };
 

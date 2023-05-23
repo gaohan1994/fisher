@@ -1,22 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { DungeonItem, core } from '@FisherCore';
-import { FuiBaseDashboard, FuiEnemyRewardPreview } from '@Fui';
-import { Box, Button, Collapse, Grid, Typography, styled } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore, FuiBaseDashboard, FuiEnemyRewardPreview } from '@Fui';
+import { Box, Button, Collapse, Grid, Typography } from '@mui/material';
 import { DungeonCard } from './DungeonItem';
 import { useDungeonItemRewards } from './DungeonItemHook';
-
-const ExpandMore = styled((props: any) => {
-  const { ...others } = props;
-  return <ExpandMoreIcon {...others} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const DungeonDashboard = observer(() => {
   const { dungeon } = core;
