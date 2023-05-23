@@ -3,13 +3,13 @@ import { observer } from 'mobx-react';
 import { Divider } from '@mui/material';
 import { core } from '@FisherCore';
 import { FuiContainer, FuiFightManager, FuiRewardPool } from '@Fui';
-import { BattleEnemySelector } from './BattleEnemySelector';
+import { BattleDashboard } from './BattleDashboard';
 
 const PageBattle: React.FC = observer(() => {
   const { battle } = core;
   return (
     <FuiContainer>
-      <BattleEnemySelector />
+      <BattleDashboard />
       <Divider sx={{ m: 2 }} />
       <FuiFightManager master={battle.master} enemy={battle.enemy} onRetreatClick={battle.stop} />
       <Divider sx={{ m: 2 }} />

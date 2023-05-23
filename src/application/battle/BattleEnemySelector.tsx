@@ -1,56 +1,36 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Grid, Tab, Tabs } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { core } from '@FisherCore';
 import { BattleEnemyCard } from './BattleEnemyCard';
 
-const BattleEnemySelector: React.FC = observer(() => {
+interface IBattleEnemySelector {
+  onSelectEnemyItem: () => void;
+}
+const BattleEnemySelector: React.FC<IBattleEnemySelector> = observer(({ onSelectEnemyItem }) => {
   const { battle } = core;
   const { packages } = battle;
-  const [value, setValue] = React.useState(0);
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
   return (
     <React.Fragment>
-      <Tabs value={value} onChange={handleChange}>
-        {packages.map((battleArea) => (
-          <Tab label={battleArea.name} key={battleArea.id} />
-        ))}
-      </Tabs>
-      {packages.map((battleArea, index) => (
-        <TabPanel value={value} index={index} key={`${value}-${index}`}>
-          {battleArea.enemies.map((enemyItem) => (
-            <Grid item xs={4} key={enemyItem.id}>
-              <BattleEnemyCard enemyItem={enemyItem} />
+      {packages.map((battleArea) => (
+        <Accordion key={battleArea.id} defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id={battleArea.id}>
+            <Typography>{battleArea.name}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={2}>
+              {battleArea.enemies.map((enemyItem) => (
+                <Grid item xs={4} key={enemyItem.id}>
+                  <BattleEnemyCard enemyItem={enemyItem} onSelectEnemyItem={onSelectEnemyItem} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </TabPanel>
+          </AccordionDetails>
+        </Accordion>
       ))}
     </React.Fragment>
   );
 });
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => (
-  <div
-    role="tabpanel"
-    hidden={value !== index}
-    id={`simple-tabpanel-${index}`}
-    aria-labelledby={`simple-tab-${index}`}
-    {...other}
-  >
-    {value === index && (
-      <Grid container spacing={2}>
-        {children}
-      </Grid>
-    )}
-  </div>
-);
 
 export { BattleEnemySelector };

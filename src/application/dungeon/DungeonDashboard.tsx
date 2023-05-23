@@ -1,10 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { core } from '@FisherCore';
-import { FuiBaseDashboard } from '@Fui';
-import { Button, Collapse, Grid, Typography, styled } from '@mui/material';
+import { DungeonItem, core } from '@FisherCore';
+import { FuiBaseDashboard, FuiEnemyRewardPreview } from '@Fui';
+import { Box, Button, Collapse, Grid, Typography, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DungeonCard } from './DungeonItem';
+import { useDungeonItemRewards } from './DungeonItemHook';
 
 const ExpandMore = styled((props: any) => {
   const { ...others } = props;
@@ -19,6 +20,7 @@ const ExpandMore = styled((props: any) => {
 
 const DungeonDashboard = observer(() => {
   const { dungeon } = core;
+  const { activeDungeonItem } = dungeon;
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -42,9 +44,12 @@ const DungeonDashboard = observer(() => {
         </Button>
       }
     >
-      <Typography variant="caption" color="secondary" component="div" textAlign="center" sx={{ mb: 1 }}>
-        {dungeon.activeDungeonItem ? `当前挑战副本：${dungeon.activeDungeonItem.name}` : '当前暂无挑战的副本'}
-      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography variant="body2">
+          {activeDungeonItem ? `当前挑战副本：${activeDungeonItem.name}` : '当前暂无挑战的副本'}
+        </Typography>
+        {activeDungeonItem && <ActiveDungeonDashboardInfo activeDungeonItem={activeDungeonItem} />}
+      </Box>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Grid container spacing={2}>
           {dungeon.packages.map((item) => (
@@ -57,5 +62,23 @@ const DungeonDashboard = observer(() => {
     </FuiBaseDashboard>
   );
 });
+
+interface IActiveDungeonDashboardInfo {
+  activeDungeonItem: DungeonItem;
+}
+const ActiveDungeonDashboardInfo: React.FC<IActiveDungeonDashboardInfo> = ({ activeDungeonItem }) => {
+  const { rewardItems, extraRewardItems } = useDungeonItemRewards(activeDungeonItem);
+  return (
+    <React.Fragment>
+      <Typography variant="body2" color="secondary">
+        副本进度：{activeDungeonItem.progress + 1}/{activeDungeonItem.enemiesNumber}
+      </Typography>
+      <Typography variant="body2" color="secondary" sx={{ mb: 1 }}>
+        战斗目标：{activeDungeonItem.currentEnemyItem.name}
+      </Typography>
+      <FuiEnemyRewardPreview rewardItems={rewardItems} randomRewardItems={extraRewardItems} />
+    </React.Fragment>
+  );
+};
 
 export { DungeonDashboard };
