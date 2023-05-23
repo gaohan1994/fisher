@@ -11,7 +11,7 @@ const FuiActiveComponentMiniDashboard: React.FC<IFuiActiveComponentMiniDashboard
     <Typography variant="caption" color="secondary">
       正在进行中
     </Typography>
-    {timer && <LinearProgress variant="determinate" color="secondary" value={timer.progress} />}
+    {timer && <LinearProgress variant="determinate" color="progress" value={timer.progress} />}
   </React.Fragment>
 ));
 

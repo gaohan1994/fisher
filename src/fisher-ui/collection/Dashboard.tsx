@@ -20,16 +20,12 @@ const FuiDashboard: React.FC<Props> = observer(({ collection }) => {
             <Typography sx={{ fontWeight: 'bold' }} variant="h5">
               {name}
             </Typography>
-            <Chip
-              sx={{ ml: 2 }}
-              label={`等级 ${skill.experience.level} / ${skill.experience.maxLevel}`}
-              color="success"
-            />
+            <Chip sx={{ ml: 2 }} label={`等级 ${skill.experience.level} / ${skill.experience.maxLevel}`} />
           </Stack>
         }
       />
       <CardContent sx={{ p: 0, m: 0 }}>
-        <Typography variant="caption" color="secondary" component="div" textAlign="center" sx={{ mb: 1 }}>
+        <Typography variant="caption" color={FuiColor.progress} component="div" textAlign="center" sx={{ mb: 1 }}>
           {activeRecipe && isActive
             ? `正在${activeRecipe.name}，${collection.name}间隔 ${activeRecipe.interval / 1000} 秒，每次经验奖励 ${
                 activeRecipe.rewardExperience
@@ -38,16 +34,9 @@ const FuiDashboard: React.FC<Props> = observer(({ collection }) => {
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
           <Typography variant="caption">升级经验值</Typography>
-          <Chip
-            sx={{ ml: 1 }}
-            label={`${skill.experience.experience} / ${skill.experience.levelUpExperience}`}
-            color="primary"
-          />
+          <Chip sx={{ ml: 1 }} label={`${skill.experience.experience} / ${skill.experience.levelUpExperience}`} />
         </Box>
-        <FuiLineProgress
-          value={(skill.experience.experience / skill.experience.levelUpExperience) * 100}
-          color="primary"
-        />
+        <FuiLineProgress value={(skill.experience.experience / skill.experience.levelUpExperience) * 100} />
       </CardContent>
     </Card>
   );

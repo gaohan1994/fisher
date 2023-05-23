@@ -1,5 +1,4 @@
-import React from 'react';
-import { observer } from 'mobx-react';
+import React, { PropsWithChildren } from 'react';
 import {
   Avatar,
   AvatarGroup,
@@ -8,6 +7,7 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
+  CircularProgress,
   Popover,
   Stack,
   Typography,
@@ -15,18 +15,31 @@ import {
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StarIcon from '@mui/icons-material/Star';
-import { core, Recipe } from '@FisherCore';
-import { FuiColor, FuiIconText, FuiLineProgress, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Fui';
-import { useRecipe } from '../hook';
+import { Recipe } from '@FisherCore';
+import { FuiColor, FuiIconText, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Fui';
+import { useRecipe } from '../../application/hook';
 
 interface Props {
+  isActive: boolean;
   recipe: Recipe;
+  onStart: (recipe: Recipe) => void;
+  onStop: () => void;
+  startButtonLabel?: React.ReactNode;
+  stopButtonLabel?: React.ReactNode;
+  activeLabel?: React.ReactNode;
 }
 
-const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
+const FuiSkillRecipeCard: React.FC<PropsWithChildren<Props>> = ({
+  isActive,
+  recipe,
+  onStart,
+  onStop,
+  startButtonLabel,
+  stopButtonLabel,
+  activeLabel,
+  children,
+}) => {
   const { intervalSecond, rewardItemAvatars } = useRecipe(recipe);
-  const { activeRecipe, skill, start, stop } = core.mining;
-
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,7 +51,6 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
   };
   const open = Boolean(anchorEl);
 
-  const isActive = React.useMemo(() => activeRecipe?.id === recipe.id, [activeRecipe, recipe]);
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
       <CardActionArea onClick={handleClick}>
@@ -48,7 +60,8 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
           subheader={
             isActive && (
               <Typography variant="caption" color="secondary">
-                正在采集
+                {activeLabel ?? '正在采集'}
+                <CircularProgress size={10} color="secondary" />
               </Typography>
             )
           }
@@ -69,14 +82,14 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
       </CardActionArea>
       <CardContent>
         <Stack spacing={2}>
-          {isActive ? <FuiLineProgress value={skill.progress} /> : <FuiLineProgress value={0} />}
+          {children}
           {isActive ? (
-            <Button variant="contained" sx={{ width: '100%' }} onClick={stop} color="secondary">
-              停止{recipe.name}
+            <Button variant="contained" sx={{ width: '100%' }} color="error" onClick={onStop}>
+              {stopButtonLabel ?? `停止${recipe.name}`}
             </Button>
           ) : (
-            <Button variant="contained" sx={{ width: '100%' }} onClick={() => start(recipe)}>
-              开始{recipe.name}
+            <Button variant="contained" color="info" sx={{ width: '100%' }} onClick={() => onStart(recipe)}>
+              {startButtonLabel ?? `开始${recipe.name}`}
             </Button>
           )}
         </Stack>
@@ -95,6 +108,5 @@ const FuiMiningRecipe: React.FC<Props> = observer(({ recipe }) => {
       </Popover>
     </Card>
   );
-});
-
-export { FuiMiningRecipe };
+};
+export { FuiSkillRecipeCard };
