@@ -4,40 +4,38 @@ import numeral from 'numeral';
 import { Box, List, ListItem, ListItemAvatar, ListItemText, Typography, Stack } from '@mui/material';
 import { Person } from '@FisherCore';
 import { FuiDotAction, FuiLineProgress } from '@Fui';
+import { usePersonProgressValue } from './FightHook';
 
 interface IFuiFightControl {
   person: Person;
 }
-const FuiFightControl: React.FC<IFuiFightControl> = observer(({ person }) => (
-  <List>
-    <FightListItem
-      title="生命值"
-      primary={<FuiLineProgress value={(person.Hp / person.attributePanel.MaxHp) * 100} color="progressHp" />}
-    >
-      <Typography>{`${person.Hp}/${person.attributePanel.MaxHp}`}</Typography>
-    </FightListItem>
-    <FightListItem
-      title="攻速"
-      primary={<FuiLineProgress value={person.actionManager.attackActionTimer.progress} color="progress" />}
-    >
-      <Typography>{numeral(person.actionManager.attackActionTimer.progress).format('0')}%</Typography>
-    </FightListItem>
-    <FightListItem
-      title="状态栏"
-      primary={
-        person.actionManager.activeDotActions.length > 0 ? (
-          <Stack direction="row" style={{ flexWrap: 'wrap' }}>
-            {person.actionManager.activeDotActions.map((dotAction) => (
-              <FuiDotAction key={dotAction.id} dotAction={dotAction} />
-            ))}
-          </Stack>
-        ) : (
-          <Typography>空</Typography>
-        )
-      }
-    />
-  </List>
-));
+const FuiFightControl: React.FC<IFuiFightControl> = observer(({ person }) => {
+  const { hpProgressValue, actionProgressValue } = usePersonProgressValue(person);
+  return (
+    <List>
+      <FightListItem title="生命值" primary={<FuiLineProgress value={hpProgressValue} color="progressHp" />}>
+        <Typography>{`${person.Hp}/${person.attributePanel.MaxHp}`}</Typography>
+      </FightListItem>
+      <FightListItem title="攻速" primary={<FuiLineProgress value={actionProgressValue} color="progress" />}>
+        <Typography>{numeral(actionProgressValue).format('0')}%</Typography>
+      </FightListItem>
+      <FightListItem
+        title="状态栏"
+        primary={
+          person.actionManager.activeDotActions.length > 0 ? (
+            <Stack direction="row" style={{ flexWrap: 'wrap' }}>
+              {person.actionManager.activeDotActions.map((dotAction) => (
+                <FuiDotAction key={dotAction.id} dotAction={dotAction} />
+              ))}
+            </Stack>
+          ) : (
+            <Typography>空</Typography>
+          )
+        }
+      />
+    </List>
+  );
+});
 
 interface IFightListItem {
   primary: React.ReactNode;

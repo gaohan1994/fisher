@@ -113,12 +113,17 @@ class ComponentManager {
     ComponentManager.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
   };
 
-  public setActiveComponent = (component: ActiveControlComponent | undefined) => {
+  public setActiveComponent = (component: ActiveControlComponent) => {
     if (this.activeComponent !== component) {
       this.stopActiveComponent();
       this.activeComponent = component;
       ComponentManager.logger.info(`Set active component ${component === undefined ? 'undefined' : component.id}`);
     }
+  };
+
+  public clearActiveComponent = () => {
+    this.activeComponent = undefined;
+    ComponentManager.logger.info('Clear active component');
   };
 
   private stopActiveComponent = () => {
