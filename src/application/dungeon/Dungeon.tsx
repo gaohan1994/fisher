@@ -11,7 +11,7 @@ const PageDungeon = observer(() => {
     <FuiContainer>
       <DungeonDashboard />
       <Divider sx={{ m: 2 }} />
-      <FuiFightManager master={dungeon.master} enemy={dungeon.enemy} onRetreatClick={dungeon.stop} />
+      <FuiFightManager fightComponent={dungeon} />
       <Divider sx={{ m: 2 }} />
       <FuiRewardPool rewardPool={dungeon.rewardPool} />
     </FuiContainer>

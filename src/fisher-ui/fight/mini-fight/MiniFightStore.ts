@@ -37,22 +37,6 @@ class MiniFightStore {
   private setActiveFightComponent = (component: Battle | Dungeon) => {
     this.activeFightComponent = component;
   };
-
-  public stopActiveFightComponent = () => {
-    if (this.activeFightComponent === undefined) {
-      throw new Error('Try to stop undefined mini fight component');
-    }
-
-    this.activeFightComponent.stop();
-  };
-
-  public executeActiveFightComponentRewards = () => {
-    if (this.activeFightComponent === undefined) {
-      throw new Error('Try to execute undefined mini fight component rewards');
-    }
-
-    this.activeFightComponent.executeRewards();
-  };
 }
 
 export { MiniFightStore };

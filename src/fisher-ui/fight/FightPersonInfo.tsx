@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
-import { Assets, Enemy, Master, Person, PersonMode } from '@FisherCore';
+import { Enemy, Master, PersonMode } from '@FisherCore';
 import { FuiColor } from '@Fui';
 import { FuiFightControl } from './FightControl';
 
@@ -23,13 +23,4 @@ const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, 
   </Card>
 );
 
-const FuiFightEmptyEnemyInfo: React.FC = () => (
-  <Card>
-    <CardHeader avatar={<Avatar src={Assets.logo} />} title="?" subheader="等级：?" />
-    <CardContent sx={{ pt: 0, pb: 0 }}>
-      <FuiFightControl person={new Person(PersonMode.Enemy)} />
-    </CardContent>
-  </Card>
-);
-
-export { FuiFightPersonInfo, FuiFightEmptyEnemyInfo };
+export { FuiFightPersonInfo };
