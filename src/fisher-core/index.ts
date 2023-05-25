@@ -11,6 +11,9 @@ import { Reward, RewardPool, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
 import { BaseDotAction } from './fisher-actions';
 import { PotionHandler } from './fisher-potion';
+import { Fight } from './fisher-fight';
+import { Battle } from './fisher-battle';
+import { Dungeon } from './fisher-dungeon';
 
 export {
   FisherCore,
@@ -39,6 +42,9 @@ export {
   RecipeHandler,
   BaseDotAction,
   PotionHandler,
+  Fight,
+  Battle,
+  Dungeon,
 };
 export type { FisherComponent };
 export * from './fisher-item';

@@ -10,7 +10,7 @@ import { Forge, Mining, Reiki } from '../fisher-modules';
 let componentManager: ComponentManager;
 beforeEach(() => {
   componentManager = ComponentManager.create();
-  componentManager.setActiveComponent(undefined);
+  componentManager.clearActiveComponent();
 });
 
 describe('ComponentManager', () => {
