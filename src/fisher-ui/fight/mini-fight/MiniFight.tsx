@@ -6,24 +6,19 @@ import { ButtonGroup, Divider, Paper, Stack } from '@mui/material';
 import { MiniFightStore } from './MiniFightStore';
 import { FuiMiniFightPerson } from './MiniFightPerson';
 import { FuiMiniExecuteRewardButton, FuiMiniMasterHealPotionButton, FuiMiniRetreatButton } from './MiniFightActions';
+import { useFightComponentActions } from '../FightHook';
 
 const FuiMiniFight = observer(() => {
   const [miniFightStore] = useState(() => new MiniFightStore());
+  const { stopFightComponent, executeFightComponentRewards } = useFightComponentActions(
+    miniFightStore.activeFightComponent
+  );
 
   if (!miniFightStore.miniFightVisible) {
     return null;
   }
 
   const fight = miniFightStore.activeFightComponent!.fight;
-
-  const onRetreat = () => {
-    miniFightStore.stopActiveFightComponent();
-    core.componentManager.clearActiveComponent();
-  };
-
-  const onExecuteRewards = () => {
-    miniFightStore.executeActiveFightComponentRewards();
-  };
 
   return (
     <Draggable>
@@ -35,8 +30,8 @@ const FuiMiniFight = observer(() => {
         <Divider />
         <ButtonGroup>
           <FuiMiniMasterHealPotionButton />
-          <FuiMiniExecuteRewardButton onClick={onExecuteRewards} />
-          <FuiMiniRetreatButton onClick={onRetreat} />
+          <FuiMiniExecuteRewardButton onClick={executeFightComponentRewards} />
+          <FuiMiniRetreatButton onClick={stopFightComponent} />
         </ButtonGroup>
       </Paper>
     </Draggable>

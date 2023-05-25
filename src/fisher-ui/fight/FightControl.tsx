@@ -51,4 +51,4 @@ const FightListItem: React.FC<React.PropsWithChildren<IFightListItem>> = ({ prim
   </ListItem>
 );
 
-export { FuiFightControl };
+export { FuiFightControl, FightListItem };

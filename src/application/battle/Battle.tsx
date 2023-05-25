@@ -11,7 +11,7 @@ const PageBattle: React.FC = observer(() => {
     <FuiContainer>
       <BattleDashboard />
       <Divider sx={{ m: 2 }} />
-      <FuiFightManager master={battle.master} enemy={battle.enemy} onRetreatClick={battle.stop} />
+      <FuiFightManager fightComponent={battle} />
       <Divider sx={{ m: 2 }} />
       <FuiRewardPool rewardPool={battle.rewardPool} />
     </FuiContainer>
