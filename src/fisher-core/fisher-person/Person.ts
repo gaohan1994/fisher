@@ -6,6 +6,18 @@ import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
 import { PersonMode } from './Constants';
+import { EventEmitter } from 'smar-util';
+
+interface PersonEventActionPayload {
+  value: number;
+  currentHp: number;
+}
+
+enum PersonEventKeys {
+  Hurt = 'Hurt',
+  Heal = 'Heal',
+  TargetChange = 'TargetChange',
+}
 
 /**
  * 人物类
@@ -14,8 +26,10 @@ import { PersonMode } from './Constants';
  * @export
  * @class Person
  */
-export class Person {
+class Person {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Person');
+
+  public static readonly PersonEventKeys = PersonEventKeys;
 
   public mode: PersonMode;
 
@@ -37,6 +51,8 @@ export class Person {
 
   public Hp: number = this.attributePanel.MaxHp;
 
+  public event = new EventEmitter();
+
   constructor(mode: PersonMode) {
     makeAutoObservable(this);
     this.mode = mode;
@@ -44,15 +60,25 @@ export class Person {
 
   public setTarget = (person: Person | undefined) => {
     this.target = person;
+
+    this.event.emit(Person.PersonEventKeys.TargetChange, { target: person });
   };
 
   public clearTarget = () => {
     this.target = undefined;
+
+    this.event.emit(Person.PersonEventKeys.TargetChange, { target: undefined });
   };
 
   public hurt = (value: number) => {
+    this.Hp = Math.max(0, this.Hp - value);
+
+    this.event.emit(Person.PersonEventKeys.Hurt, {
+      value,
+      currentHp: this.Hp,
+    });
+
     Person.logger.debug(`${this.mode} hurt damage: ${value}`);
-    this.reduceHp(value);
   };
 
   public hurtRange = (value: number, rangeScope: number = 10) => {
@@ -61,15 +87,14 @@ export class Person {
   };
 
   public heal = (value: number) => {
-    this.addHp(value);
-  };
-
-  private addHp = (value: number) => {
     this.Hp = Math.min(this.attributePanel.MaxHp, this.Hp + value);
-  };
 
-  private reduceHp = (value: number) => {
-    this.Hp = Math.max(0, this.Hp - value);
+    this.event.emit(Person.PersonEventKeys.Heal, {
+      value,
+      currentHp: this.Hp,
+    });
+
+    Person.logger.debug(`${this.mode} heal hp: ${value}`);
   };
 
   public startBattle = () => {
@@ -99,3 +124,6 @@ export class Person {
     this.Hp = this.attributePanel.MaxHp;
   };
 }
+
+export { Person };
+export type { PersonEventActionPayload };
