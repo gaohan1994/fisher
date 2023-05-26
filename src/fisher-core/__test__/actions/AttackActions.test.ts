@@ -1,7 +1,15 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
 import { EnemyItem, IEnemyItem } from '../../fisher-item';
-import { Enemy } from '../../fisher-person';
+import { Enemy, Person } from '../../fisher-person';
+import {
+  CritAttackAction,
+  HighBatterAction,
+  HighFixedDamageAction,
+  LowBatterAction,
+  LowFixedDamageAction,
+  NormalAttackAction,
+} from '../../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -26,8 +34,6 @@ const testPerson2: IEnemyItem = {
 
 describe('AttackActions', () => {
   test('should hurt after execute normal attack action', () => {
-    vi.useFakeTimers();
-
     const item1 = new EnemyItem(testPerson1);
     const item2 = new EnemyItem(testPerson2);
 
@@ -38,18 +44,24 @@ describe('AttackActions', () => {
     person2.setTarget(person1.person);
     expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
-    person1.startBattle();
-    vi.advanceTimersByTime(person1.attributePanel.AttackSpeed);
+    let value: number = 0;
+    let currentHp: number = 0;
+    const spyAction = vi.fn().mockImplementation((result) => {
+      value = result.value;
+      currentHp = result.currentHp;
+    });
 
-    expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp - 0.9 * person1.attributePanel.AttackDamage);
-    expect(person2.Hp).toBeGreaterThan(person2.attributePanel.MaxHp - 1.1 * person1.attributePanel.AttackDamage);
+    const normalAttackAction = new NormalAttackAction();
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+    normalAttackAction.execute(person1.person);
 
-    vi.clearAllTimers();
+    expect(spyAction).toBeCalled();
+    expect(value).toBeLessThan(1.1 * person1.attributePanel.AttackDamage);
+    expect(value).toBeGreaterThan(0.9 * person1.attributePanel.AttackDamage);
+    expect(currentHp).toBeLessThan(person2.attributePanel.MaxHp);
   });
 
   test('should hurt after execute crit attack action', () => {
-    vi.useFakeTimers();
-
     const item1 = new EnemyItem(testPerson1);
     const item2 = new EnemyItem(testPerson2);
 
@@ -58,12 +70,134 @@ describe('AttackActions', () => {
 
     person1.setTarget(person2.person);
     person2.setTarget(person1.person);
-    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
-    person1.actionManager.critAttackAction.execute(person1.person);
-    expect(person2.Hp).toBeLessThan(person2.attributePanel.MaxHp - 0.9 * 2 * person1.attributePanel.AttackDamage);
-    expect(person2.Hp).toBeGreaterThan(person2.attributePanel.MaxHp - 1.1 * 2 * person1.attributePanel.AttackDamage);
+    let value: number = 0;
+    const spyAction = vi.fn().mockImplementation((result) => {
+      value = result.value;
+    });
 
-    vi.clearAllTimers();
+    const critAttackAction = new CritAttackAction();
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+    critAttackAction.execute(person1.person);
+
+    expect(spyAction).toBeCalled();
+    expect(value).toBeLessThan(1.1 * 2 * person1.attributePanel.AttackDamage);
+    expect(value).toBeGreaterThan(0.9 * 2 * person1.attributePanel.AttackDamage);
+  });
+
+  test('should success run LowFixedDamageAction', () => {
+    const item1 = new EnemyItem(testPerson1);
+    const item2 = new EnemyItem(testPerson2);
+
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
+
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
+
+    let value: number = 0;
+    const spyAction = vi.fn().mockImplementation((result) => {
+      value = result.value;
+    });
+
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+    const lowFixedDamageAction = new LowFixedDamageAction();
+    lowFixedDamageAction.execute(person1.person);
+
+    const damage =
+      person1.person.experience.level * LowFixedDamageAction.LowFixedDamageActionMultiplier +
+      person1.attributePanel.AttackDamage;
+
+    expect(spyAction).toBeCalled();
+    expect(value).toEqual(damage);
+  });
+
+  test('should success run HighFixedDamageAction', () => {
+    const item1 = new EnemyItem(testPerson1);
+    const item2 = new EnemyItem(testPerson2);
+
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
+
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
+
+    let value: number = 0;
+    const spyAction = vi.fn().mockImplementation((result) => {
+      value = result.value;
+    });
+
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+
+    const highFixedDamageAction = new HighFixedDamageAction();
+    highFixedDamageAction.execute(person1.person);
+
+    const damage =
+      person1.person.experience.level * HighFixedDamageAction.HighFixedDamageActionMultiplier +
+      person1.attributePanel.AttackDamage;
+
+    expect(spyAction).toBeCalled();
+    expect(value).toEqual(damage);
+  });
+
+  test('should success run LowBatterAction', () => {
+    const item1 = new EnemyItem(testPerson1);
+    const item2 = new EnemyItem(testPerson2);
+
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
+
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
+
+    let values: number[] = [];
+    const spyAction = vi.fn().mockImplementation((result) => {
+      values.push(result.value);
+    });
+
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+    const lowBatterAction = new LowBatterAction();
+    lowBatterAction.execute(person1.person);
+
+    expect(spyAction).toBeCalledTimes(LowBatterAction.LowBatterActionAttackFrequency);
+    expect(values.length).toEqual(LowBatterAction.LowBatterActionAttackFrequency);
+
+    const damage = person1.attributePanel.AttackDamage * LowBatterAction.LowBatterActionDamangeMultiplier;
+    values.forEach((value) => {
+      expect(value).toBeLessThan(1.1 * damage);
+      expect(value).toBeGreaterThan(0.9 * damage);
+    });
+  });
+
+  test('should success run HighBatterAction', () => {
+    const item1 = new EnemyItem(testPerson1);
+    const item2 = new EnemyItem(testPerson2);
+
+    const person1 = new Enemy(item1);
+    const person2 = new Enemy(item2);
+
+    person1.setTarget(person2.person);
+    person2.setTarget(person1.person);
+
+    let values: number[] = [];
+    const spyAction = vi.fn().mockImplementation((result) => {
+      values.push(result.value);
+    });
+
+    person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
+    const highBatterAction = new HighBatterAction();
+    highBatterAction.execute(person1.person);
+
+    expect(spyAction).toBeCalledTimes(HighBatterAction.HighBatterActionAttackFrequency);
+    expect(values.length).toEqual(HighBatterAction.HighBatterActionAttackFrequency);
+
+    const damage = person1.attributePanel.AttackDamage * HighBatterAction.HighBatterActionDamangeMultiplier;
+    values.forEach((value) => {
+      expect(value).toBeLessThan(1.1 * damage);
+      expect(value).toBeGreaterThan(0.9 * damage);
+    });
+
+    const effectHp = person1.attributePanel.BaseMaxHp * HighBatterAction.HighBatterActionEffectHpMultiplier;
+    expect(person1.Hp).toEqual(person1.attributePanel.MaxHp - effectHp);
   });
 });
