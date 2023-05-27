@@ -1,40 +1,70 @@
 import { makeAutoObservable } from 'mobx';
+import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
+  ActionId,
   BaseAttackAction,
   BaseDotAction,
-  NormalAttackAction,
-  CritAttackAction,
-  PosionDotAction,
+  BaseHealAction,
+  FisherActions,
+  fisherActions,
+  isAttackAction,
+  isDotAction,
+  isHealAction,
 } from '../fisher-actions';
+import type { FisherAction } from '../fisher-actions';
 import { Timer } from '../fisher-timer';
 import { roll } from '../utils';
 import { Person } from './Person';
 
-type NextAttackAction = NormalAttackAction | CritAttackAction | BaseDotAction;
+namespace IActionManager {
+  export enum ActionManagerEventKeys {
+    ExecuteAction = 'ExecuteAction',
+  }
 
-export class ActionManager {
-  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ActionManager');
+  export interface ExecuteActionPayload {
+    person: Person;
+    action: FisherAction;
+    lastAction: FisherAction | undefined;
+  }
+}
+
+class ActionManager {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ActionManager');
+
+  public static readonly ActionManagerEventKeys = IActionManager.ActionManagerEventKeys;
+
+  public readonly event = new EventEmitter();
 
   private person: Person;
 
-  // 普通攻击
-  public normalAttackAction = new NormalAttackAction();
+  public readonly normalAttackAction = new FisherActions.NormalAttackAction();
 
-  // 暴击
-  public critAttackAction = new CritAttackAction();
+  public readonly critAttackAction = new FisherActions.CritAttackAction();
 
-  // 准备执行的攻击方式
-  public nextAttackAction: NextAttackAction = this.normalAttackAction;
+  private lastAction: FisherAction | undefined = undefined;
 
-  // 可能触发的 Dot
-  public dotActionMap = new Map<string, BaseDotAction>();
+  private nextAction: FisherAction = this.normalAttackAction;
+
+  private attackActionMap = new Map<ActionId, BaseAttackAction>();
+
+  public get attackActions() {
+    return [...this.attackActionMap.values()];
+  }
+
+  private dotActionMap = new Map<ActionId, BaseDotAction>();
 
   public get dotActions() {
     return [...this.dotActionMap.values()];
   }
 
-  public activeDotActionMap = new Map<string, BaseDotAction>();
+  private healActionMap = new Map<ActionId, BaseHealAction>();
+
+  public get healActions() {
+    return [...this.healActionMap.values()];
+  }
+
+  private activeDotActionMap = new Map<string, BaseDotAction>();
 
   public get activeDotActions() {
     return [...this.activeDotActionMap.values()];
@@ -42,20 +72,49 @@ export class ActionManager {
 
   public attackActionTimer = new Timer('AttackActionTimer', () => this.attackActionHandler(), { showProgress: true });
 
-  constructor(person: Person) {
+  constructor(person: Person, actionIds: ActionId[]) {
     makeAutoObservable(this);
 
     this.person = person;
-    this.registerActions();
+    this.registerActions(actionIds);
   }
 
-  private registerActions = () => {
-    this.registerDotActions();
+  /**
+   * Registe current person all available actions
+   * - attack actions
+   * - dot actions
+   * - heal actions
+   */
+  private registerActions = (actionIds: ActionId[]) => {
+    /**
+     * Note: clear action map before set actions
+     * some time we will re-registe person actions
+     */
+    this.clearActionMap();
+
+    actionIds.forEach((actionId) => {
+      const action = fisherActions.findActionById(actionId);
+
+      if (isAttackAction(action)) {
+        this.attackActionMap.set(actionId, action);
+      }
+
+      if (isDotAction(action)) {
+        this.dotActionMap.set(actionId, action);
+      }
+
+      if (isHealAction(action)) {
+        this.healActionMap.set(actionId, action);
+      }
+    });
+
+    ActionManager.logger.info(`Success register person actions, actionIds: ${actionIds.join(' , ')}`);
   };
 
-  private registerDotActions = () => {
-    const posionDotAction = new PosionDotAction();
-    this.dotActionMap.set(posionDotAction.id, posionDotAction);
+  private clearActionMap = () => {
+    this.attackActionMap.clear();
+    this.dotActionMap.clear();
+    this.healActionMap.clear();
   };
 
   public startAttacking = () => {
@@ -63,7 +122,7 @@ export class ActionManager {
   };
 
   public stopAttacking = () => {
-    this.nextAttackAction = this.normalAttackAction;
+    this.nextAction = this.normalAttackAction;
     this.attackActionTimer.stopTimer();
   };
 
@@ -93,39 +152,72 @@ export class ActionManager {
   };
 
   private attackActionHandler = () => {
-    if (this.nextAttackAction instanceof BaseAttackAction) {
-      this.nextAttackAction.execute(this.person);
+    if (isAttackAction(this.nextAction)) {
+      this.nextAction.execute(this.person);
     }
 
-    if (this.nextAttackAction instanceof BaseDotAction) {
-      this.nextAttackAction.initialize(this.person);
-      this.person.target?.actionManager.deployDotAction(this.nextAttackAction);
+    if (isDotAction(this.nextAction)) {
+      this.nextAction.initialize(this.person);
+      this.person.target?.actionManager.deployDotAction(this.nextAction);
     }
+
+    if (isHealAction(this.nextAction)) {
+      this.nextAction.execute(this.person);
+    }
+
+    console.log('actions', this.lastAction);
+    this.event.emit(ActionManager.ActionManagerEventKeys.ExecuteAction, {
+      person: this.person,
+      action: this.nextAction,
+      lastAction: this.lastAction,
+    } as IActionManager.ExecuteActionPayload);
 
     if (this.person.isAttacking) {
-      this.pickNextAttackAction();
+      this.lastAction = this.nextAction;
+      this.nextAction = this.pickNextAction();
     }
   };
 
-  private pickNextAttackAction = (): void => {
-    let _nextAttackAction: NextAttackAction = this.normalAttackAction;
+  private pickNextAction = (): FisherAction => {
+    let result: FisherAction = this.normalAttackAction;
 
     const critAction = this.pickCritAction();
-    if (critAction) _nextAttackAction = critAction;
+    if (critAction) result = critAction;
+
+    const attackAction = this.pickAttackAction();
+    if (attackAction) result = attackAction;
 
     const dotAction = this.pickDotAction();
-    if (dotAction) _nextAttackAction = dotAction;
+    if (dotAction) result = dotAction;
 
-    this.nextAttackAction = _nextAttackAction;
+    const healAction = this.pickHealAction();
+    if (healAction) result = healAction;
 
-    ActionManager.logger.debug(`${this.person.mode} next attack action: ${this.nextAttackAction.name}`);
+    ActionManager.logger.debug(`${this.person.mode} next action: ${result.name}`);
+
+    return result;
   };
 
-  private pickCritAction = (): CritAttackAction | undefined => {
-    let result: CritAttackAction | undefined = undefined;
+  private pickCritAction = (): BaseAttackAction | undefined => {
+    let result: BaseAttackAction | undefined = undefined;
 
-    if (roll(this.critAttackAction.change)) {
+    if (roll(this.critAttackAction.chance)) {
       result = this.critAttackAction;
+    }
+
+    return result;
+  };
+
+  private pickAttackAction = () => {
+    let result: BaseAttackAction | undefined = undefined;
+
+    for (let index = 0; index < this.attackActions.length; index++) {
+      const action = this.attackActions[index];
+
+      if (roll(action.chance)) {
+        result = action;
+        break;
+      }
     }
 
     return result;
@@ -152,4 +244,25 @@ export class ActionManager {
 
     return this.person.target.actionManager.activeDotActionMap.has(dotAction.id);
   };
+
+  private pickHealAction = () => {
+    let result: BaseHealAction | undefined = undefined;
+
+    for (let index = 0; index < this.healActions.length; index++) {
+      const action = this.healActions[index];
+
+      if (roll(action.chance) && !this.checkIsLastAction(action) && action.checkHpThreshold(this.person)) {
+        result = action;
+        break;
+      }
+    }
+
+    return result;
+  };
+
+  private checkIsLastAction = (action: FisherAction) => {
+    return this.lastAction?.id === action.id;
+  };
 }
+
+export { ActionManager, IActionManager };

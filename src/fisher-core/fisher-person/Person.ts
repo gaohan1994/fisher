@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
 import { Experience } from '../fisher-experience';
@@ -6,7 +7,7 @@ import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
 import { PersonMode } from './Constants';
-import { EventEmitter } from 'smar-util';
+import { ActionId } from '../fisher-actions';
 
 interface PersonEventActionPayload {
   value: number;
@@ -17,6 +18,10 @@ enum PersonEventKeys {
   Hurt = 'Hurt',
   Heal = 'Heal',
   TargetChange = 'TargetChange',
+}
+
+interface IPersonOptions {
+  actionIds: ActionId[];
 }
 
 /**
@@ -47,15 +52,17 @@ class Person {
 
   public attributePanel = new AttributePanel(this);
 
-  public actionManager = new ActionManager(this);
+  public actionManager: ActionManager;
 
   public Hp: number = this.attributePanel.MaxHp;
 
   public event = new EventEmitter();
 
-  constructor(mode: PersonMode) {
+  constructor(mode: PersonMode, options: IPersonOptions = { actionIds: [] }) {
     makeAutoObservable(this);
+
     this.mode = mode;
+    this.actionManager = new ActionManager(this, options.actionIds);
   }
 
   public setTarget = (person: Person | undefined) => {

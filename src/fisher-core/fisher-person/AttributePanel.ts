@@ -6,7 +6,7 @@ import { IBonusEquipmentsAttributes, IBonusEquipmentsAttributesKeys } from './At
 import { EquipmentSlot } from '../fisher-item';
 
 const DefenceFormulaCoe = 0.06;
-const DefaultAttackSpeed = 3000;
+const DefaultAttackSpeed = 2500;
 
 enum BaseAttributeData {
   InitializeMaxHp = 500,

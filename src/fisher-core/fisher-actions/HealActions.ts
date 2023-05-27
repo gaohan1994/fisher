@@ -1,8 +1,12 @@
 import { Person } from '../fisher-person';
-import { BaseAttackAction } from './BaseAction';
+import { BaseHealAction } from './BaseAction';
 
-class LowHealAction extends BaseAttackAction {
+class LowHealAction extends BaseHealAction {
+  public hpThreshold = 0.7;
+
   public static readonly LowHealActionMultiplier = 0.25;
+
+  public readonly chance = 20;
 
   public readonly id = 'LowHealAction';
 
@@ -13,8 +17,12 @@ class LowHealAction extends BaseAttackAction {
   };
 }
 
-class HighHealAction extends BaseAttackAction {
+class HighHealAction extends BaseHealAction {
+  public hpThreshold = 0.1;
+
   public static readonly HighHealActionMultiplier = 0.75;
+
+  public readonly chance = 20;
 
   public readonly id = 'HighHealAction';
 

@@ -6,6 +6,8 @@ class NormalAttackAction extends BaseAttackAction {
 
   public readonly name = '普通攻击';
 
+  public chance = 100;
+
   public execute = (person: Person) => {
     if (!person.target) {
       return BaseAttackAction.logger.error(`Try to execute ${this.id} but target was undefined`);
@@ -18,7 +20,7 @@ class NormalAttackAction extends BaseAttackAction {
 class CritAttackAction extends BaseAttackAction {
   public static readonly CritAttackMultiplier = 2;
 
-  public readonly change = 20;
+  public readonly chance = 20;
 
   public readonly id = 'CritAttackAction';
 
@@ -38,7 +40,7 @@ class LowFixedDamageAction extends BaseAttackAction {
 
   public readonly id = 'LowFixedDamageAction';
 
-  public readonly change = 20;
+  public readonly chance = 20;
 
   public readonly name = '固伤攻击（低级）';
 
@@ -58,7 +60,7 @@ class HighFixedDamageAction extends BaseAttackAction {
 
   public readonly id = 'HighFixedDamageAction';
 
-  public readonly change = 10;
+  public readonly chance = 10;
 
   public readonly name = '固伤攻击（高级）';
 
@@ -80,7 +82,7 @@ class LowBatterAction extends BaseAttackAction {
 
   public readonly id = 'LowBatterAction';
 
-  public readonly change = 10;
+  public readonly chance = 10;
 
   public readonly name = '二次连击';
 
@@ -102,7 +104,7 @@ class HighBatterAction extends BaseAttackAction {
 
   public readonly id = 'HighBatterAction';
 
-  public readonly change = 10;
+  public readonly chance = 10;
 
   public readonly name = '三刺';
 
