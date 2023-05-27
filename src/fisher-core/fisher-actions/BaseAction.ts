@@ -2,11 +2,8 @@ import { prefixes, prefixLogger } from '@FisherLogger';
 import { Timer } from '../fisher-timer';
 import { Person } from '../fisher-person';
 import { Assets } from '../assets';
-
-export enum ActionMode {
-  Attack = 'Attack',
-  Dot = 'Dot',
-}
+import { ActionMode } from './Constants';
+import numeral from 'numeral';
 
 interface IBaseAction {
   readonly id: string;
@@ -26,24 +23,37 @@ export abstract class BaseAction implements IBaseAction {
   abstract readonly mode: ActionMode;
 
   abstract readonly name: string;
+
+  abstract chance: number;
 }
 
 export abstract class BaseAttackAction extends BaseAction {
   public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseAttackAction');
 
   public readonly mode = ActionMode.Attack;
-  /**
-   * 执行 action
-   */
+
   abstract execute(person: Person): IExecuteActionDispose | void;
+}
+
+export abstract class BaseHealAction extends BaseAction {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseHealAction');
+
+  public readonly mode = ActionMode.Heal;
+
+  abstract hpThreshold: number;
+
+  abstract execute(person: Person): IExecuteActionDispose | void;
+
+  public checkHpThreshold = (person: Person) => {
+    const personHpThreshold = numeral(person.Hp / person.attributePanel.MaxHp).value() ?? 1;
+    return this.hpThreshold >= personHpThreshold;
+  };
 }
 
 export abstract class BaseDotAction extends BaseAction {
   public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseDotAction');
 
   public readonly mode = ActionMode.Dot;
-
-  public abstract chance: number;
 
   public abstract get interval(): number;
 

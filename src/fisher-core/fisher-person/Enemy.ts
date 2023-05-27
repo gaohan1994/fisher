@@ -5,7 +5,7 @@ import { generateTimestamp } from '../utils';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
 
-export class Enemy {
+class Enemy {
   public key: number;
 
   public id: string;
@@ -130,3 +130,5 @@ export class Enemy {
     this.person.stopBattle();
   };
 }
+
+export { Enemy };

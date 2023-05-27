@@ -133,7 +133,7 @@ describe('Person Attribute', () => {
     person.personEquipmentManager.useEquipment(withoutAttackSpeedPrimaryWeaponItem);
     person.personEquipmentManager.useEquipment(withoutAttackSpeedSecondaryWeaponItem);
     expect(person.attributePanel.WeaponAttackSpeed).toBeUndefined();
-    expect(person.attributePanel.AttackSpeed).toBe(3000);
+    expect(person.attributePanel.AttackSpeed).toBe(2500);
 
     const attackSpeedSecondaryWeaponItem = new EquipmentItem(
       Object.assign({}, equip2, { slot: EquipmentSlot.SecondaryWeapon, attackSpeed: 1800 })
