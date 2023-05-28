@@ -1,9 +1,10 @@
 import { Person } from '../fisher-person';
 import { Timer } from '../fisher-timer';
 import { BaseDotAction } from './BaseAction';
+import { ActionId } from './Constants';
 
 export class PosionDotAction extends BaseDotAction {
-  public override readonly id = 'posion';
+  public override readonly id = ActionId.PosionDotAction;
 
   public name = '剧毒';
 

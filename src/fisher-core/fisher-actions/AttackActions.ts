@@ -1,8 +1,9 @@
 import { Person } from '../fisher-person';
 import { BaseAttackAction } from './BaseAction';
+import { ActionId } from './Constants';
 
 class NormalAttackAction extends BaseAttackAction {
-  public readonly id = 'NormalAttackAction';
+  public readonly id = ActionId.NormalAttackAction;
 
   public readonly name = '普通攻击';
 
@@ -22,7 +23,7 @@ class CritAttackAction extends BaseAttackAction {
 
   public readonly chance = 20;
 
-  public readonly id = 'CritAttackAction';
+  public readonly id = ActionId.CritAttackAction;
 
   public readonly name = '暴击';
 
@@ -38,7 +39,7 @@ class CritAttackAction extends BaseAttackAction {
 class LowFixedDamageAction extends BaseAttackAction {
   public static readonly LowFixedDamageActionMultiplier = 2;
 
-  public readonly id = 'LowFixedDamageAction';
+  public readonly id = ActionId.LowFixedDamageAction;
 
   public readonly chance = 20;
 
@@ -58,7 +59,7 @@ class LowFixedDamageAction extends BaseAttackAction {
 class HighFixedDamageAction extends BaseAttackAction {
   public static readonly HighFixedDamageActionMultiplier = 3;
 
-  public readonly id = 'HighFixedDamageAction';
+  public readonly id = ActionId.HighFixedDamageAction;
 
   public readonly chance = 10;
 
@@ -80,7 +81,7 @@ class LowBatterAction extends BaseAttackAction {
   public static readonly LowBatterActionDamangeMultiplier = 0.75;
   public static readonly LowBatterActionAttackFrequency = 2;
 
-  public readonly id = 'LowBatterAction';
+  public readonly id = ActionId.LowBatterAction;
 
   public readonly chance = 10;
 
@@ -102,7 +103,7 @@ class HighBatterAction extends BaseAttackAction {
   public static readonly HighBatterActionAttackFrequency = 3;
   public static readonly HighBatterActionEffectHpMultiplier = 0.1;
 
-  public readonly id = 'HighBatterAction';
+  public readonly id = ActionId.HighBatterAction;
 
   public readonly chance = 10;
 

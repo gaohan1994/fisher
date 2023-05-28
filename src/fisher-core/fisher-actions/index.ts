@@ -1,5 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 import { ActionId, ActionMode } from './Constants';
+import { FisherActionError } from '../fisher-error';
+import {
+  BaseAction,
+  BaseAttackAction,
+  BaseBuffAction,
+  BaseDebuffAction,
+  BaseDotAction,
+  BaseHealAction,
+} from './BaseAction';
 import {
   NormalAttackAction,
   CritAttackAction,
@@ -10,10 +19,10 @@ import {
 } from './AttackActions';
 import { PosionDotAction } from './DotActions';
 import { LowHealAction, HighHealAction } from './HealActions';
-import { BaseAction, BaseAttackAction, BaseDotAction, BaseHealAction } from './BaseAction';
-import { FisherActionError } from '../fisher-error';
+import { LowBuffAttackPowerAction } from './BuffActions';
+import { LowDebuffAttackPowerAction } from './DebuffActions';
 
-type FisherAction = BaseAttackAction | BaseDotAction | BaseHealAction;
+type FisherAction = BaseAttackAction | BaseDotAction | BaseHealAction | BaseBuffAction | BaseDebuffAction;
 
 class FisherActions {
   public static instance: FisherActions;
@@ -129,6 +138,8 @@ export {
   BaseAttackAction,
   BaseDotAction,
   BaseHealAction,
+  BaseBuffAction,
+  BaseDebuffAction,
   isAttackAction,
   isDotAction,
   isHealAction,
@@ -141,5 +152,7 @@ export {
   PosionDotAction,
   LowHealAction,
   HighHealAction,
+  LowBuffAttackPowerAction,
+  LowDebuffAttackPowerAction,
 };
 export type { FisherAction };

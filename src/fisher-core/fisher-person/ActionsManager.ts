@@ -6,11 +6,13 @@ import {
   BaseAttackAction,
   BaseDotAction,
   BaseHealAction,
+  BaseBuffAction,
   FisherActions,
   fisherActions,
   isAttackAction,
   isDotAction,
   isHealAction,
+  BaseDebuffAction,
 } from '../fisher-actions';
 import type { FisherAction } from '../fisher-actions';
 import { Timer } from '../fisher-timer';
@@ -70,6 +72,30 @@ class ActionManager {
     return [...this.activeDotActionMap.values()];
   }
 
+  private buffActionMap = new Map<ActionId, BaseBuffAction>();
+
+  public get buffActions() {
+    return [...this.buffActionMap.values()];
+  }
+
+  private activeBuffActionMap = new Map<ActionId, BaseBuffAction>();
+
+  public get activeBuffActions() {
+    return [...this.activeBuffActionMap.values()];
+  }
+
+  private debuffActionMap = new Map<ActionId, BaseDebuffAction>();
+
+  public get debuffActions() {
+    return [...this.debuffActionMap.values()];
+  }
+
+  private activeDebuffActionMap = new Map<ActionId, BaseDebuffAction>();
+
+  public get activeDebuffActions() {
+    return [...this.activeDebuffActionMap.values()];
+  }
+
   public attackActionTimer = new Timer('AttackActionTimer', () => this.attackActionHandler(), { showProgress: true });
 
   constructor(person: Person, actionIds: ActionId[]) {
@@ -93,6 +119,8 @@ class ActionManager {
     this.clearActionMap();
 
     actionIds.forEach((actionId) => {
+      // const action = new FisherActions[actionId]();
+
       const action = fisherActions.findActionById(actionId);
 
       if (isAttackAction(action)) {
@@ -148,7 +176,31 @@ class ActionManager {
     this.activeDotActionMap.get(dotActionId)?.abort();
     this.activeDotActionMap.delete(dotActionId);
 
-    ActionManager.logger.debug(`Dot action ${dotActionId} deleted in ${this.person.mode}`);
+    ActionManager.logger.debug(`Action ${dotActionId} deleted in ${this.person.mode}`);
+  };
+
+  public deployBuffAction = (action: BaseBuffAction) => {
+    this.activeBuffActionMap.set(action.id, action);
+
+    ActionManager.logger.debug(`${action.mode} Action ${action.id} deployed in ${this.person.mode}`);
+  };
+
+  public undeployBuffAction = (actionId: ActionId) => {
+    this.activeBuffActionMap.delete(actionId);
+
+    ActionManager.logger.debug(`Action ${actionId} undeployed in ${this.person.mode}`);
+  };
+
+  public deployDebuffAction = (action: BaseDebuffAction) => {
+    this.activeDebuffActionMap.set(action.id, action);
+
+    ActionManager.logger.debug(`${action.mode} Action ${action.id} deployed in ${this.person.mode}`);
+  };
+
+  public undeployDebuffAction = (actionId: ActionId) => {
+    this.activeDebuffActionMap.delete(actionId);
+
+    ActionManager.logger.debug(`Action ${actionId} undeployed in ${this.person.mode}`);
   };
 
   private attackActionHandler = () => {
@@ -165,7 +217,6 @@ class ActionManager {
       this.nextAction.execute(this.person);
     }
 
-    console.log('actions', this.lastAction);
     this.event.emit(ActionManager.ActionManagerEventKeys.ExecuteAction, {
       person: this.person,
       action: this.nextAction,

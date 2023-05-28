@@ -1,9 +1,9 @@
+import numeral from 'numeral';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { Timer } from '../fisher-timer';
-import { Person } from '../fisher-person';
+import { IBonuesBuffAttributes, IBonusBuffAttributesKeys, Person } from '../fisher-person';
 import { Assets } from '../assets';
-import { ActionMode } from './Constants';
-import numeral from 'numeral';
+import { ActionId, ActionMode } from './Constants';
 
 interface IBaseAction {
   readonly id: string;
@@ -18,7 +18,7 @@ export interface IExecuteActionDispose {
 }
 
 export abstract class BaseAction implements IBaseAction {
-  abstract readonly id: string;
+  abstract readonly id: ActionId;
 
   abstract readonly mode: ActionMode;
 
@@ -70,28 +70,49 @@ export abstract class BaseDotAction extends BaseAction {
   }
 
   public get media() {
-    return Assets[this.id as keyof typeof Assets];
+    return Assets[this.id as any as keyof typeof Assets];
+  }
+
+  public abstract readonly timer: Timer;
+
+  public abstract initialize(person: Person): void;
+
+  public abstract effective(): void;
+
+  public abstract abort(): void;
+
+  public abstract damage(): number;
+}
+
+export interface IBuffAttribute {
+  key: IBonusBuffAttributesKeys;
+  value: number;
+}
+
+abstract class BaseStatusAction extends BaseAction {
+  public abstract get interval(): number;
+
+  public get media() {
+    return Assets[this.id as any as keyof typeof Assets];
   }
 
   abstract readonly timer: Timer;
 
-  /**
-   * 初始化 dot
-   */
-  abstract initialize(person: Person): void;
+  public abstract execute(person: Person): IExecuteActionDispose | void;
 
-  /**
-   * 生效 dot
-   */
-  abstract effective(): void;
+  public abstract abort(): void;
 
-  /**
-   * 中止 dot
-   */
-  abstract abort(): void;
+  public abstract get values(): Array<IBuffAttribute>;
+}
 
-  /**
-   * dot 伤害
-   */
-  abstract damage(): number;
+export abstract class BaseBuffAction extends BaseStatusAction {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseBuffAction');
+
+  public readonly mode = ActionMode.Buff;
+}
+
+export abstract class BaseDebuffAction extends BaseStatusAction {
+  public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseDebuffAction');
+
+  public readonly mode = ActionMode.Debuff;
 }
