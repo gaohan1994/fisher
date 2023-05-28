@@ -2,6 +2,8 @@ enum ActionMode {
   Attack = 'Attack',
   Dot = 'Dot',
   Heal = 'Heal',
+  Buff = 'Buff',
+  Debuff = 'Debuff',
 }
 
 enum ActionId {
@@ -25,6 +27,16 @@ enum ActionId {
    */
   LowHealAction = 'LowHealAction',
   HighHealAction = 'HighHealAction',
+
+  /**
+   * Buff actions constants
+   */
+  LowBuffAttackPowerAction = 'LowBuffAttackPowerAction',
+
+  /**
+   * Debuff actions constants
+   */
+  LowDebuffAttackPowerAction = 'LowDebuffAttackPowerAction',
 }
 
 export { ActionMode, ActionId };

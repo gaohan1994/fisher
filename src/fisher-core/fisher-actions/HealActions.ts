@@ -1,5 +1,6 @@
 import { Person } from '../fisher-person';
 import { BaseHealAction } from './BaseAction';
+import { ActionId } from './Constants';
 
 class LowHealAction extends BaseHealAction {
   public hpThreshold = 0.7;
@@ -8,7 +9,7 @@ class LowHealAction extends BaseHealAction {
 
   public readonly chance = 20;
 
-  public readonly id = 'LowHealAction';
+  public readonly id = ActionId.LowHealAction;
 
   public readonly name = '简单包扎';
 
@@ -24,7 +25,7 @@ class HighHealAction extends BaseHealAction {
 
   public readonly chance = 20;
 
-  public readonly id = 'HighHealAction';
+  public readonly id = ActionId.HighHealAction;
 
   public readonly name = '上级治疗术';
 

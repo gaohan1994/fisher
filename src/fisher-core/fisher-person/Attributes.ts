@@ -19,7 +19,7 @@ enum IAttributeKeys {
   AttackSpeedMultiplier = 'AttackSpeedMultiplier',
 }
 
-type IBonusEquipmentsAttributesKeys =
+type IBonusAttributesKeys =
   | IAttributeKeys.MaxHp
   | IAttributeKeys.AttackPower
   | IAttributeKeys.AttackPowerMultiplier
@@ -27,13 +27,19 @@ type IBonusEquipmentsAttributesKeys =
   | IAttributeKeys.DefencePowerMultiplier
   | IAttributeKeys.DefenceCorruption;
 
+type IBonusEquipmentsAttributesKeys = IBonusAttributesKeys;
 type IBonusEquipmentsAttributes = {
   [key in IBonusEquipmentsAttributesKeys]: number;
 };
 
-type IBonusPotionAttributesKeys = IBonusEquipmentsAttributesKeys;
+type IBonusPotionAttributesKeys = IBonusAttributesKeys;
 type IBonusPotionAttributes = {
   [key in IBonusPotionAttributesKeys]: number;
+};
+
+type IBonusBuffAttributesKeys = IBonusAttributesKeys;
+type IBonuesBuffAttributes = {
+  [key in IBonusBuffAttributesKeys]: number;
 };
 
 export { IAttributeKeys };
@@ -42,4 +48,6 @@ export type {
   IBonusEquipmentsAttributes,
   IBonusPotionAttributesKeys,
   IBonusPotionAttributes,
+  IBonusBuffAttributesKeys,
+  IBonuesBuffAttributes,
 };

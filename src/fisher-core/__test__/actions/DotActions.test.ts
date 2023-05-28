@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
 import { EnemyItem, IEnemyItem } from '../../fisher-item';
 import { Enemy } from '../../fisher-person';
+import { FisherActions } from '../../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -25,7 +26,7 @@ const testPerson2: IEnemyItem = {
 };
 
 describe('DotActions', () => {
-  test('should hurt by dot action', () => {
+  test('should success run PosionDotAction', () => {
     vi.useFakeTimers();
 
     const item1 = new EnemyItem(testPerson1);
@@ -38,28 +39,25 @@ describe('DotActions', () => {
     person2.setTarget(person1.person);
     expect(person2.Hp).toEqual(person2.attributePanel.MaxHp);
 
-    const personStateDotAction = person1.actionManager.dotActionMap.get('PersonStateDotAction');
-    if (personStateDotAction === undefined) return;
+    const action = new FisherActions.PosionDotAction();
 
-    personStateDotAction.initialize(person1.person);
-    person2.actionManager.deployDotAction(personStateDotAction);
+    action.execute(person1.person);
+    person2.actionManager.deployDotAction(action);
 
     // dot action effective first time
-    expect(person2.actionManager.activeDotActionMap.has('PersonStateDotAction')).toBeTruthy();
-    expect(person2.actionManager.activeDotActionMap.get('PersonStateDotAction')?.effectiveTimes).toBe(1);
-    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - person1.attributePanel.BaseAttackPower);
+    expect(person2.actionManager.activeDotActions.includes(action)).toBeTruthy();
+    expect(person2.actionManager.activeDotActions[0]?.effectiveTimes).toBe(1);
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - action.damage());
 
     // dot action effective the second time
-    vi.advanceTimersByTime(personStateDotAction.interval);
-    expect(person2.actionManager.activeDotActionMap.get('PersonStateDotAction')?.effectiveTimes).toBe(2);
-    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - 2 * person1.attributePanel.BaseAttackPower);
+    vi.advanceTimersByTime(action.interval);
+    expect(person2.actionManager.activeDotActions[0]?.effectiveTimes).toBe(2);
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - 2 * action.damage());
 
     // dot action finished
-    vi.advanceTimersByTime(3 * personStateDotAction.interval);
-    expect(person2.actionManager.activeDotActionMap.has('PersonStateDotAction')).toBeFalsy();
-    expect(person2.Hp).toEqual(
-      person2.attributePanel.MaxHp - personStateDotAction.totalEffectiveTimes * person1.attributePanel.BaseAttackPower
-    );
+    vi.advanceTimersByTime(3 * action.interval);
+    expect(person2.actionManager.activeDotActions.includes(action)).toBeFalsy();
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - action.totalEffectiveTimes * action.damage());
 
     vi.clearAllTimers();
   });

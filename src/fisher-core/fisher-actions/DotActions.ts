@@ -1,19 +1,23 @@
+import { FisherActionError } from '../fisher-error';
 import { Person } from '../fisher-person';
 import { Timer } from '../fisher-timer';
-import { BaseDotAction } from './BaseAction';
+import { BaseDotAction, IExecuteActionDispose } from './BaseAction';
+import { ActionId } from './Constants';
 
 export class PosionDotAction extends BaseDotAction {
-  public override readonly id = 'posion';
+  public override readonly id = ActionId.PosionDotAction;
 
-  public name = '剧毒';
+  public readonly name = '剧毒';
 
-  public chance = 30;
+  public readonly chance = 30;
 
-  public totalEffectiveTimes = 5;
+  public readonly totalEffectiveTimes = 5;
+
+  public readonly desc = '对目标造成持续毒攻击';
 
   public effectiveTimes = 0;
 
-  public timer: Timer = new Timer(this.id, () => this.action(), { fireImmediately: true });
+  public readonly timer: Timer = new Timer(this.id, () => this.action(), { fireImmediately: true });
 
   private person: Person | undefined = undefined;
 
@@ -21,12 +25,9 @@ export class PosionDotAction extends BaseDotAction {
     return 1000;
   }
 
-  public initialize = (person: Person) => {
+  public execute = (person: Person): void | IExecuteActionDispose => {
     this.person = person;
     this.resetDot();
-  };
-
-  public effective = () => {
     this.timer.startTimer(this.interval);
   };
 
@@ -36,23 +37,23 @@ export class PosionDotAction extends BaseDotAction {
 
   public damage = () => {
     this.checkPersonIsAvailable();
-    return this.person!.attributePanel.BaseAttackPower;
+    return this.person!.attributePanel.AttackDamage / 4 + this.person!.experience.level;
   };
 
   private action = () => {
     this.checkPersonIsAvailable();
     if (this.person!.target === undefined) {
-      BaseDotAction.logger.error('Try to effective dot to undefined target');
-      throw new Error('Try to effective dot to undefined target');
+      throw new FisherActionError(`Try to effective dot to undefined target`, '没有目标');
     }
 
     this.effectiveTimes += 1;
     this.person!.target.hurt(this.damage());
 
     if (this.isFinished) {
+      this.abort();
       this.person!.target.actionManager.undeployDotAction(this.id);
-      BaseDotAction.logger.debug(`Current DotAction ${this.id} ${this.name} finished. clear dotAction`);
-      return this.timer.stopTimer();
+
+      BaseDotAction.logger.debug(`Current action ${this.id} ${this.name} finished.`);
     }
   };
 
@@ -62,8 +63,7 @@ export class PosionDotAction extends BaseDotAction {
 
   private checkPersonIsAvailable = () => {
     if (this.person === undefined) {
-      BaseDotAction.logger.error(`Try to run ${this.id} but person was undefined!`);
-      throw new Error(`Try to run ${this.id} but person was undefined!`);
+      throw new FisherActionError(`Try to run ${this.id} but person was undefined!`, '没有目标');
     }
   };
 }

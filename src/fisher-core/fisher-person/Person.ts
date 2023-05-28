@@ -50,11 +50,11 @@ class Person {
 
   public personEquipmentManager = new PersonEquipmentManager();
 
-  public attributePanel = new AttributePanel(this);
+  public attributePanel: AttributePanel;
 
   public actionManager: ActionManager;
 
-  public Hp: number = this.attributePanel.MaxHp;
+  public Hp: number;
 
   public event = new EventEmitter();
 
@@ -62,7 +62,12 @@ class Person {
     makeAutoObservable(this);
 
     this.mode = mode;
+
     this.actionManager = new ActionManager(this, options.actionIds);
+
+    this.attributePanel = new AttributePanel(this);
+
+    this.Hp = this.attributePanel.MaxHp;
   }
 
   public setTarget = (person: Person | undefined) => {
@@ -124,7 +129,7 @@ class Person {
   };
 
   private clearEffects = () => {
-    this.actionManager.clearActiveDotActions();
+    this.actionManager.clearActionsEffects();
   };
 
   public refreshHp = () => {
