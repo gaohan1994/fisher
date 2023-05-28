@@ -47,7 +47,6 @@ describe('Person Attribute', () => {
       BaseAttributeData.InitializeMaxHp + BaseAttributeData.BaseMaxHp * master.level
     );
     expect(master.attributePanel.BaseAttackPower).toBe(BaseAttributeData.BaseAttackPower * master.level);
-    expect(master.attributePanel.BaseAttackPowerMultiplier).toBe(1);
     expect(master.attributePanel.BaseDefencePower).toBe(BaseAttributeData.BaseDefencePower * master.level);
   });
 
@@ -119,8 +118,8 @@ describe('Person Attribute', () => {
     const { attributePanel } = master;
 
     expect(attributePanel.MaxHp).toBe(520 + 20);
-    expect(attributePanel.AttackPower).toBe(2 + 10 * 1.01);
-    expect(attributePanel.DefencePower).toBe(0.5 + 5 * 1.05);
+    expect(attributePanel.AttackPower).toBe((2 + 10) * 1.01);
+    expect(attributePanel.DefencePower).toBe((0.5 + 5) * 1.05);
   });
 
   test('should success calculate AttackSpeed', () => {

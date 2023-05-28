@@ -32,6 +32,10 @@ enum ActionId {
    * Buff actions constants
    */
   LowBuffAttackPowerAction = 'LowBuffAttackPowerAction',
+  LowBuffAttackPowerMultiplierAction = 'LowBuffAttackPowerMultiplierAction',
+  LowBuffDefencePowerAction = 'LowBuffDefencePowerAction',
+  LowBuffDefencePowerMultiplierAction = 'LowBuffDefencePowerMultiplierAction',
+  LowBuffDefenceCorruptionAction = 'LowBuffDefenceCorruptionAction',
 
   /**
    * Debuff actions constants

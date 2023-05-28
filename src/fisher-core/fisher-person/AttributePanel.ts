@@ -128,13 +128,6 @@ class AttributePanel {
     return this.experience.level * BaseAttributeData.BaseAttackPower;
   }
 
-  /**
-   * 基础攻击力增幅
-   */
-  public get BaseAttackPowerMultiplier() {
-    return 1;
-  }
-
   public get BaseDefencePower() {
     return this.experience.level * BaseAttributeData.BaseDefencePower;
   }
@@ -187,12 +180,24 @@ class AttributePanel {
     );
   }
 
+  /**
+   * 攻击力 = (基础攻击力 + 增益攻击力) * 增益攻击系数
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get AttackPower() {
-    return (
-      this.BaseAttackPower * this.BaseAttackPowerMultiplier + this.BonusAttackPower * this.BonusAttackPowerMultiplier
-    );
+    return (this.BaseAttackPower + this.BonusAttackPower) * this.BonusAttackPowerMultiplier;
   }
 
+  /**
+   * 伤害系数 = 1 - (防御系数 * 防御力) / (1 + 防御系数 * 防御力)
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get AttackDamageMultiplier() {
     return 1 - (DefenceFormulaCoe * this.DefencePower) / (1 + DefenceFormulaCoe * Math.abs(this.DefencePower));
   }
@@ -236,10 +241,16 @@ class AttributePanel {
     return baseAttackSpeed;
   }
 
+  /**
+   * 防御力 = 基础防御 + (增益防御 * 增益防御系数) - 目标减甲
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get DefencePower() {
     return (
-      this.BaseDefencePower +
-      this.BonusDefencePower * this.BonusDefencePowerMultiplier -
+      (this.BaseDefencePower + this.BonusDefencePower) * this.BonusDefencePowerMultiplier -
       (this.target?.attributePanel.DefenceCorruption ?? 0)
     );
   }
