@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
 import { EnemyItem, IEnemyItem } from '../../fisher-item';
 import { Enemy } from '../../fisher-person';
-import { ActionId, LowDebuffAttackPowerAction } from '../../fisher-actions';
+import { ActionId, FisherActions } from '../../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -24,12 +24,14 @@ describe('DebuffActions', () => {
     const item = new EnemyItem(testPerson);
     const enemy = new Enemy(item);
     const beforePower = enemy.attributePanel.AttackPower;
-    const action = new LowDebuffAttackPowerAction();
+    const action = new FisherActions.LowDebuffAttackPowerAction();
     expect(action.id).toEqual(ActionId.LowDebuffAttackPowerAction);
 
     action.execute(enemy.person);
     expect(enemy.actionManager.activeDebuffActions.includes(action)).toBeTruthy();
-    expect(enemy.attributePanel.AttackPower).toEqual(beforePower + LowDebuffAttackPowerAction.AttackPower);
+    expect(enemy.attributePanel.AttackPower).toEqual(
+      beforePower + FisherActions.LowDebuffAttackPowerAction.AttackPower
+    );
 
     action.abort();
     expect(enemy.actionManager.activeDebuffActions.length).toEqual(0);

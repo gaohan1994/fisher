@@ -2,14 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
 import { EnemyItem, IEnemyItem } from '../../fisher-item';
 import { Enemy, Person } from '../../fisher-person';
-import {
-  CritAttackAction,
-  HighBatterAction,
-  HighFixedDamageAction,
-  LowBatterAction,
-  LowFixedDamageAction,
-  NormalAttackAction,
-} from '../../fisher-actions';
+import { FisherActions } from '../../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -51,7 +44,7 @@ describe('AttackActions', () => {
       currentHp = result.currentHp;
     });
 
-    const normalAttackAction = new NormalAttackAction();
+    const normalAttackAction = new FisherActions.NormalAttackAction();
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
     normalAttackAction.execute(person1.person);
 
@@ -76,7 +69,7 @@ describe('AttackActions', () => {
       value = result.value;
     });
 
-    const critAttackAction = new CritAttackAction();
+    const critAttackAction = new FisherActions.CritAttackAction();
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
     critAttackAction.execute(person1.person);
 
@@ -101,11 +94,11 @@ describe('AttackActions', () => {
     });
 
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
-    const lowFixedDamageAction = new LowFixedDamageAction();
+    const lowFixedDamageAction = new FisherActions.LowFixedDamageAction();
     lowFixedDamageAction.execute(person1.person);
 
     const damage =
-      person1.person.experience.level * LowFixedDamageAction.LowFixedDamageActionMultiplier +
+      person1.person.experience.level * FisherActions.LowFixedDamageAction.LowFixedDamageActionMultiplier +
       person1.attributePanel.AttackDamage;
 
     expect(spyAction).toBeCalled();
@@ -129,11 +122,11 @@ describe('AttackActions', () => {
 
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
 
-    const highFixedDamageAction = new HighFixedDamageAction();
+    const highFixedDamageAction = new FisherActions.HighFixedDamageAction();
     highFixedDamageAction.execute(person1.person);
 
     const damage =
-      person1.person.experience.level * HighFixedDamageAction.HighFixedDamageActionMultiplier +
+      person1.person.experience.level * FisherActions.HighFixedDamageAction.HighFixedDamageActionMultiplier +
       person1.attributePanel.AttackDamage;
 
     expect(spyAction).toBeCalled();
@@ -156,13 +149,13 @@ describe('AttackActions', () => {
     });
 
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
-    const lowBatterAction = new LowBatterAction();
+    const lowBatterAction = new FisherActions.LowBatterAction();
     lowBatterAction.execute(person1.person);
 
-    expect(spyAction).toBeCalledTimes(LowBatterAction.LowBatterActionAttackFrequency);
-    expect(values.length).toEqual(LowBatterAction.LowBatterActionAttackFrequency);
+    expect(spyAction).toBeCalledTimes(FisherActions.LowBatterAction.LowBatterActionAttackFrequency);
+    expect(values.length).toEqual(FisherActions.LowBatterAction.LowBatterActionAttackFrequency);
 
-    const damage = person1.attributePanel.AttackDamage * LowBatterAction.LowBatterActionDamangeMultiplier;
+    const damage = person1.attributePanel.AttackDamage * FisherActions.LowBatterAction.LowBatterActionDamangeMultiplier;
     values.forEach((value) => {
       expect(value).toBeLessThan(1.1 * damage);
       expect(value).toBeGreaterThan(0.9 * damage);
@@ -185,19 +178,21 @@ describe('AttackActions', () => {
     });
 
     person2.person.event.on(Person.PersonEventKeys.Hurt, spyAction);
-    const highBatterAction = new HighBatterAction();
+    const highBatterAction = new FisherActions.HighBatterAction();
     highBatterAction.execute(person1.person);
 
-    expect(spyAction).toBeCalledTimes(HighBatterAction.HighBatterActionAttackFrequency);
-    expect(values.length).toEqual(HighBatterAction.HighBatterActionAttackFrequency);
+    expect(spyAction).toBeCalledTimes(FisherActions.HighBatterAction.HighBatterActionAttackFrequency);
+    expect(values.length).toEqual(FisherActions.HighBatterAction.HighBatterActionAttackFrequency);
 
-    const damage = person1.attributePanel.AttackDamage * HighBatterAction.HighBatterActionDamangeMultiplier;
+    const damage =
+      person1.attributePanel.AttackDamage * FisherActions.HighBatterAction.HighBatterActionDamangeMultiplier;
     values.forEach((value) => {
       expect(value).toBeLessThan(1.1 * damage);
       expect(value).toBeGreaterThan(0.9 * damage);
     });
 
-    const effectHp = person1.attributePanel.BaseMaxHp * HighBatterAction.HighBatterActionEffectHpMultiplier;
+    const effectHp =
+      person1.attributePanel.BaseMaxHp * FisherActions.HighBatterAction.HighBatterActionEffectHpMultiplier;
     expect(person1.Hp).toEqual(person1.attributePanel.MaxHp - effectHp);
   });
 });

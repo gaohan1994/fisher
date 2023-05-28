@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
 import { EnemyItem, IEnemyItem } from '../../fisher-item';
 import { Enemy } from '../../fisher-person';
-import { ActionId, LowBuffAttackPowerAction } from '../../fisher-actions';
+import { ActionId, FisherActions } from '../../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -24,12 +24,14 @@ describe('BuffActions', () => {
     const item = new EnemyItem(testPerson);
     const enemy = new Enemy(item);
     const beforeBuffAttackPower = enemy.attributePanel.AttackPower;
-    const lowBuffAttackPowerAction = new LowBuffAttackPowerAction();
+    const lowBuffAttackPowerAction = new FisherActions.LowBuffAttackPowerAction();
     expect(lowBuffAttackPowerAction.id).toEqual(ActionId.LowBuffAttackPowerAction);
 
     lowBuffAttackPowerAction.execute(enemy.person);
     expect(enemy.actionManager.activeBuffActions.includes(lowBuffAttackPowerAction)).toBeTruthy();
-    expect(enemy.attributePanel.AttackPower).toEqual(beforeBuffAttackPower + LowBuffAttackPowerAction.AttackPower);
+    expect(enemy.attributePanel.AttackPower).toEqual(
+      beforeBuffAttackPower + FisherActions.LowBuffAttackPowerAction.AttackPower
+    );
 
     lowBuffAttackPowerAction.abort();
     expect(enemy.actionManager.activeBuffActions.length).toEqual(0);

@@ -8,10 +8,6 @@ import {
   BaseHealAction,
   BaseBuffAction,
   FisherActions,
-  fisherActions,
-  isAttackAction,
-  isDotAction,
-  isHealAction,
   BaseDebuffAction,
 } from '../fisher-actions';
 import type { FisherAction } from '../fisher-actions';
@@ -119,19 +115,17 @@ class ActionManager {
     this.clearActionMap();
 
     actionIds.forEach((actionId) => {
-      // const action = new FisherActions[actionId]();
+      const action = new FisherActions[actionId]();
 
-      const action = fisherActions.findActionById(actionId);
-
-      if (isAttackAction(action)) {
+      if (FisherActions.isAttackAction(action)) {
         this.attackActionMap.set(actionId, action);
       }
 
-      if (isDotAction(action)) {
+      if (FisherActions.isDotAction(action)) {
         this.dotActionMap.set(actionId, action);
       }
 
-      if (isHealAction(action)) {
+      if (FisherActions.isHealAction(action)) {
         this.healActionMap.set(actionId, action);
       }
     });
@@ -204,16 +198,16 @@ class ActionManager {
   };
 
   private attackActionHandler = () => {
-    if (isAttackAction(this.nextAction)) {
+    if (FisherActions.isAttackAction(this.nextAction)) {
       this.nextAction.execute(this.person);
     }
 
-    if (isDotAction(this.nextAction)) {
+    if (FisherActions.isDotAction(this.nextAction)) {
       this.nextAction.initialize(this.person);
       this.person.target?.actionManager.deployDotAction(this.nextAction);
     }
 
-    if (isHealAction(this.nextAction)) {
+    if (FisherActions.isHealAction(this.nextAction)) {
       this.nextAction.execute(this.person);
     }
 

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { ActionManager, IActionManager, Person, PersonMode } from '../fisher-person';
-import { ActionId, FisherAction } from '../fisher-actions';
+import { IActionManager, Person, PersonMode } from '../fisher-person';
+import { ActionId } from '../fisher-actions';
 import { Timer } from '../fisher-timer';
 
 let core: FisherCore;
