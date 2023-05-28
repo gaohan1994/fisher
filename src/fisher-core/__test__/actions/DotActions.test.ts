@@ -41,25 +41,23 @@ describe('DotActions', () => {
 
     const action = new FisherActions.PosionDotAction();
 
-    action.initialize(person1.person);
+    action.execute(person1.person);
     person2.actionManager.deployDotAction(action);
 
     // dot action effective first time
     expect(person2.actionManager.activeDotActions.includes(action)).toBeTruthy();
     expect(person2.actionManager.activeDotActions[0]?.effectiveTimes).toBe(1);
-    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - person1.attributePanel.BaseAttackPower);
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - action.damage());
 
     // dot action effective the second time
     vi.advanceTimersByTime(action.interval);
     expect(person2.actionManager.activeDotActions[0]?.effectiveTimes).toBe(2);
-    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - 2 * person1.attributePanel.BaseAttackPower);
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - 2 * action.damage());
 
     // dot action finished
     vi.advanceTimersByTime(3 * action.interval);
     expect(person2.actionManager.activeDotActions.includes(action)).toBeFalsy();
-    expect(person2.Hp).toEqual(
-      person2.attributePanel.MaxHp - action.totalEffectiveTimes * person1.attributePanel.BaseAttackPower
-    );
+    expect(person2.Hp).toEqual(person2.attributePanel.MaxHp - action.totalEffectiveTimes * action.damage());
 
     vi.clearAllTimers();
   });

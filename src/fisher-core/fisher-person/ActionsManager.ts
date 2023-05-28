@@ -42,7 +42,7 @@ class ActionManager {
 
   private lastAction: FisherAction | undefined = undefined;
 
-  private nextAction: FisherAction = this.normalAttackAction;
+  private action: FisherAction = this.normalAttackAction;
 
   private attackActionMap = new Map<ActionId, BaseAttackAction>();
 
@@ -62,7 +62,7 @@ class ActionManager {
     return [...this.healActionMap.values()];
   }
 
-  private activeDotActionMap = new Map<string, BaseDotAction>();
+  private activeDotActionMap = new Map<ActionId, BaseDotAction>();
 
   public get activeDotActions() {
     return [...this.activeDotActionMap.values()];
@@ -144,7 +144,7 @@ class ActionManager {
   };
 
   public stopAttacking = () => {
-    this.nextAction = this.normalAttackAction;
+    this.action = this.normalAttackAction;
     this.attackActionTimer.stopTimer();
   };
 
@@ -152,25 +152,29 @@ class ActionManager {
     this.attackActionTimer.resetProgress();
   };
 
-  public clearActiveDotActions = () => {
-    this.activeDotActionMap.forEach((dot) => dot.abort());
+  public clearActionsEffects = () => {
+    this.activeDotActionMap.forEach((action) => action.abort());
     this.activeDotActionMap.clear();
 
-    ActionManager.logger.debug(`Clear dot actions`);
+    this.activeBuffActionMap.forEach((action) => action.abort());
+    this.activeBuffActionMap.clear();
+
+    this.activeDebuffActionMap.forEach((action) => action.abort());
+    this.activeDebuffActionMap.clear();
+
+    ActionManager.logger.info(`Clear all actions effect!`);
   };
 
-  public deployDotAction = (dotAction: BaseDotAction) => {
-    this.activeDotActionMap.set(dotAction.id, dotAction);
-    dotAction.effective();
+  public deployDotAction = (action: BaseDotAction) => {
+    this.activeDotActionMap.set(action.id, action);
 
-    ActionManager.logger.debug(`Dot action ${dotAction.id} deployed in ${this.person.mode}`);
+    ActionManager.logger.debug(`Dot action ${action.id} deployed in ${this.person.mode}`);
   };
 
-  public undeployDotAction = (dotActionId: string) => {
-    this.activeDotActionMap.get(dotActionId)?.abort();
-    this.activeDotActionMap.delete(dotActionId);
+  public undeployDotAction = (actionId: ActionId) => {
+    this.activeDotActionMap.delete(actionId);
 
-    ActionManager.logger.debug(`Action ${dotActionId} deleted in ${this.person.mode}`);
+    ActionManager.logger.debug(`Action ${actionId} deleted in ${this.person.mode}`);
   };
 
   public deployBuffAction = (action: BaseBuffAction) => {
@@ -198,28 +202,17 @@ class ActionManager {
   };
 
   private attackActionHandler = () => {
-    if (FisherActions.isAttackAction(this.nextAction)) {
-      this.nextAction.execute(this.person);
-    }
-
-    if (FisherActions.isDotAction(this.nextAction)) {
-      this.nextAction.initialize(this.person);
-      this.person.target?.actionManager.deployDotAction(this.nextAction);
-    }
-
-    if (FisherActions.isHealAction(this.nextAction)) {
-      this.nextAction.execute(this.person);
-    }
+    this.action.execute(this.person);
 
     this.event.emit(ActionManager.ActionManagerEventKeys.ExecuteAction, {
       person: this.person,
-      action: this.nextAction,
+      action: this.action,
       lastAction: this.lastAction,
     } as IActionManager.ExecuteActionPayload);
 
     if (this.person.isAttacking) {
-      this.lastAction = this.nextAction;
-      this.nextAction = this.pickNextAction();
+      this.lastAction = this.action;
+      this.action = this.pickNextAction();
     }
   };
 

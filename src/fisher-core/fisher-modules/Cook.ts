@@ -38,7 +38,6 @@ class Cook extends Collection<Recipe[]> {
   }
 
   public onLoadArchive = (value: ArchiveInterface.ArchiveValues) => {
-    console.log('value', value);
     this.skill.experience.setExperience(value.cook?.experience ?? 0);
   };
 

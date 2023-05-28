@@ -129,7 +129,7 @@ class Person {
   };
 
   private clearEffects = () => {
-    this.actionManager.clearActiveDotActions();
+    this.actionManager.clearActionsEffects();
   };
 
   public refreshHp = () => {
