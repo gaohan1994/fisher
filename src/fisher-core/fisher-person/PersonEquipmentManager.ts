@@ -5,6 +5,7 @@ import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
 import { FisherPersonError } from '../fisher-error';
+import { ActionId } from '../fisher-actions';
 
 enum PersonEquipmentEventKeys {
   EquipmentChange = 'EquipmentChange',
@@ -21,6 +22,18 @@ class PersonEquipmentManager {
 
   public get equipments() {
     return [...this.equipmentMap.values()];
+  }
+
+  public get equipmentActionIds() {
+    const result: ActionId[] = [];
+
+    this.equipments.forEach((personEquipment) => {
+      if (!personEquipment.isEmpty) {
+        result.push(...(personEquipment.equipment!.actionIds as ActionId[]));
+      }
+    });
+
+    return result;
   }
 
   public get equipmentIds() {
@@ -83,6 +96,7 @@ class PersonEquipmentManager {
 
   constructor() {
     makeAutoObservable(this);
+
     this.initializeEquipmentMap();
     this.personEquipmentEvents.on(PersonEquipmentEventKeys.EquipmentChange, this.onPersonEquipmentChange);
   }

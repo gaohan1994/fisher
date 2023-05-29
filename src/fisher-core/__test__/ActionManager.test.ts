@@ -56,4 +56,31 @@ describe('ActionManager', () => {
 
     vi.clearAllTimers();
   });
+
+  test('should success register action ids', () => {
+    const person = new Person(PersonMode.Master, {
+      actionIds: [
+        ActionId.HighBatterAction,
+        ActionId.LowFixedDamageAction,
+        ActionId.HighFixedDamageAction,
+        ActionId.LowBatterAction,
+      ],
+    });
+    const { actionManager } = person;
+
+    expect(actionManager.attackActions.length).toEqual(4);
+    expect(~actionManager.attackActions.findIndex((action) => action.id === ActionId.HighBatterAction)).toBeTruthy();
+    expect(
+      ~actionManager.attackActions.findIndex((action) => action.id === ActionId.LowFixedDamageAction)
+    ).toBeTruthy();
+    expect(
+      ~actionManager.attackActions.findIndex((action) => action.id === ActionId.HighFixedDamageAction)
+    ).toBeTruthy();
+    expect(~actionManager.attackActions.findIndex((action) => action.id === ActionId.LowBatterAction)).toBeTruthy();
+
+    actionManager.registerActions([ActionId.PosionDotAction]);
+    expect(actionManager.attackActions.length).toEqual(0);
+    expect(actionManager.dotActions.length).toEqual(1);
+    expect(~actionManager.dotActions.findIndex((action) => action.id === ActionId.PosionDotAction)).toBeTruthy();
+  });
 });

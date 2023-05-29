@@ -3,7 +3,7 @@ import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
 import { Experience } from '../fisher-experience';
-import { PersonEquipmentManager } from './PersonEquipmentManager';
+import { PersonEquipmentEventKeys, PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
 import { getPersonFactorConfig, PersonMode } from './Constants';
@@ -38,6 +38,8 @@ class Person {
 
   public mode: PersonMode;
 
+  private options: IPersonOptions;
+
   public get isMaster() {
     return this.mode === PersonMode.Master;
   }
@@ -62,12 +64,17 @@ class Person {
     makeAutoObservable(this);
 
     this.mode = mode;
+    this.options = options;
 
-    this.actionManager = new ActionManager(this, options.actionIds);
+    this.actionManager = new ActionManager(this, this.getPersonActionIds());
 
     this.attributePanel = new AttributePanel(this, getPersonFactorConfig(this.mode));
 
     this.Hp = this.attributePanel.MaxHp;
+
+    this.personEquipmentManager.personEquipmentEvents.on(PersonEquipmentEventKeys.EquipmentChange, () =>
+      this.recalculatePersonActionIds()
+    );
   }
 
   public setTarget = (person: Person | undefined) => {
@@ -134,6 +141,14 @@ class Person {
 
   public refreshHp = () => {
     this.Hp = this.attributePanel.MaxHp;
+  };
+
+  private getPersonActionIds = () => {
+    return this.personEquipmentManager.equipmentActionIds.concat(this.options.actionIds);
+  };
+
+  private recalculatePersonActionIds = () => {
+    this.actionManager.registerActions(this.getPersonActionIds());
   };
 }
 

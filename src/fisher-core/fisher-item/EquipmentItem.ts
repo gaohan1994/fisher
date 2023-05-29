@@ -8,6 +8,7 @@ export interface IEquipmentItem extends IItem {
   attributes?: IEquipmentAttribute[];
   equipmentSetId?: string;
   attackSpeed?: number;
+  actionIds?: string[];
 }
 
 /**
@@ -38,6 +39,8 @@ export class EquipmentItem extends Item {
 
   public attackSpeed: number | undefined = undefined;
 
+  public actionIds: string[] = [];
+
   public get hasAttributes() {
     return this.attributes.length > 0;
   }
@@ -58,5 +61,6 @@ export class EquipmentItem extends Item {
     if (options.attributes) this.attributes = options.attributes;
     if (options.equipmentSetId) this.equipmentSetId = options.equipmentSetId;
     if (options.attackSpeed) this.attackSpeed = options.attackSpeed;
+    if (options.actionIds) this.actionIds = options.actionIds;
   }
 }
