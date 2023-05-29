@@ -41,11 +41,13 @@ export class EquipmentItem extends Item {
 
   public actionIds: string[] = [];
 
+  public get hasEquipmentAction() {
+    return this.actionIds.length > 0;
+  }
+
   public get hasAttributes() {
     return this.attributes.length > 0;
   }
-
-  public rarity = '';
 
   public equipmentSetId?: string | undefined = undefined;
 
@@ -62,5 +64,6 @@ export class EquipmentItem extends Item {
     if (options.equipmentSetId) this.equipmentSetId = options.equipmentSetId;
     if (options.attackSpeed) this.attackSpeed = options.attackSpeed;
     if (options.actionIds) this.actionIds = options.actionIds;
+    if (options.rarity) this.rarity = options.rarity;
   }
 }

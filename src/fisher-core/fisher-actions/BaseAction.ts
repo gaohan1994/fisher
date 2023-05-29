@@ -28,6 +28,8 @@ export abstract class BaseAction implements IBaseAction {
   abstract chance: number;
 
   abstract execute(person: Person): IExecuteActionDispose | void;
+
+  abstract desc: string;
 }
 
 export abstract class BaseAttackAction extends BaseAction {

@@ -13,6 +13,8 @@ class LowHealAction extends BaseHealAction {
 
   public readonly name = '简单包扎';
 
+  public readonly desc = '回复自身25%血量';
+
   public execute = (person: Person) => {
     person.heal(person.attributePanel.BaseMaxHp * LowHealAction.LowHealActionMultiplier);
   };
@@ -28,6 +30,8 @@ class HighHealAction extends BaseHealAction {
   public readonly id = ActionId.HighHealAction;
 
   public readonly name = '上级治疗术';
+
+  public readonly desc = '回复自身75%血量';
 
   public execute = (person: Person) => {
     person.heal(person.attributePanel.BaseMaxHp * HighHealAction.HighHealActionMultiplier);

@@ -1,33 +1,40 @@
 import React, { FC, PropsWithChildren } from 'react';
 import numeral from 'numeral';
-import { Avatar, colors, Stack, Typography, Card, CardHeader, CardContent } from '@mui/material';
-import { coinItem, Item } from '@FisherCore';
+import { Avatar, Stack, Typography, Card, CardHeader, CardContent, Box } from '@mui/material';
+import { coinItem, Item, RarityName } from '@FisherCore';
 import { FuiColor } from '../theme';
 
+interface IFuiItemName {
+  item: Item;
+}
+const FuiItemName: FC<IFuiItemName> = ({ item }) => (
+  <Typography variant="body2" sx={{ color: FuiColor.item[item.rarity], fontWeight: 'bold' }}>
+    {item.name}
+  </Typography>
+);
 interface FuiItemDetailProps {
   item: Item;
 }
-const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, children }) => {
-  return (
-    <Card sx={{ bgcolor: FuiColor.item.background }}>
-      <CardHeader
-        avatar={<Avatar src={item.media} variant="square" />}
-        title={
-          <Typography variant="body2" sx={{ color: colors.common.white }}>
-            {item.name}
-          </Typography>
-        }
-        subheader={typeof item.price === 'number' && Number(item.price) > 0 && <FuiCoin price={item.price} />}
-      />
-      <CardContent sx={{ pt: 0 }}>
-        {children}
-        <Typography variant="caption" sx={{ color: FuiColor.item.desc }}>
-          {item.desc}
-        </Typography>
-      </CardContent>
-    </Card>
-  );
-};
+const FuiItemDetail: FC<PropsWithChildren<FuiItemDetailProps>> = ({ item, children }) => (
+  <Card sx={{ bgcolor: FuiColor.item.background, position: 'relative' }}>
+    <CardHeader
+      avatar={<Avatar src={item.media} variant="square" />}
+      subheader={RarityName[item.rarity]}
+      title={<FuiItemName item={item} />}
+    />
+    <CardContent sx={{ pt: 0 }}>
+      {children}
+      <Typography variant="caption" sx={{ color: FuiColor.item.desc }}>
+        {item.desc}
+      </Typography>
+      {typeof item.price === 'number' && Number(item.price) > 0 && (
+        <Box sx={{ mt: 1 }}>
+          <FuiCoin price={item.price} />
+        </Box>
+      )}
+    </CardContent>
+  </Card>
+);
 
 interface FuiCoinProps {
   price: number;
@@ -39,5 +46,5 @@ const FuiCoin: React.FC<FuiCoinProps> = ({ price }) => (
   </Stack>
 );
 
-export { FuiItemDetail, FuiCoin };
+export { FuiItemName, FuiItemDetail, FuiCoin };
 export type { FuiItemDetailProps, FuiCoinProps };

@@ -1,4 +1,4 @@
-import { common, yellow, grey, green, blueGrey, red } from '@mui/material/colors';
+import { common, yellow, grey, green, blueGrey, red, blue, orange, purple } from '@mui/material/colors';
 
 const FuiSize = {
   item: {
@@ -32,12 +32,17 @@ const FuiColor = {
     background: grey[700],
     borderColor: common.black,
     activeBorderColor: yellow[600],
+    Common: common.white,
+    Rare: blue[400],
+    Epic: orange.A400,
+    Legendary: purple.A200,
   },
 
   personEquipment: {},
 
   equipment: {
-    attribute: green.A100,
+    attribute: green.A700,
+    action: green.A700,
   },
 
   equipmentSet: {

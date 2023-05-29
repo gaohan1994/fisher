@@ -1,4 +1,5 @@
 import { Assets } from '../assets';
+import { Rarity } from './Constants';
 
 export enum ItemType {
   Test = 'Test',
@@ -21,6 +22,7 @@ export interface IItem {
   readonly desc: string;
   readonly media: string;
   readonly price?: number;
+  rarity?: Rarity;
 }
 
 export abstract class AbstractItem implements IItem {
@@ -56,6 +58,8 @@ export abstract class Item implements IItem {
   public price = 0;
 
   private _media = '';
+
+  public rarity: Rarity = Rarity.Common;
 
   public get media() {
     if (!this._media) {
