@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "DragonBall",
+      "name": "夔龙之珠",
+      "desc": "强大的龙王体内孕育的龙珠，含有龙族之力",
+      "media": "",
+      "rarity": "Legendary"
+    },
+    {
+      "id": "DragonSkin",
+      "name": "夔龙之皮",
+      "desc": "龙王的皮，制作龙王装备所需的材料",
+      "media": "",
+      "rarity": "Epic"
+    },
+    {
+      "id": "DragonScale",
+      "name": "夔龙之鳞",
+      "desc": "龙王的鳞片，制作龙王装备所需的材料",
+      "media": "",
+      "rarity": "Epic"
+    },
+    {
+      "id": "DragonHorn",
+      "name": "夔龙之角",
+      "desc": "龙王的角，制作龙王装备所需的材料",
+      "media": "",
+      "rarity": "Epic"
+    }
+  ]
+}

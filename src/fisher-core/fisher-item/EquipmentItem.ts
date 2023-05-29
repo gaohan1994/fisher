@@ -64,6 +64,5 @@ export class EquipmentItem extends Item {
     if (options.equipmentSetId) this.equipmentSetId = options.equipmentSetId;
     if (options.attackSpeed) this.attackSpeed = options.attackSpeed;
     if (options.actionIds) this.actionIds = options.actionIds;
-    if (options.rarity) this.rarity = options.rarity;
   }
 }

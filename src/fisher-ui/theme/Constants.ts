@@ -34,14 +34,14 @@ const FuiColor = {
     activeBorderColor: yellow[600],
     Common: common.white,
     Rare: blue[400],
-    Epic: orange.A400,
-    Legendary: purple.A200,
+    Epic: purple.A200,
+    Legendary: orange.A400,
   },
 
   personEquipment: {},
 
   equipment: {
-    attribute: green.A700,
+    attribute: yellow[700],
     action: green.A700,
   },
 

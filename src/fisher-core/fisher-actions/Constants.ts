@@ -21,6 +21,7 @@ enum ActionId {
    * Dot actions constants
    */
   PosionDotAction = 'PosionDotAction',
+  DragonSwordAction = 'DragonSwordAction',
 
   /**
    * Heal actions constants

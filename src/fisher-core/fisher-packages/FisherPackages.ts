@@ -1,3 +1,4 @@
+import normalDataJson from './data/NormalData.json';
 import RewardChestDataJson from './data/RewardChestData.json';
 import miningDataJson from './data/MiningData.json';
 import reikiDataJson from './data/ReikiData.json';
@@ -48,6 +49,10 @@ type PackageCollectionJsonDataSource = PackageJsonDataSource<{
   recipes: IRecipe[];
 }>;
 
+export function makeNormalData() {
+  return generatePackagesItems(normalDataJson.data);
+}
+
 export function makeRewardChestsData() {
   return generateRewardChests(RewardChestDataJson.data.items);
 }
@@ -60,7 +65,7 @@ export function makeReikiPackagesData(): ICollectionModuleData {
 }
 
 export function makeEquipmentPackagesData() {
-  return generateEquipments(equipmentDataJson.data.items);
+  return generateEquipments(equipmentDataJson.data.items as IEquipmentItem[]);
 }
 
 export function makeEquipmentSetData() {

@@ -3,6 +3,13 @@
   "data": {
     "bluePrints": [
       {
+        "id": "BluePrint:DragonSword",
+        "name": "图纸：斩龙",
+        "desc": "制作斩龙剑的图纸",
+        "media": "blueprint",
+        "price": 500000
+      },
+      {
         "id": "BluePrint:EastDragonSword",
         "name": "图纸：东海龙王之剑",
         "desc": "制作东海龙王之剑的图纸",
@@ -11,6 +18,25 @@
       }
     ],
     "recipes": [
+      {
+        "id": "Forge:DragonSword",
+        "name": "锻造：斩龙",
+        "desc": "制作斩龙剑",
+        "media": "",
+        "interval": 5000,
+        "unlockLevel": 1,
+        "rewardExperience": 1,
+        "rewardItems": [{ "itemId": "DragonSword", "itemQuantity": 1 }],
+        "costItems": [
+          { "itemId": "DragonBall", "itemQuantity": 1 },
+          { "itemId": "DragonSkin", "itemQuantity": 100 },
+          { "itemId": "DragonScale", "itemQuantity": 100 },
+          { "itemId": "DragonHorn", "itemQuantity": 100 },
+          { "itemId": "SwordReiki", "itemQuantity": 10000 },
+          { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+          { "itemId": "BluePrint:DragonSword", "itemQuantity": 1 }
+        ]
+      },
       {
         "id": "Forge:WoodSword",
         "name": "锻造：新手木剑",
@@ -42,11 +68,8 @@
         "unlockLevel": 1,
         "rewardExperience": 10,
         "rewardItems": [{ "itemId": "EastDragonSword", "itemQuantity": 1 }],
-        "randomRewardItems": [{ "probability": 3, "itemId": "FlashEastDragonSword", "itemQuantity": 1 }],
-        "costItems": [
-          { "itemId": "LowSpiritMine", "itemQuantity": 5 },
-          { "itemId": "BluePrint:EastDragonSword", "itemQuantity": 1 }
-        ]
+        "randomRewardItems": [{ "probability": 3, "itemId": "DragonSword", "itemQuantity": 1 }],
+        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
       }
     ]
   }

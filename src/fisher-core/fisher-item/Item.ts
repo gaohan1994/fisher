@@ -80,6 +80,10 @@ export abstract class Item implements IItem {
     if (typeof options.price === 'number') {
       this.price = options.price;
     }
+
+    if (options.rarity) {
+      this.rarity = options.rarity;
+    }
   }
 
   public useItem() {

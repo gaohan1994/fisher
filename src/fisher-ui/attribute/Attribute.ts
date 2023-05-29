@@ -1,4 +1,5 @@
 import { IAttributeKeys } from '@FisherCore';
+import numeral from 'numeral';
 
 interface FuiAttribute {
   key: IAttributeKeys;
@@ -65,6 +66,11 @@ function makeFuiAttribute(key: IAttributeKeys): FuiAttribute {
 
 function makeFuiAttributeBonusText(key: IAttributeKeys[number], value: number): string {
   const fuiAttribute = makeFuiAttribute(key as IAttributeKeys);
+
+  if (key === IAttributeKeys.AttackSpeed) {
+    return `${fuiAttribute.label} ${numeral(value / 1000).format('0.0')}`;
+  }
+
   const sign = value >= 0 ? '+' : '-';
 
   let suffix = '';

@@ -23,6 +23,7 @@ import {
   makeForgePackagesData,
   makeHealPotionData,
   makeMiningPackagesData,
+  makeNormalData,
   makeReikiPackagesData,
   makeRewardChestsData,
   makeShopData,
@@ -40,6 +41,8 @@ export class Store {
     }
     return Store.instance;
   }
+
+  public NormalItems: NormalItem[] = [];
 
   public RewardChests: RewardChest[] = [];
 
@@ -73,6 +76,7 @@ export class Store {
 
   public get items() {
     return [
+      ...this.NormalItems,
       ...this.RewardChests,
       ...this.Mining.items,
       ...this.Mining.recipes,
@@ -93,7 +97,8 @@ export class Store {
     ];
   }
 
-  public initializePackages = async () => {
+  public initializePackages = () => {
+    this.initializeNormalItems();
     this.initializeRewardChests();
     this.initializeMining();
     this.initializeReiki();
@@ -105,6 +110,11 @@ export class Store {
     this.initializeDungeon();
     this.initializeShop();
     this.initializePotions();
+  };
+
+  private initializeNormalItems = () => {
+    this.NormalItems = makeNormalData();
+    Store.logger.info('initialize NormalItems data');
   };
 
   private initializeRewardChests = () => {

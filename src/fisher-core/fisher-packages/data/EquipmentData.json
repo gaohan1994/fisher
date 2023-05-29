@@ -3,6 +3,21 @@
   "data": {
     "items": [
       {
+        "id": "DragonSword",
+        "name": "斩龙",
+        "desc": "取龙王之皮、鳞、角，耗时多年铸成，剑成之日天有雷鸣落雨，剑名-斩龙",
+        "media": "DragonSword",
+        "price": 5000,
+        "slot": "PrimaryWeapon",
+        "rarity": "Legendary",
+        "attributes": [
+          { "key": "AttackSpeed", "value": 1000 },
+          { "key": "AttackPower", "value": 80 },
+          { "key": "DefenceCorruption", "value": 5 }
+        ],
+        "actionIds": ["LowBuffAttackPowerMultiplierAction", "DragonSwordAction"]
+      },
+      {
         "id": "WoodSword",
         "name": "新手木剑",
         "desc": "用寻常木头做的剑",
@@ -21,15 +36,6 @@
         "price": 5000,
         "slot": "PrimaryWeapon",
         "attributes": [{ "key": "AttackPower", "value": 210 }]
-      },
-      {
-        "id": "FlashEastDragonSword",
-        "name": "闪光的东海龙王之剑",
-        "desc": "充满东海龙王力量的武器",
-        "media": "FlashEastDragonSword",
-        "price": 5000,
-        "slot": "PrimaryWeapon",
-        "attributes": [{ "key": "AttackPower", "value": 220 }]
       },
       {
         "id": "NoobDagger",

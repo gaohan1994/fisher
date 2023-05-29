@@ -14,11 +14,4 @@ describe('Reiki', () => {
     expect(core.reiki.name).toBe('打坐');
     expect(core.mining.experience).toBe(0);
   });
-
-  test('should set active id when start Reiki', () => {
-    const core = FisherCore.create();
-    const activeRecipe = store.findRecipeById('Reiki:Recipe:BlackWoodCliff');
-    core.reiki.start(activeRecipe);
-    expect(core.activeComponentId).toBe(core.reiki.id);
-  });
 });

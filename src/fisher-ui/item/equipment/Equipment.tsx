@@ -25,7 +25,7 @@ const EquipmentActionText: FC<IEquipmentActionText> = ({ actionId }) => {
   return (
     <Box>
       <Typography variant="caption" component="div" color={FuiColor.equipment.action}>
-        {`特效 · ${action.name}：`}
+        {`特效 · ${action.name}`}
       </Typography>
       <Typography variant="caption" component="div" color={FuiColor.equipment.action}>
         {action.desc}
@@ -42,13 +42,12 @@ const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = observer(({ equipment })
   const listItemSx = { p: 0, mt: 1 };
   return (
     <List sx={{ pt: 0, pb: 0, minWidth: 200 }}>
-      {hasAttributes && (
-        <ListItem sx={listItemSx}>
-          {attributes.map((attribute) => (
+      {hasAttributes &&
+        attributes.map((attribute) => (
+          <ListItem sx={listItemSx}>
             <EquipmentAttributeText key={attribute.key} attribute={attribute} />
-          ))}
-        </ListItem>
-      )}
+          </ListItem>
+        ))}
       {hasEquipmentSet && (
         <ListItem sx={listItemSx}>
           <FuiEquipmentSet equipmentSet={store.findEquipmentSetById(equipmentSetId!)} />

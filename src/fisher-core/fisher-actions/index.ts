@@ -15,7 +15,7 @@ import {
   LowBatterAction,
   HighBatterAction,
 } from './AttackActions';
-import { PosionDotAction } from './DotActions';
+import { PosionDotAction, DragonSwordAction } from './DotActions';
 import { LowHealAction, HighHealAction } from './HealActions';
 import {
   LowBuffAttackPowerAction,
@@ -71,6 +71,8 @@ class FisherActions {
    * @memberof FisherActions
    */
   public static readonly PosionDotAction = PosionDotAction;
+
+  public static readonly DragonSwordAction = DragonSwordAction;
 
   /**
    * Heal actions
