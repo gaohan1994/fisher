@@ -10,16 +10,7 @@ import {
 } from './Attributes';
 import { EquipmentSlot } from '../fisher-item';
 import { ActionManager } from './ActionsManager';
-
-const DefenceFormulaCoe = 0.06;
-const DefaultAttackSpeed = 2500;
-
-enum BaseAttributeData {
-  InitializeMaxHp = 500,
-  BaseMaxHp = 20,
-  BaseAttackPower = 2,
-  BaseDefencePower = 0.5,
-}
+import { PersonFactorConfig } from './Constants';
 
 const emptyBonusAttributes: IBonusEquipmentsAttributes = {
   MaxHp: 0,
@@ -33,15 +24,18 @@ const emptyBonusAttributes: IBonusEquipmentsAttributes = {
 class AttributePanel {
   private target?: Person;
 
+  private config: PersonFactorConfig;
+
   private experience: Experience;
 
   private equipmentManager: PersonEquipmentManager;
 
   private actionManager: ActionManager;
 
-  constructor(person: Person) {
+  constructor(person: Person, config: PersonFactorConfig) {
     makeAutoObservable(this);
 
+    this.config = config;
     this.target = person.target;
     this.experience = person.experience;
     this.equipmentManager = person.personEquipmentManager;
@@ -125,18 +119,11 @@ class AttributePanel {
   };
 
   public get BaseAttackPower() {
-    return this.experience.level * BaseAttributeData.BaseAttackPower;
-  }
-
-  /**
-   * 基础攻击力增幅
-   */
-  public get BaseAttackPowerMultiplier() {
-    return 1;
+    return this.experience.level * this.config.AttackPowerFactor;
   }
 
   public get BaseDefencePower() {
-    return this.experience.level * BaseAttributeData.BaseDefencePower;
+    return this.experience.level * this.config.DefencePowerFactor;
   }
 
   /**
@@ -187,14 +174,27 @@ class AttributePanel {
     );
   }
 
+  /**
+   * 攻击力 = (基础攻击力 + 增益攻击力) * 增益攻击系数
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get AttackPower() {
-    return (
-      this.BaseAttackPower * this.BaseAttackPowerMultiplier + this.BonusAttackPower * this.BonusAttackPowerMultiplier
-    );
+    return (this.BaseAttackPower + this.BonusAttackPower) * this.BonusAttackPowerMultiplier;
   }
 
+  /**
+   * 伤害系数 = 1 - (防御系数 * 防御力) / (1 + 防御系数 * 防御力)
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get AttackDamageMultiplier() {
-    return 1 - (DefenceFormulaCoe * this.DefencePower) / (1 + DefenceFormulaCoe * Math.abs(this.DefencePower));
+    const { DefenceFormulaFactor } = this.config;
+    return 1 - (DefenceFormulaFactor * this.DefencePower) / (1 + DefenceFormulaFactor * Math.abs(this.DefencePower));
   }
 
   public get AttackDamage() {
@@ -203,7 +203,6 @@ class AttributePanel {
 
   /**
    * return the smaller attack speed of primary and secondary weapons
-   *
    *
    * @readonly
    * @memberof AttributePanel
@@ -227,7 +226,7 @@ class AttributePanel {
   }
 
   public get AttackSpeed() {
-    let baseAttackSpeed = DefaultAttackSpeed;
+    let baseAttackSpeed = this.config.DefaultAttackSpeed;
 
     if (this.WeaponAttackSpeed !== undefined) {
       baseAttackSpeed = this.WeaponAttackSpeed;
@@ -236,10 +235,16 @@ class AttributePanel {
     return baseAttackSpeed;
   }
 
+  /**
+   * 防御力 = 基础防御 + (增益防御 * 增益防御系数) - 目标减甲
+   *
+   * @author Harper.Gao
+   * @readonly
+   * @memberof AttributePanel
+   */
   public get DefencePower() {
     return (
-      this.BaseDefencePower +
-      this.BonusDefencePower * this.BonusDefencePowerMultiplier -
+      (this.BaseDefencePower + this.BonusDefencePower) * this.BonusDefencePowerMultiplier -
       (this.target?.attributePanel.DefenceCorruption ?? 0)
     );
   }
@@ -256,7 +261,7 @@ class AttributePanel {
   }
 
   public get BaseMaxHp() {
-    return BaseAttributeData.InitializeMaxHp + this.experience.level * BaseAttributeData.BaseMaxHp;
+    return this.config.InitializeMaxHp + this.experience.level * this.config.HpFactor;
   }
 
   /**
@@ -275,4 +280,4 @@ class AttributePanel {
   }
 }
 
-export { AttributePanel, BaseAttributeData };
+export { AttributePanel };

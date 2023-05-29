@@ -1,3 +1,4 @@
+// import { PersonMode } from '../fisher-person';
 import { IItem, Item, ItemType } from './Item';
 
 export interface IEnemyItem extends IItem {
@@ -6,6 +7,7 @@ export interface IEnemyItem extends IItem {
   goldReward?: number;
   itemRewards?: EnemyItemReward[];
   randomRewards?: EnemyRandomReward[];
+  mode?: string;
 }
 
 export interface EnemyItemReward {
@@ -25,6 +27,8 @@ export class EnemyItem extends Item {
 
   public type = ItemType.Enemy;
 
+  public mode = 'CommonEnemy';
+
   public unlockLevel = 0;
 
   public goldReward = 0;
@@ -40,5 +44,6 @@ export class EnemyItem extends Item {
     if (options.goldReward) this.goldReward = options.goldReward;
     if (options.itemRewards) this.itemRewards = options.itemRewards;
     if (options.randomRewards) this.randomRewards = options.randomRewards;
+    if (options.mode) this.mode = options.mode;
   }
 }

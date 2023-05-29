@@ -3,11 +3,11 @@ import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
 import { EquipmentItem, PotionVariant } from '../fisher-item';
-import { PersonMode } from './Constants';
 import { Person } from './Person';
 import { PersonEquipment } from './PersonEquipment';
 import { PersonEquipmentEventKeys } from './PersonEquipmentManager';
 import { PotionHandlerManager } from './PotionHandlerManager';
+import { PersonMode } from './Constants';
 
 const EquipmentChangeQuantity = 1;
 
@@ -31,9 +31,7 @@ class Master {
 
   public media = Assets[this._media as keyof typeof Assets];
 
-  public mode = PersonMode.Master;
-
-  public person = new Person(this.mode);
+  public person = new Person(PersonMode.Master);
 
   public potionHandlerManager = new PotionHandlerManager();
 

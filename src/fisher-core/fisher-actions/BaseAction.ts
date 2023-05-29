@@ -4,6 +4,7 @@ import { Timer } from '../fisher-timer';
 import { IBonusBuffAttributesKeys, Person } from '../fisher-person';
 import { Assets } from '../assets';
 import { ActionId, ActionMode } from './Constants';
+import { FisherActionError } from '../fisher-error';
 
 interface IBaseAction {
   readonly id: string;
@@ -90,21 +91,58 @@ abstract class BaseStatusAction extends BaseAction {
     return Assets[this.id as any as keyof typeof Assets];
   }
 
-  abstract readonly timer: Timer;
-
   public abstract abort(): void;
 
   public abstract get values(): Array<IBuffAttribute>;
+
+  public person: Person | undefined;
+
+  public readonly timer = new Timer('StatucActionTimer', () => this.action(), { showProgress: true });
+
+  private action = (): void => {
+    this.abort();
+    BaseBuffAction.logger.debug(`Current action ${this.id} ${this.name} finished. clear action`);
+  };
 }
 
 export abstract class BaseBuffAction extends BaseStatusAction {
   public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseBuffAction');
 
   public readonly mode = ActionMode.Buff;
+
+  public execute = (person: Person): void => {
+    this.person = person;
+    this.timer.startTimer(this.interval);
+    this.person.actionManager.deployBuffAction(this);
+  };
+
+  public abort = (): void => {
+    if (this.person === undefined) {
+      throw new FisherActionError(`Try abort action ${this.id} on a undefined person`);
+    }
+
+    this.timer.stopTimer();
+    this.person.actionManager.undeployBuffAction(this.id);
+  };
 }
 
 export abstract class BaseDebuffAction extends BaseStatusAction {
   public static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'BaseDebuffAction');
 
   public readonly mode = ActionMode.Debuff;
+
+  public execute = (person: Person): void => {
+    this.person = person;
+    this.timer.startTimer(this.interval);
+    this.person.actionManager.deployDebuffAction(this);
+  };
+
+  public abort = (): void => {
+    if (this.person === undefined) {
+      throw new FisherActionError(`Try abort action ${this.id} on a undefined person`);
+    }
+
+    this.timer.stopTimer();
+    this.person.actionManager.undeployDebuffAction(this.id);
+  };
 }

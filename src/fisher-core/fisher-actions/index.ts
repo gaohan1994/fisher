@@ -17,7 +17,13 @@ import {
 } from './AttackActions';
 import { PosionDotAction } from './DotActions';
 import { LowHealAction, HighHealAction } from './HealActions';
-import { LowBuffAttackPowerAction } from './BuffActions';
+import {
+  LowBuffAttackPowerAction,
+  LowBuffAttackPowerMultiplierAction,
+  LowBuffDefenceCorruptionAction,
+  LowBuffDefencePowerAction,
+  LowBuffDefencePowerMultiplierAction,
+} from './BuffActions';
 import { LowDebuffAttackPowerAction } from './DebuffActions';
 
 type FisherAction = BaseAttackAction | BaseDotAction | BaseHealAction | BaseBuffAction | BaseDebuffAction;
@@ -85,6 +91,14 @@ class FisherActions {
    * @memberof FisherActions
    */
   public static readonly LowBuffAttackPowerAction = LowBuffAttackPowerAction;
+
+  public static readonly LowBuffDefenceCorruptionAction = LowBuffDefenceCorruptionAction;
+
+  public static readonly LowBuffDefencePowerAction = LowBuffDefencePowerAction;
+
+  public static readonly LowBuffDefencePowerMultiplierAction = LowBuffDefencePowerMultiplierAction;
+
+  public static readonly LowBuffAttackPowerMultiplierAction = LowBuffAttackPowerMultiplierAction;
 
   /**
    * Debuff actions

@@ -6,7 +6,7 @@ import { Experience } from '../fisher-experience';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
-import { PersonMode } from './Constants';
+import { getPersonFactorConfig, PersonMode } from './Constants';
 import { ActionId } from '../fisher-actions';
 
 interface PersonEventActionPayload {
@@ -65,7 +65,7 @@ class Person {
 
     this.actionManager = new ActionManager(this, options.actionIds);
 
-    this.attributePanel = new AttributePanel(this);
+    this.attributePanel = new AttributePanel(this, getPersonFactorConfig(this.mode));
 
     this.Hp = this.attributePanel.MaxHp;
   }

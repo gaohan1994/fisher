@@ -1,4 +1,5 @@
 enum FisherErrorCode {
+  Person = 9000,
   Action = 10006,
   Fight = 10007,
   Battle = 10008,
@@ -37,4 +38,8 @@ class FisherActionError extends FisherError {
   code = FisherError.FisherErrorCode.Action;
 }
 
-export { FisherError, FisherFightError, FisherBattleError, FisherDungeonError, FisherActionError };
+class FisherPersonError extends FisherError {
+  code = FisherError.FisherErrorCode.Person;
+}
+
+export { FisherError, FisherPersonError, FisherFightError, FisherBattleError, FisherDungeonError, FisherActionError };
