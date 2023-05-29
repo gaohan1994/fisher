@@ -31,25 +31,23 @@ const FuiEquipmentSet: FC<Props> = observer(({ equipmentSet }) => (
         />
       );
     })}
-    {equipmentSet.setAttributes.map(([setSlotControl, setAttributes]) => {
-      return (
-        <Fragment key={setSlotControl.slot}>
-          <Typography
-            variant="caption"
-            color={setSlotControl.active ? FuiColor.equipmentSet.activeName : FuiColor.equipmentSet.inactiveName}
-          >
-            套装属性({setSlotControl.slot})
-          </Typography>
-          {setAttributes.map((attribute, index) => (
-            <ColorEquipmentSetTypography
-              key={index}
-              value={makeFuiAttributeBonusText(attribute.key, attribute.value)}
-              color={setSlotControl.active ? FuiColor.equipmentSet.activeValue : FuiColor.equipmentSet.inactiveValue}
-            />
-          ))}
-        </Fragment>
-      );
-    })}
+    {equipmentSet.setAttributes.map(([setSlotControl, setAttributes]) => (
+      <Fragment key={setSlotControl.slot}>
+        <Typography
+          variant="caption"
+          color={setSlotControl.active ? FuiColor.equipmentSet.activeName : FuiColor.equipmentSet.inactiveName}
+        >
+          套装属性({setSlotControl.slot})
+        </Typography>
+        {setAttributes.map((attribute, index) => (
+          <ColorEquipmentSetTypography
+            key={index}
+            value={makeFuiAttributeBonusText(attribute.key, attribute.value)}
+            color={setSlotControl.active ? FuiColor.equipmentSet.activeValue : FuiColor.equipmentSet.inactiveValue}
+          />
+        ))}
+      </Fragment>
+    ))}
     {equipmentSet.hasExtraAttributes && <Fragment></Fragment>}
   </Box>
 ));

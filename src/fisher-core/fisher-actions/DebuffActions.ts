@@ -11,6 +11,8 @@ class LowDebuffAttackPowerAction extends BaseDebuffAction {
 
   public readonly name = '破胆';
 
+  public readonly desc = '使目标攻击力-15';
+
   public readonly chance = 10;
 
   public get interval(): number {

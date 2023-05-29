@@ -7,6 +7,8 @@ class NormalAttackAction extends BaseAttackAction {
 
   public readonly name = '普通攻击';
 
+  public readonly desc = '普通攻击';
+
   public chance = 100;
 
   public execute = (person: Person) => {
@@ -27,6 +29,8 @@ class CritAttackAction extends BaseAttackAction {
 
   public readonly name = '暴击';
 
+  public readonly desc = '造成2倍伤害的物理致命一击';
+
   public execute = (person: Person) => {
     if (!person.target) {
       return BaseAttackAction.logger.error(`Try to execute ${this.id} but target was undefined`);
@@ -44,6 +48,8 @@ class LowFixedDamageAction extends BaseAttackAction {
   public readonly chance = 20;
 
   public readonly name = '固伤攻击（低级）';
+
+  public readonly desc = '根据自身等级对目标造成伤害';
 
   public execute = (person: Person) => {
     if (!person.target) {
@@ -64,6 +70,8 @@ class HighFixedDamageAction extends BaseAttackAction {
   public readonly chance = 10;
 
   public readonly name = '固伤攻击（高级）';
+
+  public readonly desc = '根据自身等级对目标造成较高伤害';
 
   public execute = (person: Person) => {
     if (!person.target) {
@@ -87,6 +95,8 @@ class LowBatterAction extends BaseAttackAction {
 
   public readonly name = '二次连击';
 
+  public readonly desc = '降低单次伤害，连续发动2次攻击';
+
   public execute = (person: Person) => {
     if (!person.target) {
       return BaseAttackAction.logger.error(`Try to execute ${this.id} but target was undefined`);
@@ -108,6 +118,8 @@ class HighBatterAction extends BaseAttackAction {
   public readonly chance = 10;
 
   public readonly name = '三刺';
+
+  public readonly desc = '降低单次伤害，连续发动3次攻击，使用后自身扣除少量血量';
 
   public execute = (person: Person) => {
     if (!person.target) {

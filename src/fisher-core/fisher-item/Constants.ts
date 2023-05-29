@@ -13,6 +13,20 @@ enum EquipmentSlot {
   Bracelet = 'Bracelet',
 }
 
+enum Rarity {
+  Common = 'Common',
+  Rare = 'Rare',
+  Epic = 'Epic',
+  Legendary = 'Legendary',
+}
+
+const RarityName = {
+  [Rarity.Common]: '普通',
+  [Rarity.Rare]: '稀有',
+  [Rarity.Epic]: '史诗',
+  [Rarity.Legendary]: '传说',
+};
+
 const EquipmentSlotName = {
   [EquipmentSlot.Helmet]: '头盔',
   [EquipmentSlot.PrimaryWeapon]: '主武器',
@@ -38,4 +52,4 @@ const PotionVariantName = {
   [PotionVariant.AttributePotion]: '属性药水',
 };
 
-export { EquipmentSlot, EquipmentSlotName, PotionVariant, PotionVariantName };
+export { EquipmentSlot, EquipmentSlotName, PotionVariant, PotionVariantName, Rarity, RarityName };

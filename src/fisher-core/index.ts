@@ -9,7 +9,7 @@ import { Backpack } from './fisher-backpack';
 import { Timer } from './fisher-timer';
 import { Reward, RewardPool, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
-import { BaseDotAction } from './fisher-actions';
+import { ActionId, FisherActions, BaseDotAction } from './fisher-actions';
 import { PotionHandler } from './fisher-potion';
 import { Fight } from './fisher-fight';
 import { Battle } from './fisher-battle';
@@ -45,6 +45,8 @@ export {
   Fight,
   Battle,
   Dungeon,
+  ActionId,
+  FisherActions,
 };
 export type { FisherComponent };
 export * from './fisher-item';

@@ -3,6 +3,14 @@
   "data": {
     "items": [
       {
+        "id": "DragonBloodMine",
+        "name": "龙血矿",
+        "desc": "龙血浇筑孵化出的矿石，极其稀有",
+        "media": "",
+        "rarity": "Epic",
+        "price": 500
+      },
+      {
         "id": "LowSpiritMine",
         "name": "灵晶石",
         "desc": "一种很常见的晶石，灵气和纯度较低",
@@ -53,6 +61,16 @@
       }
     ],
     "recipes": [
+      {
+        "id": "Mining:Recipe:DragonBloodMine",
+        "name": "采集：龙血矿",
+        "desc": "",
+        "media": "",
+        "interval": 5000,
+        "unlockLevel": 99,
+        "rewardExperience": 1000,
+        "rewardItems": [{ "itemId": "DragonBloodMine", "itemQuantity": 1 }]
+      },
       {
         "id": "Mining:Recipe:LowSpiritMine",
         "name": "采集：灵晶石",

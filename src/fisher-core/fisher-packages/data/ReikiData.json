@@ -3,6 +3,14 @@
   "data": {
     "items": [
       {
+        "id": "SwordReiki",
+        "name": "剑灵气",
+        "desc": "经常出现在有剑术高手战斗过的地方",
+        "media": "",
+        "rarity": "Epic",
+        "price": 500
+      },
+      {
         "id": "NormalReiki",
         "name": "灵气",
         "desc": "在有灵气的地方经常看到",
@@ -15,16 +23,20 @@
         "desc": "在寒冷的地方经常看到",
         "media": "",
         "price": 20
-      },
-      {
-        "id": "SwordReiki",
-        "name": "剑灵气",
-        "desc": "经常出现在有剑术高手战斗过的地方",
-        "media": "",
-        "price": 25
       }
     ],
     "recipes": [
+      {
+        "id": "Reiki:Recipe:SwordReiki",
+        "name": "巨龙坟墓",
+        "desc": "传说有一个剑道高手斩十八条巨龙，尸体堆积如山，剑气逼人",
+        "media": "",
+        "interval": 5000,
+        "unlockLevel": 99,
+        "rewardExperience": 100,
+        "rewardItems": [{ "itemId": "SwordReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 10, "itemId": "SwordReiki", "itemQuantity": 5 }]
+      },
       {
         "id": "Reiki:Recipe:ColdJadeValley",
         "name": "寒玉谷",
@@ -35,17 +47,6 @@
         "rewardExperience": 50,
         "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 10 }],
         "randomRewardItems": [{ "probability": 30, "itemId": "ColdJadeReiki", "itemQuantity": 1 }]
-      },
-      {
-        "id": "Reiki:Recipe:BlackWoodCliff",
-        "name": "黑木崖",
-        "desc": "魔教总部，曾经众多高手曾在这里战斗过",
-        "media": "",
-        "interval": 20000,
-        "unlockLevel": 1,
-        "rewardExperience": 100,
-        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 20 }],
-        "randomRewardItems": [{ "probability": 10, "itemId": "SwordReiki", "itemQuantity": 1 }]
       }
     ]
   }

@@ -43,7 +43,7 @@ import EmptyRing from './equipments/EmptyRing.png';
 import EmptyBracelet from './equipments/EmptyBracelet.png';
 import woodsword from './equipments/woodsword.png';
 import dagger from './equipments/dagger.png';
-import FlashEastDragonSword from './equipments/FlashEastDragonSword.png';
+import DragonSword from './equipments/DragonSword.png';
 import ninja from './person/ninja.png';
 import knight from './person/knight.png';
 
@@ -104,7 +104,7 @@ export const Assets = {
   EmptyBracelet,
   woodsword,
   dagger,
-  FlashEastDragonSword,
+  DragonSword,
 
   // enemy assets
   Monster,

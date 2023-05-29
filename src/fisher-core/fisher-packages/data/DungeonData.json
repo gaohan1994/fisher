@@ -201,19 +201,37 @@
       ]
     },
     {
-      "id": "东海龙宫王宫",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
+      "id": "KuiDragonPalace",
+      "name": "夔龙王宫",
+      "desc": "传说中夔龙王的宫殿",
       "media": "",
       "enemies": [
         {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
+          "id": "KuiDragonKing",
+          "name": "夔龙",
+          "desc": "状如牛，苍身而无角，一足，出入水则必有风雨，其光如日月，其声如雷，其名曰夔",
           "media": "",
-          "level": 10
+          "level": 99,
+          "mode": "LegendaryEnemy",
+          "randomRewards": [{ "itemId": "DragonBall", "quantity": 1, "probability": 1 }]
         }
-      ]
+      ],
+      "progressExtraReward": {
+        "0": [
+          {
+            "itemId": "DragonSkin",
+            "itemQuantity": 1
+          },
+          {
+            "itemId": "DragonScale",
+            "itemQuantity": 1
+          },
+          {
+            "itemId": "DragonHorn",
+            "itemQuantity": 1
+          }
+        ]
+      }
     }
   ]
 }
