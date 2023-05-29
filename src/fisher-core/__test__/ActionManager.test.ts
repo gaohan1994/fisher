@@ -13,8 +13,8 @@ describe('ActionManager', () => {
   test('should success initialize ActionManager', async () => {
     vi.useFakeTimers();
 
-    const person = new Person(PersonMode.Enemy, { actionIds: [ActionId.HighBatterAction] });
-    const person2 = new Person(PersonMode.Enemy);
+    const person = new Person(PersonMode.CommonEnemy, { actionIds: [ActionId.HighBatterAction] });
+    const person2 = new Person(PersonMode.CommonEnemy);
 
     person.setTarget(person2);
     person2.setTarget(person);

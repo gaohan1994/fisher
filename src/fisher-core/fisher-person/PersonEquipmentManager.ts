@@ -4,6 +4,7 @@ import { EventEmitter } from 'smar-util';
 import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
+import { FisherPersonError } from '../fisher-error';
 
 enum PersonEquipmentEventKeys {
   EquipmentChange = 'EquipmentChange',
@@ -129,18 +130,30 @@ class PersonEquipmentManager {
     PersonEquipmentManager.logger.debug(`use equipment, slot: ${equipment.slot} equipmentId ${equipment.id}`);
   };
 
+  public clearEquipments = () => {
+    this.equipmentMap.forEach((personEquipment, slot) => {
+      if (!personEquipment.isEmpty) {
+        this.removeEquipment(slot);
+      }
+    });
+  };
+
   public removeEquipment = (equipmentSlot: EquipmentSlot) => {
     const currentSlotEquipment = this.equipmentMap.get(equipmentSlot);
 
-    if (currentSlotEquipment === undefined)
-      return PersonEquipmentManager.logger.error(
-        `Fail to remove equipment, can not find current slot: ${equipmentSlot}`
+    if (currentSlotEquipment === undefined) {
+      throw new FisherPersonError(
+        `Fail to remove equipment, can not find current slot: ${equipmentSlot}`,
+        '没有找到要卸下的装备'
       );
+    }
 
     const previousEquipment = currentSlotEquipment.removeEquipment();
+
     this.equipmentMap.set(equipmentSlot, currentSlotEquipment);
 
     this.personEquipmentEvents.emit(PersonEquipmentEventKeys.EquipmentChange, currentSlotEquipment, previousEquipment);
+
     PersonEquipmentManager.logger.debug(`remove equipment, slot: ${equipmentSlot} equipmentId ${previousEquipment.id}`);
   };
 

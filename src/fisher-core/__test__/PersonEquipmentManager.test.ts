@@ -37,7 +37,7 @@ describe('PersonEquipmentManager interfaces', () => {
 
   describe('shou success use equipment', () => {
     test('should success use equipment if previous equipment was empty', () => {
-      const person = new Person(PersonMode.Enemy);
+      const person = new Person(PersonMode.CommonEnemy);
       const { personEquipmentManager } = person;
       const equip = new EquipmentItem(testEquipmentData);
 

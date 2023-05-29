@@ -60,7 +60,7 @@ describe('Potion module', () => {
     backpack.addItem(healPotion, 50);
     healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
 
-    const person = new Person(PersonMode.Enemy);
+    const person = new Person(PersonMode.CommonEnemy);
     person.hurt(50);
     expect(person.Hp).toEqual(person.attributePanel.MaxHp - 50);
 

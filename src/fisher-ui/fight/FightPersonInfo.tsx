@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, Avatar } from '@mui/material';
-import { Enemy, Master, PersonMode } from '@FisherCore';
+import { Enemy, Master } from '@FisherCore';
 import { FuiColor } from '@Fui';
 import { FuiFightControl } from './FightControl';
 
@@ -12,7 +12,7 @@ const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, 
   <Card sx={{ bgcolor: FuiColor.primary.background }}>
     <CardHeader
       avatar={<Avatar src={player.media} />}
-      title={player.mode === PersonMode.Master ? (player as Master).displayName : player.name}
+      title={player.person.isMaster ? (player as Master).displayName : player.name}
       subheader={`等级：1`}
       action={action}
     />

@@ -16,8 +16,6 @@ class Enemy {
 
   public person: Person;
 
-  public mode = PersonMode.Enemy;
-
   public get Hp() {
     return this.person.Hp;
   }
@@ -52,23 +50,30 @@ class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor({ id, media, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
+  constructor({ id, mode, media, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
     makeAutoObservable(this);
+
     this.key = generateTimestamp();
+
     this.id = id;
+
     this.name = name;
+
     this.media = media;
+
+    this.person = new Person(mode as PersonMode);
 
     if (goldReward) {
       this.goldReward = goldReward;
     }
+
     if (itemRewards) {
       this.itemRewards = itemRewards;
     }
+
     if (randomRewards) {
       this.randomRewards = randomRewards;
     }
-    this.person = new Person(this.mode);
   }
 
   /**
@@ -102,20 +107,18 @@ class Enemy {
 
   private createRandomRewards = () => {
     return this.randomRewards
-      .map(({ probability, gold, itemId, itemQuantity }) => {
-        return Reward.createRandomReward(probability, {
+      .map(({ probability, gold, itemId, itemQuantity }) =>
+        Reward.createRandomReward(probability, {
           gold,
           itemId,
           itemQuantity,
-        });
-      })
+        })
+      )
       .filter(Boolean) as Reward[];
   };
 
   private createItemRewards = () => {
-    return this.itemRewards.map((itemReward) => {
-      return Reward.create(itemReward);
-    });
+    return this.itemRewards.map(Reward.create);
   };
 
   public setTarget = (person: Person) => {

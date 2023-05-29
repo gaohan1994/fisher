@@ -2,8 +2,7 @@ import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { EquipmentItem, EquipmentSlot, IEquipmentItem } from '../fisher-item';
 import { IAttributeKeys, Master, Person } from '../fisher-person';
-import { BaseAttributeData } from '../fisher-person/AttributePanel';
-import { PersonMode } from '../fisher-person/Constants';
+import { PersonMode, getPersonFactorConfig } from '../fisher-person/Constants';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -43,16 +42,16 @@ describe('Person Attribute', () => {
   test('should calculate base attributes', () => {
     const master = Master.create();
 
-    expect(master.attributePanel.BaseMaxHp).toBe(
-      BaseAttributeData.InitializeMaxHp + BaseAttributeData.BaseMaxHp * master.level
-    );
-    expect(master.attributePanel.BaseAttackPower).toBe(BaseAttributeData.BaseAttackPower * master.level);
-    expect(master.attributePanel.BaseDefencePower).toBe(BaseAttributeData.BaseDefencePower * master.level);
+    const config = getPersonFactorConfig(PersonMode.Master);
+
+    expect(master.attributePanel.BaseMaxHp).toBe(config.InitializeMaxHp + config.HpFactor * master.level);
+    expect(master.attributePanel.BaseAttackPower).toBe(config.AttackPowerFactor * master.level);
+    expect(master.attributePanel.BaseDefencePower).toBe(config.DefencePowerFactor * master.level);
   });
 
   describe('should calculate bonus equipments attributes', () => {
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person(PersonMode.Enemy);
+      const person = new Person(PersonMode.CommonEnemy);
 
       const [equipmentItem1, equipmentItem2] = [new EquipmentItem(equip1), new EquipmentItem(equip2)];
       person.personEquipmentManager.useEquipment(equipmentItem1);
@@ -67,7 +66,7 @@ describe('Person Attribute', () => {
     });
 
     test('should calculate bonus equipment attributes both equipment attributes and equipment set attributes', () => {
-      const person = new Person(PersonMode.Enemy);
+      const person = new Person(PersonMode.CommonEnemy);
 
       const [equipWithSet1, equipWithSet2] = [
         Object.assign({}, equip1, { id: 'WoodSword', equipmentSetId: 'NoobSet' }),
@@ -123,7 +122,7 @@ describe('Person Attribute', () => {
   });
 
   test('should success calculate AttackSpeed', () => {
-    const person = new Person(PersonMode.Enemy);
+    const person = new Person(PersonMode.CommonEnemy);
 
     const withoutAttackSpeedPrimaryWeaponItem = new EquipmentItem(equip2);
     const withoutAttackSpeedSecondaryWeaponItem = new EquipmentItem(
