@@ -107,7 +107,7 @@ class ActionManager {
    * - dot actions
    * - heal actions
    */
-  private registerActions = (actionIds: ActionId[]) => {
+  public registerActions = (actionIds: ActionId[]) => {
     /**
      * Note: clear action map before set actions
      * some time we will re-registe person actions

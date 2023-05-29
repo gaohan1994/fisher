@@ -31,7 +31,6 @@
         "slot": "PrimaryWeapon",
         "attributes": [{ "key": "AttackPower", "value": 220 }]
       },
-
       {
         "id": "NoobDagger",
         "name": "新手短刀",
@@ -43,7 +42,6 @@
         "attributes": [{ "key": "AttackPower", "value": 10 }],
         "equipmentSetId": "NoobSet"
       },
-
       {
         "id": "ClothHat",
         "name": "新手布帽",
