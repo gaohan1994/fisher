@@ -50,6 +50,8 @@ class Fight {
     this.master.person.clearTarget();
     this.enemy.person.clearTarget();
 
+    this.clearEnemy();
+
     Fight.logger.info('stop fighting');
   };
 
@@ -97,6 +99,10 @@ class Fight {
 
   private setEnemy = (enemy: Enemy) => {
     this.enemy = enemy;
+  };
+
+  private clearEnemy = () => {
+    this.enemy = undefined;
   };
 }
 
