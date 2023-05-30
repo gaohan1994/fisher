@@ -3,6 +3,7 @@ import { Timer } from '../fisher-timer';
 import { Recipe } from '../fisher-item';
 import { RecipeHandler } from './RecipeHandler';
 import { Experience } from '../fisher-experience';
+import { FisherSkillError } from '../fisher-error';
 
 class Skill {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Skill');
@@ -38,8 +39,16 @@ class Skill {
   };
 
   public start = () => {
-    if (!this.recipeHandler.activeRecipeAvailable) {
-      throw new Error(`Try to start skill ${this.id} but recipe was unavailabled`);
+    if (!this.recipeHandler.hasActiveRecipe) {
+      throw new FisherSkillError('Try start skill without active recipe', '请先设置技能配方');
+    }
+
+    if (!this.recipeHandler.activeRecipeUnlockLevelAvailable) {
+      throw new FisherSkillError(`Try start a unlock recipe`, '技能等级不足');
+    }
+
+    if (!this.recipeHandler.activeRecipeBearCostAvailable) {
+      throw new FisherSkillError(`Try start recipe but can not bear costs`, '材料不足');
     }
 
     this.startTimer();

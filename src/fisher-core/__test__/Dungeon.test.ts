@@ -44,6 +44,7 @@ const testDungeonData = {
   name: '测试副本',
   desc: '测试副本',
   media: '',
+  unlockLevel: 0,
   enemies: [enemy1, enemy2],
   progressExtraReward: {
     '0': [
@@ -74,10 +75,8 @@ describe('Dungeon', () => {
     expect(dungeon.rewardPool.pool.length).toBe(0);
     expect(dungeon.rewardPool.hasReward).toBeFalsy();
     expect(() => {
-      dungeon.start().catch((error) => {
-        error.message === `Fail to start dungeon, please set active dungeon`;
-      });
-    });
+      dungeon.start();
+    }).toThrowError('Fail to start dungeon, please set active dungeon');
   });
 
   test('should set active dungeon item and start dungeon', async () => {

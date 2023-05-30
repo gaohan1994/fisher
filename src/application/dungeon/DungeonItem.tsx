@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material';
 import { DungeonItem, core } from '@FisherCore';
-import { FuiEnemyRewardPreview } from '@Fui';
+import { FuiEnemyRewardPreview, FuiItemName, FuiLevelInfo, notifycationStore } from '@Fui';
 import { useDungeonItemRewards, useIsActiveDungeonItem } from './DungeonItemHook';
 
 interface IDungeonCard {
@@ -11,14 +11,20 @@ interface IDungeonCard {
   onClearDungeonItem?: () => void;
 }
 const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonItem, onClearDungeonItem }) => {
+  const { master } = core;
   const isActiveDungeonItem = useIsActiveDungeonItem(dungeonItem);
   const { rewardItems, extraRewardItems } = useDungeonItemRewards(dungeonItem);
 
-  const onStartDungeonItem = React.useCallback(() => {
-    core.dungeon.setActiveDungeonItem(dungeonItem);
-    core.dungeon.start();
-    onSelectDungeonItem?.(dungeonItem);
-  }, []);
+  const onStartDungeonItem = () => {
+    try {
+      core.dungeon.setActiveDungeonItem(dungeonItem);
+      core.dungeon.start();
+
+      onSelectDungeonItem?.(dungeonItem);
+    } catch (error: any) {
+      notifycationStore.alert('error', error.label);
+    }
+  };
 
   const onStopDungeonItem = React.useCallback(() => {
     core.dungeon.stop();
@@ -30,8 +36,13 @@ const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonIt
     <Card>
       <CardHeader
         avatar={<Avatar aria-label="recipe">{dungeonItem.name.charAt(1)}</Avatar>}
-        title={dungeonItem.name}
-        subheader={dungeonItem.desc}
+        title={<FuiItemName item={dungeonItem} />}
+        subheader={
+          <Typography variant="caption">
+            入场登记需求
+            <FuiLevelInfo level={dungeonItem.unlockLevel} sx={{ ml: 1 }} />
+          </Typography>
+        }
       />
       <CardContent sx={{ pt: 0, pb: 0 }}>
         {dungeonItem.enemies.map((enemy, index) => (
@@ -43,7 +54,12 @@ const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonIt
 
       <CardActions sx={{ justifyContent: 'center' }}>
         {!isActiveDungeonItem ? (
-          <Button variant="contained" color="success" onClick={onStartDungeonItem}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={onStartDungeonItem}
+            disabled={dungeonItem.unlockLevel > master.level}
+          >
             挑战{dungeonItem.name}
           </Button>
         ) : (

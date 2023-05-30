@@ -32,7 +32,7 @@
         "desc": "传说有一个剑道高手斩十八条巨龙，尸体堆积如山，剑气逼人",
         "media": "",
         "interval": 5000,
-        "unlockLevel": 99,
+        "unlockLevel": 40,
         "rewardExperience": 100,
         "rewardItems": [{ "itemId": "SwordReiki", "itemQuantity": 1 }],
         "randomRewardItems": [{ "probability": 10, "itemId": "SwordReiki", "itemQuantity": 5 }]

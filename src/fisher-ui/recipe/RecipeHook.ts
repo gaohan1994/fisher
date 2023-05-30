@@ -47,5 +47,13 @@ const useRecipe = (recipe: Recipe): IUseRecipe => {
   };
 };
 
-export { useRecipe };
+const useRecipeInterval = (recipe: Recipe) => ({
+  interval: recipe.interval,
+  intervalSecond: recipe.interval / 1000,
+});
+
+const useRecipeIsLevelLocked = (skillLevel: number, recipe: Recipe) =>
+  useMemo(() => recipe.unlockLevel > skillLevel, [skillLevel, recipe]);
+
+export { useRecipe, useRecipeIsLevelLocked, useRecipeInterval };
 export type { IUseRecipeItem, IUseRecipeRandomItem, IUseCostItem };

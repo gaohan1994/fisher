@@ -16,3 +16,4 @@ export * from './backpack';
 export * from './dashboard';
 export * from './reward';
 export * from './fight';
+export * from './experience';

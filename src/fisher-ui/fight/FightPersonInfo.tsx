@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
-import { Card, CardHeader, CardContent, Avatar, Typography, Divider, Stack } from '@mui/material';
-import { Enemy, Master, Person, PersonModeName } from '@FisherCore';
-import { FuiColor } from '@Fui';
+import React from 'react';
+import { Card, CardHeader, CardContent, Avatar, Stack } from '@mui/material';
+import { Enemy, Master } from '@FisherCore';
+import { FuiColor, PersonModeText } from '@Fui';
 import { FuiFightControl } from './FightControl';
-import { usePersonModeColor } from './FightHook';
 import { FuiLevelInfo } from '../experience';
 
 interface Props {
@@ -17,7 +16,7 @@ const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, 
       title={player.person.isMaster ? (player as Master).displayName : player.name}
       subheader={
         <Stack direction="row" spacing={1}>
-          <PersonModeText person={player.person} />
+          <PersonModeText mode={player.person.mode} />
           <FuiLevelInfo level={player.person.experience.level} />
         </Stack>
       }
@@ -29,17 +28,5 @@ const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, 
     </CardContent>
   </Card>
 );
-
-interface IPersonModeText {
-  person: Person;
-}
-const PersonModeText: FC<IPersonModeText> = ({ person }) => {
-  const { color } = usePersonModeColor(person.mode);
-  return (
-    <Typography sx={{ color }} variant="caption">
-      {PersonModeName[person.mode]}
-    </Typography>
-  );
-};
 
 export { FuiFightPersonInfo };

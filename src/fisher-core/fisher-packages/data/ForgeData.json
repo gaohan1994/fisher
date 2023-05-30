@@ -24,7 +24,8 @@
         "desc": "制作斩龙剑",
         "media": "",
         "interval": 5000,
-        "unlockLevel": 1,
+        "rarity": "Legendary",
+        "unlockLevel": 40,
         "rewardExperience": 1,
         "rewardItems": [{ "itemId": "DragonSword", "itemQuantity": 1 }],
         "costItems": [

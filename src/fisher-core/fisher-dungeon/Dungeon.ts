@@ -66,9 +66,13 @@ class Dungeon {
     this.activeDungeonItem = undefined;
   };
 
-  public start = async () => {
+  public start = () => {
     if (this.activeDungeonItem === undefined) {
       throw new FisherDungeonError('Fail to start dungeon, please set active dungeon', '请先设置要攻略的副本');
+    }
+
+    if (this.activeDungeonItem.unlockLevel > this.master.level) {
+      throw new FisherDungeonError('Master insufficient level', '等级不足');
     }
 
     events.emit(EventKeys.Core.SetActiveComponent, this);
@@ -77,7 +81,7 @@ class Dungeon {
     Dungeon.logger.info(`Start Dungeon ${this.activeDungeonItem.name}`);
   };
 
-  public stop = async () => {
+  public stop = () => {
     this.fight.stopFighting();
     this.clearActiveDungeonItem();
 

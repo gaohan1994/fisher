@@ -18,9 +18,11 @@ const PageMining = observer(() => {
           return (
             <Grid key={item.id} item xs={3}>
               <FuiSkillRecipeCard
+                skillLevel={mining.level}
                 isActive={isActive}
                 recipe={item}
                 onStop={mining.stop}
+                activeLabel="正在采集"
                 onStart={() => mining.start(item)}
               >
                 <FuiLineProgress value={isActive ? mining.skill.progress : 0} />

@@ -39,18 +39,8 @@ export interface ICollectionModuleData {
   recipes: Recipe[];
 }
 
-interface PackageJsonDataSource<T> {
-  moduleName: string;
-  data: T;
-}
-
-type PackageCollectionJsonDataSource = PackageJsonDataSource<{
-  items: IItem[];
-  recipes: IRecipe[];
-}>;
-
 export function makeNormalData() {
-  return generatePackagesItems(normalDataJson.data);
+  return generatePackagesItems(normalDataJson.data as any[]);
 }
 
 export function makeRewardChestsData() {
@@ -58,10 +48,14 @@ export function makeRewardChestsData() {
 }
 
 export function makeMiningPackagesData(): ICollectionModuleData {
-  return makePackageCollectionDataSource(miningDataJson);
+  const items = generatePackagesItems(miningDataJson.data.items as any[]);
+  const recipes = generatePackagesRecipes(miningDataJson.data.recipes);
+  return { items, recipes };
 }
 export function makeReikiPackagesData(): ICollectionModuleData {
-  return makePackageCollectionDataSource(reikiDataJson);
+  const items = generatePackagesItems(reikiDataJson.data.items as any[]);
+  const recipes = generatePackagesRecipes(reikiDataJson.data.recipes);
+  return { items, recipes };
 }
 
 export function makeEquipmentPackagesData() {
@@ -73,7 +67,10 @@ export function makeEquipmentSetData() {
 }
 
 export function makeForgePackagesData(): [Recipe[], NormalItem[]] {
-  return [generatePackagesRecipes(forgeDataJson.data.recipes), generatePackagesItems(forgeDataJson.data.bluePrints)];
+  return [
+    generatePackagesRecipes(forgeDataJson.data.recipes as IRecipe[]),
+    generatePackagesItems(forgeDataJson.data.bluePrints),
+  ];
 }
 
 export function makeCookPackagesData(): [Recipe[], NormalItem[], NormalItem[]] {
@@ -93,7 +90,7 @@ export function makeHealPotionData() {
 }
 
 export function makeDungeonData() {
-  return generateDungeonData(DungeonDataJson.data);
+  return generateDungeonData(DungeonDataJson.data as IDungeonItem[]);
 }
 
 export function makeBattlePackageData() {
@@ -115,12 +112,6 @@ export function makeBattlePackageData() {
   });
 
   return { battleAreas, battleEnemies };
-}
-
-function makePackageCollectionDataSource(dataSource: PackageCollectionJsonDataSource) {
-  const items = generatePackagesItems(dataSource.data.items);
-  const recipes = generatePackagesRecipes(dataSource.data.recipes);
-  return { items, recipes };
 }
 
 function generatePackagesItems(itemsJson: IItem[]) {

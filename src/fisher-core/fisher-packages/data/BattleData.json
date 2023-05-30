@@ -16,7 +16,6 @@
       "desc": "灵力较低的小妖怪，常出现在火源丰富的地界",
       "media": "FireSpiritMonster",
       "level": 5,
-      "unlockLevel": 5,
       "goldReward": 5,
       "itemRewards": [{ "itemId": "NormalReiki" }],
       "randomRewards": [{ "itemId": "ClothHat", "probability": 10 }]
@@ -55,7 +54,6 @@
       "name": "扬州城",
       "desc": "",
       "media": "",
-      "unlockLevel": 1,
       "enemies": ["LowSpiritMonster", "FireSpiritMonster", "SmallPigMonster", "YangZhouEarthMonster"]
     },
     {
@@ -63,7 +61,6 @@
       "name": "东海",
       "desc": "",
       "media": "",
-      "unlockLevel": 1,
       "enemies": ["ShrimpSoldier"]
     }
   ]

@@ -46,10 +46,6 @@ class Cook extends Collection<Recipe[]> {
   };
 
   public start = () => {
-    if (!this.activeRecipeAvailable) {
-      throw new Error(`Try to start froge but recipe unavailable: ${this.activeRecipe!.name}`);
-    }
-
     this.skill.start();
     events.emit(EventKeys.Core.SetActiveComponent, this);
   };

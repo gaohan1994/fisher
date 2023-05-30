@@ -1,9 +1,9 @@
 import React from 'react';
 import { Avatar, AvatarGroup, Badge, Box } from '@mui/material';
 import { Recipe } from '@FisherCore';
-import { useRecipe } from '../../application/hook';
 import { FuiColor } from '../theme';
 import { RewardList } from '../reward';
+import { useRecipe } from './RecipeHook';
 
 interface Props {
   recipe: Recipe;

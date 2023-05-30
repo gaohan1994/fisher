@@ -18,6 +18,7 @@ const PageReiki = observer(() => {
           return (
             <Grid key={item.id} item xs={3}>
               <FuiSkillRecipeCard
+                skillLevel={reiki.level}
                 isActive={isActive}
                 recipe={item}
                 onStop={reiki.stop}
