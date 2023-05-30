@@ -1,8 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Typography } from '@mui/material';
 import { Cook, Forge, Recipe } from '@FisherCore';
-import { FuiRecipeCard } from '@Fui';
+import { FuiActiveText, FuiRecipeCard } from '@Fui';
 
 interface Props {
   recipe: Recipe;
@@ -26,12 +25,7 @@ const FuiCollectionSkillRecipeCard: React.FC<Props> = observer(({ recipe, coreCo
       highLine={isCurrentRecipeActive}
       onRecipeClick={onRecipeClick}
       subheader={
-        isCurrentRecipeActive &&
-        coreComponent.isActive && (
-          <Typography variant="caption" color="secondary">
-            正在{coreComponent.name}
-          </Typography>
-        )
+        isCurrentRecipeActive && coreComponent.isActive && <FuiActiveText text={`正在${coreComponent.name}`} />
       }
     />
   );

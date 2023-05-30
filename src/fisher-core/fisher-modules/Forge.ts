@@ -46,12 +46,6 @@ class Forge extends Collection<Recipe[]> {
   };
 
   public start = () => {
-    // before start froge module
-    // the recipe must be availabled!
-    if (!this.activeRecipeAvailable) {
-      throw new Error(`Try to start froge but recipe unavailable: ${this.activeRecipe!.name}`);
-    }
-
     this.skill.start();
     events.emit(EventKeys.Core.SetActiveComponent, this);
   };

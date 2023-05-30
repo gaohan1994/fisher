@@ -1,15 +1,9 @@
 import React, { FC } from 'react';
 import { observer } from 'mobx-react';
-import { Avatar, Card, CardHeader, IconButton, Tooltip, Typography } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, IconButton, Tooltip, Typography } from '@mui/material';
 import { Assets, EnemyItem, core } from '@FisherCore';
-import { FuiEnemyRewardPreview } from '@Fui';
+import { FuiActiveText, FuiEnemyRewardPreview, FuiItemName, FuiLevelInfo, PersonModeText } from '@Fui';
 import { useBattleEnemyItemRewards, useIsActiveBattleEnemyItem } from './BattleHook';
-
-const BattleEnemyActiveTag = () => (
-  <Typography variant="caption" color="secondary" sx={{ ml: 1 }}>
-    选中的目标
-  </Typography>
-);
 
 interface IBattleEnemyCard {
   enemyItem: EnemyItem;
@@ -28,12 +22,17 @@ const BattleEnemyCard: FC<IBattleEnemyCard> = observer(({ enemyItem, onSelectEne
   return (
     <Card elevation={20}>
       <CardHeader
-        subheader={enemyItem.desc}
         avatar={<Avatar src={enemyItem.media} />}
         title={
+          <Typography>
+            <FuiItemName item={enemyItem} />
+            {isActiveBattleEnemyItem && <FuiActiveText sx={{ ml: 1 }} text="选中的目标" circleProgress={false} />}
+          </Typography>
+        }
+        subheader={
           <React.Fragment>
-            {enemyItem.name}
-            {isActiveBattleEnemyItem && <BattleEnemyActiveTag />}
+            <PersonModeText mode={enemyItem.mode as any} />
+            <FuiLevelInfo level={enemyItem.level} sx={{ ml: 1 }} />
           </React.Fragment>
         }
         action={
@@ -47,6 +46,9 @@ const BattleEnemyCard: FC<IBattleEnemyCard> = observer(({ enemyItem, onSelectEne
           </React.Fragment>
         }
       />
+      <CardContent sx={{ pt: 0 }}>
+        <Typography variant="caption">{enemyItem.desc}</Typography>
+      </CardContent>
     </Card>
   );
 });

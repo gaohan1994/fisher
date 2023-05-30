@@ -1,9 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Divider } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Divider, Stack } from '@mui/material';
 import { EquipmentItem, Forge, Cook, ItemType, NormalItem, Recipe, Skill } from '@FisherCore';
 import { FuiColor, FuiEquipment, FuiItem, FuiLineProgress, notifycationStore } from '@Fui';
-import { IUseRecipeItem, useRecipe } from '../../application/hook';
+import { IUseRecipeItem, useRecipe, useRecipeInterval } from './RecipeHook';
+import { FuiLevelInfo } from '../experience';
 
 interface FuiRecipeTableRowProps {
   title: React.ReactNode;
@@ -48,6 +49,22 @@ interface FuiRecipeDescProps {
 }
 const FuiRecipeDesc: React.FC<FuiRecipeDescProps> = observer(({ activeRecipe, skill }) => {
   const { rewardItems, randomRewardItems, costItems } = useRecipe(activeRecipe);
+  const { intervalSecond } = useRecipeInterval(activeRecipe);
+
+  const recipeLevelInfo = (
+    <Stack>
+      <Typography variant="caption">
+        等级需求：
+        <FuiLevelInfo level={activeRecipe.unlockLevel} />
+      </Typography>
+      <Typography variant="caption">
+        当前技能等级：
+        <FuiLevelInfo level={skill.experience.level} />
+      </Typography>
+      <Typography variant="caption">经验奖励：{activeRecipe.rewardExperience} Exp</Typography>
+      <Typography variant="caption">制作间隔：{intervalSecond} 秒</Typography>
+    </Stack>
+  );
 
   const renderRecipeItem = React.useCallback((item: NormalItem) => {
     if (item.type === ItemType.Equipment) {
@@ -94,8 +111,11 @@ const FuiRecipeDesc: React.FC<FuiRecipeDescProps> = observer(({ activeRecipe, sk
 
   return (
     <React.Fragment>
+      {recipeLevelInfo}
+      <RecipeDivider />
       <FuiRecipeTableRow title="制作产物">{rewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
       <RecipeDivider />
+
       {activeRecipe!.hasRandomRewardItems && (
         <React.Fragment>
           <FuiRecipeTableRow title="上级制作产物">{randomRewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
@@ -136,15 +156,15 @@ const FuiRecipeButton: React.FC<FuiRecipeTableProps> = observer(({ coreComponent
   }
 
   const onRecipeButtonClick = React.useCallback(() => {
-    if (unavailableReason !== undefined) {
-      return notifycationStore.alert('error', unavailableReason);
+    try {
+      if (isActive) {
+        stop();
+      } else {
+        start();
+      }
+    } catch (error: any) {
+      notifycationStore.alert('error', error.label);
     }
-
-    if (isActive) {
-      return stop();
-    }
-
-    start();
   }, [isActive, unavailableReason]);
 
   return (

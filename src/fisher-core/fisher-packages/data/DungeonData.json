@@ -6,6 +6,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "SmallWoodPile",
@@ -43,6 +44,7 @@
       "name": "讲武堂",
       "desc": "大家谈兵论道的地方，实力说话",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "LowMartialArtist",
@@ -72,6 +74,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -87,6 +90,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -116,6 +120,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -131,6 +136,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -146,6 +152,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -161,6 +168,7 @@
       "name": "木桩机关",
       "desc": "训练用的木桩",
       "media": "",
+      "unlockLevel": 5,
       "enemies": [
         {
           "id": "CryGhost",
@@ -204,6 +212,8 @@
       "id": "KuiDragonPalace",
       "name": "夔龙王宫",
       "desc": "传说中夔龙王的宫殿",
+      "rarity": "Legendary",
+      "unlockLevel": 40,
       "media": "",
       "enemies": [
         {

@@ -12,14 +12,16 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import StarIcon from '@mui/icons-material/Star';
 import { Recipe } from '@FisherCore';
-import { FuiColor, FuiIconText, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Fui';
-import { useRecipe } from '../../application/hook';
+import { FuiActiveText, FuiColor, FuiIconText, FuiRecipeRewardAvatars, FuiRecipeRewardDetail } from '@Fui';
+import { useRecipe, useRecipeIsLevelLocked } from './RecipeHook';
 
 interface Props {
+  skillLevel: number;
   isActive: boolean;
   recipe: Recipe;
   onStart: (recipe: Recipe) => void;
@@ -31,6 +33,7 @@ interface Props {
 
 const FuiSkillRecipeCard: React.FC<PropsWithChildren<Props>> = ({
   isActive,
+  skillLevel,
   recipe,
   onStart,
   onStop,
@@ -39,6 +42,7 @@ const FuiSkillRecipeCard: React.FC<PropsWithChildren<Props>> = ({
   activeLabel,
   children,
 }) => {
+  const isLocked = useRecipeIsLevelLocked(skillLevel, recipe);
   const { intervalSecond, rewardItemAvatars } = useRecipe(recipe);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
@@ -51,20 +55,17 @@ const FuiSkillRecipeCard: React.FC<PropsWithChildren<Props>> = ({
   };
   const open = Boolean(anchorEl);
 
+  if (isLocked) {
+    return <FuiSkillRecipeLockedBackdrop recipe={recipe} />;
+  }
+
   return (
     <Card sx={{ bgcolor: FuiColor.primary.background }}>
       <CardActionArea onClick={handleClick}>
         <CardHeader
           title={recipe.name}
           sx={{ pb: 0 }}
-          subheader={
-            isActive && (
-              <Typography variant="caption" color="secondary">
-                {activeLabel ?? '正在采集'}
-                <CircularProgress size={10} color="secondary" />
-              </Typography>
-            )
-          }
+          subheader={isActive && <FuiActiveText text={activeLabel} />}
           avatar={
             <AvatarGroup>
               {rewardItemAvatars.map((avatar, index) => (
@@ -109,4 +110,27 @@ const FuiSkillRecipeCard: React.FC<PropsWithChildren<Props>> = ({
     </Card>
   );
 };
+
+interface IFuiSkillRecipeLockedBackdrop {
+  recipe: Recipe;
+}
+const FuiSkillRecipeLockedBackdrop: React.FC<IFuiSkillRecipeLockedBackdrop> = ({ recipe }) => (
+  <Card sx={{ height: '100%' }}>
+    <CardHeader
+      title={recipe.name}
+      subheader={`${recipe.unlockLevel}级解锁`}
+      sx={{ pb: 0 }}
+      avatar={
+        <AvatarGroup>
+          <QuestionMarkIcon />
+        </AvatarGroup>
+      }
+    />
+    <CardContent>
+      <FuiIconText icon={<AccessAlarmIcon />} text={`采集间隔 ？秒`} />
+      <FuiIconText icon={<EmojiEventsIcon />} text={`经验奖励 ？点`} />
+    </CardContent>
+  </Card>
+);
+
 export { FuiSkillRecipeCard };

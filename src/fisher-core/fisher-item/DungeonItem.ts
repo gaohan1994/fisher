@@ -6,14 +6,18 @@ import { ICreateRewardOptions, Reward } from '../fisher-reward';
 import { Enemy } from '../fisher-person';
 
 interface IDungeonItem extends IItem {
+  unlockLevel: number;
   enemies: Array<IEnemyItem>;
   progressExtraReward?: {
-    [key: string]: Array<ICreateRewardOptions>;
+    [key: string | number]: Array<ICreateRewardOptions>;
   };
 }
 
 class DungeonItem extends Item {
   public type = ItemType.Dungeon;
+
+  @observable
+  public unlockLevel = 0;
 
   @observable
   public enemies: Array<EnemyItem>;
@@ -42,6 +46,8 @@ class DungeonItem extends Item {
   constructor(options: IDungeonItem) {
     super(options);
     makeObservable(this);
+
+    this.unlockLevel = options.unlockLevel;
 
     this.enemies = options.enemies.map((item) => new EnemyItem(item));
     if (options.progressExtraReward) {

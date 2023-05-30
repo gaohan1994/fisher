@@ -37,20 +37,4 @@ const useFightComponentActions = (fightComponent: Battle | Dungeon | undefined) 
   };
 };
 
-const usePersonModeColor = (mode: PersonMode) => {
-  if (mode === PersonMode.CommonEnemy) {
-    return { color: FuiColor.primaryGreen };
-  }
-
-  if (mode === PersonMode.EliteEnemy) {
-    return { color: FuiColor.primaryBlue };
-  }
-
-  if (mode === PersonMode.LegendaryEnemy) {
-    return { color: FuiColor.priamryOrange };
-  }
-
-  return { color: FuiColor.common.white };
-};
-
-export { usePersonProgressValue, useCurrentComponentActive, useFightComponentActions, usePersonModeColor };
+export { usePersonProgressValue, useCurrentComponentActive, useFightComponentActions };
