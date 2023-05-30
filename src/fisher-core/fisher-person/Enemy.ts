@@ -50,7 +50,7 @@ class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor({ id, mode, media, name, goldReward, itemRewards, randomRewards }: EnemyItem) {
+  constructor({ id, mode, media, name, level, actionIds, goldReward, itemRewards, randomRewards }: EnemyItem) {
     makeAutoObservable(this);
 
     this.key = generateTimestamp();
@@ -60,8 +60,6 @@ class Enemy {
     this.name = name;
 
     this.media = media;
-
-    this.person = new Person(mode as PersonMode);
 
     if (goldReward) {
       this.goldReward = goldReward;
@@ -74,6 +72,8 @@ class Enemy {
     if (randomRewards) {
       this.randomRewards = randomRewards;
     }
+
+    this.person = new Person(mode as PersonMode, { level, actionIds });
   }
 
   /**

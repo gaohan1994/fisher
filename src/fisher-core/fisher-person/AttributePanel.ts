@@ -22,7 +22,7 @@ const emptyBonusAttributes: IBonusEquipmentsAttributes = {
 };
 
 class AttributePanel {
-  private target?: Person;
+  private person?: Person;
 
   private config: PersonFactorConfig;
 
@@ -36,7 +36,7 @@ class AttributePanel {
     makeAutoObservable(this);
 
     this.config = config;
-    this.target = person.target;
+    this.person = person;
     this.experience = person.experience;
     this.equipmentManager = person.personEquipmentManager;
     this.actionManager = person.actionManager;
@@ -194,7 +194,11 @@ class AttributePanel {
    */
   public get AttackDamageMultiplier() {
     const { DefenceFormulaFactor } = this.config;
-    return 1 - (DefenceFormulaFactor * this.DefencePower) / (1 + DefenceFormulaFactor * Math.abs(this.DefencePower));
+    return (
+      1 -
+      (DefenceFormulaFactor * (this.person?.target!.attributePanel.DefencePower ?? 0)) /
+        (1 + DefenceFormulaFactor * Math.abs(this.person?.target!.attributePanel.DefencePower ?? 0))
+    );
   }
 
   public get AttackDamage() {
@@ -245,7 +249,7 @@ class AttributePanel {
   public get DefencePower() {
     return (
       (this.BaseDefencePower + this.BonusDefencePower) * this.BonusDefencePowerMultiplier -
-      (this.target?.attributePanel.DefenceCorruption ?? 0)
+      (this.person?.target?.attributePanel.DefenceCorruption ?? 0)
     );
   }
 

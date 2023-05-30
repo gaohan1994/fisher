@@ -41,7 +41,8 @@ class Experience {
   };
 
   public setLevel = (level: number) => {
-    const levelExperience = experienceCalculator.getLevelExperience(level - 1);
+    const correctLevel = Math.min(MaxLevel, level);
+    const levelExperience = experienceCalculator.getLevelExperience(correctLevel);
     this.addExperience(levelExperience);
   };
 }

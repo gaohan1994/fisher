@@ -1,8 +1,9 @@
-// import { PersonMode } from '../fisher-person';
+import { ActionId } from '../fisher-actions';
 import { IItem, Item, ItemType } from './Item';
 
 export interface IEnemyItem extends IItem {
   level: number;
+  actionIds?: string[];
   unlockLevel?: number;
   goldReward?: number;
   itemRewards?: EnemyItemReward[];
@@ -37,6 +38,8 @@ export class EnemyItem extends Item {
 
   public randomRewards: EnemyRandomReward[] = [];
 
+  public actionIds: ActionId[] = [];
+
   constructor(options: IEnemyItem) {
     super(options);
     this.level = options.level;
@@ -45,5 +48,6 @@ export class EnemyItem extends Item {
     if (options.itemRewards) this.itemRewards = options.itemRewards;
     if (options.randomRewards) this.randomRewards = options.randomRewards;
     if (options.mode) this.mode = options.mode;
+    if (options.actionIds) this.actionIds = options.actionIds as ActionId[];
   }
 }

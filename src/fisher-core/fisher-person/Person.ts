@@ -21,6 +21,7 @@ enum PersonEventKeys {
 }
 
 interface IPersonOptions {
+  level?: number;
   actionIds: ActionId[];
 }
 
@@ -60,11 +61,15 @@ class Person {
 
   public event = new EventEmitter();
 
-  constructor(mode: PersonMode, options: IPersonOptions = { actionIds: [] }) {
+  constructor(mode: PersonMode, options: IPersonOptions = { level: 0, actionIds: [] }) {
     makeAutoObservable(this);
 
     this.mode = mode;
     this.options = options;
+
+    if (options.level !== undefined && options.level > 0) {
+      this.experience.setLevel(options.level);
+    }
 
     this.actionManager = new ActionManager(this, this.getPersonActionIds());
 

@@ -211,7 +211,7 @@
           "name": "夔龙",
           "desc": "状如牛，苍身而无角，一足，出入水则必有风雨，其光如日月，其声如雷，其名曰夔",
           "media": "",
-          "level": 99,
+          "level": 40,
           "mode": "LegendaryEnemy",
           "randomRewards": [{ "itemId": "DragonBall", "quantity": 1, "probability": 1 }]
         }

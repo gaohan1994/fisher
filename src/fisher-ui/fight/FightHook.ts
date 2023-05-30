@@ -1,4 +1,5 @@
-import { Battle, Dungeon, Person, core } from '@FisherCore';
+import { Battle, Dungeon, Person, PersonMode, core } from '@FisherCore';
+import { FuiColor } from '../theme';
 
 const usePersonProgressValue = (person: Person) => {
   const hpProgressValue = (person.Hp / person.attributePanel.MaxHp) * 100;
@@ -36,4 +37,20 @@ const useFightComponentActions = (fightComponent: Battle | Dungeon | undefined) 
   };
 };
 
-export { usePersonProgressValue, useCurrentComponentActive, useFightComponentActions };
+const usePersonModeColor = (mode: PersonMode) => {
+  if (mode === PersonMode.CommonEnemy) {
+    return { color: FuiColor.primaryGreen };
+  }
+
+  if (mode === PersonMode.EliteEnemy) {
+    return { color: FuiColor.primaryBlue };
+  }
+
+  if (mode === PersonMode.LegendaryEnemy) {
+    return { color: FuiColor.priamryOrange };
+  }
+
+  return { color: FuiColor.common.white };
+};
+
+export { usePersonProgressValue, useCurrentComponentActive, useFightComponentActions, usePersonModeColor };
