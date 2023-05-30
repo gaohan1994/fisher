@@ -7,10 +7,19 @@ const FuiSize = {
   },
 };
 
+const primaryGreen = green.A700;
+const primaryBlue = blue[400];
+const primaryPurple = purple.A200;
+const priamryOrange = orange.A400;
+
 const FuiColor = {
   common,
+  primaryGreen,
+  primaryBlue,
+  primaryPurple,
+  priamryOrange,
+
   red: red[600],
-  green: green.A400,
 
   primary: {
     background: blueGrey[900],
@@ -33,16 +42,14 @@ const FuiColor = {
     borderColor: common.black,
     activeBorderColor: yellow[600],
     Common: common.white,
-    Rare: blue[400],
-    Epic: purple.A200,
-    Legendary: orange.A400,
+    Rare: primaryBlue,
+    Epic: primaryPurple,
+    Legendary: priamryOrange,
   },
-
-  personEquipment: {},
 
   equipment: {
     attribute: yellow[700],
-    action: green.A700,
+    action: primaryGreen,
   },
 
   equipmentSet: {

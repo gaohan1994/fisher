@@ -16,7 +16,8 @@ import { ComponentId, core } from '@FisherCore';
 import { FuiRoute, fuiRouteHandler } from '../route';
 import React from 'react';
 import { FuiActiveComponentMiniDashboard } from './ActiveComponent';
-import { useComponentLevelColor, useComponentTimer } from './MenuHook';
+import { useComponentTimer } from './MenuHook';
+import { FuiLevelInfo } from '../experience';
 
 const visibleComponents = [
   ComponentId.Master,
@@ -79,7 +80,7 @@ const FuiMenuItem: React.FC<IFuiMenuItem> = observer(({ id, route }) => {
         )}
         <Stack>
           <Typography textAlign="end">{route.name}</Typography>
-          {(component as any)?.level && <FuiMenuLevel level={(component as any)?.level} />}
+          {(component as any)?.level && <FuiLevelInfo level={(component as any)?.level} textAlign="end" />}
           {isCurrentMenuActive && timer && <FuiActiveComponentMiniDashboard timer={timer} />}
         </Stack>
       </MenuItem>
@@ -87,17 +88,5 @@ const FuiMenuItem: React.FC<IFuiMenuItem> = observer(({ id, route }) => {
     </React.Fragment>
   );
 });
-
-interface IFuiMenuLevel {
-  level: number;
-}
-const FuiMenuLevel: React.FC<IFuiMenuLevel> = ({ level }) => {
-  const { color } = useComponentLevelColor(level);
-  return (
-    <Typography sx={{ color }} variant="caption" textAlign="end">
-      Lv:{level}
-    </Typography>
-  );
-};
 
 export { FuiMenu };

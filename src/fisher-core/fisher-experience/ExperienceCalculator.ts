@@ -1,4 +1,4 @@
-const MaxLevel = 99;
+const MaxLevel = 40;
 
 class ExperienceCalculator {
   public static MaxLevel = MaxLevel;

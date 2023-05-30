@@ -77,7 +77,7 @@ const FuiPotionHandler: React.FC<FuiPotionHandlerProps> = observer(({ title, sub
         }
         title={`${potionHandler.hasPotion ? potionHandler.potion?.item.name : '空'}`}
         subheader={
-          <Typography variant="caption" color={FuiColor.green}>
+          <Typography variant="caption" color={FuiColor.primaryGreen}>
             {`${potionHandler.hasPotion ? potionHandler.potion?.item.desc : '暂无描述'}`}
           </Typography>
         }

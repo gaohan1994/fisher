@@ -1,24 +1,4 @@
-import { ComponentId, Experience, FisherComponent, Timer } from '@FisherCore';
-import { FuiColor } from '../theme';
-import { blue } from '@mui/material/colors';
-
-const useComponentLevelColor = (level: string | number) => {
-  const realLevel = Number(level);
-
-  if (realLevel >= Experience.MaxLevel) {
-    return { color: FuiColor.gold };
-  }
-
-  if (realLevel >= Experience.MaxLevel / 2) {
-    return { color: FuiColor.green };
-  }
-
-  if (realLevel >= 10) {
-    return { color: blue[400] };
-  }
-
-  return { color: FuiColor.common.white };
-};
+import { ComponentId, FisherComponent, Timer } from '@FisherCore';
 
 const useComponentTimer = (component: FisherComponent): Timer | undefined => {
   if ((component as any).skill !== undefined) {
@@ -32,4 +12,4 @@ const useComponentTimer = (component: FisherComponent): Timer | undefined => {
   return undefined;
 };
 
-export { useComponentLevelColor, useComponentTimer };
+export { useComponentTimer };

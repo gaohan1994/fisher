@@ -7,6 +7,13 @@ enum PersonMode {
   LegendaryEnemy = 'LegendaryEnemy',
 }
 
+const PersonModeName = {
+  [PersonMode.Master]: '玩家',
+  [PersonMode.CommonEnemy]: '普通',
+  [PersonMode.EliteEnemy]: '精英',
+  [PersonMode.LegendaryEnemy]: '传说',
+};
+
 interface PersonFactorConfig {
   DefenceFormulaFactor: number;
   DefaultAttackSpeed: number;
@@ -22,7 +29,7 @@ const MasterModeConfig: PersonFactorConfig = {
   InitializeMaxHp: 500,
   HpFactor: 20,
   AttackPowerFactor: 2,
-  DefencePowerFactor: 0.5,
+  DefencePowerFactor: 0.1,
 };
 
 const CommonEnemyConfig: PersonFactorConfig = {
@@ -31,25 +38,25 @@ const CommonEnemyConfig: PersonFactorConfig = {
   InitializeMaxHp: 500,
   HpFactor: 20,
   AttackPowerFactor: 2,
-  DefencePowerFactor: 0.5,
+  DefencePowerFactor: 0.1,
 };
 
 const EliteEnemyConfig: PersonFactorConfig = {
   DefenceFormulaFactor: 0.06,
   DefaultAttackSpeed: 2000,
-  InitializeMaxHp: 5000,
+  InitializeMaxHp: 1000,
   HpFactor: 20,
   AttackPowerFactor: 3,
-  DefencePowerFactor: 1,
+  DefencePowerFactor: 0.1,
 };
 
 const LegendaryEnemyConfig: PersonFactorConfig = {
   DefenceFormulaFactor: 0.06,
   DefaultAttackSpeed: 2000,
-  InitializeMaxHp: 20000,
+  InitializeMaxHp: 15000,
   HpFactor: 50,
   AttackPowerFactor: 4,
-  DefencePowerFactor: 3,
+  DefencePowerFactor: 0.4,
 };
 
 const getPersonFactorConfig = (mode: PersonMode) => {
@@ -72,5 +79,5 @@ const getPersonFactorConfig = (mode: PersonMode) => {
   throw new FisherPersonError('Wrong person mode');
 };
 
-export { PersonMode, getPersonFactorConfig };
+export { PersonModeName, PersonMode, getPersonFactorConfig };
 export type { PersonFactorConfig };
