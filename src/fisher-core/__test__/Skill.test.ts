@@ -39,18 +39,18 @@ describe('Skill experience', () => {
     expect(skill.experience.level).toBe(1);
     expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(1));
 
-    skill.experience.addExperience(140);
+    skill.experience.receiveExperience(140);
     expect(skill.experience.level).toBe(2);
     expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(2));
   });
 
   test('should success return max level', () => {
-    skill.experience.addExperience(1009899);
-    expect(skill.experience.level).toBe(99);
-    expect(skill.experience.levelUpExperience).toBe(1009899);
+    skill.experience.receiveExperience(1009899);
+    expect(skill.experience.level).toBe(40);
+    expect(skill.experience.levelUpExperience).toBe(experienceCalculator.getLevelExperience(40));
 
-    skill.experience.addExperience(1009899);
-    expect(skill.experience.level).toBe(99);
+    skill.experience.receiveExperience(1009899);
+    expect(skill.experience.level).toBe(40);
   });
 });
 
@@ -200,7 +200,7 @@ describe('Skill', () => {
       expect(() => {
         skill.setActiveRecipe(costRecipe);
         skill.start();
-      }).toThrowError(`Try to start skill ${skill.id} but recipe was unavailabled`);
+      }).toThrowError(`Try start recipe but can not bear costs`);
     });
 
     test('should stop skill timer when recipe unavailable ', () => {

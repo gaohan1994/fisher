@@ -43,8 +43,8 @@ abstract class Collection<CollectionPackages> {
 
   abstract onLoadArchive(value: ArchiveInterface.ArchiveValues): void;
 
-  public addExperience = (value: number) => {
-    this.skill.experience.addExperience(value);
+  public receiveExperience = (value: number) => {
+    this.skill.experience.receiveExperience(value);
   };
 
   public setExperience = (value: number) => {

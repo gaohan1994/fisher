@@ -6,6 +6,8 @@ import { FisherCore } from '../fisher-core';
 import { DungeonItem, EnemyItem, EquipmentItem } from '../fisher-item';
 import { Fight } from '../fisher-fight';
 import { Dungeon } from '../fisher-dungeon';
+import { NormalAttackAction } from '../fisher-actions/AttackActions';
+import { Enemy, Master } from '../fisher-person';
 
 const debugWeapon = new EquipmentItem({
   id: 'DebugWeapon',
@@ -15,7 +17,7 @@ const debugWeapon = new EquipmentItem({
   price: 5,
   slot: 'PrimaryWeapon',
   attackSpeed: 100,
-  attributes: [{ key: 'AttackPower', value: 4000 }],
+  attributes: [{ key: 'AttackPower', value: 99999 }],
 });
 
 const enemy1 = {
@@ -90,6 +92,13 @@ describe('Dungeon', () => {
     dungeon.setActiveDungeonItem(testDungeon);
     dungeon.master.personEquipmentManager.useEquipment(debugWeapon);
 
+    const spyAction = vi.fn().mockImplementation(async (_master, _enemy) => {
+      expect(_master instanceof Master).toBeTruthy();
+      expect(_enemy instanceof Enemy).toBeTruthy();
+    });
+
+    dungeon.fight.event.on(Fight.EventKeys.MasterWinFight, spyAction);
+
     expect(dungeon.activeDungeonItem).toStrictEqual(testDungeon);
 
     dungeon.start();
@@ -101,8 +110,11 @@ describe('Dungeon', () => {
     expect(dungeon.activeDungeonItem?.currentEnemyItem).toStrictEqual(new EnemyItem(enemy1));
     expect(core.activeComponent).toStrictEqual(dungeon);
 
-    // dungeon fight interval 200ms
-    await vi.advanceTimersByTime(100 + 200);
+    const normalAttackAction = new NormalAttackAction();
+    normalAttackAction.execute(dungeon.master.person);
+
+    expect(spyAction).toBeCalled();
+    await vi.advanceTimersByTime(200);
 
     // master should win the fight
     // the dungeon should fight with next enemy
@@ -115,6 +127,7 @@ describe('Dungeon', () => {
     expect(core.backpack.checkItemById('MetalStone', 1)).toBeTruthy();
 
     await vi.advanceTimersByTime(100 + 200);
+
     // re-fight the first boss
     expect(dungeon.activeDungeonItem?.progress).toBe(0);
     expect(dungeon.activeDungeonItem?.currentEnemyItem).toStrictEqual(new EnemyItem(enemy1));

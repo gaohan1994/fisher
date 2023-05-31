@@ -8,17 +8,17 @@ beforeEach(() => {
 
 describe('Experience', () => {
   test('should success calculate level to experience', () => {
-    expect(experienceCalculator.levelExperienceList.length).toBe(100);
+    expect(experienceCalculator.levelExperienceList.length).toBe(Experience.MaxLevel + 1);
     expect(experienceCalculator.getLevelExperience(1)).toBe(100);
   });
 
   test('should success calculate experience', () => {
     const experience = new Experience();
-    experience.addExperience(239);
+    experience.receiveExperience(239);
     expect(experience.level).toBe(2);
-    experience.addExperience(1);
+    experience.receiveExperience(1);
     expect(experience.level).toBe(3);
-    experience.addExperience(1);
+    experience.receiveExperience(1);
     expect(experience.level).toBe(3);
   });
 

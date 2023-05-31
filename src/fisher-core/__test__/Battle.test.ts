@@ -6,6 +6,7 @@ import { Battle } from '../fisher-battle';
 import { FisherCore } from '../fisher-core';
 import { EnemyItem, EquipmentItem } from '../fisher-item';
 import { Fight } from '../fisher-fight';
+import { Enemy, Master } from '../fisher-person';
 
 const debugWeapon = new EquipmentItem({
   id: 'DebugWeapon',
@@ -15,7 +16,7 @@ const debugWeapon = new EquipmentItem({
   price: 5,
   slot: 'PrimaryWeapon',
   attackSpeed: 100,
-  attributes: [{ key: 'AttackPower', value: 4000 }],
+  attributes: [{ key: 'AttackPower', value: 9999 }],
 });
 const testEnemyItem = new EnemyItem({
   id: 'LowSpiritMonster',
@@ -38,19 +39,22 @@ describe('Battle', () => {
     expect(battle.fight instanceof Fight).toBeTruthy();
     expect(battle.rewardPool.pool.length).toBe(0);
     expect(battle.rewardPool.hasReward).toBeFalsy();
-    expect(() => {
-      battle.start().catch((error) => {
-        error.message === `Fail to start battle, please set active enemy item first`;
-      });
-    });
+    expect(() => battle.start()).toThrow(`Fail to start battle, please set active enemy`);
   });
 
-  test('should set active enemy item and enemy loading status', () => {
+  test('should set active enemy item and enemy loading status', async () => {
+    vi.useFakeTimers();
+
     const battle = new Battle();
+
+    const spyAction = vi.fn().mockImplementation(async (_master, _enemy) => {
+      expect(_master instanceof Master).toBeTruthy();
+      expect(_enemy instanceof Enemy).toBeTruthy();
+    });
+
+    battle.fight.event.on(Fight.EventKeys.MasterWinFight, spyAction);
     battle.master.personEquipmentManager.useEquipment(debugWeapon);
     battle.setAcitveEnemyItem(testEnemyItem);
-
-    vi.useFakeTimers();
     battle.start();
 
     expect(battle.rewardPool.hasReward).toBeFalsy();
@@ -59,15 +63,15 @@ describe('Battle', () => {
     expect(battle.enemy!.person.isAttacking).toBeTruthy();
     expect(core.activeComponent).toStrictEqual(battle);
 
-    vi.advanceTimersByTime(100);
-
+    await vi.advanceTimersByTime(100);
+    expect(spyAction).toBeCalled();
     expect(battle.rewardPool.hasReward).toBeTruthy();
-    battle.rewardPool.executeRewardPool();
-    expect(core.backpack.checkItemById('NormalReiki', 1)).toBeTruthy();
 
+    await vi.advanceTimersByTime(200);
     battle.stop();
     expect(battle.master.person.isAttacking).toBeFalsy();
-    expect(battle.enemy!.person.isAttacking).toBeFalsy();
+    expect(battle.enemy).toBeUndefined();
+    expect(battle.activeEnemyItem).toBeUndefined();
 
     vi.clearAllTimers();
   });

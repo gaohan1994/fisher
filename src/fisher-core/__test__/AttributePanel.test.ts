@@ -47,7 +47,7 @@ describe('PersonFactorConfig', () => {
       InitializeMaxHp: 500,
       HpFactor: 20,
       AttackPowerFactor: 2,
-      DefencePowerFactor: 0.5,
+      DefencePowerFactor: 0.1,
     });
 
     expect(getPersonFactorConfig(PersonMode.CommonEnemy)).toStrictEqual({
@@ -56,25 +56,25 @@ describe('PersonFactorConfig', () => {
       InitializeMaxHp: 500,
       HpFactor: 20,
       AttackPowerFactor: 2,
-      DefencePowerFactor: 0.5,
+      DefencePowerFactor: 0.1,
     });
 
     expect(getPersonFactorConfig(PersonMode.EliteEnemy)).toStrictEqual({
       DefenceFormulaFactor: 0.06,
       DefaultAttackSpeed: 2000,
-      InitializeMaxHp: 5000,
+      InitializeMaxHp: 1000,
       HpFactor: 20,
       AttackPowerFactor: 3,
-      DefencePowerFactor: 1,
+      DefencePowerFactor: 0.1,
     });
 
     expect(getPersonFactorConfig(PersonMode.LegendaryEnemy)).toStrictEqual({
       DefenceFormulaFactor: 0.06,
       DefaultAttackSpeed: 2000,
-      InitializeMaxHp: 20000,
+      InitializeMaxHp: 15000,
       HpFactor: 50,
       AttackPowerFactor: 4,
-      DefencePowerFactor: 3,
+      DefencePowerFactor: 0.4,
     });
   });
 });

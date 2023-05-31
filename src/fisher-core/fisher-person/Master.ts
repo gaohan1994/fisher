@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { EventEmitter } from 'smar-util';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
@@ -8,8 +9,13 @@ import { PersonEquipment } from './PersonEquipment';
 import { PersonEquipmentEventKeys } from './PersonEquipmentManager';
 import { PotionHandlerManager } from './PotionHandlerManager';
 import { PersonMode } from './Constants';
+import { DeathPunish } from './DeathPunish';
 
 const EquipmentChangeQuantity = 1;
+
+enum MasterEventKeys {
+  MasterDeath = 'MasterDeath',
+}
 
 class Master {
   public static instance: Master;
@@ -21,6 +27,8 @@ class Master {
     return Master.instance;
   }
 
+  public static readonly MasterEventKeys = MasterEventKeys;
+
   public readonly id = 'Master';
 
   public name = '角色';
@@ -30,6 +38,8 @@ class Master {
   private _media = 'knight';
 
   public media = Assets[this._media as keyof typeof Assets];
+
+  public event = new EventEmitter();
 
   public person = new Person(PersonMode.Master);
 
@@ -69,11 +79,15 @@ class Master {
 
   constructor() {
     makeAutoObservable(this);
+
     events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
+
     this.person.personEquipmentManager.personEquipmentEvents.on(
       PersonEquipmentEventKeys.EquipmentChange,
       this.onMasterEquipmentChange
     );
+
+    this.event.on(Master.MasterEventKeys.MasterDeath, this.deathPenalty);
   }
 
   private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
@@ -84,7 +98,12 @@ class Master {
     this.potionHandlerManager.loadArchivePotionHandlers(master?.potionHandlers ?? []);
   };
 
-  public deathPenalty = () => {};
+  private deathPenalty = () => {
+    const deathPunish = new DeathPunish(this.person);
+    deathPunish.executePunish();
+
+    this.person.refreshHp();
+  };
 
   private onMasterEquipmentChange = (
     currentPersonEquipment: PersonEquipment,
@@ -107,6 +126,10 @@ class Master {
 
   private reduceEquipmentAfterUseEquipment = (equipment: EquipmentItem, quantity: number) => {
     events.emit(EventKeys.Backpack.ReduceItem, equipment, quantity);
+  };
+
+  public receiveExperience = (value: number) => {
+    this.person.experience.receiveExperience(value);
   };
 }
 

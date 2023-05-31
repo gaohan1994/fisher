@@ -93,12 +93,14 @@ class Dungeon {
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);
     this.collectProgressExtraReward(enemy);
-    await this.continueNextFight();
+
+    await TimerSpace.space(Dungeon.BaseInterval);
+
+    this.continueNextFight();
   };
 
-  private continueNextFight = async () => {
+  private continueNextFight = () => {
     if (this.activeDungeonItem !== undefined) {
-      await TimerSpace.space(Dungeon.BaseInterval);
       this.fight.startFighting(new Enemy(this.activeDungeonItem.nextEnemy()));
     }
   };

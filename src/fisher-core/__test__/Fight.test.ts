@@ -56,7 +56,7 @@ describe('Fight', () => {
     vi.advanceTimersByTime(50);
     fight.stopFighting();
     expect(fight.info.master.person.target).toBeUndefined();
-    expect(fight.info.enemy!.person.target).toBeUndefined();
+    expect(fight.info.enemy).toBeUndefined();
 
     expect(fight.info.isAttacking).toBeFalsy();
 

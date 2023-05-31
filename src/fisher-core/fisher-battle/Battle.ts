@@ -66,7 +66,7 @@ class Battle {
     this.activeEnemyItem = undefined;
   };
 
-  public start = async () => {
+  public start = () => {
     if (this.activeEnemyItem === undefined) {
       throw new FisherBattleError('Fail to start battle, please set active enemy', '请先设置战斗目标');
     }
@@ -76,27 +76,30 @@ class Battle {
     Battle.logger.info(`Start battle with enemy ${this.activeEnemyItem.name}`);
   };
 
-  public stop = async () => {
+  public stop = () => {
     this.fight.stopFighting();
     this.clearActiveEnemyItem();
 
     Battle.logger.info('Stop battle');
   };
 
-  private onMasterLostFight = async () => {};
-
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);
-    await this.continueNextFight();
+    await TimerSpace.space(Battle.BaseBattleInterval);
+    this.continueNextFight();
+  };
+
+  private onMasterLostFight = () => {
+    this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.stop();
   };
 
   private collectRewards = async (enemy: Enemy) => {
     this.rewardPool.collectRewards(enemy.provideRewards());
   };
 
-  private continueNextFight = async () => {
+  private continueNextFight = () => {
     if (this.activeEnemyItem !== undefined) {
-      await TimerSpace.space(Battle.BaseBattleInterval);
       this.fight.startFighting(new Enemy(this.activeEnemyItem));
     }
   };
