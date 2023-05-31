@@ -39,7 +39,7 @@ class ComponentManager {
     return ComponentManager.instance;
   }
 
-  private componentMap = new Map<string, FisherComponent>();
+  public componentMap = new Map<string, FisherComponent>();
 
   public activeComponent: ActiveControlComponent | undefined = undefined;
 
