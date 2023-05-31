@@ -32,7 +32,7 @@ class Experience {
     makeAutoObservable(this);
   }
 
-  public addExperience = (value: number) => {
+  public receiveExperience = (value: number) => {
     this.experience += value;
   };
 
@@ -42,8 +42,8 @@ class Experience {
 
   public setLevel = (level: number) => {
     const correctLevel = Math.min(MaxLevel, level);
-    const levelExperience = experienceCalculator.getLevelExperience(correctLevel);
-    this.addExperience(levelExperience);
+    const levelExperience = experienceCalculator.getLevelExperience(correctLevel - 1);
+    this.setExperience(levelExperience);
   };
 }
 

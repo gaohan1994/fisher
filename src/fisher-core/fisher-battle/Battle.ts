@@ -83,20 +83,23 @@ class Battle {
     Battle.logger.info('Stop battle');
   };
 
-  private onMasterLostFight = async () => {};
-
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);
-    await this.continueNextFight();
+    await TimerSpace.space(Battle.BaseBattleInterval);
+    this.continueNextFight();
+  };
+
+  private onMasterLostFight = () => {
+    this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.stop();
   };
 
   private collectRewards = async (enemy: Enemy) => {
     this.rewardPool.collectRewards(enemy.provideRewards());
   };
 
-  private continueNextFight = async () => {
+  private continueNextFight = () => {
     if (this.activeEnemyItem !== undefined) {
-      await TimerSpace.space(Battle.BaseBattleInterval);
       this.fight.startFighting(new Enemy(this.activeEnemyItem));
     }
   };

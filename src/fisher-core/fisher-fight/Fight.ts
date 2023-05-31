@@ -83,8 +83,8 @@ class Fight {
     if (isDeath) {
       Fight.logger.info(`Fight end, enemy ${this.enemy!.name} was death, emit ${Fight.EventKeys.MasterWinFight} event`);
 
-      this.stopFighting();
       this.event.emit(Fight.EventKeys.MasterWinFight, this.master, this.enemy);
+      this.stopFighting();
     }
   };
 
@@ -92,8 +92,8 @@ class Fight {
     if (isDeath) {
       Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.MasterLostFight} event`);
 
-      this.stopFighting();
       this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy);
+      this.stopFighting();
     }
   };
 

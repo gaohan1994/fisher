@@ -116,9 +116,13 @@ describe('Person Attribute', () => {
 
     const { attributePanel } = master;
 
-    expect(attributePanel.MaxHp).toBe(520 + 20);
-    expect(attributePanel.AttackPower).toBe((2 + 10) * 1.01);
-    expect(attributePanel.DefencePower).toBe((0.5 + 5) * 1.05);
+    const { InitializeMaxHp, HpFactor, AttackPowerFactor, DefencePowerFactor } = getPersonFactorConfig(
+      PersonMode.Master
+    );
+
+    expect(attributePanel.MaxHp).toBe(InitializeMaxHp + master.level * HpFactor + 20);
+    expect(attributePanel.AttackPower).toBe((master.level * AttackPowerFactor + 10) * 1.01);
+    expect(attributePanel.DefencePower).toBe((master.level * DefencePowerFactor + 5) * 1.05);
   });
 
   test('should success calculate AttackSpeed', () => {

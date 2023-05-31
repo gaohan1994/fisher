@@ -13,7 +13,7 @@ type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle 
 
 type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle | Dungeon;
 
-type ComponentWithExperience = Mining | Reiki | Forge | Cook;
+type ComponentWithExperience = Mining | Reiki | Forge | Cook | Master;
 
 enum ComponentId {
   Bank = 'Bank',
@@ -109,8 +109,8 @@ class ComponentManager {
     const component = this.componentMap.get(componentId) as ComponentWithExperience;
     invariant(component !== undefined, `Try to add experience to undefined component ${componentId}`);
 
-    component.addExperience(experience);
-    ComponentManager.logger.debug(`'Execute reward skill experience: ${componentId}, experience: ${experience}`);
+    component.receiveExperience(experience);
+    ComponentManager.logger.debug(`'Execute add ${componentId} experience: ${experience}`);
   };
 
   public setActiveComponent = (component: ActiveControlComponent) => {
