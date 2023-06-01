@@ -1,8 +1,3 @@
-enum FisherInformationVariant {
-  Alert = 'Alert',
-  Tip = 'Tip',
-}
-
 enum FisherMessageVariant {
   Item = 'Item',
   Experience = 'Experience',
@@ -10,4 +5,4 @@ enum FisherMessageVariant {
   MasterLevel = 'MasterLevel',
 }
 
-export { FisherInformationVariant, FisherMessageVariant };
+export { FisherMessageVariant };

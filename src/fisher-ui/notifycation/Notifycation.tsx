@@ -1,23 +1,32 @@
-import { FC, Fragment } from 'react';
+import React, { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Alert, Snackbar, SnackbarContent, Typography } from '@mui/material';
-import { core } from '@FisherCore';
+import {
+  Alert,
+  Snackbar,
+  SnackbarContent,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+} from '@mui/material';
+import { core, Information } from '@FisherCore';
+import type { InformationMessage } from '@FisherCore';
 import { notifycationStore } from './NotifycationStore';
+import { MessageParer } from './MessageParser';
+import { FuiColor } from '../theme';
+import { useArray } from '../../application/hook/UseArray';
 
-const CorePrompt: FC = observer(() => {
-  const { prompt } = core;
-  const open = Boolean(prompt.quene.length);
-
-  const coreMessages = prompt.quene.map((item, index) => (
-    <Typography key={`${item.item.id}${index}`}>
-      获得：{item.item.name} x {item.quantity}
-    </Typography>
-  ));
-
+const FuiNotifycation: FC = observer(() => {
+  const { information } = core;
   return (
-    <Snackbar key="CorePrompt" open={open} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-      <SnackbarContent message={coreMessages} />
-    </Snackbar>
+    <Fragment>
+      <CoreInformationAlerts information={information} />
+      <CoreInformationTips information={information} />
+      <Alerts />
+    </Fragment>
   );
 });
 
@@ -49,12 +58,127 @@ const Alerts: FC = observer(() => {
   );
 });
 
-const FuiNotifycation: FC = observer(() => {
+interface ICoreInformationMessageHandler {
+  information: Information;
+}
+
+const CoreInformationAlerts: FC<ICoreInformationMessageHandler> = observer(({ information }) => {
+  const [open, setOpen] = React.useState(false);
+  const { value, push, isEmpty, clear } = useArray<MessageParer>([]);
+
+  React.useEffect(() => {
+    const unsubscribe = information.event.on(
+      Information.InformationEventKeys.AlertMessage,
+      (messages: InformationMessage[]) => {
+        push(new MessageParer(messages));
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [information]);
+
+  React.useEffect(() => {
+    if (!isEmpty()) {
+      setOpen(true);
+    }
+  }, [isEmpty]);
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    clear();
+  };
+
+  const handleExited = () => {
+    clear();
+  };
+
   return (
-    <Fragment>
-      <Alerts />
-      <CorePrompt />
-    </Fragment>
+    <Dialog
+      open={open}
+      fullWidth={false}
+      scroll="paper"
+      maxWidth="md"
+      onClose={handleClose}
+      TransitionProps={{ onExited: handleExited }}
+    >
+      <DialogTitle>提示</DialogTitle>
+      <DialogContent sx={{ minWidth: 300 }}>
+        {value &&
+          value.map((parser, index) => {
+            return (
+              <Box key={`${index}${parser.date}`} sx={{ mb: 1 }}>
+                <Typography variant="body2">{parser.date}</Typography>
+                {parser.toMessage()}
+              </Box>
+            );
+          })}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus>
+          好
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+});
+
+const CoreInformationTips: FC<ICoreInformationMessageHandler> = observer(({ information }) => {
+  const [open, setOpen] = React.useState(false);
+  const [snackPack, setSnackPack] = React.useState<readonly MessageParer[]>([]);
+  const [messageInfo, setMessageInfo] = React.useState<MessageParer | undefined>(undefined);
+
+  React.useEffect(() => {
+    const unsubscribe = information.event.on(
+      Information.InformationEventKeys.TipMessage,
+      (messages: InformationMessage[]) => {
+        setSnackPack((prev) => [...prev, new MessageParer(messages)]);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, [information]);
+
+  React.useEffect(() => {
+    if (snackPack.length && !messageInfo) {
+      // Set a new snack when we don't have an active one
+      setMessageInfo({ ...snackPack[0] });
+      setSnackPack((prev) => prev.slice(1));
+      setOpen(true);
+    } else if (snackPack.length && messageInfo && open) {
+      // Close an active snack when a new one is added
+      setOpen(false);
+    }
+  }, [snackPack, messageInfo, open]);
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleExited = () => {
+    setMessageInfo(undefined);
+  };
+
+  return (
+    <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={handleClose}
+      TransitionProps={{ onExited: handleExited }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <SnackbarContent
+        sx={{ background: FuiColor.primary.background }}
+        message={messageInfo ? messageInfo.toMessage() : undefined}
+      />
+    </Snackbar>
   );
 });
 

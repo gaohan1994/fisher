@@ -1,14 +1,18 @@
 import React, { FC, PropsWithChildren } from 'react';
 import numeral from 'numeral';
-import { Avatar, Stack, Typography, Card, CardHeader, CardContent, Box } from '@mui/material';
+import { Avatar, Stack, Typography, Card, CardHeader, CardContent, Box, TypographyProps } from '@mui/material';
 import { coinItem, Item, RarityName } from '@FisherCore';
 import { FuiColor } from '../theme';
 
-interface IFuiItemName {
+interface IFuiItemName extends TypographyProps {
   item: Item;
 }
-const FuiItemName: FC<IFuiItemName> = ({ item }) => (
-  <Typography variant="body2" sx={{ color: FuiColor.item[item.rarity], fontWeight: 'bold' }}>
+const FuiItemName: FC<IFuiItemName> = ({ item, ...rest }) => (
+  <Typography
+    variant="body2"
+    {...rest}
+    sx={{ ...(rest.sx ?? {}), color: FuiColor.item[item.rarity], fontWeight: 'bold' }}
+  >
     {item.name}
   </Typography>
 );

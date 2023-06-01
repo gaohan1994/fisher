@@ -14,6 +14,14 @@ import { PotionHandler } from './fisher-potion';
 import { Fight } from './fisher-fight';
 import { Battle } from './fisher-battle';
 import { Dungeon } from './fisher-dungeon';
+import { Information } from './fisher-information';
+import type {
+  InformationMessage,
+  ItemMessage,
+  ExperienceMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+} from './fisher-information';
 
 export {
   FisherCore,
@@ -47,9 +55,16 @@ export {
   Dungeon,
   ActionId,
   FisherActions,
+  Information,
 };
-export type { FisherComponent };
+export type {
+  FisherComponent,
+  InformationMessage,
+  ItemMessage,
+  ExperienceMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+};
 export * from './fisher-item';
 export * from './fisher-packages';
 export * from './fisher-person';
-export * from './fisher-prompt';

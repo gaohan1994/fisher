@@ -1,15 +1,18 @@
-import { makeAutoObservable } from 'mobx';
+import { EventEmitter } from 'smar-util';
 import { ExperienceMessage, InformationMessage, ItemMessage, MasterDeathMessage, MasterLevelMessage } from './Message';
-import { FisherInformationMessageHandler } from './MessageHandler';
-import { FisherInformationVariant, FisherMessageVariant } from './Constants';
-import { FisherInformationError } from '../fisher-error';
+import { FisherMessageVariant } from './Constants';
 
-type MessageHandlerId = number;
-
-let messageHandlerId: MessageHandlerId = 1;
+enum InformationEventKeys {
+  TipMessage = 'TipMessage',
+  AlertMessage = 'AlertMessage',
+}
 
 class Information {
   public static instance: Information;
+
+  public static readonly InformationEventKeys = InformationEventKeys;
+
+  public name = '消息';
 
   public static create(): Information {
     if (!Information.instance) {
@@ -42,57 +45,16 @@ class Information {
     return message.variant === FisherMessageVariant.MasterLevel;
   };
 
-  public messageHandlerMap = new Map<MessageHandlerId, FisherInformationMessageHandler>();
+  public event = new EventEmitter();
 
-  public get alertMessageHandlers() {
-    let result: FisherInformationMessageHandler[] = [];
-    this.messageHandlerMap.forEach((handler) => {
-      if (handler.isAlertVariant) {
-        result.push(handler);
-      }
-    });
-
-    return result;
-  }
-
-  public get tipMessageHandlers() {
-    let result: FisherInformationMessageHandler[] = [];
-    this.messageHandlerMap.forEach((handler) => {
-      if (handler.isTipVariant) {
-        result.push(handler);
-      }
-    });
-
-    return result;
-  }
-
-  private constructor() {
-    makeAutoObservable(this);
-  }
-
-  public alert = (messages: InformationMessage[]): MessageHandlerId => {
-    const id = ++messageHandlerId;
-    this.messageHandlerMap.set(id, new FisherInformationMessageHandler(id, FisherInformationVariant.Alert, messages));
-
-    return id;
+  public alert = (messages: InformationMessage[]) => {
+    this.event.emit(Information.InformationEventKeys.AlertMessage, messages);
   };
 
-  public tip = (messages: InformationMessage[]): MessageHandlerId => {
-    const id = ++messageHandlerId;
-    this.messageHandlerMap.set(id, new FisherInformationMessageHandler(id, FisherInformationVariant.Tip, messages));
-
-    return id;
-  };
-
-  public closeMessage = (id: MessageHandlerId) => {
-    const messageHandler = this.messageHandlerMap.get(id);
-    if (messageHandler === undefined) {
-      throw new FisherInformationError(`Try close a undefined message handler`, '没有找到该消息');
-    }
-
-    this.messageHandlerMap.delete(id);
+  public tip = (messages: InformationMessage[]) => {
+    this.event.emit(Information.InformationEventKeys.TipMessage, messages);
   };
 }
 
 const information = Information.create();
-export { Information };
+export { Information, information };

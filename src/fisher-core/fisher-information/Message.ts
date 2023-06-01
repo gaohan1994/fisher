@@ -3,10 +3,17 @@ import { Item } from '../fisher-item';
 import { FisherInformationError } from '../fisher-error';
 import { FisherMessageVariant } from './Constants';
 
+let messageId = 1;
 abstract class FisherInformationMessage<MessageDetail> {
   abstract variant: FisherMessageVariant;
 
   abstract message: MessageDetail;
+
+  public key: string;
+
+  constructor() {
+    this.key = `${++messageId}${new Date().getTime()}`;
+  }
 }
 
 interface ItemMessageDetail {
@@ -50,7 +57,7 @@ class ExperienceMessage extends FisherInformationMessage<ExperienceMessageDetail
 
     this.message = {
       experience,
-      prefix: component.name,
+      prefix: componentId === 'Master' ? '您' : component.name,
       componentId: componentId,
     };
   }
@@ -76,7 +83,7 @@ interface MasterLevelMessageDetail {
   level: number;
 }
 class MasterLevelMessage extends FisherInformationMessage<MasterLevelMessageDetail> {
-  public variant = FisherMessageVariant.MasterDeath;
+  public variant = FisherMessageVariant.MasterLevel;
 
   public message: MasterLevelMessageDetail;
 

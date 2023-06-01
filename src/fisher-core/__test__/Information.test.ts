@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
-import { Information } from '../fisher-information';
+import { describe, expect, test, vi } from 'vitest';
+import { Information, InformationMessage } from '../fisher-information';
 import { NormalItem } from '../fisher-item';
 
 const testItem = {
@@ -14,6 +14,19 @@ describe('Information', () => {
   test('should success create item message', () => {
     const information = Information.create();
 
+    let alertMessages = [];
+    const spyAlertAction = vi.fn().mockImplementation((result: InformationMessage[]) => {
+      alertMessages.push(...result);
+    });
+
+    let tipMessages = [];
+    const spyTipAction = vi.fn().mockImplementation((result: InformationMessage[]) => {
+      tipMessages.push(...result);
+    });
+
+    information.event.on(Information.InformationEventKeys.AlertMessage, spyAlertAction);
+    information.event.on(Information.InformationEventKeys.TipMessage, spyTipAction);
+
     const item = new NormalItem(testItem);
     const itemMessage = new Information.ItemMessage(item, 1);
     expect(itemMessage.variant).toEqual('Item');
@@ -23,14 +36,7 @@ describe('Information', () => {
       quantity: 1,
     });
 
-    const alertId = information.alert([itemMessage]);
-
-    expect(information.alertMessageHandlers.length).toEqual(1);
-    expect(information.alertMessageHandlers[0].messages[0]).toStrictEqual(itemMessage);
-    expect(alertId).toEqual(2);
-
-    information.closeMessage(alertId);
-
-    expect(information.alertMessageHandlers.length).toEqual(0);
+    information.alert([itemMessage]);
+    expect(spyAlertAction).toBeCalled();
   });
 });
