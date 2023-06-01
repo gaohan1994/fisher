@@ -1,12 +1,12 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { prompt } from '../fisher-prompt';
 import { BackpackItem, Item, ItemType } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
 import { Assets } from '../assets';
+import { Information, information } from '../fisher-information';
 
 /**
  * 背包系统
@@ -163,7 +163,7 @@ export class Backpack {
     const backpackItem = new BackpackItem(item, quantity);
     this.items.set(item, backpackItem);
 
-    prompt.promptItem(item, quantity);
+    information.tip([new Information.ItemMessage(item, quantity)]);
   };
 
   private addExistingItem = (item: Item, quantity: number) => {
@@ -171,7 +171,7 @@ export class Backpack {
     backpackItem.quantity += quantity;
     this.items.set(item, backpackItem);
 
-    prompt.promptItem(item, quantity);
+    information.tip([new Information.ItemMessage(item, quantity)]);
   };
 
   public reduceItem = (item: Item, quantity: number) => {

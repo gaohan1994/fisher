@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { prompt } from '../fisher-prompt';
 import { events } from '../fisher-events';
 import { ArchiveManager } from '../fisher-archive';
 import { ComponentManager } from './ComponentManager';
@@ -69,7 +68,9 @@ export class FisherCore {
     return this.componentManager.master;
   }
 
-  public readonly prompt = prompt;
+  public get information() {
+    return this.componentManager.information;
+  }
 
   public archiveManager = new ArchiveManager(this);
 

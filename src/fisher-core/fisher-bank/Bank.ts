@@ -1,13 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { prompt } from '../fisher-prompt';
 import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
-import { store } from '../fisher-packages';
+import { coinItem, store } from '../fisher-packages';
 import { ShopCategory } from '../fisher-item';
 import { ShopCategoryHandler } from './ShopCategoryHandler';
 import { Cart } from './Cart';
 import { Assets } from '../assets';
+import { Information, information } from '../fisher-information';
 
 export class Bank {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
@@ -69,8 +69,8 @@ export class Bank {
     this.gold += value;
     Bank.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
 
+    information.tip([new Information.ItemMessage(coinItem, value)]);
     events.emit(EventKeys.Update.BankUpdate, this);
-    prompt.promptGold(value);
   };
 
   public setGold = (value: number) => {

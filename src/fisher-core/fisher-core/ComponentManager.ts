@@ -8,8 +8,9 @@ import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
 import { Master, master } from '../fisher-person';
 import { Dungeon, dungeon } from '../fisher-dungeon';
+import { Information, information } from '../fisher-information';
 
-type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master;
+type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
 type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle | Dungeon;
 
@@ -25,6 +26,7 @@ enum ComponentId {
   Battle = 'Battle',
   Dungeon = 'Dungeon',
   Master = 'Master',
+  Information = 'Information',
 }
 
 class ComponentManager {
@@ -39,7 +41,7 @@ class ComponentManager {
     return ComponentManager.instance;
   }
 
-  private componentMap = new Map<string, FisherComponent>();
+  public componentMap = new Map<string, FisherComponent>();
 
   public activeComponent: ActiveControlComponent | undefined = undefined;
 
@@ -87,6 +89,10 @@ class ComponentManager {
     return this.componentMap.get(ComponentId.Master) as Master;
   }
 
+  public get information() {
+    return this.componentMap.get(ComponentId.Information) as Information;
+  }
+
   constructor() {
     makeAutoObservable(this);
 
@@ -99,6 +105,7 @@ class ComponentManager {
     this.componentMap.set(ComponentId.Reiki, reiki);
     this.componentMap.set(ComponentId.Forge, forge);
     this.componentMap.set(ComponentId.Cook, cook);
+    this.componentMap.set(ComponentId.Information, information);
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
