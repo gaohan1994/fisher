@@ -1,4 +1,9 @@
 import { InformationMessage, ItemMessage, ExperienceMessage, MasterDeathMessage, MasterLevelMessage } from './Message';
+import { Information, information } from './Information';
+import { debounce } from './Util';
 
-export * from './Information';
+const informationTip = debounce(information.tip);
+const informationAlert = debounce(information.alert);
+
+export { Information, information, informationTip, informationAlert };
 export type { InformationMessage, ItemMessage, ExperienceMessage, MasterDeathMessage, MasterLevelMessage };

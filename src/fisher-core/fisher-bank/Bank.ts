@@ -7,7 +7,7 @@ import { ShopCategory } from '../fisher-item';
 import { ShopCategoryHandler } from './ShopCategoryHandler';
 import { Cart } from './Cart';
 import { Assets } from '../assets';
-import { Information, information } from '../fisher-information';
+import { Information, informationTip } from '../fisher-information';
 
 export class Bank {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
@@ -65,11 +65,14 @@ export class Bank {
     }
   };
 
-  public receiveGold = (value: number) => {
+  public receiveGold = (value: number, showInformation = true) => {
     this.gold += value;
     Bank.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
 
-    information.tip([new Information.ItemMessage(coinItem, value)]);
+    if (showInformation) {
+      informationTip([new Information.ItemMessage(coinItem, value)]);
+    }
+
     events.emit(EventKeys.Update.BankUpdate, this);
   };
 

@@ -11,7 +11,9 @@ import {
   DialogContent,
   DialogActions,
   Box,
+  IconButton,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { core, Information } from '@FisherCore';
 import type { InformationMessage } from '@FisherCore';
 import { notifycationStore } from './NotifycationStore';
@@ -166,15 +168,23 @@ const CoreInformationTips: FC<ICoreInformationMessageHandler> = observer(({ info
     setMessageInfo(undefined);
   };
 
+  const action = (
+    <IconButton size="small" aria-label="close" color="error" onClick={handleClose}>
+      <CloseIcon fontSize="small" />
+    </IconButton>
+  );
+
   return (
     <Snackbar
       open={open}
-      autoHideDuration={3000}
+      autoHideDuration={1500}
       onClose={handleClose}
       TransitionProps={{ onExited: handleExited }}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      sx={{ maxHeight: '60vh', overflow: 'overlay' }}
     >
       <SnackbarContent
+        action={action}
         sx={{ background: FuiColor.primary.background }}
         message={messageInfo ? messageInfo.toMessage() : undefined}
       />

@@ -57,4 +57,5 @@ class Information {
 }
 
 const information = Information.create();
+
 export { Information, information };
