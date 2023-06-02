@@ -4,12 +4,13 @@ import { Enemy, Master } from '@FisherCore';
 import { FuiColor, PersonModeText } from '@Fui';
 import { FuiFightControl } from './FightControl';
 import { FuiLevelInfo } from '../experience';
+import { observer } from 'mobx-react';
 
 interface Props {
   player: Master | Enemy;
   action?: React.ReactNode;
 }
-const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, action, children }) => (
+const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = observer(({ player, action, children }) => (
   <Card sx={{ bgcolor: FuiColor.primary.background }}>
     <CardHeader
       avatar={<Avatar src={player.media} />}
@@ -27,6 +28,6 @@ const FuiFightPersonInfo: React.FC<React.PropsWithChildren<Props>> = ({ player, 
       {children}
     </CardContent>
   </Card>
-);
+));
 
 export { FuiFightPersonInfo };

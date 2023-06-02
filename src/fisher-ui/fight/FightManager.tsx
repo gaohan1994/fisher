@@ -20,7 +20,7 @@ const FuiFightManager: React.FC<IFuiFightManager> = observer(({ fightComponent }
   const isCurrentFightComponentActive = useCurrentComponentActive(fightComponent);
   const { stopFightComponent } = useFightComponentActions(fightComponent);
 
-  const RetreatButton = () => (
+  const retreatButton = (
     <Button variant="contained" color="error" onClick={stopFightComponent}>
       逃跑
     </Button>
@@ -33,7 +33,7 @@ const FuiFightManager: React.FC<IFuiFightManager> = observer(({ fightComponent }
         {isCurrentFightComponentActive && (
           <FuiFightPersonInfo
             player={fightComponent.master}
-            action={fightComponent.master.person.isAttacking && <RetreatButton />}
+            action={fightComponent.master.person.isAttacking && retreatButton}
           >
             <FightPersonStack>
               <FuiMasterHealPotionHandler />

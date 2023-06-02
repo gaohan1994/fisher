@@ -10,6 +10,7 @@ import { Timer } from './fisher-timer';
 import { Reward, RewardPool, RewardChestHandler } from './fisher-reward';
 import { Skill, RecipeHandler } from './fisher-skill';
 import { ActionId, FisherActions, BaseDotAction } from './fisher-actions';
+import type { FisherAction } from './fisher-actions';
 import { PotionHandler } from './fisher-potion';
 import { Fight } from './fisher-fight';
 import { Battle } from './fisher-battle';
@@ -58,6 +59,7 @@ export {
   Information,
 };
 export type {
+  FisherAction,
   FisherComponent,
   InformationMessage,
   ItemMessage,

@@ -1,5 +1,4 @@
-import { Battle, Dungeon, Person, PersonMode, core } from '@FisherCore';
-import { FuiColor } from '../theme';
+import { Battle, Dungeon, Person, core } from '@FisherCore';
 
 const usePersonProgressValue = (person: Person) => {
   const hpProgressValue = (person.Hp / person.attributePanel.MaxHp) * 100;
