@@ -34,11 +34,21 @@ class FisherActions {
   public static isAttackAction = (action: BaseAction): action is BaseAttackAction => {
     return action.mode === ActionMode.Attack;
   };
+
   public static isDotAction = (action: BaseAction): action is BaseDotAction => {
     return action.mode === ActionMode.Dot;
   };
+
   public static isHealAction = (action: BaseAction): action is BaseHealAction => {
     return action.mode === ActionMode.Heal;
+  };
+
+  public static isBuffAction = (action: BaseAction): action is BaseBuffAction => {
+    return action.mode === ActionMode.Buff;
+  };
+
+  public static isDebuffAction = (action: BaseAction): action is BaseDebuffAction => {
+    return action.mode === ActionMode.Debuff;
   };
 
   /**
