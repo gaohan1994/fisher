@@ -42,7 +42,6 @@ describe('DotActions', () => {
     const action = new FisherActions.PosionDotAction();
 
     action.execute(person1.person);
-    person2.actionManager.deployDotAction(action);
 
     // dot action effective first time
     expect(person2.actionManager.activeDotActions.includes(action)).toBeTruthy();

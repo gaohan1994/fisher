@@ -1,10 +1,12 @@
 import numeral from 'numeral';
+import dayjs from 'dayjs';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { Timer } from '../fisher-timer';
-import { IBonusBuffAttributesKeys, Person } from '../fisher-person';
 import { Assets } from '../assets';
+import { IBonusBuffAttributesKeys, Person } from '../fisher-person';
 import { ActionId, ActionMode } from './Constants';
 import { FisherActionError } from '../fisher-error';
+import { random } from '../utils';
 
 interface IBaseAction {
   readonly id: string;
@@ -19,6 +21,8 @@ export interface IExecuteActionDispose {
 }
 
 export abstract class BaseAction implements IBaseAction {
+  public key = '';
+
   abstract readonly id: ActionId;
 
   abstract readonly mode: ActionMode;
@@ -30,6 +34,10 @@ export abstract class BaseAction implements IBaseAction {
   abstract execute(person: Person): IExecuteActionDispose | void;
 
   abstract desc: string;
+
+  public setActionKey = () => {
+    this.key = `${this.id}-${dayjs().unix()}-${random(0, 100)}`;
+  };
 }
 
 export abstract class BaseAttackAction extends BaseAction {
@@ -74,11 +82,46 @@ export abstract class BaseDotAction extends BaseAction {
     return Assets[this.id as any as keyof typeof Assets];
   }
 
-  public abstract readonly timer: Timer;
+  public readonly timer: Timer = new Timer('BaseDotActionTimer', () => this.action(), { fireImmediately: true });
 
-  public abstract abort(): void;
+  public person: Person | undefined = undefined;
 
   public abstract damage(): number;
+
+  public execute = (person: Person): void => {
+    this.person = person;
+    this.setActionKey();
+    this.resetDot();
+    this.timer.startTimer(this.interval);
+    this.person.target!.actionManager.deployDotAction(this);
+  };
+
+  public resetDot = () => {
+    this.effectiveTimes = 0;
+  };
+
+  private action = (): void => {
+    if (this.person?.target === undefined) {
+      throw new FisherActionError(`Try to effective dot to undefined target`, '没有目标');
+    }
+
+    this.effectiveTimes += 1;
+    this.person!.target.hurt(this.damage());
+
+    if (this.isFinished) {
+      this.abort();
+      BaseDotAction.logger.debug(`Current action ${this.id} ${this.name} finished.`);
+    }
+  };
+
+  public abort = (): void => {
+    if (this.person?.target === undefined) {
+      throw new FisherActionError(`Try to effective dot to undefined target`, '没有目标');
+    }
+
+    this.timer.stopTimer();
+    this.person.target!.actionManager.undeployDotAction(this.id);
+  };
 }
 
 export interface IBuffAttribute {
@@ -113,6 +156,7 @@ export abstract class BaseBuffAction extends BaseStatusAction {
   public readonly mode = ActionMode.Buff;
 
   public execute = (person: Person): void => {
+    this.setActionKey();
     this.person = person;
     this.timer.startTimer(this.interval);
     this.person.actionManager.deployBuffAction(this);
@@ -134,6 +178,7 @@ export abstract class BaseDebuffAction extends BaseStatusAction {
   public readonly mode = ActionMode.Debuff;
 
   public execute = (person: Person): void => {
+    this.setActionKey();
     this.person = person;
     this.timer.startTimer(this.interval);
     this.person.actionManager.deployDebuffAction(this);

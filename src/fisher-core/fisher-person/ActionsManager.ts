@@ -128,6 +128,14 @@ class ActionManager {
       if (FisherActions.isHealAction(action)) {
         this.healActionMap.set(actionId, action);
       }
+
+      if (FisherActions.isBuffAction(action)) {
+        this.buffActionMap.set(actionId, action);
+      }
+
+      if (FisherActions.isDebuffAction(action)) {
+        this.debuffActionMap.set(actionId, action);
+      }
     });
 
     ActionManager.logger.info(`Success register person actions, actionIds: ${actionIds.join(' , ')}`);
@@ -210,6 +218,12 @@ class ActionManager {
       lastAction: this.lastAction,
     } as IActionManager.ExecuteActionPayload);
 
+    ActionManager.logger.debug(
+      `Person ${this.person.mode} execute ${this.action.id}, the last action: ${
+        this.lastAction ? this.lastAction.id : 'null'
+      }`
+    );
+
     if (this.person.isAttacking) {
       this.lastAction = this.action;
       this.action = this.pickNextAction();
@@ -228,10 +242,16 @@ class ActionManager {
     const dotAction = this.pickDotAction();
     if (dotAction) result = dotAction;
 
+    const buffAction = this.pickBuffAction();
+    if (buffAction) result = buffAction;
+
+    const debuffAction = this.pickDebuffAction();
+    if (debuffAction) result = debuffAction;
+
     const healAction = this.pickHealAction();
     if (healAction) result = healAction;
 
-    ActionManager.logger.debug(`${this.person.mode} next action: ${result.name}`);
+    ActionManager.logger.info(`${this.person.mode} next action: ${result.name}`);
 
     return result;
   };
@@ -267,7 +287,7 @@ class ActionManager {
     for (let index = 0; index < this.dotActions.length; index++) {
       const dotAction = this.dotActions[index];
 
-      if (roll(dotAction.chance) && !this.dotActionIsExistInTarget(dotAction)) {
+      if (roll(dotAction.chance) && !this.checkDotActionIsExistInTarget(dotAction)) {
         result = dotAction;
         break;
       }
@@ -276,11 +296,34 @@ class ActionManager {
     return result;
   };
 
-  private dotActionIsExistInTarget = (dotAction: BaseDotAction) => {
-    if (this.person.target === undefined)
-      return ActionManager.logger.error('Try check dot is exist but target undefined');
+  private pickBuffAction = () => {
+    let result: BaseBuffAction | undefined = undefined;
 
-    return this.person.target.actionManager.activeDotActionMap.has(dotAction.id);
+    for (let index = 0; index < this.buffActions.length; index++) {
+      const action = this.buffActions[index];
+
+      if (roll(action.chance) && !this.checkBuffActionIsExistInTarget(action)) {
+        result = action;
+        break;
+      }
+    }
+
+    return result;
+  };
+
+  private pickDebuffAction = () => {
+    let result: BaseDebuffAction | undefined = undefined;
+
+    for (let index = 0; index < this.debuffActions.length; index++) {
+      const action = this.debuffActions[index];
+
+      if (roll(action.chance) && this.checkDeBuffActionIsExistInTarget(action)) {
+        result = action;
+        break;
+      }
+    }
+
+    return result;
   };
 
   private pickHealAction = () => {
@@ -300,6 +343,27 @@ class ActionManager {
 
   private checkIsLastAction = (action: FisherAction) => {
     return this.lastAction?.id === action.id;
+  };
+
+  private checkBuffActionIsExistInTarget = (action: BaseBuffAction) => {
+    if (this.person.target === undefined)
+      return ActionManager.logger.error('Try check action is exist but target undefined');
+
+    return this.activeBuffActionMap.has(action.id);
+  };
+
+  private checkDeBuffActionIsExistInTarget = (action: BaseDebuffAction) => {
+    if (this.person.target === undefined)
+      return ActionManager.logger.error('Try check action is exist but target undefined');
+
+    return this.person.target.actionManager.activeDebuffActionMap.has(action.id);
+  };
+
+  private checkDotActionIsExistInTarget = (action: BaseDotAction) => {
+    if (this.person.target === undefined)
+      return ActionManager.logger.error('Try check action is exist but target undefined');
+
+    return this.person.target.actionManager.activeDotActionMap.has(action.id);
   };
 }
 
