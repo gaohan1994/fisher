@@ -8,7 +8,7 @@ import { backpack, Backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
 import { Master, master } from '../fisher-person';
 import { Dungeon, dungeon } from '../fisher-dungeon';
-import { Information, information } from '../fisher-information';
+import { Information, information, informationTip } from '../fisher-information';
 
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
@@ -112,12 +112,16 @@ class ComponentManager {
     events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
   }
 
-  private onRewardExperience = (componentId: string, experience: number) => {
+  private onRewardExperience = (componentId: string, experience: number, showInformation = true) => {
     const component = this.componentMap.get(componentId) as ComponentWithExperience;
     invariant(component !== undefined, `Try to add experience to undefined component ${componentId}`);
 
     component.receiveExperience(experience);
     ComponentManager.logger.debug(`'Execute add ${componentId} experience: ${experience}`);
+
+    if (showInformation) {
+      informationTip([new Information.ExperienceMessage(componentId, experience)]);
+    }
   };
 
   public setActiveComponent = (component: ActiveControlComponent) => {

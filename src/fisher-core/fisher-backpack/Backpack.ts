@@ -6,7 +6,7 @@ import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
 import { Assets } from '../assets';
-import { Information, information } from '../fisher-information';
+import { Information, informationTip } from '../fisher-information';
 
 /**
  * 背包系统
@@ -138,13 +138,17 @@ export class Backpack {
     return result as BackpackItem<T>[];
   };
 
-  public addItem = (item: Item, quantity: number) => {
+  public addItem = (item: Item, quantity: number, showInformation = true) => {
     invariant(quantity > 0, `Fail to add ${item.id} to backpack, quantity should > 0`);
 
     if (this.items.has(item)) {
       this.addExistingItem(item, quantity);
     } else {
       this.addNewItem(item, quantity);
+    }
+
+    if (showInformation) {
+      informationTip([new Information.ItemMessage(item, quantity)]);
     }
 
     events.emit(EventKeys.Update.BackpackUpdate, this);
@@ -162,16 +166,12 @@ export class Backpack {
   private addNewItem = (item: Item, quantity: number) => {
     const backpackItem = new BackpackItem(item, quantity);
     this.items.set(item, backpackItem);
-
-    information.tip([new Information.ItemMessage(item, quantity)]);
   };
 
   private addExistingItem = (item: Item, quantity: number) => {
     const backpackItem = this.items.get(item)!;
     backpackItem.quantity += quantity;
     this.items.set(item, backpackItem);
-
-    information.tip([new Information.ItemMessage(item, quantity)]);
   };
 
   public reduceItem = (item: Item, quantity: number) => {

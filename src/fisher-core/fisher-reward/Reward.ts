@@ -1,9 +1,10 @@
+import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { roll } from '../utils';
 import { Item } from '../fisher-item';
-import { store } from '../fisher-packages';
+import { coinItem, store } from '../fisher-packages';
 import { EventKeys, events } from '../fisher-events';
-
+import { Information, InformationMessage } from '../fisher-information';
 export interface ICreateRewardOptions {
   gold?: number;
   itemId?: string;
@@ -39,6 +40,10 @@ export class Reward {
 
   public get rewardExperience() {
     return [...this.rewardSkillExperience];
+  }
+
+  constructor() {
+    makeAutoObservable(this);
   }
 
   static create = ({ gold, itemId, itemQuantity, componentId, experience }: ICreateRewardOptions): Reward => {
@@ -130,6 +135,7 @@ export class Reward {
     this.executeGold();
     this.executeRewardItems();
     this.executeSkillExperience();
+
     Reward.logger.debug('Success execute rewards.');
   };
 
@@ -157,5 +163,27 @@ export class Reward {
         events.emit(EventKeys.Reward.RewardExperience, componentId, experience);
       });
     }
+  };
+
+  public createRewardInformations = () => {
+    let result: InformationMessage[] = [];
+
+    if (this.hasRewardItems) {
+      this.rewardItems.forEach(([item, quantity]) => {
+        result.push(new Information.ItemMessage(item, quantity));
+      });
+    }
+
+    if (this.hasRewardGold) {
+      result.push(new Information.ItemMessage(coinItem, this.rewardGold));
+    }
+
+    if (this.hasRewardExperience) {
+      this.rewardExperience.forEach(([componentId, experience]) => {
+        result.push(new Information.ExperienceMessage(componentId, experience));
+      });
+    }
+
+    return result;
   };
 }
