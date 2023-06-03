@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { autorun, makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
@@ -61,6 +61,10 @@ class Person {
 
   public event = new EventEmitter();
 
+  public get personActionIds() {
+    return [...this.personEquipmentManager.equipmentActionIds, ...this.options.actionIds];
+  }
+
   constructor(mode: PersonMode, options: IPersonOptions = { level: 0, actionIds: [] }) {
     makeAutoObservable(this);
 
@@ -73,15 +77,15 @@ class Person {
 
     this.personEquipmentManager = new PersonEquipmentManager();
 
-    this.actionManager = new ActionManager(this, this.getPersonActionIds());
+    this.actionManager = new ActionManager(this, this.personActionIds);
 
     this.attributePanel = new AttributePanel(this, getPersonFactorConfig(this.mode));
 
     this.Hp = this.attributePanel.MaxHp;
 
-    this.personEquipmentManager.personEquipmentEvents.on(PersonEquipmentEventKeys.EquipmentChange, () =>
-      this.recalculatePersonActionIds()
-    );
+    autorun(() => {
+      this.actionManager.registerActions(this.personActionIds);
+    });
   }
 
   public setTarget = (person: Person | undefined) => {
@@ -148,14 +152,6 @@ class Person {
 
   public refreshHp = () => {
     this.Hp = this.attributePanel.MaxHp;
-  };
-
-  private getPersonActionIds = () => {
-    return this.personEquipmentManager.equipmentActionIds.concat(this.options.actionIds);
-  };
-
-  private recalculatePersonActionIds = () => {
-    this.actionManager.registerActions(this.getPersonActionIds());
   };
 }
 

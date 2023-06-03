@@ -145,6 +145,8 @@ class ActionManager {
     this.attackActionMap.clear();
     this.dotActionMap.clear();
     this.healActionMap.clear();
+    this.buffActionMap.clear();
+    this.debuffActionMap.clear();
   };
 
   public startAttacking = () => {

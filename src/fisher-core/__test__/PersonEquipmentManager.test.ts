@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 import { beforeEach, describe, expect, test } from 'vitest';
-import { Backpack } from '../fisher-backpack';
-import { EquipmentItem, EquipmentSlot, IEquipmentItem, ItemType } from '../fisher-item';
+import { EquipmentItem, EquipmentSlot, IEquipmentItem } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Person, PersonEquipmentManager } from '../fisher-person';
 import { FisherCore } from '../fisher-core';
 import { PersonMode } from '../fisher-person/Constants';
+import { ActionId } from '../fisher-actions';
 
 let core: FisherCore;
 beforeEach(() => {
@@ -24,6 +24,7 @@ const testEquipmentData: IEquipmentItem = {
   slot: EquipmentSlot.Helmet,
   requirements: [],
   attributes: [],
+  actionIds: [ActionId.DragonSwordAction],
 };
 
 describe('PersonEquipmentManager interfaces', () => {
@@ -108,5 +109,17 @@ describe('PersonEquipmentManager interfaces', () => {
         expect(personEquipmentManager.equipmentSetMap.get(noobSet)?.[1]).toBe(helmet);
       });
     });
+  });
+
+  test('should success calculate equipment action ids', () => {
+    const personEquipmentManager = new PersonEquipmentManager();
+    expect(personEquipmentManager.equipmentActionIds.length).toBe(0);
+
+    personEquipmentManager.useEquipment(new EquipmentItem(testEquipmentData));
+
+    expect(personEquipmentManager.equipmentActionIds).toStrictEqual([
+      'LowBuffAttackPowerMultiplierAction',
+      'DragonSwordAction',
+    ]);
   });
 });
