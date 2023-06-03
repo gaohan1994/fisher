@@ -88,7 +88,11 @@ class Dungeon {
     Dungeon.logger.info('Stop Dungeon');
   };
 
-  private onMasterLostFight = async () => {};
+  private onMasterLostFight = async () => {
+    this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.executeRewards();
+    this.stop();
+  };
 
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);

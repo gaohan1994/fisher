@@ -87,7 +87,7 @@ class Master {
       this.onMasterEquipmentChange
     );
 
-    this.event.on(Master.MasterEventKeys.MasterDeath, this.deathPenalty);
+    this.event.on(Master.MasterEventKeys.MasterDeath, this.deathPunish);
   }
 
   private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
@@ -98,7 +98,7 @@ class Master {
     this.potionHandlerManager.loadArchivePotionHandlers(master?.potionHandlers ?? []);
   };
 
-  private deathPenalty = () => {
+  private deathPunish = () => {
     const deathPunish = new DeathPunish(this.person);
     deathPunish.executePunish();
 

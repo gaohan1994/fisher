@@ -51,7 +51,7 @@ class Person {
 
   public target: Person | undefined = undefined;
 
-  public personEquipmentManager = new PersonEquipmentManager();
+  public personEquipmentManager: PersonEquipmentManager;
 
   public attributePanel: AttributePanel;
 
@@ -70,6 +70,8 @@ class Person {
     if (options.level !== undefined && options.level > 0) {
       this.experience.setLevel(options.level);
     }
+
+    this.personEquipmentManager = new PersonEquipmentManager();
 
     this.actionManager = new ActionManager(this, this.getPersonActionIds());
 

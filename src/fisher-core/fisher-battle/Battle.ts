@@ -91,6 +91,7 @@ class Battle {
 
   private onMasterLostFight = () => {
     this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.executeRewards();
     this.stop();
   };
 
