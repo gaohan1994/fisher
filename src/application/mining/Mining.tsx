@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiContainer, FuiDashboard, FuiLineProgress, FuiSkillRecipeCard } from '@Fui';
+import { FuiDashboard, FuiContainer, FuiLineProgress, FuiSkillRecipeCard } from '@Fui';
 
 const PageMining = observer(() => {
   const { mining } = core;
@@ -11,7 +11,7 @@ const PageMining = observer(() => {
 
   return (
     <FuiContainer>
-      <FuiDashboard collection={mining} />
+      <FuiDashboard fisherComponent={mining} />
       <Grid container spacing={2}>
         {recipes.map((item) => {
           const isActive = Boolean(mining.activeRecipe?.id === item.id);

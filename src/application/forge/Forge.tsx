@@ -9,7 +9,7 @@ const PageForge: React.FC = observer(() => {
   const { packages } = forge;
   return (
     <FuiContainer>
-      <FuiDashboard collection={forge} />
+      <FuiDashboard fisherComponent={forge} />
       <Grid container spacing={2}>
         <Grid item xs>
           <Grid container spacing={2}>

@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
-import { Typography, TypographyProps } from '@mui/material';
+import { Experience } from '@FisherCore';
+import { Chip, ChipProps, Typography, TypographyProps } from '@mui/material';
 import { useLevelColor } from './LevelHook';
 
 interface IFuiLevelInfo extends TypographyProps {
@@ -20,4 +21,28 @@ const FuiLevelInfo: FC<IFuiLevelInfo> = ({ prefixNode = 'Lv:', level, ...rest })
   );
 };
 
-export { FuiLevelInfo };
+interface IFuiLevelChip extends ChipProps {
+  experience: Experience;
+}
+const FuiLevelChip: FC<IFuiLevelChip> = ({ experience, ...rest }) => {
+  const { color } = useLevelColor(experience.level);
+  return (
+    <Chip
+      {...rest}
+      label={
+        <Typography variant="caption" fontWeight="bold" color={color}>
+          {`等级 ${experience.level} / ${experience.maxLevel}`}
+        </Typography>
+      }
+    />
+  );
+};
+
+interface IFuiExperienceChip extends ChipProps {
+  experience: Experience;
+}
+const FuiExperienceChip: FC<IFuiExperienceChip> = ({ experience, ...rest }) => (
+  <Chip {...rest} label={`${experience.experience} / ${experience.levelUpExperience}`} />
+);
+
+export { FuiLevelInfo, FuiLevelChip, FuiExperienceChip };

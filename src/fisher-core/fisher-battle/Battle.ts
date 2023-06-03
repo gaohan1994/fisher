@@ -84,8 +84,11 @@ class Battle {
   };
 
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
+    enemy.executeExperienceRewards();
     this.collectRewards(enemy);
+
     await TimerSpace.space(Battle.BaseBattleInterval);
+
     this.continueNextFight();
   };
 

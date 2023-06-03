@@ -12,7 +12,11 @@ class Information {
 
   public static readonly InformationEventKeys = InformationEventKeys;
 
+  public id = 'Information';
+
   public name = '消息';
+
+  public media = '';
 
   public static create(): Information {
     if (!Information.instance) {
