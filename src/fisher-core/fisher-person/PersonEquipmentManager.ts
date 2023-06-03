@@ -24,17 +24,7 @@ class PersonEquipmentManager {
     return [...this.equipmentMap.values()];
   }
 
-  public get equipmentActionIds() {
-    const result: ActionId[] = [];
-
-    this.equipments.forEach((personEquipment) => {
-      if (!personEquipment.isEmpty) {
-        result.push(...(personEquipment.equipment!.actionIds as ActionId[]));
-      }
-    });
-
-    return result;
-  }
+  public equipmentActionIds: ActionId[] = [];
 
   public get equipmentIds() {
     let result: string[] = [];
@@ -119,7 +109,8 @@ class PersonEquipmentManager {
       this.setEquipment(equipment);
     }
 
-    this.callculateEquipmentSets();
+    this.calculateEquipmentSets();
+    this.calculateEquipmentActionIds();
   };
 
   public setEquipment = (equipment: EquipmentItem) => {
@@ -139,8 +130,8 @@ class PersonEquipmentManager {
 
   public useEquipment = (equipment: EquipmentItem) => {
     const [currentSlotEquipment, previousEquipment] = this.setEquipment(equipment);
-
     this.personEquipmentEvents.emit(PersonEquipmentEventKeys.EquipmentChange, currentSlotEquipment, previousEquipment);
+
     PersonEquipmentManager.logger.debug(`use equipment, slot: ${equipment.slot} equipmentId ${equipment.id}`);
   };
 
@@ -176,10 +167,11 @@ class PersonEquipmentManager {
   }
 
   private onPersonEquipmentChange = () => {
-    this.callculateEquipmentSets();
+    this.calculateEquipmentSets();
+    this.calculateEquipmentActionIds();
   };
 
-  private callculateEquipmentSets = () => {
+  private calculateEquipmentSets = () => {
     this.clearEquipmentSetEffectBeforeRecalculate();
     this.calculateEquipmentSetMap();
     this.calculateActiveEquipmentSetsAttributes();
@@ -217,6 +209,18 @@ class PersonEquipmentManager {
     this.equipmentSetMap.forEach((equipments, equipmentSet) => {
       equipmentSet.calculateEquipmentsActiveSetAttributes(equipments);
     });
+  };
+
+  private calculateEquipmentActionIds = () => {
+    const actionIdSet = new Set<string>();
+
+    this.equipmentMap.forEach((personEquipment) => {
+      if (!personEquipment.isEmpty) {
+        personEquipment.equipment?.actionIds.forEach(actionIdSet.add.bind(actionIdSet));
+      }
+    });
+
+    this.equipmentActionIds = Array.from(actionIdSet) as ActionId[];
   };
 }
 
