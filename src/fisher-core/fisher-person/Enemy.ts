@@ -4,6 +4,7 @@ import { Reward } from '../fisher-reward';
 import { generateTimestamp } from '../utils';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
+import { EventKeys, events } from '../fisher-events';
 
 class Enemy {
   public key: number;
@@ -32,6 +33,12 @@ class Enemy {
     return this.person.personEquipmentManager;
   }
 
+  public experienceRewards = 0;
+
+  public get hasExperienceRewards() {
+    return this.experienceRewards > 0;
+  }
+
   public goldReward = 0;
 
   public get hasGoldReward() {
@@ -50,7 +57,18 @@ class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor({ id, mode, media, name, level, actionIds, goldReward, itemRewards, randomRewards }: EnemyItem) {
+  constructor({
+    id,
+    mode,
+    media,
+    name,
+    level,
+    actionIds,
+    goldReward,
+    itemRewards,
+    randomRewards,
+    experienceRewards,
+  }: EnemyItem) {
     makeAutoObservable(this);
 
     this.key = generateTimestamp();
@@ -60,6 +78,8 @@ class Enemy {
     this.name = name;
 
     this.media = media;
+
+    this.experienceRewards = experienceRewards;
 
     if (goldReward) {
       this.goldReward = goldReward;
@@ -99,6 +119,12 @@ class Enemy {
 
     Person.logger.debug(`Provide Enemy:${this.id} rewards`);
     return result;
+  };
+
+  public executeExperienceRewards = () => {
+    if (this.hasExperienceRewards) {
+      events.emit(EventKeys.Reward.RewardExperience, 'Master', this.experienceRewards);
+    }
   };
 
   private createGoldReward = () => {

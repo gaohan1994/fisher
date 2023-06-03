@@ -2,8 +2,11 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material';
 import { DungeonItem, core } from '@FisherCore';
-import { FuiEnemyRewardPreview, FuiItemName, FuiLevelInfo, notifycationStore } from '@Fui';
-import { useDungeonItemRewards, useIsActiveDungeonItem } from './DungeonItemHook';
+import { FuiItemName } from '../item';
+import { FuiLevelInfo } from '../experience';
+import { FuiEnemyRewardPreview } from '../reward';
+import { useDungeonItemRewards, useIsActiveDungeonItem } from './DungeonHook';
+import { notifycationStore } from '../notifycation';
 
 interface IDungeonCard {
   dungeonItem: DungeonItem;

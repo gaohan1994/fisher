@@ -95,6 +95,7 @@ class Dungeon {
   };
 
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
+    enemy.executeExperienceRewards();
     this.collectRewards(enemy);
     this.collectProgressExtraReward(enemy);
 

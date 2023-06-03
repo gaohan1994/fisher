@@ -15,7 +15,7 @@ const BattleEnemySelector: React.FC<IBattleEnemySelector> = observer(({ onSelect
     <React.Fragment>
       {packages.map((battleArea) => (
         <Accordion key={battleArea.id} defaultExpanded>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id={battleArea.id}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} id={battleArea.id}>
             <Typography>{battleArea.name}</Typography>
           </AccordionSummary>
           <AccordionDetails>

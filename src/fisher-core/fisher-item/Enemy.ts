@@ -8,6 +8,7 @@ export interface IEnemyItem extends IItem {
   goldReward?: number;
   itemRewards?: EnemyItemReward[];
   randomRewards?: EnemyRandomReward[];
+  experienceRewards?: number;
   mode?: string;
 }
 
@@ -40,14 +41,17 @@ export class EnemyItem extends Item {
 
   public actionIds: ActionId[] = [];
 
+  public experienceRewards = 0;
+
   constructor(options: IEnemyItem) {
     super(options);
     this.level = options.level;
+    if (options.mode) this.mode = options.mode;
     if (options.unlockLevel) this.unlockLevel = options.unlockLevel;
     if (options.goldReward) this.goldReward = options.goldReward;
     if (options.itemRewards) this.itemRewards = options.itemRewards;
     if (options.randomRewards) this.randomRewards = options.randomRewards;
-    if (options.mode) this.mode = options.mode;
+    if (options.experienceRewards) this.experienceRewards = options.experienceRewards;
     if (options.actionIds) this.actionIds = options.actionIds as ActionId[];
   }
 }

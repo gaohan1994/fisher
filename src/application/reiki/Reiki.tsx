@@ -11,7 +11,7 @@ const PageReiki = observer(() => {
 
   return (
     <FuiContainer>
-      <FuiDashboard collection={reiki} />
+      <FuiDashboard fisherComponent={reiki} />
       <Grid container spacing={2}>
         {recipes.map((item) => {
           const isActive = Boolean(reiki.activeRecipe?.id === item.id);

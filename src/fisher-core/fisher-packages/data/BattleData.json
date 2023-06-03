@@ -8,7 +8,8 @@
       "media": "LowSpiritMonster",
       "level": 1,
       "goldReward": 1,
-      "itemRewards": [{ "itemId": "NormalReiki" }]
+      "itemRewards": [{ "itemId": "NormalReiki" }],
+      "experienceRewards": 5
     },
     {
       "id": "FireSpiritMonster",

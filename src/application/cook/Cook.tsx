@@ -8,7 +8,7 @@ const PageCook = observer(() => {
   const { packages } = cook;
   return (
     <FuiContainer>
-      <FuiDashboard collection={cook} />
+      <FuiDashboard fisherComponent={cook} />
       <Grid container spacing={2}>
         <Grid item xs>
           <Grid container spacing={2}>

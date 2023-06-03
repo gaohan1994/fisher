@@ -1,5 +1,6 @@
 import { CircularProgress, Typography, TypographyProps } from '@mui/material';
-import { FC } from 'react';
+import React, { FC } from 'react';
+import { FuiColor } from '../theme';
 
 interface IFuiActiveText extends TypographyProps {
   circleProgress?: boolean;
@@ -12,4 +13,13 @@ const FuiActiveText: FC<IFuiActiveText> = ({ text, circleProgress = true, ...res
   </Typography>
 );
 
-export { FuiActiveText };
+interface IFuiActiveControlText {
+  text: React.ReactNode;
+}
+const FuiActiveDashboardText: FC<IFuiActiveControlText> = ({ text }) => (
+  <Typography variant="caption" color={FuiColor.progress} component="div" textAlign="center" sx={{ mb: 1 }}>
+    {text}
+  </Typography>
+);
+
+export { FuiActiveText, FuiActiveDashboardText };

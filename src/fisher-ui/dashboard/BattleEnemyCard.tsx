@@ -2,7 +2,11 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react';
 import { Avatar, Card, CardContent, CardHeader, IconButton, Tooltip, Typography } from '@mui/material';
 import { Assets, EnemyItem, core } from '@FisherCore';
-import { FuiActiveText, FuiEnemyRewardPreview, FuiItemName, FuiLevelInfo, PersonModeText } from '@Fui';
+import { FuiItemName } from '../item';
+import { FuiActiveText } from '../text';
+import { PersonModeText } from '../person';
+import { FuiEnemyRewardPreview } from '../reward';
+import { FuiLevelInfo } from '../experience';
 import { useBattleEnemyItemRewards, useIsActiveBattleEnemyItem } from './BattleHook';
 
 interface IBattleEnemyCard {

@@ -1,6 +1,20 @@
 import { Assets } from './assets';
 import { Archive } from './fisher-archive';
-import { version, core, FisherCore, ComponentId, FisherComponent } from './fisher-core';
+import {
+  version,
+  core,
+  FisherCore,
+  ComponentId,
+  FisherComponent,
+  isWithSkillComponent,
+  isCook,
+  isForge,
+  isMining,
+  isReiki,
+  isBattle,
+  isDungeon,
+  isWithFightComponent,
+} from './fisher-core';
 import { Experience, experienceCalculator, MaxLevel } from './fisher-experience';
 import { Mining, Reiki, Forge, Cook } from './fisher-modules';
 import { IAttributeKeys, PersonMode } from './fisher-person';
@@ -57,6 +71,14 @@ export {
   ActionId,
   FisherActions,
   Information,
+  isWithSkillComponent,
+  isCook,
+  isForge,
+  isMining,
+  isReiki,
+  isBattle,
+  isDungeon,
+  isWithFightComponent,
 };
 export type {
   FisherAction,
