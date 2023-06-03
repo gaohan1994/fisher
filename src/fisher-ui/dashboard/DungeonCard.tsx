@@ -16,7 +16,7 @@ interface IDungeonCard {
 const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonItem, onClearDungeonItem }) => {
   const { master } = core;
   const isActiveDungeonItem = useIsActiveDungeonItem(dungeonItem);
-  const { rewardItems, extraRewardItems } = useDungeonItemRewards(dungeonItem);
+  const { rewards } = useDungeonItemRewards(dungeonItem);
 
   const onStartDungeonItem = () => {
     try {
@@ -70,7 +70,7 @@ const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonIt
             停止挑战{dungeonItem.name}
           </Button>
         )}
-        <FuiEnemyRewardPreview rewardItems={rewardItems} randomRewardItems={extraRewardItems} />
+        <FuiEnemyRewardPreview rewardItems={rewards} />
       </CardActions>
     </Card>
   );

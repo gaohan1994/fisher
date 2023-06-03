@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Avatar, Box, Button, Card, CardContent, CardHeader, Collapse, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardContent, CardHeader, Collapse, Divider, Stack, Typography } from '@mui/material';
 import {
   DungeonItem,
   EnemyItem,
@@ -21,7 +21,7 @@ import { BattleEnemySelector } from './BattleEnemySelector';
 import { DungeonSelector } from './DungeonSelector';
 import { FuiEnemyRewardPreview } from '../reward';
 import { useBattleEnemyItemRewards } from './BattleHook';
-import { useDungeonItemRewards } from './DungeonHook';
+import { useDungeonEnemyRewardMap, useDungeonProgressReward } from './DungeonHook';
 import { CenterBox } from '../container';
 
 interface IFuiDashboard {
@@ -46,11 +46,13 @@ const FuiDashboard: React.FC<IFuiDashboard> = observer(({ fisherComponent }) => 
 
   const renderWithSkillComponentContent = isWithSkillComponent(fisherComponent) && (
     <React.Fragment>
-      {Boolean(fisherComponent.activeRecipe && fisherComponent.isActive) ? (
-        <ActiveRecipeInfo recipe={fisherComponent.activeRecipe!} />
-      ) : (
-        <FuiActiveDashboardText text="当前无活动" />
-      )}
+      <CenterBox direction="column" sx={{ mb: 2 }}>
+        {Boolean(fisherComponent.activeRecipe && fisherComponent.isActive) ? (
+          <ActiveRecipeInfo recipe={fisherComponent.activeRecipe!} />
+        ) : (
+          <FuiActiveDashboardText text="当前无活动" />
+        )}
+      </CenterBox>
       <FuiExperienceDetail experience={fisherComponent.skill.experience} />
     </React.Fragment>
   );
@@ -119,11 +121,11 @@ interface IActiveRecipeInfo {
 const ActiveRecipeInfo: FC<IActiveRecipeInfo> = ({ recipe }) => {
   const { intervalSecond } = useRecipeInterval(recipe);
   return (
-    <Box>
+    <React.Fragment>
       <FuiActiveDashboardText text={recipe.name} />
       <FuiActiveDashboardText text={`${recipe.name} 间隔 ${intervalSecond} 秒`} />
       <FuiActiveDashboardText text={`经验奖励：${recipe.rewardExperience} 点`} />
-    </Box>
+    </React.Fragment>
   );
 };
 
@@ -144,15 +146,33 @@ interface IActiveDungeonInfo {
   dungeon: DungeonItem;
 }
 const ActiveDungeonInfo: FC<IActiveDungeonInfo> = ({ dungeon }) => {
-  const { rewardItems, extraRewardItems } = useDungeonItemRewards(dungeon);
+  const { enemyRewards } = useDungeonEnemyRewardMap(dungeon);
+  const { progressRewards } = useDungeonProgressReward(dungeon);
   return (
     <React.Fragment>
       <FuiActiveDashboardText text={`副本进度：${dungeon.progress + 1}/${dungeon.enemiesNumber}`} />
       <FuiActiveDashboardText text={`战斗目标：${dungeon.currentEnemyItem.name}`} />
       <FuiActiveDashboardText
-        text={`目标类型：${PersonModeName[dungeon.currentEnemyItem.mode as keyof typeof PersonModeName]}`}
+        text={`怪物级别：${PersonModeName[dungeon.currentEnemyItem.mode as keyof typeof PersonModeName]}`}
       />
-      <FuiEnemyRewardPreview rewardItems={rewardItems} randomRewardItems={extraRewardItems} />
+      <Stack direction="row">
+        {enemyRewards.map(([enemyItem, { rewardItems, randomRewardItems }], index) => (
+          <FuiEnemyRewardPreview
+            key={`${enemyItem.id}-${index}`}
+            tooltip={`${enemyItem.name}奖励列表`}
+            rewardItems={rewardItems}
+            randomRewardItems={randomRewardItems}
+          />
+        ))}
+        <Divider orientation="vertical" flexItem sx={{ ml: 2, mr: 2 }} />
+        {progressRewards.map(([progress, rewards], index) => (
+          <FuiEnemyRewardPreview
+            key={`${dungeon.id}${progress}`}
+            tooltip={`副本进度 ${progress + 1} 奖励列表`}
+            rewardItems={rewards}
+          />
+        ))}
+      </Stack>
     </React.Fragment>
   );
 };

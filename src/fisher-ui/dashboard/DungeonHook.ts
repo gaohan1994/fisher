@@ -1,39 +1,66 @@
 import React from 'react';
-import { DungeonItem, Item, core, store } from '@FisherCore';
+import { DungeonItem, EnemyItem, Item, core, store } from '@FisherCore';
 
 const useDungeonItemRewards = (dungeonItem: DungeonItem) => {
-  const rewardItems = React.useMemo(() => {
-    const result: Set<Item> = new Set();
+  const result = new Set<Item>();
 
-    dungeonItem.enemies.forEach((enemy) => {
-      enemy.itemRewards.forEach((rewardInfo) => {
+  dungeonItem.enemies.forEach((enemy) => {
+    enemy.itemRewards.forEach((rewardInfo) => {
+      result.add(store.findItemById(rewardInfo.itemId));
+    });
+
+    enemy.randomRewards.forEach((rewardInfo) => {
+      result.add(store.findItemById(rewardInfo.itemId));
+    });
+  });
+
+  [...dungeonItem.progressExtraRewardMap].forEach(([_, rewardsInfo]) => {
+    rewardsInfo.forEach((rewardInfo) => {
+      if (!!rewardInfo.itemId) {
         result.add(store.findItemById(rewardInfo.itemId));
-      });
+      }
     });
-
-    return [...result];
-  }, [dungeonItem]);
-
-  const extraRewardItems = React.useMemo(() => {
-    const result: Set<Item> = new Set();
-
-    [...dungeonItem.progressExtraRewardMap].forEach(([_, rewardsInfo]) => {
-      rewardsInfo.forEach((rewardInfo) => {
-        if (!!rewardInfo.itemId) {
-          result.add(store.findItemById(rewardInfo.itemId));
-        }
-      });
-    });
-
-    return [...result];
-  }, [dungeonItem]);
+  });
 
   return {
-    rewardItems,
-    hasRewardItems: rewardItems.length > 0,
-    extraRewardItems,
-    hasExtraRewards: extraRewardItems.length > 0,
+    rewards: Array.from(result),
   };
+};
+
+interface IRewardDetail {
+  rewardItems: Item[];
+  randomRewardItems: Item[];
+}
+const useDungeonEnemyRewardMap = (dungeonItem: DungeonItem) => {
+  const enemyRewardMap = new Map<EnemyItem, IRewardDetail>();
+
+  dungeonItem.enemies.forEach((enemy) => {
+    const rewardItemSet = new Set<Item>();
+    const randomRewardItemSet = new Set<Item>();
+
+    enemy.itemRewards.forEach((item) => rewardItemSet.add(store.findItemById(item.itemId)));
+    enemy.randomRewards.forEach((item) => randomRewardItemSet.add(store.findItemById(item.itemId)));
+
+    enemyRewardMap.set(enemy, {
+      rewardItems: Array.from(rewardItemSet),
+      randomRewardItems: Array.from(randomRewardItemSet),
+    });
+  });
+
+  return { enemyRewards: Array.from(enemyRewardMap) };
+};
+
+const useDungeonProgressReward = (dungeonItem: DungeonItem) => {
+  const progressRewardMap = new Map<number, Item[]>();
+
+  dungeonItem.progressExtraRewardMap.forEach((rewards, index) => {
+    const rewardItemSet = new Set<Item>();
+    rewards.forEach((reward) => reward.itemId && rewardItemSet.add(store.findItemById(reward.itemId)));
+
+    progressRewardMap.set(Number(index), Array.from(rewardItemSet));
+  });
+
+  return { progressRewards: Array.from(progressRewardMap) };
 };
 
 const useIsActiveDungeonItem = (dungeonItem: DungeonItem) => {
@@ -45,4 +72,4 @@ const useIsActiveDungeonItem = (dungeonItem: DungeonItem) => {
   );
 };
 
-export { useDungeonItemRewards, useIsActiveDungeonItem };
+export { useDungeonItemRewards, useIsActiveDungeonItem, useDungeonEnemyRewardMap, useDungeonProgressReward };

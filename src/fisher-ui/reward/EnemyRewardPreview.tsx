@@ -5,10 +5,15 @@ import { RewardList } from './RewardList';
 import { FuiColor } from '../theme';
 
 interface IFuiEnemyRewardPreview {
+  tooltip?: React.ReactNode;
   rewardItems?: Item[];
   randomRewardItems?: Item[];
 }
-const FuiEnemyRewardPreview: React.FC<IFuiEnemyRewardPreview> = ({ rewardItems, randomRewardItems }) => {
+const FuiEnemyRewardPreview: React.FC<IFuiEnemyRewardPreview> = ({
+  tooltip = '查看奖励列表',
+  rewardItems,
+  randomRewardItems,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,7 +27,7 @@ const FuiEnemyRewardPreview: React.FC<IFuiEnemyRewardPreview> = ({ rewardItems, 
 
   return (
     <React.Fragment>
-      <Tooltip title="查看奖励列表">
+      <Tooltip title={tooltip}>
         <IconButton aria-label="settings" onClick={handleClick}>
           <Avatar src={Assets.ChestNormal} variant="square" />
         </IconButton>
