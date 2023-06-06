@@ -17,6 +17,10 @@ class Archive {
     return this.deletedAt !== undefined;
   }
 
+  public activeComponentId: string | undefined = undefined;
+
+  public activeComponentLastActiveTime: number | undefined = undefined;
+
   public bank: ArchiveInterface.ArchiveBank | undefined = undefined;
 
   public backpack: ArchiveInterface.ArchiveBackpack | undefined = undefined;
@@ -45,6 +49,8 @@ class Archive {
       reiki: this.reiki,
       forge: this.forge,
       cook: this.cook,
+      activeComponentId: this.activeComponentId,
+      activeComponentLastActiveTime: this.activeComponentLastActiveTime,
     };
   }
 
@@ -90,6 +96,14 @@ class Archive {
 
     if (options.cook) {
       this.cook = options.cook;
+    }
+
+    if (options.activeComponentId) {
+      this.activeComponentId = options.activeComponentId;
+    }
+
+    if (options.activeComponentLastActiveTime) {
+      this.activeComponentLastActiveTime = options.activeComponentLastActiveTime;
     }
   }
 
@@ -139,6 +153,24 @@ class Archive {
 
   private refreshLastUpdateTime = () => {
     this.lastUpdateTime = generateTimestamp();
+  };
+
+  public updateActiveComponent = (compoenntId: string) => {
+    this.activeComponentId = compoenntId;
+    this.updateActiveComponentLastActiveTime();
+  };
+
+  public clearActiveComponent = () => {
+    this.activeComponentId = undefined;
+    this.updateActiveComponentLastActiveTime();
+  };
+
+  private updateActiveComponentLastActiveTime = () => {
+    if (this.activeComponentId !== undefined) {
+      this.activeComponentLastActiveTime = dayjs().unix() * 1000;
+    } else {
+      this.activeComponentLastActiveTime = undefined;
+    }
   };
 }
 

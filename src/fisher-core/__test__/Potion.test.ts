@@ -8,10 +8,12 @@ import { PotionHandler } from '../fisher-potion';
 
 let core: FisherCore;
 let backpack: Backpack;
+let battle: Battle;
 beforeEach(() => {
   core = FisherCore.create();
   backpack = core.backpack;
   core.backpack.items.clear();
+  battle = core.battle;
 });
 
 const healPotion = new HealPotion({
@@ -80,15 +82,14 @@ describe('Potion module', () => {
     vi.useFakeTimers();
 
     backpack.addItem(healPotion, 50);
-    const battle = new Battle();
-    battle.master.healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
     battle.setAcitveEnemyItem(enemy);
     battle.start();
+    battle.master?.healPotionHandler.setPotion(backpack.getItem(healPotion)! as BackpackItem<HealPotion>);
 
     vi.advanceTimersByTime(100);
-    expect(battle.master.actionManager.attackActionTimer.progress).toBeGreaterThan(0);
-    battle.master.healPotionHandler.usePotion(battle.master.person);
-    expect(battle.master.actionManager.attackActionTimer.progress).toEqual(0);
+    expect(battle.master?.actionManager.attackActionTimer.progress).toBeGreaterThan(0);
+    battle.master?.healPotionHandler.usePotion(battle.master.person);
+    expect(battle.master?.actionManager.attackActionTimer.progress).toEqual(0);
 
     vi.clearAllTimers();
   });

@@ -4,7 +4,7 @@ import { BackpackItem, IRecipeItem, Recipe } from '../fisher-item';
 import { EventKeys, events } from '../fisher-events';
 import { Skill } from './Skill';
 import { Reward } from '../fisher-reward';
-import { backpack } from '../fisher-backpack';
+import { Backpack } from '../fisher-backpack';
 
 enum RecipeEventKeys {
   UpdateActiveRecipeStatus = 'UpdateActiveRecipeStatus',
@@ -188,7 +188,7 @@ class RecipeCostItemControl {
 
   constructor(item: IRecipeItem) {
     this.costItem = item;
-    this.backpackItem = backpack.getItemById(item.itemId);
+    this.backpackItem = Backpack.create().getItemById(item.itemId);
     this.canBearCost = (this.backpackItem?.quantity ?? 0) >= item.itemQuantity;
   }
 }

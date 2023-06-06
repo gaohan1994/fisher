@@ -28,7 +28,7 @@ class Reiki extends Collection<ICollectionModuleData> {
     return store.Reiki;
   }
 
-  constructor() {
+  private constructor() {
     super();
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
@@ -48,6 +48,4 @@ class Reiki extends Collection<ICollectionModuleData> {
   };
 }
 
-const reiki = Reiki.create();
-
-export { reiki, Reiki };
+export { Reiki };

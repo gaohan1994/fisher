@@ -1,4 +1,3 @@
-import { backpack } from '../fisher-backpack';
 import { EventKeys, events } from '../fisher-events';
 import { RewardChest } from '../fisher-item';
 import { Reward } from './Reward';

@@ -34,7 +34,7 @@ export function random(min: number, max: number): number {
 
   // Create byte array and fill with N random numbers
   var byteArray = new Uint8Array(bytes_needed);
-  window.crypto.getRandomValues(byteArray);
+  crypto.getRandomValues(byteArray);
 
   var p = (bytes_needed - 1) * 8;
   for (var i = 0; i < bytes_needed; i++) {

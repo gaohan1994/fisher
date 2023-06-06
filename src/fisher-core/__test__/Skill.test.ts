@@ -12,11 +12,13 @@ import { experienceCalculator } from '../fisher-experience';
 
 let store: Store;
 let core: FisherCore;
+let backpack: Backpack;
 let skill: Skill;
 beforeEach(() => {
   store = Store.create();
   core = FisherCore.create();
-  core.backpack.items.clear();
+  backpack = core.backpack;
+  backpack.items.clear();
   skill = core.mining.skill;
   skill.recipeHandler.resetActiveRecipe();
   skill.experience.setExperience(0);
@@ -137,8 +139,6 @@ describe('Skill', () => {
 
     const rewardItem = store.findItemById('LowSpiritMine');
 
-    const backpack = Backpack.create();
-
     // clear backpack before run skill
     const rewardBackpackItem = backpack.items.get(rewardItem);
     if (rewardBackpackItem) {
@@ -165,7 +165,6 @@ describe('Skill', () => {
     vi.useFakeTimers();
 
     const rewardItem = store.findItemById('EarthStone');
-    const backpack = Backpack.create();
 
     // clear backpack before run skill
     const rewardBackpackItem = backpack.items.get(rewardItem);

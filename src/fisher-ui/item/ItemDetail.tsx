@@ -9,7 +9,8 @@ interface IFuiItemName extends TypographyProps {
 }
 const FuiItemName: FC<IFuiItemName> = ({ item, ...rest }) => (
   <Typography
-    variant="body2"
+    variant="inherit"
+    component="span"
     {...rest}
     sx={{ ...(rest.sx ?? {}), color: FuiColor.item[item.rarity], fontWeight: 'bold' }}
   >

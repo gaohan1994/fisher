@@ -40,19 +40,29 @@ interface FuiEquipmentDetailProps {
 const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = observer(({ equipment }) => {
   const { hasAttributes, attributes, hasEquipmentSet, equipmentSetId, hasEquipmentAction, actionIds } = equipment;
   const listItemSx = { p: 0, mt: 1 };
+
+  const renderEquipmentSet = () => {
+    if (!hasEquipmentSet) {
+      return null;
+    }
+
+    const equipmentSet = store.findEquipmentSetById(equipmentSetId!);
+    return (
+      <ListItem sx={listItemSx} key={equipmentSet.id}>
+        <FuiEquipmentSet equipmentSet={equipmentSet} />
+      </ListItem>
+    );
+  };
+
   return (
     <List sx={{ pt: 0, pb: 0, minWidth: 200 }}>
       {hasAttributes &&
         attributes.map((attribute) => (
-          <ListItem sx={listItemSx}>
-            <EquipmentAttributeText key={attribute.key} attribute={attribute} />
+          <ListItem sx={listItemSx} key={attribute.key}>
+            <EquipmentAttributeText attribute={attribute} />
           </ListItem>
         ))}
-      {hasEquipmentSet && (
-        <ListItem sx={listItemSx}>
-          <FuiEquipmentSet equipmentSet={store.findEquipmentSetById(equipmentSetId!)} />
-        </ListItem>
-      )}
+      {renderEquipmentSet()}
       {hasEquipmentAction &&
         actionIds.map((actionId) => (
           <ListItem sx={listItemSx} key={actionId}>

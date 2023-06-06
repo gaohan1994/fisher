@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { DungeonItem, EnemyItem } from '../../fisher-item';
-import { Enemy } from '../../fisher-person';
+import { DungeonItem } from '../../fisher-item';
 
 const enemy1 = {
   id: 'LowSpiritMonster',
@@ -8,6 +7,7 @@ const enemy1 = {
   desc: '灵力较低的小妖怪，常出现在水源丰富的地界',
   media: 'LowSpiritMonster',
   level: 1,
+  unlockLevel: 1,
   goldReward: 1,
   itemRewards: [{ itemId: 'NormalReiki' }],
 };
@@ -29,6 +29,7 @@ const testDungeonData = {
   name: '测试副本',
   desc: '测试副本',
   media: '',
+  unlockLevel: 1,
   enemies: [enemy1, enemy2],
   progressExtraReward: {
     '0': [
@@ -59,7 +60,7 @@ describe('DungeonItem', () => {
     expect(dungeonItem.progress).toEqual(1);
     expect(dungeonItem.currentEnemyItem.id).toEqual('FireSpiritMonster');
 
-    const reward = dungeonItem.tryGetProgressExtraReward(new Enemy(new EnemyItem(enemy1)));
+    const reward = dungeonItem.tryGetProgressExtraReward('LowSpiritMonster');
     expect(reward![0].hasRewardItems).toBeTruthy();
   });
 
@@ -77,7 +78,7 @@ describe('DungeonItem', () => {
       })
     );
 
-    const reward = dungeonItem.tryGetProgressExtraReward(new Enemy(new EnemyItem(enemy1)));
+    const reward = dungeonItem.tryGetProgressExtraReward('LowSpiritMonster');
     expect(reward).toBeUndefined();
   });
 });

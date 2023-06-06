@@ -1,7 +1,8 @@
-import dayjs from 'dayjs';
+// @vitest-environment happy-dom
+
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../../fisher-core';
-import { Seed, SeedHandler, Soil } from '../../fisher-item';
+import { Seed, Soil } from '../../fisher-item';
 import { Backpack } from '../../fisher-backpack';
 
 const testSeed = {
@@ -14,7 +15,6 @@ const testSeed = {
   rewardItemQuantity: 10,
 };
 const seed = new Seed(testSeed);
-
 let core: FisherCore;
 let backpack: Backpack;
 
@@ -45,11 +45,10 @@ describe('Soil', () => {
     const soil = new Soil();
     expect(soil.seedHandler).toBeUndefined();
     expect(soil.seeded).toBeFalsy();
-    expect(backpack.checkItem(seed)).toBeTruthy();
+    expect(backpack.checkItem(seed, 1)).toBeTruthy();
 
     soil.seeding(seed);
     expect(backpack.checkItem(seed)).toBeFalsy();
-    expect(soil.seedHandler instanceof SeedHandler).toBeTruthy();
     expect(soil.seeded).toBeTruthy();
     expect(() => soil.gathering()).toThrow('The gather time has not yet ready');
 

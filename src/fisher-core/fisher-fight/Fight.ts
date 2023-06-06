@@ -6,7 +6,7 @@ import { FisherFightError } from '../fisher-error';
 
 interface IFightInfo {
   master: Master;
-  enemy: Enemy | undefined;
+  enemy: Enemy;
   isAttacking: boolean;
 }
 
@@ -18,11 +18,17 @@ class Fight {
     MasterLostFight: 'MasterLostFight',
   };
 
-  private readonly master: Master = Master.create();
+  private master: Master;
 
-  private enemy: Enemy | undefined = undefined;
+  private enemy: Enemy;
 
   public readonly event = new EventEmitter();
+
+  public static create = (enemy: Enemy) => {
+    const fight = new Fight(Master.create(), enemy);
+    fight.setFightTargets();
+    return fight;
+  };
 
   public get info(): IFightInfo {
     return {
@@ -32,50 +38,45 @@ class Fight {
     };
   }
 
-  constructor() {
+  constructor(master: Master, enemy: Enemy) {
     makeAutoObservable(this);
 
-    reaction<boolean>(() => this.enemy !== undefined && this.enemy.Hp <= 0, this.controlEnemyDeath);
+    this.master = master;
+    this.enemy = enemy;
+
+    reaction<boolean>(() => this.enemy.Hp <= 0, this.controlEnemyDeath);
     reaction<boolean>(() => this.master.Hp <= 0, this.controlMasterDeath);
   }
 
   public stopFighting = () => {
-    if (this.enemy === undefined) {
-      throw new FisherFightError('Please set enemy first', '请先设置战斗对象！');
-    }
-
     this.master.person.stopBattle();
     this.enemy.person.stopBattle();
 
     this.master.person.clearTarget();
     this.enemy.person.clearTarget();
 
-    this.clearEnemy();
-
     Fight.logger.info('stop fighting');
   };
 
-  public startFighting = (enemy: Enemy) => {
-    if (this.enemy !== undefined) {
-      this.stopFighting();
+  public startFighting = () => {
+    if (this.master === undefined) {
+      throw new FisherFightError(`Try to start fight with undefined`, '没有找到战斗目标');
     }
 
-    this.setEnemy(enemy);
-    this.setFightTargets();
+    if (this.enemy === undefined) {
+      throw new FisherFightError(`Try to start fight with undefined`, '没有找到战斗目标');
+    }
 
     this.master.person.startBattle();
-    this.enemy!.person.startBattle();
+    this.enemy.person.startBattle();
 
     Fight.logger.info('start fighting');
   };
 
   private setFightTargets = () => {
-    if (this.enemy === undefined) {
-      throw new FisherFightError('Please set enemy first', '请先设置战斗对象！');
-    }
-
     this.master.person.setTarget(this.enemy.person);
     this.enemy.person.setTarget(this.master.person);
+
     Fight.logger.debug(`Success set fight target, current masdter target: ${this.enemy.name}`);
   };
 
@@ -95,14 +96,6 @@ class Fight {
       this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy);
       this.stopFighting();
     }
-  };
-
-  private setEnemy = (enemy: Enemy) => {
-    this.enemy = enemy;
-  };
-
-  private clearEnemy = () => {
-    this.enemy = undefined;
   };
 }
 

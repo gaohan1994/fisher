@@ -77,7 +77,7 @@ class Master {
     };
   }
 
-  constructor() {
+  private constructor() {
     makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
@@ -133,6 +133,4 @@ class Master {
   };
 }
 
-const master = Master.create();
-
-export { master, Master };
+export { Master };

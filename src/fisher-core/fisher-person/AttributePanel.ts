@@ -196,8 +196,8 @@ class AttributePanel {
     const { DefenceFormulaFactor } = this.config;
     return (
       1 -
-      (DefenceFormulaFactor * (this.person?.target!.attributePanel.DefencePower ?? 0)) /
-        (1 + DefenceFormulaFactor * Math.abs(this.person?.target!.attributePanel.DefencePower ?? 0))
+      (DefenceFormulaFactor * (this.person?.target?.attributePanel.DefencePower ?? 0)) /
+        (1 + DefenceFormulaFactor * Math.abs(this.person?.target?.attributePanel.DefencePower ?? 0))
     );
   }
 

@@ -28,7 +28,7 @@ class Mining extends Collection<ICollectionModuleData> {
     return store.Mining;
   }
 
-  constructor() {
+  private constructor() {
     super();
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
@@ -48,6 +48,4 @@ class Mining extends Collection<ICollectionModuleData> {
   };
 }
 
-const mining = Mining.create();
-
-export { mining, Mining };
+export { Mining };

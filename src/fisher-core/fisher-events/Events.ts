@@ -31,6 +31,10 @@ namespace EventKeys {
     LoadArchive = 'LoadArchive',
     ExitArchive = 'ExitArchive',
   }
+
+  export enum Information {
+    Messages = 'Messages',
+  }
 }
 
 export { events, EventKeys };

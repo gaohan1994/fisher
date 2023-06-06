@@ -96,7 +96,7 @@ const FuiArchive: FC<Props> = ({ archive }) => {
               <Typography variant="h5" mb={1}>
                 {archive.masterName}
               </Typography>
-              <Typography>当前活动：无</Typography>
+              <Typography>当前活动：{archive.activeComponentId}</Typography>
               <Typography>等级：50</Typography>
               <Typography mb={1} color={FuiColor.gold}>
                 金币：{archive.bank?.gold ?? 0}

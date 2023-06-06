@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { roll } from '../utils';
 import { Item } from '../fisher-item';
-import { coinItem, store } from '../fisher-packages';
+import { Store, coinItem } from '../fisher-packages';
 import { EventKeys, events } from '../fisher-events';
 import { Information, InformationMessage } from '../fisher-information';
 export interface ICreateRewardOptions {
@@ -55,7 +55,7 @@ export class Reward {
     }
 
     if (itemId !== undefined) {
-      const item = store.findItemById(itemId);
+      const item = Store.create().findItemById(itemId);
       reward.addRewardItem(item, itemQuantity ?? 1);
     }
 
@@ -131,33 +131,33 @@ export class Reward {
     Reward.logger.debug('Success reset rewards.');
   };
 
-  public execute = () => {
-    this.executeGold();
-    this.executeRewardItems();
-    this.executeSkillExperience();
+  public execute = (shouldAlertInformation = false) => {
+    this.executeGold(shouldAlertInformation);
+    this.executeRewardItems(shouldAlertInformation);
+    this.executeSkillExperience(shouldAlertInformation);
 
     Reward.logger.debug('Success execute rewards.');
   };
 
-  private executeGold = () => {
+  private executeGold = (shouldAlertInformation: boolean) => {
     if (this.rewardGold && this.rewardGold !== 0) {
-      events.emit(EventKeys.Bank.ReceiveGold, this.rewardGold);
+      events.emit(EventKeys.Bank.ReceiveGold, this.rewardGold, shouldAlertInformation);
     }
   };
 
-  private executeRewardItems = () => {
+  private executeRewardItems = (shouldAlertInformation: boolean) => {
     if (this.rewardItemMap.size > 0) {
       this.rewardItemMap.forEach((quantity, item) => {
         if (quantity > 0) {
-          events.emit(EventKeys.Backpack.AddItem, item, quantity);
+          events.emit(EventKeys.Backpack.AddItem, item, quantity, shouldAlertInformation);
         } else {
-          events.emit(EventKeys.Backpack.ReduceItem, item, quantity);
+          events.emit(EventKeys.Backpack.ReduceItem, item, quantity, shouldAlertInformation);
         }
       });
     }
   };
 
-  private executeSkillExperience = () => {
+  private executeSkillExperience = (shouldAlertInformation: boolean) => {
     if (this.rewardSkillExperience.size > 0) {
       this.rewardSkillExperience.forEach((experience, componentId) => {
         events.emit(EventKeys.Reward.RewardExperience, componentId, experience);

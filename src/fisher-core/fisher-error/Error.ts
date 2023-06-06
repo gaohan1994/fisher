@@ -1,4 +1,8 @@
+import { prefixLogger, prefixes } from '@FisherLogger';
+
 enum FisherErrorCode {
+  Core = 1000,
+  Backpack = 6000,
   Information = 7000,
   Skill = 8000,
   Person = 9000,
@@ -9,6 +13,8 @@ enum FisherErrorCode {
 }
 
 abstract class FisherError extends Error {
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'FisherError');
+
   public static readonly FisherErrorCode = FisherErrorCode;
 
   public abstract code: FisherErrorCode;
@@ -21,6 +27,8 @@ abstract class FisherError extends Error {
     if (label !== undefined) {
       this.label = label;
     }
+
+    FisherError.logger.error(`Error message: ${message}`, `Error label: ${label}`);
   }
 }
 
@@ -52,6 +60,14 @@ class FisherInformationError extends FisherError {
   code = FisherError.FisherErrorCode.Information;
 }
 
+class FisherBackpackError extends FisherError {
+  code = FisherError.FisherErrorCode.Backpack;
+}
+
+class FisherCoreError extends FisherError {
+  code = FisherError.FisherErrorCode.Core;
+}
+
 export {
   FisherError,
   FisherPersonError,
@@ -61,4 +77,6 @@ export {
   FisherActionError,
   FisherSkillError,
   FisherInformationError,
+  FisherBackpackError,
+  FisherCoreError,
 };

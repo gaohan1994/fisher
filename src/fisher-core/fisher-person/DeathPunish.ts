@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { Bank } from '../fisher-bank';
 import { Person } from './Person';
 import { EventKeys, events } from '../fisher-events';
+import { core } from '../fisher-core';
 
 const DeathPunishConfig = {
   componentId: 'Master',
@@ -18,7 +18,7 @@ class DeathPunish {
   constructor(person: Person) {
     makeAutoObservable(this);
 
-    this.goldPunish = Math.max(0, Math.round(Bank.create().gold * DeathPunishConfig.goldPunishPercent));
+    this.goldPunish = Math.max(0, Math.round(core.bank.gold * DeathPunishConfig.goldPunishPercent));
 
     if (person.experience.level > DeathPunishConfig.experiencePunishProtectionLevel) {
       this.experiencePunish = Math.round(person.experience.experience * DeathPunishConfig.experiencePunishPercent);

@@ -1,3 +1,5 @@
+// @vitest-environment happy-dom
+
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { FisherCore } from '../fisher-core';
 import { IActionManager, Person, PersonMode } from '../fisher-person';

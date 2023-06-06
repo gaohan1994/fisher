@@ -1,9 +1,9 @@
+import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Assets } from '../assets';
 import { Fight } from '../fisher-fight';
 import { DungeonItem } from '../fisher-item';
 import { RewardPool } from '../fisher-reward';
-import { makeAutoObservable } from 'mobx';
 import { Enemy, Master } from '../fisher-person';
 import { TimerSpace } from '../fisher-timer';
 import { FisherDungeonError } from '../fisher-error';
@@ -34,28 +34,26 @@ class Dungeon {
 
   public media = Assets.battle;
 
-  public fight = new Fight();
+  public fight: Fight | undefined = undefined;
 
   public activeDungeonItem: DungeonItem | undefined = undefined;
 
   public rewardPool = new RewardPool();
 
   public get master() {
-    return this.fight.info.master;
+    return this.fight?.info.master;
   }
 
   public get enemy() {
-    return this.fight.info.enemy;
+    return this.fight?.info.enemy;
   }
 
   public get isAttacking() {
-    return this.fight.info.isAttacking;
+    return this.fight?.info.isAttacking ?? false;
   }
 
-  constructor() {
+  private constructor() {
     makeAutoObservable(this);
-    this.fight.event.on(Fight.EventKeys.MasterWinFight, this.onMasterWinFight);
-    this.fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
   }
 
   public setActiveDungeonItem = (dungeonItem: DungeonItem) => {
@@ -67,29 +65,31 @@ class Dungeon {
   };
 
   public start = () => {
+    const master = Master.create();
+
     if (this.activeDungeonItem === undefined) {
       throw new FisherDungeonError('Fail to start dungeon, please set active dungeon', '请先设置要攻略的副本');
     }
 
-    if (this.activeDungeonItem.unlockLevel > this.master.level) {
+    if (this.activeDungeonItem.unlockLevel > master.level) {
       throw new FisherDungeonError('Master insufficient level', '等级不足');
     }
 
     events.emit(EventKeys.Core.SetActiveComponent, this);
-    this.fight.startFighting(new Enemy(this.activeDungeonItem.currentEnemyItem));
+    this.fight = this.createDungeonFight(new Enemy(this.activeDungeonItem.currentEnemyItem));
 
     Dungeon.logger.info(`Start Dungeon ${this.activeDungeonItem.name}`);
   };
 
   public stop = () => {
-    this.fight.stopFighting();
+    this.clearDungeonFight();
     this.clearActiveDungeonItem();
 
     Dungeon.logger.info('Stop Dungeon');
   };
 
   private onMasterLostFight = async () => {
-    this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.master!.event.emit(Master.MasterEventKeys.MasterDeath);
     this.executeRewards();
     this.stop();
   };
@@ -106,7 +106,7 @@ class Dungeon {
 
   private continueNextFight = () => {
     if (this.activeDungeonItem !== undefined) {
-      this.fight.startFighting(new Enemy(this.activeDungeonItem.nextEnemy()));
+      this.fight = this.createDungeonFight(new Enemy(this.activeDungeonItem.nextEnemy()));
     }
   };
 
@@ -122,7 +122,7 @@ class Dungeon {
       );
     }
 
-    const extraReward = this.activeDungeonItem?.tryGetProgressExtraReward(enemy);
+    const extraReward = this.activeDungeonItem?.tryGetProgressExtraReward(enemy.id);
 
     if (extraReward !== undefined) {
       this.rewardPool.collectRewards(extraReward);
@@ -132,8 +132,25 @@ class Dungeon {
   public executeRewards = () => {
     this.rewardPool.executeRewardPool();
   };
+
+  private createDungeonFight = (enemy: Enemy) => {
+    const fight = Fight.create(enemy);
+
+    fight.event.on(Fight.EventKeys.MasterWinFight, this.onMasterWinFight);
+    fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
+    fight.startFighting();
+
+    return fight;
+  };
+
+  private clearDungeonFight = () => {
+    if (this.fight === undefined) {
+      throw new FisherDungeonError(`Try to stop an undefined fight`, '没有找到要停止的战斗');
+    }
+
+    this.fight.stopFighting();
+    this.fight = undefined;
+  };
 }
 
-const dungeon = Dungeon.create();
-
-export { Dungeon, dungeon };
+export { Dungeon };
