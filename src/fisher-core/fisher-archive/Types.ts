@@ -6,6 +6,8 @@ namespace ArchiveInterface {
     masterName: string;
     createTime: number;
     lastUpdateTime: number;
+    activeComponentId: string | undefined;
+    activeComponentLastActiveTime: number | undefined;
     deletedAt?: number;
     bank?: ArchiveBank;
     backpack?: ArchiveBackpack;
@@ -24,6 +26,7 @@ namespace ArchiveInterface {
 
   export interface ArchiveCollection {
     experience: number;
+    activeRecipeId?: string;
   }
 
   export interface ArchiveMaster {
@@ -42,9 +45,15 @@ namespace ArchiveInterface {
     potionId: string;
   }
 
-  export interface IArchive extends Omit<ArchiveValues, 'createTime' | 'lastUpdateTime'> {
+  export interface IArchive
+    extends Omit<
+      ArchiveValues,
+      'createTime' | 'lastUpdateTime' | 'activeComponentId' | 'activeComponentLastActiveTime'
+    > {
     createTime?: number;
     lastUpdateTime?: number;
+    activeComponentId?: string;
+    activeComponentLastActiveTime?: number;
   }
 }
 

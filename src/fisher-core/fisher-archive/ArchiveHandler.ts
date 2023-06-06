@@ -54,7 +54,16 @@ class ArchiveHandler {
       this.activeArchive!.updateReiki(reiki.archive);
       this.activeArchive!.updateForge(forge.archive);
       this.activeArchive!.updateCook(cook.archive);
+      this.updateActiveComponentInfo(core);
       await this.saveActiveArchive();
+    }
+  };
+
+  private updateActiveComponentInfo = (core: FisherCore) => {
+    if (core.activeComponentId) {
+      this.activeArchive!.updateActiveComponent(core.activeComponentId);
+    } else {
+      this.activeArchive!.clearActiveComponent();
     }
   };
 

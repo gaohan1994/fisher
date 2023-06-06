@@ -17,7 +17,6 @@ class Battle {
 
   public static create(): Battle {
     if (!Battle.instance) {
-      console.log('RewardPool in create battle', RewardPool);
       Battle.instance = new Battle();
     }
     return Battle.instance;

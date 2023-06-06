@@ -9,6 +9,10 @@ import { EventKeys, events } from '../fisher-events';
 import { Dungeon } from '../fisher-dungeon';
 import { Battle } from '../fisher-battle';
 import { Information, InformationMessage, information, informationAlert, informationTip } from '../fisher-information';
+import { ArchiveInterface } from '../fisher-archive';
+import { FisherCoreError } from '../fisher-error';
+import { isWithSkillComponent } from './ComponentChecker';
+import { HangUpTime } from '../fisher-hang-up';
 
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
@@ -111,6 +115,7 @@ class ComponentManager {
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
     events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
     events.on(EventKeys.Information.Messages, this.onReceiveInformationMessages);
+    events.on(EventKeys.Archive.LoadArchive, this.controlLastActiveComponent);
   }
 
   private onRewardExperience = (componentId: string, experience: number, shouldAlertInformation = false) => {
@@ -138,16 +143,64 @@ class ComponentManager {
       this.activeComponent = component;
       ComponentManager.logger.info(`Set active component ${component === undefined ? 'undefined' : component.id}`);
     }
+
+    events.emit(EventKeys.Archive.SaveFullArchive);
   };
 
   public clearActiveComponent = () => {
     this.activeComponent = undefined;
+    events.emit(EventKeys.Archive.SaveFullArchive);
+
     ComponentManager.logger.info('Clear active component');
   };
 
   private stopActiveComponent = () => {
     if (this.activeComponent !== undefined) {
       this.activeComponent?.stop();
+    }
+  };
+
+  private controlLastActiveComponent = async (values: ArchiveInterface.ArchiveValues) => {
+    const { activeComponentId, activeComponentLastActiveTime } = values;
+
+    if (activeComponentId === undefined) {
+      return this.clearActiveComponent();
+    }
+    if (activeComponentLastActiveTime === undefined) {
+      throw new Error(`Got active component ${activeComponentId}, but last active time was undefined`);
+    }
+
+    const component = this.componentMap.get(activeComponentId);
+
+    if (component === undefined) {
+      throw new FisherCoreError(
+        `Find an undefined active component ${activeComponentId}`,
+        `没有找到组件${activeComponentId}`
+      );
+    }
+
+    if (isWithSkillComponent(component)) {
+      const archiveComponentValues = values[component.id.toLocaleLowerCase() as 'mining' | 'reiki' | 'forge' | 'cook'];
+
+      if (archiveComponentValues === undefined) {
+        throw new FisherCoreError(
+          `Try to hang up component ${activeComponentId}, but did not find active component values`,
+          '挂机组件错误'
+        );
+      }
+
+      if (archiveComponentValues.activeRecipeId === undefined) {
+        throw new FisherCoreError(
+          `Try to hang up component ${activeComponentId}, but did not find active recipe id`,
+          '挂机组件错误'
+        );
+      }
+
+      const { recipe } = await component.hangUp(
+        new HangUpTime(activeComponentLastActiveTime),
+        archiveComponentValues.activeRecipeId
+      );
+      component.start(recipe);
     }
   };
 }
