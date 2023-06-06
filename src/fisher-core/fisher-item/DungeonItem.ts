@@ -1,9 +1,7 @@
-import { action, computed, makeObservable, observable } from 'mobx';
 import { IItem, Item, ItemType } from './Item';
 import { EnemyItem, IEnemyItem } from './Enemy';
 import { FisherDungeonError } from '../fisher-error';
 import { ICreateRewardOptions, Reward } from '../fisher-reward';
-import { Enemy } from '../fisher-person';
 
 interface IDungeonItem extends IItem {
   unlockLevel: number;
@@ -16,48 +14,41 @@ interface IDungeonItem extends IItem {
 class DungeonItem extends Item {
   public type = ItemType.Dungeon;
 
-  @observable
   public unlockLevel = 0;
 
-  @observable
-  public enemies: Array<EnemyItem>;
+  public enemies: Array<EnemyItem> = [];
 
-  @observable
   public progress = 0;
 
-  @observable
   public progressExtraRewardMap = new Map<number, ICreateRewardOptions[]>();
 
-  @computed
   public get currentEnemyItem() {
     return this.enemies[this.progress];
   }
 
-  @computed
   public get enemiesNumber() {
     return this.enemies.length;
   }
 
-  @computed
   private get hasNextEnemies() {
     return this.progress < this.enemiesNumber - 1;
   }
 
   constructor(options: IDungeonItem) {
     super(options);
-    makeObservable(this);
 
     this.unlockLevel = options.unlockLevel;
 
     this.enemies = options.enemies.map((item) => new EnemyItem(item));
-    if (options.progressExtraReward) {
-      for (let enemyIndex in options.progressExtraReward) {
-        this.progressExtraRewardMap.set(Number(enemyIndex), options.progressExtraReward[enemyIndex]);
-      }
+    if (options.progressExtraReward !== undefined) {
+      Object.keys(options.progressExtraReward).map((enemyIndex) => {
+        if (options.progressExtraReward?.[enemyIndex]) {
+          this.progressExtraRewardMap.set(Number(enemyIndex), options.progressExtraReward[enemyIndex]);
+        }
+      });
     }
   }
 
-  @action
   public nextEnemy = (): EnemyItem => {
     if (!this.hasNextEnemies) {
       this.progress = 0;
@@ -67,12 +58,11 @@ class DungeonItem extends Item {
     return this.enemies[this.progress];
   };
 
-  @action
-  public tryGetProgressExtraReward = (enemy: Enemy): Reward[] | undefined => {
-    const enemyIndex = this.getEnemyDungeonIndex(enemy.id);
+  public tryGetProgressExtraReward = (enemyId: string): Reward[] | undefined => {
+    const enemyIndex = this.getEnemyDungeonIndex(enemyId);
 
     if (enemyIndex < 0) {
-      throw new FisherDungeonError(`Can not find enemy item ${enemy.id} in Dungeon ${this.id}`);
+      throw new FisherDungeonError(`Can not find enemy item ${enemyId} in Dungeon ${this.id}`);
     }
 
     const progressExtraRewards = this.progressExtraRewardMap.get(enemyIndex);
@@ -83,7 +73,6 @@ class DungeonItem extends Item {
     return progressExtraRewards.map(Reward.create);
   };
 
-  @action
   private getEnemyDungeonIndex = (enemyId: string) => {
     return this.enemies.findIndex((enemy) => enemy.id === enemyId);
   };

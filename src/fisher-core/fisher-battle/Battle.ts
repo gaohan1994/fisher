@@ -1,13 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { store } from '../fisher-packages';
+import { Assets } from '../assets';
 import { EnemyItem } from '../fisher-item';
-import { RewardPool } from '../fisher-reward';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
 import { Enemy, Master } from '../fisher-person';
-import { Assets } from '../assets';
 import { Fight } from '../fisher-fight';
+import { RewardPool } from '../fisher-reward';
 import { FisherBattleError } from '../fisher-error';
 
 class Battle {
@@ -17,6 +17,7 @@ class Battle {
 
   public static create(): Battle {
     if (!Battle.instance) {
+      console.log('RewardPool in create battle', RewardPool);
       Battle.instance = new Battle();
     }
     return Battle.instance;
@@ -34,28 +35,26 @@ class Battle {
 
   public media = Assets.battle;
 
-  public fight = new Fight();
+  public fight: Fight | undefined = undefined;
 
   public activeEnemyItem: EnemyItem | undefined = undefined;
 
   public get master() {
-    return this.fight.info.master;
+    return this.fight?.info.master;
   }
 
   public get enemy() {
-    return this.fight.info.enemy;
+    return this.fight?.info.enemy;
   }
 
   public get isAttacking() {
-    return this.fight.info.isAttacking;
+    return this.fight?.info.isAttacking ?? false;
   }
 
   public rewardPool = new RewardPool();
 
-  constructor() {
+  private constructor() {
     makeAutoObservable(this);
-    this.fight.event.on(Fight.EventKeys.MasterWinFight, this.onMasterWinFight);
-    this.fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
   }
 
   public setAcitveEnemyItem = (enemyItem: EnemyItem) => {
@@ -66,53 +65,69 @@ class Battle {
     this.activeEnemyItem = undefined;
   };
 
+  private clearFight = () => {
+    if (this.fight === undefined) {
+      throw new FisherBattleError(`Try to stop an undefined fight`, '没有找到要停止的战斗');
+    }
+
+    this.fight.stopFighting();
+    this.fight = undefined;
+  };
+
   public start = () => {
     if (this.activeEnemyItem === undefined) {
       throw new FisherBattleError('Fail to start battle, please set active enemy', '请先设置战斗目标');
     }
 
     events.emit(EventKeys.Core.SetActiveComponent, this);
-    this.fight.startFighting(new Enemy(this.activeEnemyItem));
+    this.fight = this.createBattleFight(new Enemy(this.activeEnemyItem));
+
     Battle.logger.info(`Start battle with enemy ${this.activeEnemyItem.name}`);
   };
 
   public stop = () => {
-    this.fight.stopFighting();
+    this.clearFight();
     this.clearActiveEnemyItem();
 
-    Battle.logger.info('Stop battle');
+    Battle.logger.info('Stop battled');
   };
 
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
-    enemy.executeExperienceRewards();
     this.collectRewards(enemy);
-
     await TimerSpace.space(Battle.BaseBattleInterval);
-
     this.continueNextFight();
   };
 
   private onMasterLostFight = () => {
-    this.master.event.emit(Master.MasterEventKeys.MasterDeath);
+    this.master!.event.emit(Master.MasterEventKeys.MasterDeath);
     this.executeRewards();
     this.stop();
   };
 
   private collectRewards = async (enemy: Enemy) => {
+    enemy.executeExperienceRewards();
     this.rewardPool.collectRewards(enemy.provideRewards());
   };
 
   private continueNextFight = () => {
     if (this.activeEnemyItem !== undefined) {
-      this.fight.startFighting(new Enemy(this.activeEnemyItem));
+      this.fight = this.createBattleFight(new Enemy(this.activeEnemyItem));
     }
   };
 
   public executeRewards = () => {
     this.rewardPool.executeRewardPool();
   };
+
+  private createBattleFight = (enemy: Enemy) => {
+    const fight = Fight.create(enemy);
+
+    fight.event.on(Fight.EventKeys.MasterWinFight, this.onMasterWinFight);
+    fight.event.on(Fight.EventKeys.MasterLostFight, this.onMasterLostFight);
+    fight.startFighting();
+
+    return fight;
+  };
 }
 
-const battle = Battle.create();
-
-export { battle, Battle };
+export { Battle };

@@ -7,7 +7,8 @@ import { DungeonItem, EnemyItem, EquipmentItem } from '../fisher-item';
 import { Fight } from '../fisher-fight';
 import { Dungeon } from '../fisher-dungeon';
 import { NormalAttackAction } from '../fisher-actions/AttackActions';
-import { Enemy, Master } from '../fisher-person';
+import { Master } from '../fisher-person';
+import { Store } from '../fisher-packages';
 
 const debugWeapon = new EquipmentItem({
   id: 'DebugWeapon',
@@ -65,43 +66,46 @@ const testDungeonData = {
 };
 
 let core: FisherCore;
+let master: Master;
+let dungeon: Dungeon;
+let store: Store;
 beforeEach(() => {
+  store = Store.create();
   core = FisherCore.create();
   core.backpack.items.clear();
+  master = core.master;
+  dungeon = core.dungeon;
 });
 
 describe('Dungeon', () => {
   test('should initialize Dungeon module', () => {
-    const dungeon = new Dungeon();
-    expect(dungeon.fight instanceof Fight).toBeTruthy();
+    expect(dungeon.fight).toBeUndefined();
+    expect(dungeon.master).toBeUndefined();
     expect(dungeon.rewardPool.pool.length).toBe(0);
     expect(dungeon.rewardPool.hasReward).toBeFalsy();
-    expect(() => {
-      dungeon.start();
-    }).toThrowError('Fail to start dungeon, please set active dungeon');
+    expect(() => dungeon.start()).toThrowError('Fail to start dungeon, please set active dungeon');
   });
 
   test('should set active dungeon item and start dungeon', async () => {
     vi.useFakeTimers();
 
-    const dungeon = new Dungeon();
     expect(dungeon.activeDungeonItem).toBeUndefined();
     expect(dungeon.rewardPool.hasReward).toBeFalsy();
     const testDungeon = new DungeonItem(testDungeonData);
 
     dungeon.setActiveDungeonItem(testDungeon);
-    dungeon.master.personEquipmentManager.useEquipment(debugWeapon);
+    master.personEquipmentManager.useEquipment(debugWeapon);
 
     const spyAction = vi.fn().mockImplementation(async (_master, _enemy) => {
-      expect(_master instanceof Master).toBeTruthy();
-      expect(_enemy instanceof Enemy).toBeTruthy();
+      expect(_master.id).toEqual('Master');
+      expect(_enemy.id).toEqual('LowSpiritMonster');
     });
-
-    dungeon.fight.event.on(Fight.EventKeys.MasterWinFight, spyAction);
 
     expect(dungeon.activeDungeonItem).toStrictEqual(testDungeon);
 
     dungeon.start();
+
+    dungeon.fight!.event.on(Fight.EventKeys.MasterWinFight, spyAction);
     expect(dungeon.rewardPool.hasReward).toBeFalsy();
     expect(dungeon.activeDungeonItem?.progress).toBe(0);
     expect(core.backpack.checkItemById('NormalReiki')).toBeFalsy();
@@ -111,7 +115,7 @@ describe('Dungeon', () => {
     expect(core.activeComponent).toStrictEqual(dungeon);
 
     const normalAttackAction = new NormalAttackAction();
-    normalAttackAction.execute(dungeon.master.person);
+    normalAttackAction.execute(master.person);
 
     expect(spyAction).toBeCalled();
     await vi.advanceTimersByTime(200);
