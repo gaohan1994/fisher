@@ -32,7 +32,7 @@ class Forge extends Collection<Recipe[]> {
     return store.Forge;
   }
 
-  constructor() {
+  private constructor() {
     super();
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
@@ -55,6 +55,4 @@ class Forge extends Collection<Recipe[]> {
   };
 }
 
-const forge = Forge.create();
-
-export { forge, Forge };
+export { Forge };

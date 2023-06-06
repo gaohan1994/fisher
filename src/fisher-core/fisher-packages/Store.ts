@@ -1,4 +1,4 @@
-import invariant from 'invariant';
+import { makeAutoObservable } from 'mobx';
 import {
   Item,
   Recipe,
@@ -28,8 +28,9 @@ import {
   makeRewardChestsData,
   makeShopData,
 } from './FisherPackages';
+import { FisherCoreError } from '../fisher-error';
 
-export class Store {
+class Store {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'Store');
 
   public static instance: Store;
@@ -37,7 +38,6 @@ export class Store {
   public static create(): Store {
     if (!Store.instance) {
       Store.instance = new Store();
-      Store.instance.initializePackages();
     }
     return Store.instance;
   }
@@ -97,7 +97,9 @@ export class Store {
     ];
   }
 
-  public initializePackages = () => {
+  private constructor() {
+    makeAutoObservable(this);
+
     this.initializeNormalItems();
     this.initializeRewardChests();
     this.initializeMining();
@@ -110,7 +112,7 @@ export class Store {
     this.initializeDungeon();
     this.initializeShop();
     this.initializePotions();
-  };
+  }
 
   private initializeNormalItems = () => {
     this.NormalItems = makeNormalData();
@@ -183,7 +185,11 @@ export class Store {
 
   public findItemById = <T = Item>(itemId: string) => {
     const result = this.items.find((item) => item.id === itemId);
-    invariant(result !== undefined, 'Could not find Item id: ' + itemId);
+
+    if (result === undefined) {
+      throw new FisherCoreError(`Could not find Item id: ${itemId}`, '没有找到物品');
+    }
+
     return result as T;
   };
 
@@ -206,4 +212,4 @@ export class Store {
 
 const store = Store.create();
 (window as any).store = store;
-export { store };
+export { store, Store };

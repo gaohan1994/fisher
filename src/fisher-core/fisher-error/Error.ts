@@ -1,6 +1,7 @@
 import { prefixLogger, prefixes } from '@FisherLogger';
 
 enum FisherErrorCode {
+  Core = 1000,
   Backpack = 6000,
   Information = 7000,
   Skill = 8000,
@@ -63,6 +64,10 @@ class FisherBackpackError extends FisherError {
   code = FisherError.FisherErrorCode.Backpack;
 }
 
+class FisherCoreError extends FisherError {
+  code = FisherError.FisherErrorCode.Core;
+}
+
 export {
   FisherError,
   FisherPersonError,
@@ -73,4 +78,5 @@ export {
   FisherSkillError,
   FisherInformationError,
   FisherBackpackError,
+  FisherCoreError,
 };

@@ -22,7 +22,7 @@ export interface IItem {
   readonly desc: string;
   readonly media: string;
   readonly price?: number;
-  rarity?: Rarity;
+  rarity?: Rarity[0];
 }
 
 export abstract class AbstractItem implements IItem {
@@ -82,7 +82,7 @@ export abstract class Item implements IItem {
     }
 
     if (options.rarity) {
-      this.rarity = options.rarity;
+      this.rarity = options.rarity as Rarity;
     }
   }
 

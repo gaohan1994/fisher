@@ -32,7 +32,7 @@ class Cook extends Collection<Recipe[]> {
     return store.Cook;
   }
 
-  constructor() {
+  private constructor() {
     super();
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
   }
@@ -55,6 +55,4 @@ class Cook extends Collection<Recipe[]> {
   };
 }
 
-const cook = Cook.create();
-
-export { cook, Cook };
+export { Cook };
