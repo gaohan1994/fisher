@@ -1,14 +1,14 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
-import { battle, Battle } from '../fisher-battle';
-import { cook, Cook, forge, Forge, mining, Mining, reiki, Reiki } from '../fisher-modules';
-import { bank, Bank } from '../fisher-bank';
-import { backpack, Backpack } from '../fisher-backpack';
+import { Master } from '../fisher-person';
+import { Bank } from '../fisher-bank';
+import { Backpack } from '../fisher-backpack';
+import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
 import { EventKeys, events } from '../fisher-events';
-import { Master, master } from '../fisher-person';
-import { Dungeon, dungeon } from '../fisher-dungeon';
-import { Information, information, informationTip } from '../fisher-information';
+import { Dungeon } from '../fisher-dungeon';
+import { Battle } from '../fisher-battle';
+import { Information, InformationMessage, information, informationAlert, informationTip } from '../fisher-information';
 
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
@@ -96,31 +96,39 @@ class ComponentManager {
   constructor() {
     makeAutoObservable(this);
 
-    this.componentMap.set(ComponentId.Master, master);
-    this.componentMap.set(ComponentId.Bank, bank);
-    this.componentMap.set(ComponentId.Backpack, backpack);
-    this.componentMap.set(ComponentId.Battle, battle);
-    this.componentMap.set(ComponentId.Dungeon, dungeon);
-    this.componentMap.set(ComponentId.Mining, mining);
-    this.componentMap.set(ComponentId.Reiki, reiki);
-    this.componentMap.set(ComponentId.Forge, forge);
-    this.componentMap.set(ComponentId.Cook, cook);
+    this.componentMap.set(ComponentId.Master, Master.create());
+    this.componentMap.set(ComponentId.Bank, Bank.create());
+    this.componentMap.set(ComponentId.Backpack, Backpack.create());
+    this.componentMap.set(ComponentId.Battle, Battle.create());
+    this.componentMap.set(ComponentId.Dungeon, Dungeon.create());
+    this.componentMap.set(ComponentId.Mining, Mining.create());
+    this.componentMap.set(ComponentId.Reiki, Reiki.create());
+    this.componentMap.set(ComponentId.Forge, Forge.create());
+    this.componentMap.set(ComponentId.Cook, Cook.create());
     this.componentMap.set(ComponentId.Information, information);
 
     events.on(EventKeys.Core.SetActiveComponent, this.setActiveComponent);
     events.on(EventKeys.Archive.ExitArchive, this.stopActiveComponent);
     events.on(EventKeys.Reward.RewardExperience, this.onRewardExperience);
+    events.on(EventKeys.Information.Messages, this.onReceiveInformationMessages);
   }
 
-  private onRewardExperience = (componentId: string, experience: number, showInformation = true) => {
+  private onRewardExperience = (componentId: string, experience: number, shouldAlertInformation = false) => {
     const component = this.componentMap.get(componentId) as ComponentWithExperience;
     invariant(component !== undefined, `Try to add experience to undefined component ${componentId}`);
 
     component.receiveExperience(experience);
     ComponentManager.logger.debug(`'Execute add ${componentId} experience: ${experience}`);
 
-    if (showInformation) {
-      informationTip([new Information.ExperienceMessage(componentId, experience)]);
+    const message = new Information.ExperienceMessage(componentId, experience);
+    events.emit(EventKeys.Information.Messages, [message], shouldAlertInformation);
+  };
+
+  private onReceiveInformationMessages = (messages: InformationMessage[], shouldAlertInformation = false) => {
+    if (shouldAlertInformation) {
+      informationAlert(messages);
+    } else {
+      informationTip(messages);
     }
   };
 

@@ -1,4 +1,3 @@
-import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { BackpackItem, Item, ItemType } from '../fisher-item';
@@ -6,7 +5,8 @@ import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
 import { Assets } from '../assets';
-import { Information, informationTip } from '../fisher-information';
+import { Information } from '../fisher-information';
+import { FisherBackpackError } from '../fisher-error';
 
 /**
  * 背包系统
@@ -21,7 +21,7 @@ import { Information, informationTip } from '../fisher-information';
  * @export
  * @class Backpack
  */
-export class Backpack {
+class Backpack {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Backpack');
 
   public readonly id = 'Backpack';
@@ -61,7 +61,7 @@ export class Backpack {
     return result;
   }
 
-  constructor() {
+  private constructor() {
     makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
@@ -87,7 +87,7 @@ export class Backpack {
         this.addItemById(id, quantity);
       }
 
-      Backpack.logger.info('Load archive backpack values', backpack);
+      Backpack.logger.info('Load archive backpack values');
     }
   };
 
@@ -138,8 +138,10 @@ export class Backpack {
     return result as BackpackItem<T>[];
   };
 
-  public addItem = (item: Item, quantity: number, showInformation = true) => {
-    invariant(quantity > 0, `Fail to add ${item.id} to backpack, quantity should > 0`);
+  public addItem = (item: Item, quantity: number, shouldAlertInformation = false) => {
+    if (quantity <= 0) {
+      throw new FisherBackpackError(`Fail to add ${item.id} to backpack, quantity should > 0`, '数量不正确');
+    }
 
     if (this.items.has(item)) {
       this.addExistingItem(item, quantity);
@@ -147,10 +149,8 @@ export class Backpack {
       this.addNewItem(item, quantity);
     }
 
-    if (showInformation) {
-      informationTip([new Information.ItemMessage(item, quantity)]);
-    }
-
+    const message = new Information.ItemMessage(item, quantity);
+    events.emit(EventKeys.Information.Messages, [message], shouldAlertInformation);
     events.emit(EventKeys.Update.BackpackUpdate, this);
   };
 
@@ -174,7 +174,7 @@ export class Backpack {
     this.items.set(item, backpackItem);
   };
 
-  public reduceItem = (item: Item, quantity: number) => {
+  public reduceItem = (item: Item, quantity: number, shouldAlertInformation = false) => {
     const backpackItem = this.items.get(item);
     const reduceQuantity = Math.abs(quantity);
 
@@ -193,6 +193,8 @@ export class Backpack {
       this.items.set(item, backpackItem);
     }
 
+    const message = new Information.ItemMessage(item, -reduceQuantity);
+    events.emit(EventKeys.Information.Messages, [message], shouldAlertInformation);
     events.emit(EventKeys.Update.BackpackUpdate, this);
   };
 
@@ -223,7 +225,13 @@ export class Backpack {
    */
   public sellItem = (item: BackpackItem, quantity?: number) => {
     const sellItem = this.items.get(item.item);
-    invariant(sellItem !== undefined, `Try to sell item ${item.item.id} but current backpack does not have item`);
+
+    if (sellItem === undefined) {
+      throw new FisherBackpackError(
+        `Try to sell item ${item.item.id} but current backpack does not have item`,
+        '没有找到要出售的物品'
+      );
+    }
 
     const _quantity = Math.min(quantity ?? sellItem.quantity, sellItem.quantity);
     const sellPrice = item.calculatePrice(_quantity);
@@ -246,7 +254,12 @@ export class Backpack {
   };
 
   public sellSelectedItems = () => {
-    invariant(this.selectedItems.size > 0, 'Fail to sell selected items, selected items are empty');
+    if (this.selectedItems.size <= 0) {
+      throw new FisherBackpackError(
+        'Fail to sell selected items, selected items are empty',
+        '出售失败，没有要出售的物品'
+      );
+    }
 
     this.selectedItems.forEach((item) => {
       this.sellItem(item);
@@ -268,4 +281,4 @@ export class Backpack {
   };
 }
 
-export const backpack = Backpack.create();
+export { Backpack };

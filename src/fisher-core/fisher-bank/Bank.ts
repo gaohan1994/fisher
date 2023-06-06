@@ -7,9 +7,9 @@ import { ShopCategory } from '../fisher-item';
 import { ShopCategoryHandler } from './ShopCategoryHandler';
 import { Cart } from './Cart';
 import { Assets } from '../assets';
-import { Information, informationTip } from '../fisher-information';
+import { Information } from '../fisher-information';
 
-export class Bank {
+class Bank {
   static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
 
   public static instance: Bank;
@@ -37,19 +37,21 @@ export class Bank {
 
   public cart = new Cart(this);
 
-  public categoryHandlerMap = new Map<ShopCategory, ShopCategoryHandler>();
-
   public get categoryHandlers() {
     return [...this.categoryHandlerMap.values()];
   }
 
-  constructor() {
-    makeAutoObservable(this);
-
+  public get categoryHandlerMap() {
+    let result = new Map<ShopCategory, ShopCategoryHandler>();
     for (let index = 0; index < store.Shop.length; index++) {
       const shopCategory = store.Shop[index];
-      this.categoryHandlerMap.set(shopCategory, new ShopCategoryHandler(shopCategory));
+      result.set(shopCategory, new ShopCategoryHandler(shopCategory));
     }
+    return result;
+  }
+
+  private constructor() {
+    makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
     events.on(EventKeys.Bank.ReceiveGold, this.receiveGold);
@@ -65,14 +67,12 @@ export class Bank {
     }
   };
 
-  public receiveGold = (value: number, showInformation = true) => {
+  public receiveGold = (value: number, shouldAlertInformation = false) => {
     this.gold += value;
     Bank.logger.debug(`Receive gold: ${value}, current: ${this.gold}`);
 
-    if (showInformation) {
-      informationTip([new Information.ItemMessage(coinItem, value)]);
-    }
-
+    const message = new Information.ItemMessage(coinItem, value);
+    events.emit(EventKeys.Information.Messages, [message], shouldAlertInformation);
     events.emit(EventKeys.Update.BankUpdate, this);
   };
 
@@ -89,4 +89,4 @@ export class Bank {
   };
 }
 
-export const bank = Bank.create();
+export { Bank };
