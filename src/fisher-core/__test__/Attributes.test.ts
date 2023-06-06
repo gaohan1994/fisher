@@ -5,8 +5,10 @@ import { IAttributeKeys, Master, Person } from '../fisher-person';
 import { PersonMode, getPersonFactorConfig } from '../fisher-person/Constants';
 
 let core: FisherCore;
+let master: Master;
 beforeEach(() => {
   core = FisherCore.create();
+  master = core.master;
 });
 
 const equip1: IEquipmentItem = {
@@ -40,8 +42,6 @@ const equip2: IEquipmentItem = {
 
 describe('Person Attribute', () => {
   test('should calculate base attributes', () => {
-    const master = Master.create();
-
     const config = getPersonFactorConfig(PersonMode.Master);
 
     expect(master.attributePanel.BaseMaxHp).toBe(config.InitializeMaxHp + config.HpFactor * master.level);
@@ -86,8 +86,6 @@ describe('Person Attribute', () => {
   });
 
   test('should calculate bonus attributes', () => {
-    const master = Master.create();
-
     const equipmentItem1 = new EquipmentItem(equip1);
     master.personEquipmentManager.useEquipment(equipmentItem1);
 
@@ -106,8 +104,6 @@ describe('Person Attribute', () => {
   });
 
   test('should calculate attributes after count base and bonus', () => {
-    const master = Master.create();
-
     const equipmentItem1 = new EquipmentItem(equip1);
     master.personEquipmentManager.useEquipment(equipmentItem1);
 

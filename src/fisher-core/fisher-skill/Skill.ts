@@ -26,15 +26,14 @@ class Skill {
 
   public action = () => {
     this.recipeHandler.executeRecipe();
-    Skill.logger.debug(`${this.id} run action`);
 
     // after each action
     // check active recipe still available
     // if not meet condition stop timer
     // don't reset active recipe let user know the stop reason
     if (!this.recipeHandler.activeRecipeAvailable) {
-      Skill.logger.debug(`${this.id} stop action due to active recipe was unavailabled`);
-      return this.stopTimer();
+      this.stopTimer();
+      throw new FisherSkillError(`${this.id} stop action due to active recipe was unavailabled`, '不满足配方条件');
     }
   };
 
@@ -49,14 +48,6 @@ class Skill {
 
     if (!this.recipeHandler.activeRecipeBearCostAvailable) {
       throw new FisherSkillError(`Try start recipe but can not bear costs`, '材料不足');
-    }
-
-    this.startTimer();
-  };
-
-  private startTimer = () => {
-    if (!this.recipeHandler.hasActiveRecipe) {
-      throw new Error('Try to start action without active recipe!');
     }
 
     this.timer.startTimer(this.recipeHandler.activeRecipe!.interval);

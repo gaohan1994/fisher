@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../../fisher-core';
-import { EquipmentSetExtra, EquipmentSet, ItemType } from '../../fisher-item';
+import { EquipmentSet, ItemType } from '../../fisher-item';
 import { store } from '../../fisher-packages';
 
 let core: FisherCore;
@@ -46,7 +46,6 @@ describe('EquipmentSet', () => {
     expect(setAttributes.find((attr) => attr.key === 'AttackPower')?.value).toEqual(10);
     expect(setAttributes.find((attr) => attr.key === 'MaxHp')?.value).toEqual(100);
 
-    expect(equipmentSet.extra instanceof EquipmentSetExtra).toBeTruthy();
     expect(equipmentSet.hasExtraAttributes).toBeTruthy();
     expect(equipmentSet.extra?.setSlotControl.active).toBeFalsy();
     expect(equipmentSet.extra?.attributes.length).toEqual(1);

@@ -22,13 +22,13 @@ class RewardPool {
     }
   };
 
-  public executeRewardPool = () => {
+  public executeRewardPool = (shouldAlertInformation = false) => {
     if (!this.hasReward) {
       RewardPool.logger.error('Try to execute rewards but reward pool was empty');
       throw new Error('Try to execute rewards but reward pool was empty');
     }
 
-    this.pool.forEach((reward) => reward.execute());
+    this.pool.forEach((reward) => reward.execute(shouldAlertInformation));
     this.pool = [];
   };
 }

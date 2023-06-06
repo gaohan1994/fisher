@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { EquipmentSlot, IEquipmentItem } from '../fisher-item';
-import { IAttributeKeys, Person } from '../fisher-person';
+import { Person } from '../fisher-person';
 import { PersonMode, getPersonFactorConfig } from '../fisher-person/Constants';
 import { AttributePanel } from '../fisher-person/AttributePanel';
 
@@ -9,35 +8,6 @@ let core: FisherCore;
 beforeEach(() => {
   core = FisherCore.create();
 });
-
-const equip1: IEquipmentItem = {
-  id: 'TestEquip1',
-  name: '测试装备1',
-  desc: '',
-  media: '',
-  price: 5,
-  slot: EquipmentSlot.Helmet,
-  requirements: [],
-  attributes: [
-    { key: IAttributeKeys.MaxHp, value: 20 },
-    { key: IAttributeKeys.DefencePower, value: 5 },
-    { key: IAttributeKeys.DefencePowerMultiplier, value: 0.05 },
-  ],
-};
-
-const equip2: IEquipmentItem = {
-  id: 'TestEquip2',
-  name: '测试装备2',
-  desc: '',
-  media: '',
-  price: 5,
-  slot: EquipmentSlot.PrimaryWeapon,
-  requirements: [],
-  attributes: [
-    { key: IAttributeKeys.AttackPower, value: 10 },
-    { key: IAttributeKeys.AttackPowerMultiplier, value: 0.01 },
-  ],
-};
 
 describe('PersonFactorConfig', () => {
   test('should success return person factor config', () => {

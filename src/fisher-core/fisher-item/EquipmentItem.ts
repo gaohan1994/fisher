@@ -1,4 +1,3 @@
-import { IBonusEquipmentsAttributesKeys } from '@FisherCore';
 import { EquipmentSlot } from './Constants';
 import { Item, ItemType, IItem } from './Item';
 
@@ -24,7 +23,7 @@ interface IEquipmentRequirement {}
  * @interface IEquipmentAttribute
  */
 export interface IEquipmentAttribute {
-  key: IBonusEquipmentsAttributesKeys[number];
+  key: string;
   value: number;
 }
 

@@ -1,11 +1,13 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { FisherCore } from '../fisher-core';
-import { mining } from '../fisher-modules';
 import { store } from '../fisher-packages';
+import { Mining } from '../fisher-modules';
 
 let core: FisherCore;
+let mining: Mining;
 beforeEach(() => {
   core = FisherCore.create();
+  mining = core.mining;
 });
 
 describe('Mining', () => {

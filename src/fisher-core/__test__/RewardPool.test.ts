@@ -3,8 +3,6 @@ import { Bank } from '../fisher-bank';
 import { FisherCore } from '../fisher-core';
 import { Reward, RewardPool } from '../fisher-reward';
 
-const reward = Reward.create({ gold: 5 });
-
 let bank: Bank;
 beforeEach(() => {
   const core = FisherCore.create();
@@ -20,6 +18,8 @@ describe('Reward pool', () => {
 
   test('should add reward to pool', () => {
     const rewardPool = new RewardPool();
+    const reward = Reward.create({ gold: 5 });
+
     expect(rewardPool.pool.length).toBe(0);
 
     rewardPool.collectRewards([reward]);

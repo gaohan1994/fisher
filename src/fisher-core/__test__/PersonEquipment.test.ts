@@ -11,18 +11,18 @@ beforeEach(() => {
   core = FisherCore.create();
 });
 
-const testEquipmentData = {
-  id: 'JadeCloudHairpin',
-  name: '流云白玉簪',
-  desc: '雕工上乘，玉质极佳，但不是什么法器',
-  media: '',
-  price: 5,
-  slot: EquipmentSlot.Helmet,
-  requirements: [],
-  attributes: [],
-};
-
 describe('PersonEquipment', () => {
+  const testEquipmentData = {
+    id: 'JadeCloudHairpin',
+    name: '流云白玉簪',
+    desc: '雕工上乘，玉质极佳，但不是什么法器',
+    media: '',
+    price: 5,
+    slot: EquipmentSlot.Helmet,
+    requirements: [],
+    attributes: [],
+  };
+
   test('should success initialize personEquipment', () => {
     const personEquipment = new PersonEquipment(EquipmentSlot.Helmet);
     expect(personEquipment.slot).toBe(EquipmentSlot.Helmet);
