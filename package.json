@@ -18,6 +18,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
     "@mui/styled-engine-sc": "^5.10.16",
+    "@sinonjs/fake-timers": "^10.2.0",
     "@types/invariant": "^2.2.35",
     "@types/numeral": "^2.0.2",
     "dayjs": "^1.11.7",
@@ -39,10 +40,13 @@
   "devDependencies": {
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@types/sinonjs__fake-timers": "^8.1.2",
     "@vitest/coverage-c8": "^0.25.5",
     "typescript": "^4.6.4",
-    "vite": "^3.2.5",
-    "vitest": "^0.25.8"
+    "vite": "latest",
+    "vitest": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@vitest/ui": "latest",
+    "happy-dom": "latest"
   }
 }
