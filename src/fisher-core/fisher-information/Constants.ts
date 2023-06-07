@@ -3,6 +3,7 @@ enum FisherMessageVariant {
   Experience = 'Experience',
   MasterDeath = 'MasterDeath',
   MasterLevel = 'MasterLevel',
+  Normal = 'Normal',
 }
 
 export { FisherMessageVariant };

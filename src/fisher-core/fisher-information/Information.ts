@@ -1,5 +1,12 @@
 import { EventEmitter } from 'smar-util';
-import { ExperienceMessage, InformationMessage, ItemMessage, MasterDeathMessage, MasterLevelMessage } from './Message';
+import {
+  ExperienceMessage,
+  InformationMessage,
+  ItemMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+  NormalMessage,
+} from './Message';
 import { FisherMessageVariant } from './Constants';
 
 enum InformationEventKeys {
@@ -32,6 +39,8 @@ class Information {
   public static readonly MasterDeathMessage = MasterDeathMessage;
 
   public static readonly MasterLevelMessage = MasterLevelMessage;
+
+  public static readonly NormalMessage = NormalMessage;
 
   public static isItemMessage = (message: InformationMessage): message is ItemMessage => {
     return message.variant === FisherMessageVariant.Item;
