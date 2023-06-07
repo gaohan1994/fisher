@@ -7,6 +7,7 @@ import {
   ItemMessage,
   MasterDeathMessage,
   MasterLevelMessage,
+  NormalMessage,
 } from '@FisherCore';
 import { Divider, Typography } from '@mui/material';
 import { FuiItemName } from '../item';
@@ -66,6 +67,15 @@ class MessageParer {
     );
   };
 
+  public static parserNormalMessage = ({ key, message }: NormalMessage) => {
+    const { color } = message;
+    return (
+      <Typography variant="caption" key={key} color={color ?? 'white'}>
+        {message.message}
+      </Typography>
+    );
+  };
+
   public source: InformationMessage[];
 
   public date: string;
@@ -93,6 +103,10 @@ class MessageParer {
 
       if (Information.isMasterLevelMessage(message)) {
         result.push(MessageParer.parserMasterLevelMessage(message));
+      }
+
+      if (Information.isNormalMessage(message)) {
+        result.push(MessageParer.parserNormalMessage(message));
       }
 
       if (index !== array.length - 1) {

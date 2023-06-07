@@ -58,6 +58,10 @@ class Information {
     return message.variant === FisherMessageVariant.MasterLevel;
   };
 
+  public static isNormalMessage = (message: InformationMessage): message is NormalMessage => {
+    return message.variant === FisherMessageVariant.Normal;
+  };
+
   public event = new EventEmitter();
 
   public alert = (messages: InformationMessage[]) => {
