@@ -16,6 +16,7 @@ namespace ArchiveInterface {
     reiki?: ArchiveCollection;
     forge?: ArchiveCollection;
     cook?: ArchiveCollection;
+    battle?: ArchiveBattle;
   }
 
   export interface ArchiveBank {
@@ -24,12 +25,17 @@ namespace ArchiveInterface {
 
   export type ArchiveBackpack = Array<ArchiveBackpackItem>;
 
+  export interface ArchiveBattle {
+    activeEnemyId?: string;
+  }
+
   export interface ArchiveCollection {
     experience: number;
     activeRecipeId?: string;
   }
 
   export interface ArchiveMaster {
+    Hp: number;
     experience: number;
     equipmentIds: string[];
     potionHandlers: ArchivePotionHandler[];

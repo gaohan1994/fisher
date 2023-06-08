@@ -1,9 +1,25 @@
-import { InformationMessage, ItemMessage, ExperienceMessage, MasterDeathMessage, MasterLevelMessage } from './Message';
+import {
+  InformationMessage,
+  ItemMessage,
+  ExperienceMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+  NormalMessage,
+} from './Message';
 import { Information, information } from './Information';
-import { debounce } from './Util';
+import { debounce as debounceInformation } from './Util';
+import { debounce } from '../utils';
 
-const informationTip = debounce(information.tip);
-const informationAlert = debounce(information.alert);
+const informationTip = debounceInformation(information.tip);
+const informationAlert = debounceInformation(information.alert);
+const informationLoading = debounce(information.loading, 500, true);
 
-export { Information, information, informationTip, informationAlert };
-export type { InformationMessage, ItemMessage, ExperienceMessage, MasterDeathMessage, MasterLevelMessage };
+export { Information, information, informationTip, informationAlert, informationLoading };
+export type {
+  InformationMessage,
+  ItemMessage,
+  ExperienceMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+  NormalMessage,
+};

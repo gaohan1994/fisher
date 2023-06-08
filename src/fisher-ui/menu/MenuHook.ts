@@ -1,4 +1,4 @@
-import { ComponentId, FisherComponent, Timer } from '@FisherCore';
+import { ComponentId, FisherComponent, Timer, core } from '@FisherCore';
 
 const useComponentTimer = (component: FisherComponent): Timer | undefined => {
   if ((component as any).skill !== undefined) {
@@ -6,7 +6,7 @@ const useComponentTimer = (component: FisherComponent): Timer | undefined => {
   }
 
   if (component.id === ComponentId.Battle || component.id === ComponentId.Dungeon) {
-    return (component as any).master.person.actionManager.timer;
+    return core.master.actionManager.attackActionTimer;
   }
 
   return undefined;

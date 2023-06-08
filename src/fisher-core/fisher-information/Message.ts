@@ -93,7 +93,33 @@ class MasterLevelMessage extends FisherInformationMessage<MasterLevelMessageDeta
   }
 }
 
-type InformationMessage = ItemMessage | ExperienceMessage | MasterDeathMessage | MasterLevelMessage;
+interface NormalMessageDetail {
+  message: string;
+  color?: any;
+}
 
-export { FisherInformationMessage, ItemMessage, ExperienceMessage, MasterDeathMessage, MasterLevelMessage };
+class NormalMessage extends FisherInformationMessage<NormalMessageDetail> {
+  public variant = FisherMessageVariant.Normal;
+
+  public message: NormalMessageDetail;
+
+  constructor(message: string, color?: any) {
+    super();
+    this.message = {
+      message,
+      color,
+    };
+  }
+}
+
+type InformationMessage = ItemMessage | ExperienceMessage | MasterDeathMessage | MasterLevelMessage | NormalMessage;
+
+export {
+  FisherInformationMessage,
+  ItemMessage,
+  ExperienceMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+  NormalMessage,
+};
 export type { InformationMessage };

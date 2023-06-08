@@ -1,16 +1,32 @@
 import { EventEmitter } from 'smar-util';
-import { ExperienceMessage, InformationMessage, ItemMessage, MasterDeathMessage, MasterLevelMessage } from './Message';
+import {
+  ExperienceMessage,
+  InformationMessage,
+  ItemMessage,
+  MasterDeathMessage,
+  MasterLevelMessage,
+  NormalMessage,
+} from './Message';
 import { FisherMessageVariant } from './Constants';
 
 enum InformationEventKeys {
   TipMessage = 'TipMessage',
   AlertMessage = 'AlertMessage',
+  Loading = 'Loading',
+}
+
+enum InformationColor {
+  Red = 'red',
+  Orange = 'orange',
+  Green = 'green',
 }
 
 class Information {
   public static instance: Information;
 
   public static readonly InformationEventKeys = InformationEventKeys;
+
+  public static readonly InformationColor = InformationColor;
 
   public id = 'Information';
 
@@ -33,6 +49,8 @@ class Information {
 
   public static readonly MasterLevelMessage = MasterLevelMessage;
 
+  public static readonly NormalMessage = NormalMessage;
+
   public static isItemMessage = (message: InformationMessage): message is ItemMessage => {
     return message.variant === FisherMessageVariant.Item;
   };
@@ -49,6 +67,10 @@ class Information {
     return message.variant === FisherMessageVariant.MasterLevel;
   };
 
+  public static isNormalMessage = (message: InformationMessage): message is NormalMessage => {
+    return message.variant === FisherMessageVariant.Normal;
+  };
+
   public event = new EventEmitter();
 
   public alert = (messages: InformationMessage[]) => {
@@ -57,6 +79,10 @@ class Information {
 
   public tip = (messages: InformationMessage[]) => {
     this.event.emit(Information.InformationEventKeys.TipMessage, messages);
+  };
+
+  public loading = (loading: boolean, messages?: InformationMessage[]) => {
+    this.event.emit(Information.InformationEventKeys.Loading, loading, messages);
   };
 }
 

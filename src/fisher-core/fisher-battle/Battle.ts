@@ -9,6 +9,7 @@ import { Enemy, Master } from '../fisher-person';
 import { Fight } from '../fisher-fight';
 import { RewardPool } from '../fisher-reward';
 import { FisherBattleError } from '../fisher-error';
+import { ArchiveInterface } from '../fisher-archive';
 
 class Battle {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -20,6 +21,12 @@ class Battle {
       Battle.instance = new Battle();
     }
     return Battle.instance;
+  }
+
+  public get archive(): ArchiveInterface.ArchiveBattle {
+    return {
+      activeEnemyId: this.activeEnemyItem?.id,
+    };
   }
 
   public get packages() {
@@ -78,8 +85,8 @@ class Battle {
       throw new FisherBattleError('Fail to start battle, please set active enemy', '请先设置战斗目标');
     }
 
-    events.emit(EventKeys.Core.SetActiveComponent, this);
     this.fight = this.createBattleFight(new Enemy(this.activeEnemyItem));
+    events.emit(EventKeys.Core.SetActiveComponent, this);
 
     Battle.logger.info(`Start battle with enemy ${this.activeEnemyItem.name}`);
   };

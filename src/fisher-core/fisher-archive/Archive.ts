@@ -35,8 +35,12 @@ class Archive {
 
   public cook: ArchiveInterface.ArchiveCollection | undefined = undefined;
 
+  public battle: ArchiveInterface.ArchiveBattle | undefined = undefined;
+
   public get values(): ArchiveInterface.ArchiveValues {
     return {
+      activeComponentId: this.activeComponentId,
+      activeComponentLastActiveTime: this.activeComponentLastActiveTime,
       archiveKey: this.archiveKey,
       masterName: this.masterName,
       createTime: this.createTime,
@@ -49,14 +53,21 @@ class Archive {
       reiki: this.reiki,
       forge: this.forge,
       cook: this.cook,
-      activeComponentId: this.activeComponentId,
-      activeComponentLastActiveTime: this.activeComponentLastActiveTime,
+      battle: this.battle,
     };
   }
 
   constructor(options: ArchiveInterface.IArchive) {
     this.archiveKey = options.archiveKey;
     this.masterName = options.masterName;
+
+    if (options.activeComponentId) {
+      this.activeComponentId = options.activeComponentId;
+    }
+
+    if (options.activeComponentLastActiveTime) {
+      this.activeComponentLastActiveTime = options.activeComponentLastActiveTime;
+    }
 
     if (options.createTime) {
       this.createTime = options.createTime;
@@ -98,12 +109,8 @@ class Archive {
       this.cook = options.cook;
     }
 
-    if (options.activeComponentId) {
-      this.activeComponentId = options.activeComponentId;
-    }
-
-    if (options.activeComponentLastActiveTime) {
-      this.activeComponentLastActiveTime = options.activeComponentLastActiveTime;
+    if (options.battle) {
+      this.battle = options.battle;
     }
   }
 
@@ -144,6 +151,11 @@ class Archive {
 
   public updateCook = (value: ArchiveInterface.ArchiveCollection) => {
     this.cook = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateBattle = (value: ArchiveInterface.ArchiveBattle) => {
+    this.battle = value;
     this.refreshLastUpdateTime();
   };
 

@@ -36,6 +36,7 @@ import type {
   ExperienceMessage,
   MasterDeathMessage,
   MasterLevelMessage,
+  NormalMessage,
 } from './fisher-information';
 
 export {
@@ -88,6 +89,7 @@ export type {
   ExperienceMessage,
   MasterDeathMessage,
   MasterLevelMessage,
+  NormalMessage,
 };
 export * from './fisher-item';
 export * from './fisher-packages';

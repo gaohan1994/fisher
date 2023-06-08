@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { EventEmitter } from 'smar-util';
+import { EventEmitter, UnsubscribeFunctionType } from 'smar-util';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '../fisher-events';
@@ -71,26 +71,29 @@ class Master {
 
   public get archive(): ArchiveInterface.ArchiveMaster {
     return {
+      Hp: this.Hp,
       experience: this.person.experience.experience,
       equipmentIds: this.person.personEquipmentManager.equipmentIds,
       potionHandlers: this.potionHandlerManager.potionHandlerArchives,
     };
   }
 
-  private constructor() {
+  public disposers: UnsubscribeFunctionType[] = [];
+
+  constructor() {
     makeAutoObservable(this);
 
-    events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster);
-
-    this.person.personEquipmentManager.personEquipmentEvents.on(
-      PersonEquipmentEventKeys.EquipmentChange,
-      this.onMasterEquipmentChange
-    );
-
-    this.event.on(Master.MasterEventKeys.MasterDeath, this.deathPunish);
+    this.disposers = [
+      events.on(EventKeys.Archive.LoadArchive, this.onLoadMaster),
+      this.event.on(Master.MasterEventKeys.MasterDeath, this.deathPunish),
+      this.person.personEquipmentManager.personEquipmentEvents.on(
+        PersonEquipmentEventKeys.EquipmentChange,
+        this.onMasterEquipmentChange
+      ),
+    ];
   }
 
-  private onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
+  public onLoadMaster = (values: ArchiveInterface.ArchiveValues) => {
     const { master, masterName } = values;
     this.displayName = masterName;
     this.person.experience.setExperience(master?.experience ?? 0);
@@ -101,7 +104,6 @@ class Master {
   private deathPunish = () => {
     const deathPunish = new DeathPunish(this.person);
     deathPunish.executePunish();
-
     this.person.refreshHp();
   };
 

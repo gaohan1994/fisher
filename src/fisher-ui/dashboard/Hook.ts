@@ -1,4 +1,4 @@
-import { FisherComponent, Experience, isWithSkillComponent, isWithFightComponent } from '@FisherCore';
+import { FisherComponent, Experience, isWithSkillComponent, isWithFightComponent, core } from '@FisherCore';
 
 const useFisherComponentExperience = (component: FisherComponent) => {
   let experience: Experience | undefined = undefined;
@@ -8,7 +8,7 @@ const useFisherComponentExperience = (component: FisherComponent) => {
   }
 
   if (isWithFightComponent(component)) {
-    experience = component.master.person.experience;
+    experience = core.master.person.experience;
   }
 
   return { experience };

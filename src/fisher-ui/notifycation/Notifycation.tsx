@@ -12,6 +12,7 @@ import {
   DialogActions,
   Box,
   IconButton,
+  CircularProgress,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { core, Information } from '@FisherCore';
@@ -20,11 +21,13 @@ import { notifycationStore } from './NotifycationStore';
 import { MessageParer } from './MessageParser';
 import { FuiColor } from '../theme';
 import { useArray } from '../../application/hook/UseArray';
+import { CenterBox } from '../container';
 
 const FuiNotifycation: FC = observer(() => {
   const { information } = core;
   return (
     <Fragment>
+      <CoreInformationLoading information={information} />
       <CoreInformationAlerts information={information} />
       <CoreInformationTips information={information} />
       <Alerts />
@@ -75,9 +78,8 @@ const CoreInformationAlerts: FC<ICoreInformationMessageHandler> = observer(({ in
         push(new MessageParer(messages));
       }
     );
-    return () => {
-      unsubscribe();
-    };
+
+    return () => unsubscribe();
   }, [information]);
 
   React.useEffect(() => {
@@ -98,6 +100,23 @@ const CoreInformationAlerts: FC<ICoreInformationMessageHandler> = observer(({ in
     clear();
   };
 
+  const renderAlertMessages =
+    value &&
+    value.map((parser, index) => {
+      return (
+        <Box key={`${index}${parser.date}`} sx={{ mb: 1 }}>
+          <Typography variant="body2">{parser.date}</Typography>
+          {parser.toMessage()}
+        </Box>
+      );
+    });
+
+  const renderAlertMessagesAction = (
+    <Button onClick={handleClose} autoFocus>
+      好
+    </Button>
+  );
+
   return (
     <Dialog
       open={open}
@@ -108,22 +127,71 @@ const CoreInformationAlerts: FC<ICoreInformationMessageHandler> = observer(({ in
       TransitionProps={{ onExited: handleExited }}
     >
       <DialogTitle>提示</DialogTitle>
-      <DialogContent sx={{ minWidth: 300 }}>
-        {value &&
-          value.map((parser, index) => {
-            return (
-              <Box key={`${index}${parser.date}`} sx={{ mb: 1 }}>
-                <Typography variant="body2">{parser.date}</Typography>
-                {parser.toMessage()}
-              </Box>
-            );
-          })}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} autoFocus>
-          好
-        </Button>
-      </DialogActions>
+      <DialogContent sx={{ minWidth: 300 }}>{renderAlertMessages}</DialogContent>
+      <DialogActions>{renderAlertMessagesAction}</DialogActions>
+    </Dialog>
+  );
+});
+
+interface ICoreInformationMessageHandler {
+  information: Information;
+}
+
+const CoreInformationLoading: FC<ICoreInformationMessageHandler> = observer(({ information }) => {
+  const [open, setOpen] = React.useState(false);
+  const { value, push, clear } = useArray<MessageParer>([]);
+
+  React.useEffect(() => {
+    const unsubscribes = [
+      information.event.on(
+        Information.InformationEventKeys.Loading,
+        (loading: boolean, messages: InformationMessage[] = []) => {
+          setOpen(loading);
+          push(new MessageParer(messages));
+        }
+      ),
+    ];
+
+    return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
+  }, [information]);
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    clear();
+  };
+
+  const handleExited = () => {
+    clear();
+  };
+
+  const renderLoadingMessages = (
+    <CenterBox direction="column">
+      <CircularProgress color="success" />
+      {value && value.map((parser) => parser.toMessage())}
+    </CenterBox>
+  );
+
+  const renderLoadingMessagesAction = (
+    <Button onClick={handleClose} autoFocus>
+      最小化
+    </Button>
+  );
+
+  return (
+    <Dialog
+      open={open}
+      fullWidth={false}
+      scroll="paper"
+      maxWidth="md"
+      onClose={handleClose}
+      TransitionProps={{ onExited: handleExited }}
+    >
+      <DialogTitle>提示</DialogTitle>
+      <DialogContent sx={{ minWidth: 300 }}>{renderLoadingMessages}</DialogContent>
+      <DialogActions>{renderLoadingMessagesAction}</DialogActions>
     </Dialog>
   );
 });
