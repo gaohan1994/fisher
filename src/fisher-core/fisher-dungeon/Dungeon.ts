@@ -9,6 +9,7 @@ import { TimerSpace } from '../fisher-timer';
 import { FisherDungeonError } from '../fisher-error';
 import { EventKeys, events } from '../fisher-events';
 import { store } from '../fisher-packages';
+import { ArchiveInterface } from '../fisher-archive';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');
@@ -20,6 +21,13 @@ class Dungeon {
       Dungeon.instance = new Dungeon();
     }
     return Dungeon.instance;
+  }
+
+  public get archive(): ArchiveInterface.ArchiveDungeon {
+    return {
+      activeDungeonItemId: this.activeDungeonItem?.id,
+      progress: this.activeDungeonItem?.progress,
+    };
   }
 
   private static readonly BaseInterval = 200;
