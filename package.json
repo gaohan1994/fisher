@@ -41,12 +41,12 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@types/sinonjs__fake-timers": "^8.1.2",
+    "@vitejs/plugin-react": "latest",
     "@vitest/coverage-c8": "^0.25.5",
+    "@vitest/ui": "latest",
+    "happy-dom": "latest",
     "typescript": "^4.6.4",
     "vite": "latest",
-    "vitest": "latest",
-    "@vitejs/plugin-react": "latest",
-    "@vitest/ui": "latest",
-    "happy-dom": "latest"
+    "vitest": "latest"
   }
 }

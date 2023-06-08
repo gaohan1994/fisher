@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { Person } from './Person';
 import { EventKeys, events } from '../fisher-events';
 import { core } from '../fisher-core';
+import { Information, informationAlert } from '../fisher-information';
 
 const DeathPunishConfig = {
   componentId: 'Master',
@@ -26,17 +27,18 @@ class DeathPunish {
   }
 
   public executePunish = () => {
+    informationAlert([new Information.NormalMessage('您死了', 'error')]);
     this.executeGoldPunish();
     this.executeExperiencePunish();
   };
 
   private executeGoldPunish = () => {
-    events.emit(EventKeys.Bank.ReceiveGold, -this.goldPunish);
+    events.emit(EventKeys.Bank.ReceiveGold, -this.goldPunish, true);
   };
 
   private executeExperiencePunish = () => {
     if (this.experiencePunish > 0) {
-      events.emit(EventKeys.Reward.RewardExperience, DeathPunishConfig.componentId, this.experiencePunish);
+      events.emit(EventKeys.Reward.RewardExperience, DeathPunishConfig.componentId, -this.experiencePunish, true);
     }
   };
 }

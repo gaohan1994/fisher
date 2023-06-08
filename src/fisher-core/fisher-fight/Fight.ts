@@ -2,7 +2,6 @@ import { makeAutoObservable, reaction } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Enemy, Master } from '../fisher-person';
-import { FisherFightError } from '../fisher-error';
 
 interface IFightInfo {
   master: Master;
@@ -59,14 +58,6 @@ class Fight {
   };
 
   public startFighting = () => {
-    if (this.master === undefined) {
-      throw new FisherFightError(`Try to start fight with undefined`, '没有找到战斗目标');
-    }
-
-    if (this.enemy === undefined) {
-      throw new FisherFightError(`Try to start fight with undefined`, '没有找到战斗目标');
-    }
-
     this.master.person.startBattle();
     this.enemy.person.startBattle();
 

@@ -11,8 +11,8 @@ import { Battle } from '../fisher-battle';
 import { Information, InformationMessage, information, informationAlert, informationTip } from '../fisher-information';
 import { ArchiveInterface } from '../fisher-archive';
 import { FisherCoreError } from '../fisher-error';
-import { isWithSkillComponent } from './ComponentChecker';
-import { HangUpTime } from '../fisher-hang-up';
+import { isBattle, isWithSkillComponent } from './ComponentChecker';
+import { HangUpBattleManager, HangUpTime } from '../fisher-hang-up';
 
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
@@ -171,6 +171,7 @@ class ComponentManager {
     }
 
     const component = this.componentMap.get(activeComponentId);
+    const hangUpTime = new HangUpTime(activeComponentLastActiveTime);
 
     if (component === undefined) {
       throw new FisherCoreError(
@@ -182,25 +183,31 @@ class ComponentManager {
     if (isWithSkillComponent(component)) {
       const archiveComponentValues = values[component.id.toLocaleLowerCase() as 'mining' | 'reiki' | 'forge' | 'cook'];
 
-      if (archiveComponentValues === undefined) {
+      if (archiveComponentValues === undefined || archiveComponentValues.activeRecipeId === undefined) {
         throw new FisherCoreError(
           `Try to hang up component ${activeComponentId}, but did not find active component values`,
           '挂机组件错误'
         );
       }
 
-      if (archiveComponentValues.activeRecipeId === undefined) {
+      const { recipe } = await component.hangUp(hangUpTime, archiveComponentValues.activeRecipeId);
+      component.start(recipe);
+    }
+
+    if (isBattle(component)) {
+      const archiveValues = Object.assign({}, values);
+      const archiveComponentValues = Object.assign({}, values[component.id.toLocaleLowerCase() as 'battle']);
+
+      if (archiveComponentValues === undefined || archiveComponentValues.activeEnemyId === undefined) {
         throw new FisherCoreError(
-          `Try to hang up component ${activeComponentId}, but did not find active recipe id`,
+          `Try to hang up component ${activeComponentId}, but did not find active component values`,
           '挂机组件错误'
         );
       }
 
-      const { recipe } = await component.hangUp(
-        new HangUpTime(activeComponentLastActiveTime),
-        archiveComponentValues.activeRecipeId
-      );
-      component.start(recipe);
+      const battleHangUpManager = new HangUpBattleManager(hangUpTime, archiveComponentValues, archiveValues);
+      component.setAcitveEnemyItem(battleHangUpManager.enemyItem);
+      component.start();
     }
   };
 }
