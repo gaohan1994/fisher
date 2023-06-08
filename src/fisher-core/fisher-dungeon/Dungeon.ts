@@ -96,6 +96,14 @@ class Dungeon {
     Dungeon.logger.info('Stop Dungeon');
   };
 
+  public pause = () => {
+    if (this.fight === undefined) {
+      throw new FisherDungeonError('Try to pause an undefined fight', '没有找到要暂停的战斗');
+    }
+    events.emit(EventKeys.Archive.SaveFullArchive);
+    this.fight.pauseFighting();
+  };
+
   private onMasterLostFight = async () => {
     this.master!.event.emit(Master.MasterEventKeys.MasterDeath);
     this.executeRewards();

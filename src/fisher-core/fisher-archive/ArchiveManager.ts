@@ -30,7 +30,7 @@ class ArchiveManager {
     return localforage.createInstance({ name: ArchiveConstants.ArchiveManagerStore.StoreName });
   }
 
-  private archiveHandler = new ArchiveHandler();
+  public archiveHandler = new ArchiveHandler();
 
   private archiveAutoSaveTimer = new Timer('ArchiveAutoSaveTimer', () => this.autoSaveArchiveAction());
 

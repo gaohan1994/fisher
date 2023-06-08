@@ -162,8 +162,6 @@ class ComponentManager {
 
   private controlLastActiveComponent = async (values: ArchiveInterface.ArchiveValues) => {
     const { activeComponentId, activeComponentLastActiveTime } = values;
-    console.log('values', values);
-
     if (activeComponentId === undefined) {
       return this.clearActiveComponent();
     }

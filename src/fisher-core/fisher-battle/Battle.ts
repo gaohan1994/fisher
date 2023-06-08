@@ -98,6 +98,14 @@ class Battle {
     Battle.logger.info('Stop battled');
   };
 
+  public pause = () => {
+    if (this.fight === undefined) {
+      throw new FisherBattleError('Try to pause an undefined fight', '没有找到要暂停的战斗');
+    }
+    events.emit(EventKeys.Archive.SaveFullArchive);
+    this.fight.pauseFighting();
+  };
+
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     this.collectRewards(enemy);
     await TimerSpace.space(Battle.BaseBattleInterval);
