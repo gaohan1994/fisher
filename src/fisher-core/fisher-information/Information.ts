@@ -12,12 +12,21 @@ import { FisherMessageVariant } from './Constants';
 enum InformationEventKeys {
   TipMessage = 'TipMessage',
   AlertMessage = 'AlertMessage',
+  Loading = 'Loading',
+}
+
+enum InformationColor {
+  Red = 'red',
+  Orange = 'orange',
+  Green = 'green',
 }
 
 class Information {
   public static instance: Information;
 
   public static readonly InformationEventKeys = InformationEventKeys;
+
+  public static readonly InformationColor = InformationColor;
 
   public id = 'Information';
 
@@ -70,6 +79,10 @@ class Information {
 
   public tip = (messages: InformationMessage[]) => {
     this.event.emit(Information.InformationEventKeys.TipMessage, messages);
+  };
+
+  public loading = (loading: boolean, messages?: InformationMessage[]) => {
+    this.event.emit(Information.InformationEventKeys.Loading, loading, messages);
   };
 }
 
