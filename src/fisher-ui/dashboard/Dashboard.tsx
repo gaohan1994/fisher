@@ -6,6 +6,7 @@ import {
   FisherComponent,
   PersonModeName,
   Recipe,
+  core,
   isBattle,
   isDungeon,
   isWithFightComponent,
@@ -71,6 +72,7 @@ const FuiDashboard: React.FC<IFuiDashboard> = observer(({ fisherComponent }) => 
     </Button>
   );
 
+  const isFightComponent = isWithFightComponent(fisherComponent);
   const isBattleComponent = isBattle(fisherComponent);
   const isDungeonComponent = isDungeon(fisherComponent);
 
@@ -91,7 +93,7 @@ const FuiDashboard: React.FC<IFuiDashboard> = observer(({ fisherComponent }) => 
             <FuiActiveDashboardText text="暂无挑战副本" />
           ))}
       </CenterBox>
-      <FuiExperienceDetail experience={fisherComponent.master.person.experience} />
+      <FuiExperienceDetail experience={core.master.person.experience} />
       <Collapse in={expanded} timeout="auto" unmountOnExit sx={{ mt: 2 }}>
         {isBattleComponent && <BattleEnemySelector onSelectEnemyItem={() => setExpanded(false)} />}
         {isDungeonComponent && <DungeonSelector onSelectDungeonItem={() => setExpanded(false)} />}
@@ -104,7 +106,7 @@ const FuiDashboard: React.FC<IFuiDashboard> = observer(({ fisherComponent }) => 
       <CardHeader
         sx={{ p: 0 }}
         avatar={<Avatar src={fisherComponent.media} />}
-        action={withFightComponentAction}
+        action={isFightComponent && withFightComponentAction}
         title={dashboardHeader}
       />
       <CardContent sx={{ p: 0, m: 0 }}>

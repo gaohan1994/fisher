@@ -3,7 +3,7 @@ import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import { range } from '../utils';
 import { Experience } from '../fisher-experience';
-import { PersonEquipmentEventKeys, PersonEquipmentManager } from './PersonEquipmentManager';
+import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
 import { getPersonFactorConfig, PersonMode } from './Constants';

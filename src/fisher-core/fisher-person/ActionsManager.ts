@@ -211,7 +211,7 @@ class ActionManager {
     ActionManager.logger.debug(`Action ${actionId} undeployed in ${this.person.mode}`);
   };
 
-  private attackActionHandler = () => {
+  public attackActionHandler = () => {
     this.action.execute(this.person);
 
     this.event.emit(ActionManager.ActionManagerEventKeys.ExecuteAction, {

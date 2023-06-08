@@ -36,16 +36,14 @@ export class Logger {
    * @returns
    */
   public getColor = (prefix: string) =>
-    map[prefix] ||
-    Object.assign(map, { [prefix]: randomPick(Logger.colors) })[prefix];
+    map[prefix] || Object.assign(map, { [prefix]: randomPick(Logger.colors) })[prefix];
 
   /**
    * 获取带前缀的 Logger 工具
    * @param prefix
    * @returns
    */
-  public byPrefix = (prefix: string) =>
-    new PrefixLogger({ baseLog: this.log, prefix });
+  public byPrefix = (prefix: string) => new PrefixLogger({ baseLog: this.log, prefix });
 
   public setLevel = (level: LoggerLevel) => {
     this.level = level;
@@ -69,10 +67,7 @@ export class Logger {
    */
   public shouldLogMessage = (messageLevel: LoggerLevel) => {
     const loggerLevel = this.getLevel();
-    return (
-      loggerLevel !== LoggerLevel.OFF &&
-      this.compareLevel(messageLevel, loggerLevel)
-    );
+    return loggerLevel !== LoggerLevel.OFF && this.compareLevel(messageLevel, loggerLevel);
   };
 
   /**
@@ -87,11 +82,7 @@ export class Logger {
     }
     // eslint-disable-next-line no-console
     // @ts-ignore
-    console[level](
-      `%c[${prefix}]`,
-      `color: ${this.getColor(prefix)}`,
-      ...messages
-    );
+    console[level](`%c[${prefix}]`, `color: ${this.getColor(prefix)}`, ...messages);
     this.loggerMonitor().record(level, prefix, messages);
   };
 
