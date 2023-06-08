@@ -1,7 +1,6 @@
 import { IItem, Item, ItemType } from './Item';
 import { EnemyItem, IEnemyItem } from './Enemy';
 import { FisherDungeonError } from '../fisher-error';
-import { ICreateRewardOptions, Reward } from '../fisher-reward';
 
 interface IDungeonItem extends IItem {
   unlockLevel: number;
@@ -9,6 +8,14 @@ interface IDungeonItem extends IItem {
   progressExtraReward?: {
     [key: string | number]: Array<ICreateRewardOptions>;
   };
+}
+
+interface ICreateRewardOptions {
+  gold?: number;
+  itemId?: string;
+  itemQuantity?: number;
+  componentId?: string;
+  experience?: number;
 }
 
 class DungeonItem extends Item {
@@ -49,6 +56,10 @@ class DungeonItem extends Item {
     }
   }
 
+  public setProgress = (value: number) => {
+    this.progress = value;
+  };
+
   public nextEnemy = (): EnemyItem => {
     if (!this.hasNextEnemies) {
       this.progress = 0;
@@ -58,7 +69,7 @@ class DungeonItem extends Item {
     return this.enemies[this.progress];
   };
 
-  public tryGetProgressExtraReward = (enemyId: string): Reward[] | undefined => {
+  public tryGetProgressExtraRewards = (enemyId: string): ICreateRewardOptions[] | undefined => {
     const enemyIndex = this.getEnemyDungeonIndex(enemyId);
 
     if (enemyIndex < 0) {
@@ -70,7 +81,7 @@ class DungeonItem extends Item {
       return undefined;
     }
 
-    return progressExtraRewards.map(Reward.create);
+    return progressExtraRewards;
   };
 
   private getEnemyDungeonIndex = (enemyId: string) => {

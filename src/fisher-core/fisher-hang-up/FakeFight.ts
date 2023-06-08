@@ -93,7 +93,7 @@ class FakeFight {
       this.endFakeFight();
       this.event.emit(FakeFight.EventKeys.MasterWinFight, this.id, this.master, this.enemy, this.fakeFightDuration);
 
-      FakeFight.logger.debug(
+      FakeFight.logger.info(
         `Fight end, enemy ${this.enemy!.name} was death, emit ${FakeFight.EventKeys.MasterWinFight} event`
       );
     }
@@ -104,7 +104,7 @@ class FakeFight {
       this.endFakeFight();
       this.event.emit(FakeFight.EventKeys.MasterLostFight, this.id, this.master, this.enemy, this.fakeFightDuration);
 
-      FakeFight.logger.debug(`Fight end, master was death, emit ${FakeFight.EventKeys.MasterLostFight} event`);
+      FakeFight.logger.info(`Fight end, master was death, emit ${FakeFight.EventKeys.MasterLostFight} event`);
     }
   };
 

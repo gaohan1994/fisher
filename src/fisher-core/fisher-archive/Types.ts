@@ -17,6 +17,7 @@ namespace ArchiveInterface {
     forge?: ArchiveCollection;
     cook?: ArchiveCollection;
     battle?: ArchiveBattle;
+    dungeon?: ArchiveDungeon;
   }
 
   export interface ArchiveBank {
@@ -27,6 +28,11 @@ namespace ArchiveInterface {
 
   export interface ArchiveBattle {
     activeEnemyId?: string;
+  }
+
+  export interface ArchiveDungeon {
+    activeDungeonItemId?: string;
+    progress?: number;
   }
 
   export interface ArchiveCollection {

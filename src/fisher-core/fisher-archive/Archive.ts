@@ -37,6 +37,8 @@ class Archive {
 
   public battle: ArchiveInterface.ArchiveBattle | undefined = undefined;
 
+  public dungeon: ArchiveInterface.ArchiveDungeon | undefined = undefined;
+
   public get values(): ArchiveInterface.ArchiveValues {
     return {
       activeComponentId: this.activeComponentId,
@@ -54,6 +56,7 @@ class Archive {
       forge: this.forge,
       cook: this.cook,
       battle: this.battle,
+      dungeon: this.dungeon,
     };
   }
 
@@ -112,6 +115,10 @@ class Archive {
     if (options.battle) {
       this.battle = options.battle;
     }
+
+    if (options.dungeon) {
+      this.dungeon = options.dungeon;
+    }
   }
 
   public static create(masterName: string): Archive {
@@ -156,6 +163,11 @@ class Archive {
 
   public updateBattle = (value: ArchiveInterface.ArchiveBattle) => {
     this.battle = value;
+    this.refreshLastUpdateTime();
+  };
+
+  public updateDungeon = (value: ArchiveInterface.ArchiveDungeon) => {
+    this.dungeon = value;
     this.refreshLastUpdateTime();
   };
 
