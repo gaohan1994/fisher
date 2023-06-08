@@ -3,7 +3,7 @@ import { prefixLogger, prefixes } from '@FisherLogger';
 import { Assets } from '../assets';
 import { Fight } from '../fisher-fight';
 import { DungeonItem } from '../fisher-item';
-import { RewardPool } from '../fisher-reward';
+import { Reward, RewardPool } from '../fisher-reward';
 import { Enemy, Master } from '../fisher-person';
 import { TimerSpace } from '../fisher-timer';
 import { FisherDungeonError } from '../fisher-error';
@@ -130,10 +130,10 @@ class Dungeon {
       );
     }
 
-    const extraReward = this.activeDungeonItem?.tryGetProgressExtraReward(enemy.id);
+    const extraReward = this.activeDungeonItem?.tryGetProgressExtraRewards(enemy.id);
 
     if (extraReward !== undefined) {
-      this.rewardPool.collectRewards(extraReward);
+      this.rewardPool.collectRewards(extraReward.map(Reward.create));
     }
   };
 

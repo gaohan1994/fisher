@@ -7,14 +7,14 @@ import { ComponentId } from '../fisher-core';
 import { HangUpTime } from './HangUpTime';
 import { FakeFight } from './FakeFight';
 import { fakeClock } from '../fisher-timer';
-import { EnemyItem } from '../fisher-item';
+import { DungeonItem } from '../fisher-item';
 import { RewardCache, RewardPool } from '../fisher-reward';
 import { Information, informationAlert } from '../fisher-information';
 import { ArchiveInterface } from '../fisher-archive';
 import { HangUpInformation } from './HangUpInformation';
 
-class HangUpBattleManager {
-  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'HangUpBattleManager');
+class HangUpDungeonManager {
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'HangUpDungeonManager');
 
   private static Interval = 200;
 
@@ -26,7 +26,7 @@ class HangUpBattleManager {
     return this.time.diff - this.hangUpDuration;
   }
 
-  public enemyItem: EnemyItem;
+  public dungeonItem: DungeonItem;
 
   private realMaster: Master = Master.create();
 
@@ -42,13 +42,17 @@ class HangUpBattleManager {
 
   constructor(
     time: HangUpTime,
-    { activeEnemyId }: ArchiveInterface.ArchiveBattle,
+    { activeDungeonItemId, progress }: ArchiveInterface.ArchiveDungeon,
     values: ArchiveInterface.ArchiveValues
   ) {
     makeAutoObservable(this);
 
     this.time = time;
-    this.enemyItem = store.findEnemyById(activeEnemyId!);
+
+    this.dungeonItem = store.findItemById<DungeonItem>(activeDungeonItemId!);
+    if (progress !== undefined && progress > 0) {
+      this.dungeonItem.setProgress(progress);
+    }
 
     /**
      * Make a fake master
@@ -59,42 +63,42 @@ class HangUpBattleManager {
     this.fakeMaster.onLoadMaster(values);
 
     try {
-      this.battleHangUpStart();
+      this.dungeonHangUpStart();
     } catch (error) {
-      this.battleHangUpEnd();
-      HangUpBattleManager.logger.error(`Got error when try hang up battle`, error);
+      this.dungeonHangUpEnd();
+      HangUpDungeonManager.logger.error(`Got error when try hang up dungeon`, error);
     }
   }
 
-  private battleHangUpStart = () => {
+  private dungeonHangUpStart = () => {
     HangUpInformation.startLoading(['正在计算挂机收益....']);
     this.createFakeFight();
   };
 
-  private battleHangUpEnd = () => {
+  private dungeonHangUpEnd = () => {
     HangUpInformation.stopLoading();
-    this.clearHangUpBattleEffects();
+    this.clearHangUpEffects();
     this.executeCacheRewards();
   };
 
-  private continueNextFakeFight = () => {
-    fakeClock.clock.setTimeout(() => {
-      this.accumulateDuration(HangUpBattleManager.Interval);
-      this.createFakeFight();
-    }, HangUpBattleManager.Interval);
-
-    fakeClock.clock.tick(HangUpBattleManager.Interval);
-  };
-
   private createFakeFight = () => {
-    const fight = FakeFight.create(this.fakeMaster, new Enemy(this.enemyItem));
+    const fight = FakeFight.create(this.fakeMaster, new Enemy(this.dungeonItem.nextEnemy()));
 
     this.unsubscribeCallbacks.set(fight.id, [
       fight.event.on(FakeFight.EventKeys.MasterWinFight, this.onMasterWinFight),
       fight.event.on(FakeFight.EventKeys.MasterLostFight, this.onMasterLostFight),
     ]);
 
-    HangUpBattleManager.logger.debug(`Create and start a new fake fight with enemy id ${this.enemyItem.id}`);
+    HangUpDungeonManager.logger.debug(`Create and start a new fake fight with dungeon id ${this.dungeonItem.id}`);
+  };
+
+  private continueNextFakeFight = () => {
+    fakeClock.clock.setTimeout(() => {
+      this.accumulateDuration(HangUpDungeonManager.Interval);
+      this.createFakeFight();
+    }, HangUpDungeonManager.Interval);
+
+    fakeClock.clock.tick(HangUpDungeonManager.Interval);
   };
 
   /**
@@ -118,9 +122,10 @@ class HangUpBattleManager {
     if (fakeFightDuration < this.availableTimeDuration) {
       this.fightVictoryTimes += 1;
       this.collectEnemyRewards(_enemy);
+      this.collectProgressExtraReward(_enemy);
       this.continueNextFakeFight();
     } else {
-      this.battleHangUpEnd();
+      this.dungeonHangUpEnd();
     }
   };
 
@@ -142,7 +147,7 @@ class HangUpBattleManager {
     this.unsubscribeFightEvents(fightId);
     this.accumulateDuration(fakeFightDuration);
 
-    this.battleHangUpEnd();
+    this.dungeonHangUpEnd();
     this.realMaster.event.emit(Master.MasterEventKeys.MasterDeath);
   };
 
@@ -150,7 +155,7 @@ class HangUpBattleManager {
     const messages = [
       new Information.NormalMessage(`您离开了${this.time.durationFormat}`, Information.InformationColor.Orange),
       new Information.NormalMessage(
-        `您与${this.enemyItem.name}战斗胜利了${this.fightVictoryTimes}次`,
+        `您通关了${this.fightVictoryTimes}次【${this.dungeonItem.name}】副本`,
         Information.InformationColor.Green
       ),
     ];
@@ -183,11 +188,31 @@ class HangUpBattleManager {
     }
   };
 
+  private collectProgressExtraReward = (enemy: Enemy) => {
+    const extraReward = this.dungeonItem.tryGetProgressExtraRewards(enemy.id);
+
+    if (extraReward !== undefined) {
+      extraReward.forEach((reward) => {
+        if (reward.gold && reward.gold > 0) {
+          this.rewardCache.cacheGold(reward.gold);
+        }
+
+        if (reward.experience && reward.experience > 0) {
+          this.rewardCache.cacheExperience(enemy.experienceRewards);
+        }
+
+        if (reward.itemId !== undefined) {
+          this.rewardCache.cacheItems([{ itemId: reward.itemId, itemQuantity: reward.itemQuantity }]);
+        }
+      });
+    }
+  };
+
   private accumulateDuration = (duration: number) => {
     this.hangUpDuration += duration;
   };
 
-  private clearHangUpBattleEffects = () => {
+  private clearHangUpEffects = () => {
     if (this.unsubscribeCallbacks.size > 0) {
       [...this.unsubscribeCallbacks.keys()].forEach(this.unsubscribeFightEvents);
     }
@@ -202,4 +227,4 @@ class HangUpBattleManager {
   };
 }
 
-export { HangUpBattleManager };
+export { HangUpDungeonManager };

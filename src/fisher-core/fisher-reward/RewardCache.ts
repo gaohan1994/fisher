@@ -12,6 +12,8 @@ interface ICacheItemOptions {
 }
 
 class RewardCache {
+  private goldRewardCache = 0;
+
   private experienceRewardCache = 0;
 
   private itemRewardCache = new Map<string, ItemRewardCache>();
@@ -21,8 +23,13 @@ class RewardCache {
   }
 
   public clearCache = () => {
+    this.goldRewardCache = 0;
     this.experienceRewardCache = 0;
     this.itemRewardCache.clear();
+  };
+
+  public cacheGold = (gold: number) => {
+    this.goldRewardCache += gold;
   };
 
   public cacheExperience = (experience: number) => {
@@ -46,6 +53,7 @@ class RewardCache {
       Reward.create({
         componentId,
         experience: this.experienceRewardCache,
+        gold: this.goldRewardCache,
       }),
       ...Array.from(this.itemRewardCache).map(([_, item]) => Reward.create(item)),
     ];

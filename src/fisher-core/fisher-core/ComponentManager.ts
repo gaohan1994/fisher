@@ -11,8 +11,8 @@ import { Battle } from '../fisher-battle';
 import { Information, InformationMessage, information, informationAlert, informationTip } from '../fisher-information';
 import { ArchiveInterface } from '../fisher-archive';
 import { FisherCoreError } from '../fisher-error';
-import { isBattle, isWithSkillComponent } from './ComponentChecker';
-import { HangUpBattleManager, HangUpTime } from '../fisher-hang-up';
+import { isBattle, isDungeon, isWithSkillComponent } from './ComponentChecker';
+import { HangUpBattleManager, HangUpDungeonManager, HangUpTime } from '../fisher-hang-up';
 
 type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 
@@ -162,6 +162,7 @@ class ComponentManager {
 
   private controlLastActiveComponent = async (values: ArchiveInterface.ArchiveValues) => {
     const { activeComponentId, activeComponentLastActiveTime } = values;
+    console.log('values', values);
 
     if (activeComponentId === undefined) {
       return this.clearActiveComponent();
@@ -207,6 +208,22 @@ class ComponentManager {
 
       const battleHangUpManager = new HangUpBattleManager(hangUpTime, archiveComponentValues, archiveValues);
       component.setAcitveEnemyItem(battleHangUpManager.enemyItem);
+      component.start();
+    }
+
+    if (isDungeon(component)) {
+      const archiveValues = Object.assign({}, values);
+      const archiveComponentValues = Object.assign({}, values[component.id.toLocaleLowerCase() as 'dungeon']);
+
+      if (archiveComponentValues === undefined || archiveComponentValues.activeDungeonItemId === undefined) {
+        throw new FisherCoreError(
+          `Try to hang up component ${activeComponentId}, but did not find active component values`,
+          '挂机组件错误'
+        );
+      }
+
+      const dungeonHangUpManager = new HangUpDungeonManager(hangUpTime, archiveComponentValues, archiveValues);
+      component.setActiveDungeonItem(dungeonHangUpManager.dungeonItem);
       component.start();
     }
   };
