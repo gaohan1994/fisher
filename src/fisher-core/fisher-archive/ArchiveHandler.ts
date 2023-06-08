@@ -31,6 +31,13 @@ class ArchiveHandler {
     }
 
     this.activeArchive = archive;
+    this.loadArchive();
+  };
+
+  public loadArchive = () => {
+    if (this.activeArchive === undefined) {
+      throw new Error('Try to load undefined archive');
+    }
     events.emit(EventKeys.Archive.LoadArchive, this.activeArchive.values, this.activeArchive);
   };
 

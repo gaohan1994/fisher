@@ -64,6 +64,11 @@ class Fight {
     Fight.logger.info('start fighting');
   };
 
+  public pauseFighting = () => {
+    this.master.person.actionManager.attackActionTimer.stopTimer();
+    this.enemy.person.actionManager.attackActionTimer.stopTimer();
+  };
+
   private setFightTargets = () => {
     this.master.person.setTarget(this.enemy.person);
     this.enemy.person.setTarget(this.master.person);

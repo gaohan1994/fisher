@@ -4,6 +4,7 @@ import { Skill } from '../fisher-skill';
 import { HangUpRecipeHandler } from '../fisher-hang-up/HangUpRecipeHandler';
 import { Store } from '../fisher-packages';
 import { HangUpTime, MaxHangUpTimeMs } from '../fisher-hang-up';
+import { EventKeys, events } from '../fisher-events';
 
 abstract class Collection<CollectionPackages> {
   public abstract id: string;
@@ -46,6 +47,11 @@ abstract class Collection<CollectionPackages> {
   abstract stop(): void;
 
   abstract onLoadArchive(value: ArchiveInterface.ArchiveValues): void;
+
+  public pause = () => {
+    events.emit(EventKeys.Archive.SaveFullArchive);
+    this.skill.timer.stopTimer();
+  };
 
   public receiveExperience = (value: number) => {
     this.skill.experience.receiveExperience(value);
