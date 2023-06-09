@@ -10,6 +10,9 @@ import { FisherDungeonError } from '../fisher-error';
 import { EventKeys, events } from '../fisher-events';
 import { store } from '../fisher-packages';
 import { ArchiveInterface } from '../fisher-archive';
+import { HangUpDungeonManager, HangUpTime } from '../fisher-hang-up';
+import { generateTimestamp } from '../utils';
+import { core } from '../fisher-core';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');
@@ -48,6 +51,12 @@ class Dungeon {
 
   public rewardPool = new RewardPool();
 
+  private pauseTime: number | undefined = undefined;
+
+  public get isPaused() {
+    return this.pauseTime !== undefined;
+  }
+
   public get master() {
     return this.fight?.info.master;
   }
@@ -63,6 +72,36 @@ class Dungeon {
   private constructor() {
     makeAutoObservable(this);
   }
+
+  public pause = () => {
+    if (this.fight === undefined) {
+      throw new FisherDungeonError(`Try to pause component ${this.id}, but can not find active fight`, '请设置战斗');
+    }
+
+    events.emit(EventKeys.Archive.SaveFullArchive);
+    this.fight.pauseFighting();
+    this.pauseTime = generateTimestamp();
+  };
+
+  public continue = async () => {
+    if (this.pauseTime === undefined) {
+      throw new FisherDungeonError(
+        `Try to continue component ${this.id}, but pause time was undefined`,
+        '组件挂机失败，请检查挂机时间'
+      );
+    }
+    if (this.activeDungeonItem === undefined || this.fight === undefined) {
+      throw new FisherDungeonError(`Try to continue component ${this.id}, but can not find active fight`, '请设置战斗');
+    }
+
+    new HangUpDungeonManager(
+      new HangUpTime(this.pauseTime),
+      { activeDungeonItemId: this.activeDungeonItem.id, progress: this.activeDungeonItem.progress },
+      core.archiveManager.activeArchive?.values!
+    );
+    this.pauseTime = undefined;
+    this.start();
+  };
 
   public setActiveDungeonItem = (dungeonItem: DungeonItem) => {
     this.activeDungeonItem = dungeonItem;
@@ -94,14 +133,6 @@ class Dungeon {
     this.clearActiveDungeonItem();
 
     Dungeon.logger.info('Stop Dungeon');
-  };
-
-  public pause = () => {
-    if (this.fight === undefined) {
-      throw new FisherDungeonError('Try to pause an undefined fight', '没有找到要暂停的战斗');
-    }
-    events.emit(EventKeys.Archive.SaveFullArchive);
-    this.fight.pauseFighting();
   };
 
   private onMasterLostFight = async () => {

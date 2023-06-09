@@ -5,6 +5,8 @@ import { HangUpRecipeHandler } from '../fisher-hang-up/HangUpRecipeHandler';
 import { Store } from '../fisher-packages';
 import { HangUpTime, MaxHangUpTimeMs } from '../fisher-hang-up';
 import { EventKeys, events } from '../fisher-events';
+import { generateTimestamp } from '../utils';
+import { FisherCoreError } from '../fisher-error';
 
 abstract class Collection<CollectionPackages> {
   public abstract id: string;
@@ -42,6 +44,12 @@ abstract class Collection<CollectionPackages> {
     return this.skill.recipeHandler.activeRecipe;
   }
 
+  private pauseTime: number | undefined = undefined;
+
+  public get isPaused() {
+    return this.pauseTime !== undefined;
+  }
+
   abstract start(recipe?: Recipe): void;
 
   abstract stop(): void;
@@ -51,6 +59,27 @@ abstract class Collection<CollectionPackages> {
   public pause = () => {
     events.emit(EventKeys.Archive.SaveFullArchive);
     this.skill.timer.stopTimer();
+    this.pauseTime = generateTimestamp();
+  };
+
+  public continue = async () => {
+    if (this.pauseTime === undefined) {
+      throw new FisherCoreError(
+        `Try to continue component ${this.id}, but pause time was undefined`,
+        '组件挂机失败，请检查挂机时间'
+      );
+    }
+
+    if (this.activeRecipe === undefined) {
+      throw new FisherCoreError(
+        `Try to continue component ${this.id}, but active recipe was undefined`,
+        '组件挂机失败，请检查技能配方'
+      );
+    }
+
+    const { recipe } = await this.hangUp(new HangUpTime(this.pauseTime), this.activeRecipe.id);
+    this.pauseTime = undefined;
+    this.start(recipe);
   };
 
   public receiveExperience = (value: number) => {

@@ -21,14 +21,13 @@ if (typeof document.hidden !== 'undefined') {
   visibilityChange = 'webkitvisibilitychange';
 }
 
-export default function usePageVisibility() {
+export default function useBrowserHidden() {
   const [visibilityStatus, setVisibilityStatus] = React.useState((document as any)[hidden]);
 
   React.useEffect(() => {
-    function handleVisibilityChange() {
+    const handleVisibilityChange = () => {
       setVisibilityStatus((document as any)[hidden]);
-    }
-
+    };
     document.addEventListener(visibilityChange, handleVisibilityChange);
 
     return () => {

@@ -191,7 +191,7 @@ class Archive {
 
   private updateActiveComponentLastActiveTime = () => {
     if (this.activeComponentId !== undefined) {
-      this.activeComponentLastActiveTime = dayjs().unix() * 1000;
+      this.activeComponentLastActiveTime = generateTimestamp();
     } else {
       this.activeComponentLastActiveTime = undefined;
     }
