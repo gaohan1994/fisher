@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Divider, Stack } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Stack } from '@mui/material';
 import { EquipmentItem, Forge, Cook, ItemType, NormalItem, Recipe, Skill } from '@FisherCore';
-import { FuiColor, FuiEquipment, FuiItem, FuiLineProgress, notifycationStore } from '@Fui';
+import { FuiColor, FuiEquipment, FuiItem, FuiLineProgress, FuiNormalDivider, notifycationStore } from '@Fui';
 import { IUseRecipeItem, useRecipe, useRecipeInterval } from './RecipeHook';
 import { FuiLevelInfo } from '../experience';
 
@@ -40,8 +40,6 @@ const FuiRecipeTable: React.FC<FuiRecipeTableProps> = observer(({ coreComponent 
     </Card>
   );
 });
-
-const RecipeDivider = () => <Divider sx={{ mt: 2, mb: 2 }} />;
 
 interface FuiRecipeDescProps {
   activeRecipe: Recipe;
@@ -112,21 +110,21 @@ const FuiRecipeDesc: React.FC<FuiRecipeDescProps> = observer(({ activeRecipe, sk
   return (
     <React.Fragment>
       {recipeLevelInfo}
-      <RecipeDivider />
+      <FuiNormalDivider />
       <FuiRecipeTableRow title="制作产物">{rewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
-      <RecipeDivider />
+      <FuiNormalDivider />
 
       {activeRecipe!.hasRandomRewardItems && (
         <React.Fragment>
           <FuiRecipeTableRow title="上级制作产物">{randomRewardItems.map(renderRecipeRow)}</FuiRecipeTableRow>
-          <RecipeDivider />
+          <FuiNormalDivider />
         </React.Fragment>
       )}
 
       {activeRecipe!.hasCostItems && (
         <React.Fragment>
           <FuiRecipeTableRow title="所需材料">{costItems.map(renderRecipeCostRow)}</FuiRecipeTableRow>
-          <RecipeDivider />
+          <FuiNormalDivider />
         </React.Fragment>
       )}
     </React.Fragment>

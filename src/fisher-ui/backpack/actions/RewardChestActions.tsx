@@ -12,8 +12,8 @@ import {
   ButtonGroup,
   Grid,
 } from '@mui/material';
-import { FuiBackpackItemDetailRender } from '../BackpackItemRender';
 import { PrettoSlider } from '../PrettoSlider';
+import { FuiItemDetailRender } from '../../item';
 
 interface FuiOpenRewardChestActionProps {
   rewardChest: BackpackItem<RewardChest>;
@@ -57,7 +57,7 @@ const FuiOpenRewardChestAction: React.FC<FuiOpenRewardChestActionProps> = observ
           <DialogContent sx={{ overflow: 'visible' }}>
             <Grid container spacing={4}>
               <Grid item xs={5}>
-                <FuiBackpackItemDetailRender backpackItem={rewardChest} />
+                <FuiItemDetailRender item={rewardChest.item} />
               </Grid>
               <Grid item xs>
                 <Typography>物品数量：{rewardChest.quantity}</Typography>

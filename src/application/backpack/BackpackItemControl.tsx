@@ -5,10 +5,10 @@ import { core, BackpackItem, isEquipmentItem, isRewardChest, RewardChest, isPoti
 import {
   FuiBackpackItemSellAction,
   FuiColor,
-  FuiBackpackItemDetailRender,
   FuiUseEquipmentButton,
   FuiOpenRewardChestAction,
   FuiSetPotionSlotButton,
+  FuiItemDetailRender,
 } from '@Fui';
 import { backpackStore } from './BackpackStore';
 
@@ -27,7 +27,7 @@ const FuiBackpackItemControl: React.FC = observer(() => {
         <Typography>选中物品：{activeBackpackItem === undefined ? '无' : activeBackpackItem.item.name}</Typography>
         <Typography>物品数量：{activeBackpackItem === undefined ? '0' : activeBackpackItem.quantity}</Typography>
         <Divider sx={{ mt: 2, mb: 2 }} />
-        {activeBackpackItem !== undefined && <FuiBackpackItemDetailRender backpackItem={activeBackpackItem} />}
+        {activeBackpackItem !== undefined && <FuiItemDetailRender item={activeBackpackItem.item} />}
         {activeBackpackItem === undefined && <Typography>空</Typography>}
         <Divider sx={{ mt: 2, mb: 2 }} />
         {activeBackpackItem !== undefined && <FuiBackpackItemActions />}

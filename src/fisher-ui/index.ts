@@ -10,7 +10,6 @@ export * from './progress';
 export * from './text';
 export * from './recipe';
 export * from './item';
-export * from './env';
 export * from './backpack';
 export * from './dashboard';
 export * from './reward';

@@ -19,7 +19,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { Backpack, BackpackItem, core } from '@FisherCore';
 import { PrettoSlider } from '../PrettoSlider';
 import { notifycationStore } from '../../notifycation';
-import { FuiBackpackItemDetailRender, FuiBackpackItemRender } from '../BackpackItemRender';
+import { FuiItemDetailRender, FuiItemRender } from '../../item';
 
 interface BackpackItemSellActionProps {
   backpackItem: BackpackItem;
@@ -79,7 +79,7 @@ const FuiBackpackItemSellAction: React.FC<BackpackItemSellActionProps> = observe
           <DialogContent sx={{ overflow: 'visible' }}>
             <Grid container spacing={4}>
               <Grid item xs={5}>
-                <FuiBackpackItemDetailRender backpackItem={backpackItem} />
+                <FuiItemDetailRender item={backpackItem.item} />
               </Grid>
               <Grid item xs>
                 <Typography>物品数量：{backpackItem.quantity}</Typography>
@@ -158,9 +158,9 @@ const FuiBackpackBatchSellAction: React.FC<FuiBackpackSellItemsActionProps> = ob
           {backpack.items.size > 0 && (
             <Stack direction="row">
               {backpack.backpackItems.map((backpackItem) => (
-                <FuiBackpackItemRender
+                <FuiItemRender
                   key={backpackItem.item.id}
-                  backpackItem={backpackItem}
+                  item={backpackItem.item}
                   showBorder={backpack.selectedItems.has(backpackItem)}
                   onClick={() => backpack.toggleSelectItem(backpackItem)}
                   renderItem={() => (

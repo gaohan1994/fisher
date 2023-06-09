@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Grid, Typography, Card, CardContent, CardHeader, Stack, Tabs, Tab, Box } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiColor, FuiContainer, FuiBackpackItemRender, FuiCoin, FuiBackpackBatchSellAction, FuiCardTitle } from '@Fui';
+import { FuiColor, FuiContainer, FuiCoin, FuiBackpackBatchSellAction, FuiCardTitle, FuiItemRender } from '@Fui';
 import { backpackStore, FuiBackpackTabs } from './BackpackStore';
 import { FuiSlotBackpackEquipments } from './EquipmentRender';
 import { FuiBackpackItemControl } from './BackpackItemControl';
@@ -73,9 +73,9 @@ const BackpackFullItemsTab = observer(() => {
       </Box>
       <Stack direction="row">
         {backpack.backpackItems.map((backpackItem) => (
-          <FuiBackpackItemRender
+          <FuiItemRender
             key={`${backpackItem.item.id}-${backpackItem.quantity}`}
-            backpackItem={backpackItem}
+            item={backpackItem.item}
             showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
             onClick={() => setActiveBackpackItem(backpackItem)}
           />
