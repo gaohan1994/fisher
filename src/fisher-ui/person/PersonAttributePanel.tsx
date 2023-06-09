@@ -10,14 +10,23 @@ interface Props {
 }
 const FuiPersonAttributePanel: FC<Props> = observer(({ person }) => (
   <List sx={{ width: '100%', maxWidth: 400 }}>
-    <PanelAttribute attribute={IAttributeKeys.MaxHp} value={person.attributePanel.MaxHp} />
+    <PanelAttribute attribute={IAttributeKeys.MaxHp} value={numeral(person.attributePanel.MaxHp).format('0')} />
     <PanelAttribute
       attribute={IAttributeKeys.AttackSpeed}
       value={numeral(person.attributePanel.AttackSpeed / 1000).format('0.0')}
     />
-    <PanelAttribute attribute={IAttributeKeys.AttackPower} value={person.attributePanel.AttackPower} />
-    <PanelAttribute attribute={IAttributeKeys.DefencePower} value={person.attributePanel.DefencePower} />
-    <PanelAttribute attribute={IAttributeKeys.DefenceCorruption} value={person.attributePanel.DefenceCorruption} />
+    <PanelAttribute
+      attribute={IAttributeKeys.AttackPower}
+      value={numeral(person.attributePanel.AttackPower).format('0.0')}
+    />
+    <PanelAttribute
+      attribute={IAttributeKeys.DefencePower}
+      value={numeral(person.attributePanel.DefencePower).format('0.0')}
+    />
+    <PanelAttribute
+      attribute={IAttributeKeys.DefenceCorruption}
+      value={numeral(person.attributePanel.DefenceCorruption).format('0.0')}
+    />
   </List>
 ));
 
