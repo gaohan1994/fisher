@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiContainer, FuiCollectionSkillRecipeCard, FuiDashboard, FuiRecipeTable } from '@Fui';
+import { FuiContainer, FuiDashboard, FuiRecipeTable, RecipeCardGrid, CookRecipeCard } from '@Fui';
 
 const PageCook = observer(() => {
   const { cook } = core;
@@ -13,9 +13,9 @@ const PageCook = observer(() => {
         <Grid item xs>
           <Grid container spacing={2}>
             {packages.map((item) => (
-              <Grid item xs={6} key={item.id}>
-                <FuiCollectionSkillRecipeCard recipe={item} coreComponent={cook} />
-              </Grid>
+              <RecipeCardGrid xs={6} key={item.id}>
+                <CookRecipeCard recipe={item} />
+              </RecipeCardGrid>
             ))}
           </Grid>
         </Grid>

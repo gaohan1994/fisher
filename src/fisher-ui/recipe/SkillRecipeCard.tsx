@@ -7,10 +7,8 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
-  CircularProgress,
   Popover,
   Stack,
-  Typography,
 } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';

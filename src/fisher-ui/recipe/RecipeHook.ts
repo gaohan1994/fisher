@@ -5,17 +5,7 @@ type IUseRecipeItem = [IRecipeItem, NormalItem];
 type IUseRecipeRandomItem = [IRecipeRandomRewardItem, NormalItem];
 type IUseCostItem = [IRecipeItem, NormalItem];
 
-interface IUseRecipe {
-  recipe: Recipe;
-  intervalSecond: number;
-  rewardItems: IUseRecipeItem[];
-  rewardItemAvatars: string[];
-  randomRewardItems: IUseRecipeRandomItem[];
-  randomRewardItemAvatars: string[];
-  costItems: IUseCostItem[];
-}
-
-const useRecipe = (recipe: Recipe): IUseRecipe => {
+const useRecipe = (recipe: Recipe) => {
   const rewardItems: IUseRecipeItem[] = useMemo(
     () => recipe.rewardItems.map((item) => [item, store.findItemById(item.itemId)]),
     [recipe]

@@ -4,15 +4,16 @@ import { Item } from '@FisherCore';
 import { FuiItem } from '../item';
 
 interface IRewardList {
-  listHeader: React.ReactNode;
   items: Item[];
+  listHeader: React.ReactNode;
+  renderKey?: (item: Item) => React.Key;
 }
-const RewardList: FC<IRewardList> = ({ listHeader, items }) => (
+const RewardList: FC<IRewardList> = ({ listHeader, items, renderKey }) => (
   <List>
     <ListSubheader>{listHeader}</ListSubheader>
     <Grid container spacing={0}>
       {items.map((item, index) => (
-        <Grid key={`${item.id}-${index}`} item>
+        <Grid key={renderKey ? renderKey(item) : `${item.id}-${index}`} item>
           <FuiItem item={item} />
         </Grid>
       ))}

@@ -1,16 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import {
-  Avatar,
-  AvatarGroup,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  Stack,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Avatar, AvatarGroup, Card, CardActionArea, CardContent, CardHeader, Stack, styled } from '@mui/material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Recipe } from '@FisherCore';
@@ -34,12 +24,35 @@ interface Props {
 const FuiRecipeCard: React.FC<Props> = observer(({ recipe, label, highLine, subheader, onRecipeClick }) => {
   const { rewardItemAvatars } = useRecipe(recipe);
   const { intervalSecond } = useRecipeInterval(recipe);
+
+  const subheaderComponent = (
+    <React.Fragment>
+      <FuiLevelInfo level={recipe.unlockLevel} prefixNode={`${label}技能等级需求 Lv:`} />
+      {subheader}
+    </React.Fragment>
+  );
+
+  const headerAvatars = (
+    <AvatarGroup className="RecipeCardAvatars">
+      {rewardItemAvatars.map((avatar, index) => (
+        <NoBorderAvatar key={index} src={avatar} variant="square" />
+      ))}
+    </AvatarGroup>
+  );
+
+  const recipeCardContent = (
+    <Stack direction="row" justifyContent="space-between">
+      <FuiIconText icon={<AccessAlarmIcon />} text={`${label}时间 ${intervalSecond} 秒`} />
+      <FuiIconText icon={<EmojiEventsIcon />} text={`经验奖励 ${recipe.rewardExperience} 点`} />
+    </Stack>
+  );
+
   return (
     <Card
       onClick={() => onRecipeClick(recipe)}
       sx={{
-        bgcolor: FuiColor.primary.background,
         border: 1,
+        bgcolor: FuiColor.primary.background,
         borderColor: highLine ? FuiColor.gold : FuiColor.common.black,
       }}
     >
@@ -47,27 +60,10 @@ const FuiRecipeCard: React.FC<Props> = observer(({ recipe, label, highLine, subh
         <CardHeader
           sx={{ pb: 0 }}
           title={<FuiItemName item={recipe} />}
-          subheader={
-            <React.Fragment>
-              <FuiLevelInfo level={recipe.unlockLevel} prefixNode={`${label}技能等级需求 Lv:`} />
-
-              {subheader}
-            </React.Fragment>
-          }
-          avatar={
-            <AvatarGroup className="RecipeCardAvatars">
-              {rewardItemAvatars.map((avatar, index) => (
-                <NoBorderAvatar key={index} src={avatar} variant="square" />
-              ))}
-            </AvatarGroup>
-          }
+          subheader={subheaderComponent}
+          avatar={headerAvatars}
         />
-        <CardContent>
-          <Stack direction="row" justifyContent="space-between">
-            <FuiIconText icon={<AccessAlarmIcon />} text={`${label}时间 ${intervalSecond} 秒`} />
-            <FuiIconText icon={<EmojiEventsIcon />} text={`经验奖励 ${recipe.rewardExperience} 点`} />
-          </Stack>
-        </CardContent>
+        <CardContent>{recipeCardContent}</CardContent>
       </CardActionArea>
     </Card>
   );
