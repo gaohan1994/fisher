@@ -161,7 +161,7 @@ class Battle {
   };
 
   public executeRewards = () => {
-    this.rewardPool.executeRewardPool();
+    this.rewardPool.executeRewardPool(true);
   };
 
   private createBattleFight = (enemy: Enemy) => {

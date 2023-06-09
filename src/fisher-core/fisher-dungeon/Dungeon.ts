@@ -177,7 +177,7 @@ class Dungeon {
   };
 
   public executeRewards = () => {
-    this.rewardPool.executeRewardPool();
+    this.rewardPool.executeRewardPool(true);
   };
 
   private createDungeonFight = (enemy: Enemy) => {

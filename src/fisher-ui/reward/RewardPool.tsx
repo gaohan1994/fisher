@@ -12,7 +12,7 @@ interface IFuiRewardPool {
 }
 const FuiRewardPool: React.FC<IFuiRewardPool> = observer(({ rewardPool, onExecuteRewardPoolCallback }) => {
   const onClickExecuteReward = () => {
-    rewardPool.executeRewardPool();
+    rewardPool.executeRewardPool(true);
     onExecuteRewardPoolCallback?.();
   };
 
