@@ -12,8 +12,13 @@ const FuiRecipeRewardAvatars: React.FC<Props> = ({ recipe }) => {
   const { rewardItems, randomRewardItems } = useRecipe(recipe);
   return (
     <AvatarGroup sx={{ mt: 1 }} max={6}>
-      {[...rewardItems, ...randomRewardItems].map(([recipeItem, item]) => (
-        <Badge key={item.id} badgeContent={recipeItem.itemQuantity} color="primary">
+      {rewardItems.map(([recipeItem, item]) => (
+        <Badge key={`Normal-${item.id}`} badgeContent={recipeItem.itemQuantity} color="primary">
+          <Avatar src={item.media} />
+        </Badge>
+      ))}
+      {randomRewardItems.map(([recipeItem, item]) => (
+        <Badge key={`Random-${item.id}`} badgeContent={recipeItem.itemQuantity} color="primary">
           <Avatar src={item.media} />
         </Badge>
       ))}
@@ -25,8 +30,18 @@ const FuiRecipeRewardDetail: React.FC<Props> = ({ recipe }) => {
   const { rewardItems, randomRewardItems } = useRecipe(recipe);
   return (
     <Box sx={{ p: 2, bgcolor: FuiColor.common.black }}>
-      <RewardList listHeader="奖励" items={rewardItems.map(([_, item]) => item)} />
-      {randomRewardItems && <RewardList listHeader="随机奖励" items={randomRewardItems.map(([_, item]) => item)} />}
+      <RewardList
+        listHeader="奖励"
+        items={rewardItems.map(([_, item]) => item)}
+        renderKey={(item) => `Normal-${recipe.id}-${item.id}`}
+      />
+      {randomRewardItems && (
+        <RewardList
+          listHeader="随机奖励"
+          items={randomRewardItems.map(([_, item]) => item)}
+          renderKey={(item) => `Random-${recipe.id}-${item.id}`}
+        />
+      )}
     </Box>
   );
 };

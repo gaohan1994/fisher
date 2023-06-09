@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiCollectionSkillRecipeCard, FuiContainer, FuiDashboard, FuiRecipeTable } from '@Fui';
+import { ForgeRecipeCard, FuiContainer, FuiDashboard, FuiRecipeTable, RecipeCardGrid } from '@Fui';
 
 const PageForge: React.FC = observer(() => {
   const { forge } = core;
@@ -14,9 +14,9 @@ const PageForge: React.FC = observer(() => {
         <Grid item xs>
           <Grid container spacing={2}>
             {packages.map((item) => (
-              <Grid item xs={6} key={item.id}>
-                <FuiCollectionSkillRecipeCard recipe={item} coreComponent={forge} />
-              </Grid>
+              <RecipeCardGrid xs={6} key={item.id}>
+                <ForgeRecipeCard recipe={item} />
+              </RecipeCardGrid>
             ))}
           </Grid>
         </Grid>
