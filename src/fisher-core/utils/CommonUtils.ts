@@ -65,7 +65,7 @@ export function randomString(stringLength: number) {
 }
 
 export function generateTimestamp(): number {
-  return dayjs().valueOf();
+  return dayjs().unix() * 1000;
 }
 
 export function debounce(func: any, wait: number, immediate = false) {

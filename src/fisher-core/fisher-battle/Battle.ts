@@ -10,6 +10,9 @@ import { Fight } from '../fisher-fight';
 import { RewardPool } from '../fisher-reward';
 import { FisherBattleError } from '../fisher-error';
 import { ArchiveInterface } from '../fisher-archive';
+import { generateTimestamp } from '../utils';
+import { HangUpBattleManager, HangUpTime } from '../fisher-hang-up';
+import { core } from '../fisher-core';
 
 class Battle {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -45,6 +48,12 @@ class Battle {
 
   public activeEnemyItem: EnemyItem | undefined = undefined;
 
+  private pauseTime: number | undefined = undefined;
+
+  public get isPaused() {
+    return this.pauseTime !== undefined;
+  }
+
   public get master() {
     return this.fight?.info.master;
   }
@@ -62,6 +71,36 @@ class Battle {
   private constructor() {
     makeAutoObservable(this);
   }
+
+  public pause = () => {
+    if (this.fight === undefined) {
+      throw new FisherBattleError(`Try to pause component ${this.id}, but can not find active fight`, '请设置战斗');
+    }
+
+    events.emit(EventKeys.Archive.SaveFullArchive);
+    this.fight.pauseFighting();
+    this.pauseTime = generateTimestamp();
+  };
+
+  public continue = async () => {
+    if (this.pauseTime === undefined) {
+      throw new FisherBattleError(
+        `Try to continue component ${this.id}, but pause time was undefined`,
+        '组件挂机失败，请检查挂机时间'
+      );
+    }
+    if (this.activeEnemyItem === undefined || this.fight === undefined) {
+      throw new FisherBattleError(`Try to continue component ${this.id}, but can not find active fight`, '请设置战斗');
+    }
+
+    new HangUpBattleManager(
+      new HangUpTime(this.pauseTime),
+      { activeEnemyId: this.activeEnemyItem.id },
+      core.archiveManager.activeArchive?.values!
+    );
+    this.pauseTime = undefined;
+    this.start();
+  };
 
   public setAcitveEnemyItem = (enemyItem: EnemyItem) => {
     this.activeEnemyItem = enemyItem;
@@ -96,14 +135,6 @@ class Battle {
     this.clearActiveEnemyItem();
 
     Battle.logger.info('Stop battled');
-  };
-
-  public pause = () => {
-    if (this.fight === undefined) {
-      throw new FisherBattleError('Try to pause an undefined fight', '没有找到要暂停的战斗');
-    }
-    events.emit(EventKeys.Archive.SaveFullArchive);
-    this.fight.pauseFighting();
   };
 
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Button, Divider, Grid, Stack } from '@mui/material';
-import { Battle, Dungeon } from '@FisherCore';
+import { Battle, Dungeon, core } from '@FisherCore';
 import { FuiFightPersonInfo } from './FightPersonInfo';
 import { FuiMasterHealPotionHandler, FuiPersonAttributePanel, PersonEquipmentsPanel } from '../person';
 import { useCurrentComponentActive, useFightComponentActions } from './FightHook';
@@ -31,16 +31,13 @@ const FuiFightManager: React.FC<IFuiFightManager> = observer(({ fightComponent }
       <Grid item xs={6}>
         {!isCurrentFightComponentActive && <FuiFightEmptyMasterInfo />}
         {isCurrentFightComponentActive && (
-          <FuiFightPersonInfo
-            player={fightComponent.master}
-            action={fightComponent.master.person.isAttacking && retreatButton}
-          >
+          <FuiFightPersonInfo player={core.master} action={core.master.person.isAttacking && retreatButton}>
             <FightPersonStack>
               <FuiMasterHealPotionHandler />
             </FightPersonStack>
             <FightPersonStack>
-              <PersonEquipmentsPanel person={fightComponent.master.person} />
-              <FuiPersonAttributePanel person={fightComponent.master.person} />
+              <PersonEquipmentsPanel person={core.master.person} />
+              <FuiPersonAttributePanel person={core.master.person} />
             </FightPersonStack>
           </FuiFightPersonInfo>
         )}
