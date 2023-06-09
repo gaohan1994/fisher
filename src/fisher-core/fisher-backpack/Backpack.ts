@@ -5,7 +5,7 @@ import { EventKeys, events } from '../fisher-events';
 import { ArchiveInterface } from '../fisher-archive';
 import { store } from '../fisher-packages';
 import { Assets } from '../assets';
-import { Information } from '../fisher-information';
+import { Information, informationAlert } from '../fisher-information';
 import { FisherBackpackError } from '../fisher-error';
 
 /**
@@ -238,17 +238,9 @@ class Backpack {
 
     this.reduceItem(item.item, _quantity);
 
-    events.emit(EventKeys.Bank.ReceiveGold, sellPrice);
+    events.emit(EventKeys.Bank.ReceiveGold, sellPrice, true);
     events.emit(EventKeys.Update.BackpackUpdate, this);
     Backpack.logger.debug(`sell item ${item.item.name} x ${quantity} sell price: ${sellPrice}`);
-
-    return this;
-  };
-
-  public sellItems = (items: BackpackItem[]) => {
-    for (let index = 0; index < items.length; index++) {
-      this.sellItem(items[index]);
-    }
 
     return this;
   };
@@ -260,6 +252,10 @@ class Backpack {
         '出售失败，没有要出售的物品'
       );
     }
+
+    informationAlert([
+      new Information.NormalMessage(`您共卖出了${this.selectedItems.size}种物品`, Information.InformationColor.Orange),
+    ]);
 
     this.selectedItems.forEach((item) => {
       this.sellItem(item);

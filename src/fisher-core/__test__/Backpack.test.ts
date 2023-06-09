@@ -151,19 +151,6 @@ describe('Backpack', () => {
       expect(backpack.getItem(item)).toBeUndefined();
       expect(bank.gold).toBe(50);
     });
-
-    test('should success run sellItems', () => {
-      const backpack = core.backpack;
-      const item1 = new TestItem(testBackpackItemPayload);
-      const item2 = new TestItem(Object.assign({}, testBackpackItemPayload, { id: 'LowMine1' }));
-
-      backpack.addItem(item1, 10);
-      backpack.addItem(item2, 10);
-      backpack.sellItems(backpack.backpackItems);
-
-      expect(backpack.items.size).toBe(0);
-      expect(bank.gold).toBe(100);
-    });
   });
 
   test('should set selected item', () => {
