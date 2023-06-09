@@ -1,6 +1,6 @@
 import { FC, Fragment, useState, PropsWithChildren, ReactNode } from 'react';
 import { Avatar, Box, Popover, Badge, styled, BadgeProps } from '@mui/material';
-import { coinItem, core, Item } from '@FisherCore';
+import { core, Item } from '@FisherCore';
 import { FuiColor, FuiSize } from '../theme';
 import { FuiItemDetail } from './ItemDetail';
 import { observer } from 'mobx-react';
@@ -141,33 +141,5 @@ const FuiItem: FC<PropsWithChildren<FuiItemProps>> = observer(
   }
 );
 
-const FuiEmptyItem: React.FC = () => (
-  <Box
-    sx={{
-      border: 1,
-      borderColor: FuiColor.item.borderColor,
-      position: 'relative',
-      width: FuiSize.item.size,
-      height: FuiSize.item.size,
-      bgcolor: FuiColor.item.background,
-    }}
-  />
-);
-
-interface FuiGoldItemProps extends Omit<FuiItemProps, 'item'> {
-  gold: number;
-}
-const FuiGoldItem: React.FC<FuiGoldItemProps> = ({ gold, ...rest }) => (
-  <FuiItem item={coinItem} showQuantity quantity={gold} {...rest} />
-);
-
-interface FuiExperienceItemProps extends Omit<FuiItemProps, 'item'> {
-  componentId: string;
-  experience: number;
-}
-const FuiExperienceItem: React.FC<FuiExperienceItemProps> = ({ componentId, experience, ...rest }) => (
-  <FuiItem item={coinItem} showQuantity quantity={experience} {...rest} />
-);
-
-export { FuiItem, FuiItemDetailPopover, FuiEmptyItem, FuiGoldItem, FuiExperienceItem };
+export { FuiItem, FuiItemDetailPopover };
 export type { FuiItemProps };
