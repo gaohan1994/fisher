@@ -15,7 +15,7 @@ const FuiArchiveSaveButton = observer(() => {
   };
   return (
     <Tooltip title="全量保存">
-      <Button startIcon={<DataSaverOnIcon />} onClick={onSaveArchive} variant="contained" size="large">
+      <Button startIcon={<DataSaverOnIcon />} onClick={onSaveArchive} variant="contained" size="large" color="success">
         保存
       </Button>
     </Tooltip>

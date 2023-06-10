@@ -31,7 +31,7 @@ class Master {
 
   public readonly id = 'Master';
 
-  public name = '角色';
+  public name = '我的';
 
   public displayName = '';
 
