@@ -1,11 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import numeral from 'numeral';
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, ListItem, ListItemText, Typography } from '@mui/material';
 import { Person } from '@FisherCore';
 import { FuiLineProgress } from '@Fui';
 import { usePersonProgressValue } from './FightHook';
-import { FuiFightActions } from './FightActions';
 
 interface IFuiFightControl {
   person: Person;
@@ -13,7 +12,7 @@ interface IFuiFightControl {
 const FuiFightControl: React.FC<IFuiFightControl> = observer(({ person }) => {
   const { hpProgressValue, actionProgressValue } = usePersonProgressValue(person);
   return (
-    <List>
+    <React.Fragment>
       <FightListItem title="生命值">
         <FuiLineProgress
           value={hpProgressValue}
@@ -28,16 +27,7 @@ const FuiFightControl: React.FC<IFuiFightControl> = observer(({ person }) => {
           label={<Typography variant="caption">{numeral(actionProgressValue).format('0')}%</Typography>}
         />
       </FightListItem>
-      <FightListItem title="状态栏">
-        <FuiFightActions
-          actions={[
-            ...person.actionManager.activeDotActions,
-            ...person.actionManager.activeBuffActions,
-            ...person.actionManager.activeDebuffActions,
-          ]}
-        />
-      </FightListItem>
-    </List>
+    </React.Fragment>
   );
 });
 

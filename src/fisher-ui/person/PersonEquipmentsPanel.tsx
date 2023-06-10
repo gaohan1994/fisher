@@ -11,19 +11,25 @@ interface PersonEquipmentsPanelProps {
 const PersonEquipmentsPanel: React.FC<PersonEquipmentsPanelProps> = ({ person }) => {
   const leftEquipments = [
     person.personEquipmentManager.primaryWeapon,
-    person.personEquipmentManager.helmet,
     person.personEquipmentManager.jacket,
     person.personEquipmentManager.belt,
   ];
   const rightEquipments = [
     person.personEquipmentManager.secondaryWeapon,
-    person.personEquipmentManager.handGuard,
     person.personEquipmentManager.vest,
     person.personEquipmentManager.Shoe,
   ];
 
-  const leftJewelryEquipments = [person.personEquipmentManager.necklace, person.personEquipmentManager.earring];
-  const rightJewelryEquipments = [person.personEquipmentManager.ring, person.personEquipmentManager.bracelet];
+  const leftJewelryEquipments = [
+    person.personEquipmentManager.helmet,
+    person.personEquipmentManager.necklace,
+    person.personEquipmentManager.earring,
+  ];
+  const rightJewelryEquipments = [
+    person.personEquipmentManager.handGuard,
+    person.personEquipmentManager.ring,
+    person.personEquipmentManager.bracelet,
+  ];
   return (
     <Stack direction="row">
       <EquipmentColumn personEquipments={leftEquipments} />
