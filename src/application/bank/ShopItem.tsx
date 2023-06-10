@@ -1,9 +1,9 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Card, CardContent, CardHeader, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, IconButton, Stack, TextField } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { core, Item } from '@FisherCore';
-import { FuiColor, FuiCoin, FuiItem } from '@Fui';
+import { FuiColor, FuiCoin, FuiItem, FuiItemName } from '@Fui';
 
 interface Props {
   item: Item;
@@ -41,7 +41,7 @@ const FuiShopItemCard: React.FC<PropsWithChildren<Props>> = ({ item, children })
   <Card sx={{ bgcolor: FuiColor.primary.background }}>
     <CardHeader
       avatar={<FuiItem item={item} />}
-      title={<Typography variant="caption">{item.name}</Typography>}
+      title={<FuiItemName item={item} />}
       subheader={<FuiCoin price={item.price} />}
     />
     {children}

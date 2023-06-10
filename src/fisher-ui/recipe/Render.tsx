@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import { Cook, Forge, Mining, Recipe, Reiki, core } from '@FisherCore';
 import { FuiSkillRecipeCard } from './SkillRecipeCard';
@@ -50,8 +50,11 @@ interface IRenderBuildSkillCard {
   coreComponent: Forge | Cook;
   recipe: Recipe;
 }
-const RenderBuildSkillCard: FC<IRenderBuildSkillCard> = ({ coreComponent, recipe }) => {
-  const isActive = Boolean(coreComponent.activeRecipe?.id === recipe.id);
+const RenderBuildSkillCard: FC<IRenderBuildSkillCard> = observer(({ coreComponent, recipe }) => {
+  const isActive = useMemo(
+    () => Boolean(coreComponent.activeRecipe?.id === recipe.id),
+    [coreComponent.activeRecipe, recipe.id]
+  );
 
   const onRecipeClick = () => {
     if (coreComponent.isActive) {
@@ -70,6 +73,6 @@ const RenderBuildSkillCard: FC<IRenderBuildSkillCard> = ({ coreComponent, recipe
       subheader={isActive && coreComponent.isActive && <FuiActiveText text={`正在${coreComponent.name}`} />}
     />
   );
-};
+});
 
 export { MiningRecipeCard, ReikiRecipeCard, ForgeRecipeCard, CookRecipeCard };
