@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import {
   Button,
-  Card,
   CardActions,
   CardContent,
   CardHeader,
@@ -16,7 +15,7 @@ import {
   Box,
 } from '@mui/material';
 import { core } from '@FisherCore';
-import { FuiCoin, notifycationStore } from '@Fui';
+import { FuiCoin, FuiStickyCard, notifycationStore } from '@Fui';
 import { FuiCartItem } from './CartItem';
 import { useCartAvailable } from '../hook';
 
@@ -48,7 +47,7 @@ const FuiCart = observer(() => {
 
   return (
     <React.Fragment>
-      <Card>
+      <FuiStickyCard>
         <CardHeader
           sx={{ pb: 0 }}
           title={
@@ -82,8 +81,7 @@ const FuiCart = observer(() => {
             </Button>
           </Tooltip>
         </CardActions>
-      </Card>
-
+      </FuiStickyCard>
       <Dialog
         open={open}
         onClose={handleClose}

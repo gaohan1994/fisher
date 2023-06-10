@@ -1,8 +1,17 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Button, Card, CardContent, CardHeader, Typography, Box, Tooltip, Stack } from '@mui/material';
+import { Button, CardContent, CardHeader, Typography, Box, Tooltip, Stack } from '@mui/material';
 import { EquipmentItem, Forge, Cook, ItemType, NormalItem, Recipe, Skill } from '@FisherCore';
-import { FuiColor, FuiEquipment, FuiItem, FuiLineProgress, FuiNormalDivider, notifycationStore } from '@Fui';
+import {
+  FuiColor,
+  FuiEquipment,
+  FuiItem,
+  FuiItemName,
+  FuiLineProgress,
+  FuiNormalDivider,
+  FuiStickyCard,
+  notifycationStore,
+} from '@Fui';
 import { IUseRecipeItem, useRecipe, useRecipeInterval } from './RecipeHook';
 import { FuiLevelInfo } from '../experience';
 
@@ -22,7 +31,7 @@ interface FuiRecipeTableProps {
 const FuiRecipeTable: React.FC<FuiRecipeTableProps> = observer(({ coreComponent }) => {
   const { activeRecipe, isActive, skill } = coreComponent;
   return (
-    <Card sx={{ bgcolor: FuiColor.primary.background }}>
+    <FuiStickyCard sx={{ bgcolor: FuiColor.primary.background }}>
       <CardHeader
         sx={{ pb: 0 }}
         title={
@@ -37,7 +46,7 @@ const FuiRecipeTable: React.FC<FuiRecipeTableProps> = observer(({ coreComponent 
         {isActive ? <FuiLineProgress value={skill.progress} /> : <FuiLineProgress value={0} />}
         <FuiRecipeButton coreComponent={coreComponent} />
       </CardContent>
-    </Card>
+    </FuiStickyCard>
   );
 });
 
@@ -76,7 +85,7 @@ const FuiRecipeDesc: React.FC<FuiRecipeDescProps> = observer(({ activeRecipe, sk
     <CardHeader
       sx={{ p: 0, mb: 1 }}
       avatar={renderRecipeItem(item)}
-      title={<Typography>{item.name}</Typography>}
+      title={<FuiItemName item={item} />}
       subheader={subHeader}
     />
   );
