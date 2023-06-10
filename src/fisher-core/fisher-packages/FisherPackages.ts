@@ -32,6 +32,8 @@ import {
   HealPotion,
   IDungeonItem,
   DungeonItem,
+  EquipmentSlot,
+  Rarity,
 } from '../fisher-item';
 
 export interface ICollectionModuleData {
@@ -59,18 +61,53 @@ export function makeReikiPackagesData(): ICollectionModuleData {
 }
 
 export function makeEquipmentPackagesData() {
-  return generateEquipments(equipmentDataJson.data.items as IEquipmentItem[]);
+  let result: EquipmentItem[] = [];
+  Object.keys(EquipmentSlot).forEach((slot) => {
+    result.push(...generateEquipments(equipmentDataJson[slot as EquipmentSlot] as IEquipmentItem[]));
+  });
+  return result;
 }
 
 export function makeEquipmentSetData() {
   return generateEquipmentSets(equipmentSetDataJson.data.items);
 }
 
-export function makeForgePackagesData(): [Recipe[], NormalItem[]] {
-  return [
-    generatePackagesRecipes(forgeDataJson.data.recipes as IRecipe[]),
-    generatePackagesItems(forgeDataJson.data.bluePrints),
-  ];
+export function makeForgePackagesData(): [Recipe[], NormalItem[], Map<EquipmentSlot, Recipe[]>, Map<Rarity, Recipe[]>] {
+  const splitRecipesByRarity = (recipes: Recipe[]) => {
+    const result = new Map<Rarity, Recipe[]>();
+
+    recipes.forEach((recipe) => {
+      const { rarity } = recipe;
+      const rarityRecipes = result.get(rarity) ?? [];
+      rarityRecipes.push(recipe);
+      result.set(rarity, rarityRecipes);
+    });
+
+    return Array.from(result);
+  };
+
+  const allRecipes: Recipe[] = [];
+  const slotCategoryRecipeMap = new Map<EquipmentSlot, Recipe[]>();
+  const rarityCategoryRecipeMap = new Map<Rarity, Recipe[]>();
+
+  rarityCategoryRecipeMap.set(Rarity.Common, []);
+  rarityCategoryRecipeMap.set(Rarity.Rare, []);
+  rarityCategoryRecipeMap.set(Rarity.Epic, []);
+  rarityCategoryRecipeMap.set(Rarity.Legendary, []);
+
+  Object.keys(EquipmentSlot).forEach((slot) => {
+    const recipes = [...generatePackagesRecipes(forgeDataJson[slot as EquipmentSlot] as IRecipe[])];
+    allRecipes.push(...recipes);
+    slotCategoryRecipeMap.set(slot as EquipmentSlot, recipes);
+
+    splitRecipesByRarity(recipes).forEach(([rarity, currentSlotRarityRecipes]) => {
+      const rarityRecipes = rarityCategoryRecipeMap.get(rarity)!;
+      rarityRecipes.push(...currentSlotRarityRecipes);
+      rarityCategoryRecipeMap.set(rarity, rarityRecipes);
+    });
+  });
+
+  return [allRecipes, generatePackagesItems(forgeDataJson.bluePrints), slotCategoryRecipeMap, rarityCategoryRecipeMap];
 }
 
 export function makeCookPackagesData(): [Recipe[], NormalItem[], NormalItem[]] {

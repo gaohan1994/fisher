@@ -1,0 +1,28 @@
+import { FC } from 'react';
+import { Accordion, AccordionDetails, AccordionSummary, Grid } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Recipe } from '@FisherCore';
+import { ForgeRecipeCard, RecipeCardGrid } from '@Fui';
+
+interface IForgeAccordionRecipes {
+  summary: React.ReactNode;
+  recipes: Recipe[];
+}
+const ForgeAccordionRecipes: FC<IForgeAccordionRecipes> = ({ summary, recipes }) => (
+  <Accordion>
+    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+      {summary}
+    </AccordionSummary>
+    <AccordionDetails>
+      <Grid container spacing={2}>
+        {recipes.map((item) => (
+          <RecipeCardGrid xs={6} key={item.id}>
+            <ForgeRecipeCard recipe={item} />
+          </RecipeCardGrid>
+        ))}
+      </Grid>
+    </AccordionDetails>
+  </Accordion>
+);
+
+export { ForgeAccordionRecipes };

@@ -1,6 +1,16 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Avatar, AvatarGroup, Card, CardActionArea, CardContent, CardHeader, Stack, styled } from '@mui/material';
+import {
+  Avatar,
+  AvatarGroup,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  Stack,
+  Typography,
+  styled,
+} from '@mui/material';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { Recipe } from '@FisherCore';
@@ -27,7 +37,8 @@ const FuiRecipeCard: React.FC<Props> = observer(({ recipe, label, highLine, subh
 
   const subheaderComponent = (
     <React.Fragment>
-      <FuiLevelInfo level={recipe.unlockLevel} prefixNode={`${label}技能等级需求 Lv:`} />
+      <Typography variant="caption">{`${label}技能等级需求 `}</Typography>
+      <FuiLevelInfo level={recipe.unlockLevel} />
       {subheader}
     </React.Fragment>
   );

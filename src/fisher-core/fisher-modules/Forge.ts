@@ -32,6 +32,26 @@ class Forge extends Collection<Recipe[]> {
     return store.Forge;
   }
 
+  public get ForgeRarityRecipeMap() {
+    return store.ForgeRarityRecipeMap;
+  }
+
+  public get ForgeRarityRecipes() {
+    return Array.from(store.ForgeRarityRecipeMap);
+  }
+
+  public get ForgeSlotCategoryRecipeMap() {
+    return store.ForgeSlotCategoryRecipeMap;
+  }
+
+  public get ForgeSlotCategoryRecipes() {
+    return Array.from(store.ForgeSlotCategoryRecipeMap);
+  }
+
+  public get ForgeBluePrints() {
+    return store.ForgeBluePrints;
+  }
+
   private constructor() {
     super();
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);

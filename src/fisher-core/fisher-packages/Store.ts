@@ -11,6 +11,8 @@ import {
   RewardChest,
   HealPotion,
   DungeonItem,
+  EquipmentSlot,
+  Rarity,
 } from '../fisher-item';
 import { prefixes, prefixLogger } from '@FisherLogger';
 import {
@@ -53,6 +55,10 @@ class Store {
   public Forge: Recipe[] = [];
 
   public ForgeBluePrints: NormalItem[] = [];
+
+  public ForgeSlotCategoryRecipeMap = new Map<EquipmentSlot, Recipe[]>();
+
+  public ForgeRarityRecipeMap = new Map<Rarity, Recipe[]>();
 
   public Cook: Recipe[] = [];
 
@@ -135,9 +141,11 @@ class Store {
   };
 
   private initializeForge = () => {
-    const [forgeData, forgeBluePrintsData] = makeForgePackagesData();
+    const [forgeData, forgeBluePrintsData, slotCategoryRecipeMap, rarityCategoryRecipeMap] = makeForgePackagesData();
     this.Forge = forgeData;
     this.ForgeBluePrints = forgeBluePrintsData;
+    this.ForgeSlotCategoryRecipeMap = slotCategoryRecipeMap;
+    this.ForgeRarityRecipeMap = rarityCategoryRecipeMap;
     Store.logger.info('initialize Forge data');
   };
 
