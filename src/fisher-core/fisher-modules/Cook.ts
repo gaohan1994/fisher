@@ -18,7 +18,7 @@ class Cook extends Collection<Recipe[]> {
 
   public id = 'Cook';
 
-  public name = '烹饪';
+  public name = '丹药';
 
   public media = Assets.cook;
 

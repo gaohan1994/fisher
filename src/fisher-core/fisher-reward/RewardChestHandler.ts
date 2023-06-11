@@ -1,6 +1,10 @@
 import { EventKeys, events } from '../fisher-events';
+import { Information, informationAlert } from '../fisher-information';
 import { RewardChest } from '../fisher-item';
+import { roll } from '../utils';
 import { Reward } from './Reward';
+import { RewardCache } from './RewardCache';
+import { RewardPool } from './RewardPool';
 
 class RewardChestHandler {
   public static openRewardChest = (rewardChest: RewardChest) => {
@@ -20,6 +24,14 @@ class RewardChestHandler {
       rewards.push(Reward.create(rewardChest.rewardSkill));
     }
 
+    if (rewardChest.randomRewardItems.length > 0) {
+      rewardChest.randomRewardItems.forEach((randomReward) => {
+        if (roll(randomReward.probability)) {
+          rewards.push(Reward.create(randomReward));
+        }
+      });
+    }
+
     for (let index = 0; index < rewards.length; index++) {
       const reward = rewards[index];
       reward.execute();
@@ -29,12 +41,47 @@ class RewardChestHandler {
   };
 
   public static openRewardChestBatches = (rewardChest: RewardChest, quantity: number) => {
+    const rewardPool = new RewardPool();
+    const rewardCache = new RewardCache();
+    let componentId: string | undefined = undefined;
+
+    const collectRewardChest = (chest: RewardChest) => {
+      if (rewardChest.rewardItems.length > 0) {
+        rewardCache.cacheItems(chest.rewardItems);
+      }
+
+      if (rewardChest.rewardGold) {
+        rewardCache.cacheGold(rewardChest.rewardGold);
+      }
+
+      if (rewardChest.rewardSkill) {
+        componentId = rewardChest.rewardSkill.componentId;
+        rewardCache.cacheExperience(rewardChest.rewardSkill.experience);
+      }
+
+      if (rewardChest.randomRewardItems.length > 0) {
+        rewardChest.randomRewardItems.forEach((randomReward) => {
+          if (roll(randomReward.probability)) {
+            rewardCache.cacheItems([randomReward]);
+          }
+        });
+      }
+    };
+
     let index = 0;
 
     while (index < quantity) {
-      RewardChestHandler.openRewardChest(rewardChest);
+      collectRewardChest(rewardChest);
       index++;
     }
+
+    const message = new Information.NormalMessage(
+      `您打开了${quantity}个${rewardChest.name}`,
+      Information.InformationColor.Orange
+    );
+    informationAlert([message]);
+    events.emit(EventKeys.Backpack.ReduceItem, rewardChest, quantity);
+    rewardPool.collectRewards(rewardCache.createRewards(componentId!)).executeRewardPool(true);
   };
 }
 

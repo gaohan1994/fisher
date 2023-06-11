@@ -42,7 +42,7 @@ const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonIt
         title={<FuiItemName item={dungeonItem} />}
         subheader={
           <Typography variant="caption">
-            入场登记需求
+            入场等级需求
             <FuiLevelInfo level={dungeonItem.unlockLevel} sx={{ ml: 1 }} />
           </Typography>
         }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react';
 import Draggable from 'react-draggable';
-import { Assets, core } from '@FisherCore';
+import { Assets } from '@FisherCore';
 import { ButtonGroup, Divider, Paper, Stack } from '@mui/material';
 import { MiniFightStore } from './MiniFightStore';
 import { FuiMiniFightPerson } from './MiniFightPerson';
@@ -19,6 +19,10 @@ const FuiMiniFight = observer(() => {
   }
 
   const fight = miniFightStore.activeFightComponent!.fight;
+
+  if (fight === undefined) {
+    return null;
+  }
 
   return (
     <Draggable>

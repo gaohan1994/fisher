@@ -20,6 +20,8 @@ class RewardPool {
       const reward = rewards[index];
       this.pool.push(reward);
     }
+
+    return this;
   };
 
   public executeRewardPool = (shouldAlertInformation = false) => {
