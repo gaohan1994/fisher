@@ -9,7 +9,7 @@ interface IForgeAccordionRecipes {
   recipes: Recipe[];
 }
 const ForgeAccordionRecipes: FC<IForgeAccordionRecipes> = ({ summary, recipes }) => (
-  <Accordion>
+  <Accordion defaultExpanded={true}>
     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
       {summary}
     </AccordionSummary>

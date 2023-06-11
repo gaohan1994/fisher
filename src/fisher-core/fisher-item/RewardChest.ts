@@ -1,14 +1,19 @@
 import { IItem, Item, ItemType } from './Item';
 
 interface IRewardChest extends IItem {
+  rewardGold?: number;
   rewardItems?: Array<IRewardChestItemPayload>;
   rewardSkill?: IRewardChestExperiencePayload;
-  rewardGold?: number;
+  randomRewardItems?: Array<IRewardChestRandomItemPayload>;
 }
 
 interface IRewardChestItemPayload {
   itemId: string;
   itemQuantity: number;
+}
+
+interface IRewardChestRandomItemPayload extends IRewardChestItemPayload {
+  probability: number;
 }
 
 interface IRewardChestExperiencePayload {
@@ -20,6 +25,8 @@ class RewardChest extends Item {
   public readonly type = ItemType.RewardChest;
 
   public rewardItems: Array<IRewardChestItemPayload> = [];
+
+  public randomRewardItems: Array<IRewardChestRandomItemPayload> = [];
 
   public rewardSkill: IRewardChestExperiencePayload | undefined = undefined;
 
@@ -36,6 +43,9 @@ class RewardChest extends Item {
     }
     if (options.rewardGold) {
       this.rewardGold = options.rewardGold;
+    }
+    if (options.randomRewardItems) {
+      this.randomRewardItems = options.randomRewardItems;
     }
   }
 }

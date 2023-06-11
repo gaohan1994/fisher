@@ -8,25 +8,23 @@
 
 import React from 'react';
 
-let hidden: string, visibilityChange: string;
+let status: string = 'visibilityState',
+  visibilityChange: string;
 
 if (typeof document.hidden !== 'undefined') {
-  hidden = 'hidden';
   visibilityChange = 'visibilitychange';
 } else if (typeof (document as any).msHidden !== 'undefined') {
-  hidden = 'msHidden';
   visibilityChange = 'msvisibilitychange';
 } else if (typeof (document as any).webkitHidden !== 'undefined') {
-  hidden = 'webkitHidden';
   visibilityChange = 'webkitvisibilitychange';
 }
 
 export default function useBrowserHidden() {
-  const [visibilityStatus, setVisibilityStatus] = React.useState((document as any)[hidden]);
+  const [visibilityStatus, setVisibilityStatus] = React.useState((document as any)[status] !== 'visible');
 
   React.useEffect(() => {
     const handleVisibilityChange = () => {
-      setVisibilityStatus((document as any)[hidden]);
+      setVisibilityStatus((document as any)[status] !== 'visible');
     };
     document.addEventListener(visibilityChange, handleVisibilityChange);
 
