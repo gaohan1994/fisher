@@ -17,9 +17,9 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  base: 'fisher',
   build: {
     outDir: 'docs',
-    assetsDir: 'fisher/assets',
   },
   test: {
     environment: 'happy-dom',
