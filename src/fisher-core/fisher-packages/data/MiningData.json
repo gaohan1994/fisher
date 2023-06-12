@@ -3,14 +3,6 @@
   "data": {
     "items": [
       {
-        "id": "DragonBloodMine",
-        "name": "龙血矿",
-        "desc": "龙血浇筑孵化出的矿石，极其稀有",
-        "media": "",
-        "rarity": "Epic",
-        "price": 500
-      },
-      {
         "id": "LowSpiritMine",
         "name": "灵晶石",
         "desc": "一种很常见的晶石，灵气和纯度较低",
@@ -18,11 +10,11 @@
         "price": 5
       },
       {
-        "id": "FiveElementsStone",
-        "name": "五行晶石",
-        "desc": "蕴含金木水火土五种属性的晶石",
-        "media": "FiveElementsStone",
-        "price": 25
+        "id": "HighSpiritMine",
+        "name": "莲晶石",
+        "desc": "一种很常见的晶石，灵气和纯度较高",
+        "media": "HighSpiritMine",
+        "price": 5
       },
       {
         "id": "MetalStone",
@@ -58,37 +50,92 @@
         "desc": "蕴含土属性的晶石",
         "media": "EarthStone",
         "price": 5
+      },
+      {
+        "id": "YuQingStone",
+        "name": "玉清晶石",
+        "rarity": "Rare",
+        "desc": "玉清高手出现过的地方存留的蕴涵灵力的矿石",
+        "media": "YuQingStone",
+        "price": 5
+      },
+      {
+        "id": "TaiQingStone",
+        "name": "太清晶石",
+        "rarity": "Rare",
+        "desc": "太清高手出现过的地方存留的蕴涵灵力的矿石",
+        "media": "TaiQingStone",
+        "price": 5
+      },
+      {
+        "id": "FiveElementsStone",
+        "name": "五行晶石",
+        "rarity": "Rare",
+        "desc": "蕴含金木水火土五种属性的晶石",
+        "media": "FiveElementsStone",
+        "price": 25
+      },
+      {
+        "id": "DragonBloodMine",
+        "name": "龙血矿石",
+        "desc": "龙血浇筑孵化出的矿石，极其稀有",
+        "media": "DragonBloodMine",
+        "rarity": "Epic",
+        "price": 500
       }
     ],
     "recipes": [
       {
-        "id": "Mining:Recipe:DragonBloodMine",
-        "name": "采集：龙血矿",
-        "desc": "",
-        "media": "",
-        "interval": 5000,
-        "unlockLevel": 99,
-        "rewardExperience": 1000,
-        "rewardItems": [{ "itemId": "DragonBloodMine", "itemQuantity": 1 }]
-      },
-      {
         "id": "Mining:Recipe:LowSpiritMine",
         "name": "采集：灵晶石",
         "desc": "",
-        "media": "",
+        "media": "LowSpiritMine",
         "interval": 2000,
         "unlockLevel": 1,
         "rewardExperience": 5,
         "rewardItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 1 }]
       },
       {
+        "id": "Mining:Recipe:HighSpiritMine",
+        "name": "采集：莲晶石",
+        "desc": "",
+        "media": "HighSpiritMine",
+        "interval": 2000,
+        "unlockLevel": 5,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "HighSpiritMine", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 30, "itemId": "LowSpiritMine", "itemQuantity": 1 }]
+      },
+      {
+        "id": "Mining:Recipe:YuQingStone",
+        "name": "采集：玉清晶石",
+        "desc": "",
+        "media": "YuQingStone",
+        "interval": 5000,
+        "unlockLevel": 10,
+        "rewardExperience": 20,
+        "rewardItems": [{ "itemId": "YuQingStone", "itemQuantity": 5 }],
+        "randomRewardItems": [{ "probability": 40, "itemId": "YuQingStone", "itemQuantity": 15 }]
+      },
+      {
+        "id": "Mining:Recipe:TaiQingStone",
+        "name": "采集：太清晶石",
+        "desc": "",
+        "media": "TaiQingStone",
+        "interval": 5000,
+        "unlockLevel": 15,
+        "rewardExperience": 25,
+        "rewardItems": [{ "itemId": "TaiQingStone", "itemQuantity": 5 }],
+        "randomRewardItems": [{ "probability": 30, "itemId": "TaiQingStone", "itemQuantity": 10 }]
+      },
+      {
         "id": "Mining:Recipe:FiveElementsStone",
         "name": "采集：五行晶石",
         "desc": "采集五行晶石，有概率采集到伴生的五种属性的晶石",
-        "media": "",
+        "media": "FiveElementsStone",
         "interval": 5000,
-        "unlockLevel": 1,
-        "rewardExperience": 50,
+        "unlockLevel": 20,
+        "rewardExperience": 20,
         "rewardItems": [{ "itemId": "FiveElementsStone", "itemQuantity": 1 }],
         "randomRewardItems": [
           { "probability": 10, "itemId": "MetalStone", "itemQuantity": 1 },
@@ -97,6 +144,17 @@
           { "probability": 10, "itemId": "FireStone", "itemQuantity": 1 },
           { "probability": 10, "itemId": "EarthStone", "itemQuantity": 1 }
         ]
+      },
+      {
+        "id": "Mining:Recipe:DragonBloodMine",
+        "name": "采集：龙血矿石",
+        "desc": "",
+        "media": "DragonBloodMine",
+        "interval": 10000,
+        "unlockLevel": 30,
+        "rewardExperience": 30,
+        "rewardItems": [{ "itemId": "DragonBloodMine", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "itemId": "DragonBloodMine", "itemQuantity": 3, "probability": 30 }]
       }
     ]
   }

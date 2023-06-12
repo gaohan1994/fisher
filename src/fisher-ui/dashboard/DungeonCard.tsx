@@ -38,7 +38,11 @@ const DungeonCard: FC<IDungeonCard> = observer(({ dungeonItem, onSelectDungeonIt
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar aria-label="recipe">{dungeonItem.name.charAt(1)}</Avatar>}
+        avatar={
+          <Avatar aria-label="recipe" src={dungeonItem.media}>
+            {/* {dungeonItem.name.charAt(1)} */}
+          </Avatar>
+        }
         title={<FuiItemName item={dungeonItem} />}
         subheader={
           <Typography variant="caption">

@@ -4,29 +4,67 @@
       "id": "DragonBall",
       "name": "夔龙之珠",
       "desc": "强大的龙王体内孕育的龙珠，含有龙族之力",
-      "media": "",
+      "media": "DragonMaterial",
+      "rarity": "Legendary"
+    },
+    {
+      "id": "DragonHeart",
+      "name": "夔龙之心",
+      "desc": "强大的龙王之心脏",
+      "media": "DragonMaterial",
       "rarity": "Legendary"
     },
     {
       "id": "DragonSkin",
       "name": "夔龙之皮",
       "desc": "龙王的皮，制作龙王装备所需的材料",
-      "media": "",
+      "media": "DragonMaterial",
       "rarity": "Epic"
     },
     {
       "id": "DragonScale",
       "name": "夔龙之鳞",
       "desc": "龙王的鳞片，制作龙王装备所需的材料",
-      "media": "",
+      "media": "DragonMaterial",
       "rarity": "Epic"
     },
     {
       "id": "DragonHorn",
       "name": "夔龙之角",
       "desc": "龙王的角，制作龙王装备所需的材料",
-      "media": "",
+      "media": "DragonMaterial",
       "rarity": "Epic"
+    },
+    {
+      "id": "CoolingWater",
+      "name": "冷却水",
+      "desc": "锻造武器时，用来降低温度的谁",
+      "media": "CoolingWater",
+      "rarity": "Common",
+      "price": 10
+    },
+    {
+      "id": "LowMonsterMaterial",
+      "name": "初级妖丹",
+      "desc": "小妖的妖丹，是制作丹药的材料",
+      "media": "MonsterMaterial",
+      "rarity": "Common",
+      "price": 10
+    },
+    {
+      "id": "HighMonsterMaterial",
+      "name": "无瑕的妖丹",
+      "desc": "大妖的妖丹，是制作丹药的材料",
+      "media": "MonsterMaterial",
+      "rarity": "Rare",
+      "price": 10
+    },
+    {
+      "id": "DrugBag",
+      "name": "药囊",
+      "desc": "可以装入药品的小袋子",
+      "media": "Bag",
+      "price": 10
     }
   ]
 }

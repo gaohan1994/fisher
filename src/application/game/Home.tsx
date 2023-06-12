@@ -14,7 +14,7 @@ const Home = () => (
       由于只有作者一个人支持从大纲 + 找图 + 研发进度比较缓慢，游戏目前的内容还不完善，正在肝！
     </Typography>
     <Typography variant="body2" component="div" sx={{ mb: 1 }}>
-      如果你有什么想法可以联系作者 Q 871418277
+      如果你有什么想法或者bug可以联系作者 QQ 871418277
     </Typography>
     <Typography variant="body2" component="div" sx={{ mb: 1 }}>
       目前游戏模块分为
@@ -36,6 +36,7 @@ const Home = () => (
       <List>
         <ListSubheader>战斗模块</ListSubheader>
         <ListItem>除魔</ListItem>
+        <ListItem>副本</ListItem>
       </List>
     </Stack>
 
