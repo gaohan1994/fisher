@@ -14,7 +14,7 @@ import { PageDungeon } from '../dungeon';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/fisher',
     element: <Game />,
     children: [
       {

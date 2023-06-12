@@ -17,7 +17,7 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  base: 'fisher',
+  base: '/fisher/',
   build: {
     outDir: 'docs',
   },
