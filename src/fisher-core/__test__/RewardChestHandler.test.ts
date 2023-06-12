@@ -61,7 +61,7 @@ describe('Reward chest handler', () => {
     expect(bank.gold).toEqual(5000);
 
     const chestWithExperience = new RewardChest(
-      Object.assign({}, testChestItem, { rewardSkill: { componentId: 'Mining', experience: 10 } })
+      Object.assign({}, testChestItem, { componentId: 'Mining', experience: 10 })
     );
     expect(mining.experience).toEqual(0);
     RewardChestHandler.openRewardChest(chestWithExperience);

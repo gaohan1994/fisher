@@ -20,8 +20,8 @@ class RewardChestHandler {
       rewards.push(Reward.create({ gold: rewardChest.rewardGold }));
     }
 
-    if (rewardChest.rewardSkill) {
-      rewards.push(Reward.create(rewardChest.rewardSkill));
+    if (rewardChest.rewardExperience) {
+      rewards.push(Reward.create({ componentId: rewardChest.componentId, experience: rewardChest.rewardExperience }));
     }
 
     if (rewardChest.randomRewardItems.length > 0) {
@@ -54,9 +54,9 @@ class RewardChestHandler {
         rewardCache.cacheGold(rewardChest.rewardGold);
       }
 
-      if (rewardChest.rewardSkill) {
-        componentId = rewardChest.rewardSkill.componentId;
-        rewardCache.cacheExperience(rewardChest.rewardSkill.experience);
+      if (rewardChest.rewardExperience) {
+        componentId = rewardChest.componentId;
+        rewardCache.cacheExperience(rewardChest.rewardExperience);
       }
 
       if (rewardChest.randomRewardItems.length > 0) {
@@ -81,6 +81,7 @@ class RewardChestHandler {
     );
     informationAlert([message]);
     events.emit(EventKeys.Backpack.ReduceItem, rewardChest, quantity);
+    console.log('componentId', componentId);
     rewardPool.collectRewards(rewardCache.createRewards(componentId!)).executeRewardPool(true);
   };
 }

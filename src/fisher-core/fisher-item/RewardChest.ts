@@ -3,7 +3,8 @@ import { IItem, Item, ItemType } from './Item';
 interface IRewardChest extends IItem {
   rewardGold?: number;
   rewardItems?: Array<IRewardChestItemPayload>;
-  rewardSkill?: IRewardChestExperiencePayload;
+  componentId?: string;
+  rewardExperience?: number;
   randomRewardItems?: Array<IRewardChestRandomItemPayload>;
 }
 
@@ -16,11 +17,6 @@ interface IRewardChestRandomItemPayload extends IRewardChestItemPayload {
   probability: number;
 }
 
-interface IRewardChestExperiencePayload {
-  componentId: string;
-  experience: number;
-}
-
 class RewardChest extends Item {
   public readonly type = ItemType.RewardChest;
 
@@ -28,7 +24,9 @@ class RewardChest extends Item {
 
   public randomRewardItems: Array<IRewardChestRandomItemPayload> = [];
 
-  public rewardSkill: IRewardChestExperiencePayload | undefined = undefined;
+  public componentId = 'Master';
+
+  public rewardExperience = 0;
 
   public rewardGold: number | undefined = 0;
 
@@ -38,8 +36,11 @@ class RewardChest extends Item {
     if (options.rewardItems) {
       this.rewardItems = options.rewardItems;
     }
-    if (options.rewardSkill) {
-      this.rewardSkill = options.rewardSkill;
+    if (options.componentId) {
+      this.componentId = options.componentId;
+    }
+    if (options.rewardExperience) {
+      this.rewardExperience = options.rewardExperience;
     }
     if (options.rewardGold) {
       this.rewardGold = options.rewardGold;

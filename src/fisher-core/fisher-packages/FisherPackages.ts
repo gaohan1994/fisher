@@ -144,7 +144,7 @@ export function makeBattlePackageData() {
     });
     return new BattleAreaItem({
       ...area,
-      enemies: areaEnemis,
+      enemies: areaEnemis.sort((a, b) => a.level - b.level),
     } as IBattleAreaItem);
   });
 

@@ -11,7 +11,7 @@ const FuiFightRecords: FC<IFuiFightRecords> = ({ fight }) => {
 
   return (
     <Card>
-      <CardContent sx={{ height: 200, overflow: 'auto' }}>{records}</CardContent>
+      <CardContent sx={{ height: 300, overflow: 'auto' }}>{records}</CardContent>
       <CardActions sx={{ p: 2 }}>
         <Button disabled={records.length <= 0} onClick={clear} color="warning">
           清空战斗日志

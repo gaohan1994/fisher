@@ -58,7 +58,7 @@ const RenderBuildSkillCard: FC<IRenderBuildSkillCard> = observer(({ coreComponen
 
   const onRecipeClick = () => {
     if (coreComponent.isActive) {
-      return coreComponent.stop();
+      coreComponent.stop();
     }
 
     coreComponent.setActiveRecipe(recipe);
