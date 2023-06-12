@@ -1,73 +1,1014 @@
 {
   "moduleName": "Equipment",
-  "data": {
-    "items": [
-      {
-        "id": "DragonSword",
-        "name": "斩龙",
-        "desc": "取龙王之皮、鳞、角，耗时多年铸成，剑成之日天有雷鸣落雨，剑名-斩龙",
-        "media": "DragonSword",
-        "price": 5000,
-        "slot": "PrimaryWeapon",
-        "rarity": "Legendary",
-        "attributes": [
-          { "key": "AttackSpeed", "value": 1000 },
-          { "key": "AttackPower", "value": 80 },
-          { "key": "DefenceCorruption", "value": 5 }
-        ],
-        "actionIds": ["LowBuffAttackPowerMultiplierAction", "DragonSwordAction"]
-      },
-      {
-        "id": "WoodSword",
-        "name": "新手木剑",
-        "desc": "用寻常木头做的剑",
-        "media": "woodsword",
-        "price": 5,
-        "slot": "PrimaryWeapon",
-        "attackSpeed": 2000,
-        "attributes": [{ "key": "AttackPower", "value": 40 }],
-        "equipmentSetId": "NoobSet"
-      },
-      {
-        "id": "EastDragonSword",
-        "name": "东海龙王之剑",
-        "desc": "拥有东海龙王力量的武器",
-        "media": "EastDragonSword",
-        "price": 5000,
-        "slot": "PrimaryWeapon",
-        "attributes": [{ "key": "AttackPower", "value": 210 }]
-      },
-      {
-        "id": "NoobDagger",
-        "name": "新手短刀",
-        "desc": "为新手准备的短刀",
-        "media": "dagger",
-        "price": 5,
-        "slot": "SecondaryWeapon",
-        "attackSpeed": 1800,
-        "attributes": [{ "key": "AttackPower", "value": 10 }],
-        "equipmentSetId": "NoobSet"
-      },
-      {
-        "id": "ClothHat",
-        "name": "新手布帽",
-        "desc": "用布织成的帽子，可以遮风挡雨",
-        "media": "",
-        "price": 5,
-        "slot": "Helmet",
-        "attributes": [{ "key": "DefencePower", "value": 2 }],
-        "equipmentSetId": "NoobSet"
-      },
-      {
-        "id": "JadeCloudHairpin",
-        "name": "流云白玉簪",
-        "desc": "雕工上乘，玉质极佳",
-        "media": "",
-        "price": 5,
-        "slot": "Helmet",
-        "requirements": [],
-        "attributes": [{ "key": "MaxHp", "value": 20 }]
-      }
-    ]
-  }
+  "PrimaryWeapon": [
+    {
+      "id": "DragonSword",
+      "name": "斩龙",
+      "desc": "取龙王之皮、鳞、角，耗时多年铸成，剑成之日天有雷鸣落雨，剑名-斩龙",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Legendary",
+      "attackSpeed": 1500,
+      "attributes": [
+        { "key": "AttackPower", "value": 180 },
+        { "key": "DefenceCorruption", "value": 6 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": ["DragonSwordAction"]
+    },
+    {
+      "id": "FiveElementsSword",
+      "name": "五行剑",
+      "desc": "拥有金木水火土五行之力",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Epic",
+      "attackSpeed": 1800,
+      "attributes": [{ "key": "AttackPower", "value": 150 }],
+      "actionIds": []
+    },
+    {
+      "id": "TaiQingSword",
+      "name": "太清剑",
+      "desc": "太清境界高手锻造的仙剑",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Epic",
+      "attackSpeed": 1800,
+      "attributes": [{ "key": "AttackPower", "value": 120 }],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "FireSword",
+      "name": "爆炎剑",
+      "desc": "通体血红，由大量火属性晶石打造而成",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 95 }],
+      "actionIds": []
+    },
+    {
+      "id": "IceSword",
+      "name": "寒冰剑",
+      "desc": "通体银白，由大量水属性晶石打造而成",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 90 }],
+      "actionIds": []
+    },
+    {
+      "id": "EarthSword",
+      "name": "大地之剑",
+      "desc": "通体金黄，由大量土属性晶石打造而成",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 80 }],
+      "actionIds": []
+    },
+    {
+      "id": "MetalSword",
+      "name": "峰刃",
+      "desc": "通体金黄，由大量金属性晶石打造而成，峰刃无比",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 100 }],
+      "actionIds": []
+    },
+    {
+      "id": "WoodSword",
+      "name": "流芳",
+      "desc": "通体碧绿，由大量木属性晶石打造而成",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 70 }],
+      "actionIds": []
+    },
+    {
+      "id": "YuQingSword",
+      "name": "玉清剑",
+      "desc": "玉清境界高手锻造的仙剑",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Rare",
+      "attackSpeed": 2000,
+      "attributes": [{ "key": "AttackPower", "value": 50 }],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoSword",
+      "name": "无我剑",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "PrimaryWeapon",
+      "rarity": "Common",
+      "attackSpeed": 2500,
+      "attributes": [{ "key": "AttackPower", "value": 30 }],
+      "equipmentSetId": "WuWoSet",
+      "actionIds": []
+    },
+    {
+      "id": "TrainingSword",
+      "name": "比武用剑",
+      "desc": "在比武场随处可见的武器",
+      "media": "",
+      "price": 100,
+      "slot": "PrimaryWeapon",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attackSpeed": 2500,
+      "attributes": [{ "key": "AttackPower", "value": 20 }]
+    },
+    {
+      "id": "NoobSword",
+      "name": "新手木剑",
+      "desc": "用寻常木头做的剑",
+      "media": "",
+      "price": 5,
+      "rarity": "Common",
+      "slot": "PrimaryWeapon",
+      "attackSpeed": 2500,
+      "attributes": [{ "key": "AttackPower", "value": 10 }]
+    }
+  ],
+  "SecondaryWeapon": [
+    {
+      "id": "DragonDagger",
+      "name": "龙影",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Legendary",
+      "attributes": [
+        { "key": "AttackPower", "value": 60 },
+        { "key": "AttackPowerMultiplier", "value": 5 },
+        { "key": "DefenceCorruption", "value": 3 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": ["LowBuffAttackPowerMultiplierAction"]
+    },
+    {
+      "id": "IceShield",
+      "name": "寒冰之盾",
+      "desc": "在极寒之地打造的坚固盾牌",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 400 },
+        { "key": "DefencePower", "value": 10 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "IceDagger",
+      "name": "寒冰之匕首",
+      "desc": "在极寒之地打造的锋利匕首",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 50 },
+        { "key": "DefenceCorruption", "value": 3 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "SnakeDagger",
+      "name": "毒蛇",
+      "desc": "充满蛇妖毒性的武器",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Epic",
+      "attributes": [{ "key": "AttackPower", "value": 35 }],
+      "actionIds": ["PosionDotAction"]
+    },
+    {
+      "id": "TaiQingDagger",
+      "name": "太清袖箭",
+      "desc": "太清境界高手锻造的袖箭",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Epic",
+      "attributes": [{ "key": "AttackPower", "value": 40 }],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "YuQingDagger",
+      "name": "玉清袖箭",
+      "desc": "玉清境界高手锻造的袖箭",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Rare",
+      "attributes": [{ "key": "AttackPower", "value": 16 }],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoDagger",
+      "name": "无我短剑",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "SecondaryWeapon",
+      "rarity": "Common",
+      "attributes": [{ "key": "AttackPower", "value": 30 }],
+      "actionIds": [],
+      "equipmentSetId": "WuWoSet"
+    },
+    {
+      "id": "TrainingShield",
+      "name": "比武盾牌",
+      "desc": "在比武场随处可见的武器",
+      "media": "",
+      "price": 100,
+      "slot": "SecondaryWeapon",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attributes": [{ "key": "AttackPower", "value": 15 }]
+    },
+    {
+      "id": "NoobDagger",
+      "name": "新手短刀",
+      "desc": "为新手准备的短刀",
+      "media": "",
+      "price": 5,
+      "slot": "SecondaryWeapon",
+      "rarity": "Common",
+      "attributes": [{ "key": "AttackPower", "value": 10 }]
+    }
+  ],
+  "Jacket": [
+    {
+      "id": "DragonJacket",
+      "name": "龙王上衣",
+      "desc": "取龙王之皮、鳞、角，耗时多年铸成",
+      "media": "",
+      "price": 5000,
+      "slot": "Jacket",
+      "rarity": "Legendary",
+      "attributes": [
+        { "key": "MaxHp", "value": 600 },
+        { "key": "DefencePower", "value": 16 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": []
+    },
+    {
+      "id": "TaiQingJacket",
+      "name": "太清软甲",
+      "desc": "太清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Jacket",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 480 },
+        { "key": "DefencePower", "value": 12 }
+      ],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "YuQingJacket",
+      "name": "玉清软甲",
+      "desc": "玉清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Jacket",
+      "rarity": "Rare",
+      "attributes": [
+        { "key": "MaxHp", "value": 300 },
+        { "key": "DefencePower", "value": 7 }
+      ],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoJacket",
+      "name": "无我软甲",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Jacket",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 180 },
+        { "key": "DefencePower", "value": 4 }
+      ],
+      "equipmentSetId": "WuWoSet",
+      "actionIds": []
+    },
+    {
+      "id": "TrainingJacket",
+      "name": "比武上衣",
+      "desc": "在比武场随处可见的防具",
+      "media": "",
+      "price": 100,
+      "slot": "Jacket",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attributes": [
+        { "key": "MaxHp", "value": 100 },
+        { "key": "DefencePower", "value": 2 }
+      ]
+    },
+    {
+      "id": "NoobJacket",
+      "name": "新手上衣",
+      "desc": "为新手准备的防具",
+      "media": "",
+      "price": 5,
+      "slot": "Jacket",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 60 },
+        { "key": "DefencePower", "value": 1 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Vest": [
+    {
+      "id": "DragonVest",
+      "name": "龙王背心",
+      "desc": "取龙王之皮、鳞、角，耗时多年铸成",
+      "media": "",
+      "price": 5000,
+      "slot": "Vest",
+      "rarity": "Legendary",
+      "attributes": [
+        { "key": "MaxHp", "value": 450 },
+        { "key": "DefencePower", "value": 12 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": []
+    },
+    {
+      "id": "TaiQingVest",
+      "name": "太清背心",
+      "desc": "太清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Vest",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 360 },
+        { "key": "DefencePower", "value": 7.2 }
+      ],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "YuQingVest",
+      "name": "玉清背心",
+      "desc": "玉清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Vest",
+      "rarity": "Rare",
+      "attributes": [
+        { "key": "MaxHp", "value": 210 },
+        { "key": "DefencePower", "value": 4.5 }
+      ],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoVest",
+      "name": "无我背心",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Vest",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 120 },
+        { "key": "DefencePower", "value": 2.5 }
+      ],
+      "equipmentSetId": "WuWoSet",
+      "actionIds": []
+    },
+    {
+      "id": "TrainingVest",
+      "name": "比武背心",
+      "desc": "在比武场随处可见的防具",
+      "media": "",
+      "price": 100,
+      "slot": "Vest",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attributes": [
+        { "key": "MaxHp", "value": 60 },
+        { "key": "DefencePower", "value": 1.6 }
+      ]
+    },
+    {
+      "id": "NoobVest",
+      "name": "新手背心",
+      "desc": "为新手准备的防具",
+      "media": "",
+      "price": 5,
+      "slot": "Vest",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 30 },
+        { "key": "DefencePower", "value": 0.8 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Shoe": [
+    {
+      "id": "DragonShoe",
+      "name": "龙王之鞋",
+      "desc": "取龙王之皮、鳞、角，耗时多年铸成",
+      "media": "",
+      "price": 5000,
+      "slot": "Shoe",
+      "rarity": "Legendary",
+      "attributes": [
+        { "key": "MaxHp", "value": 225 },
+        { "key": "DefencePower", "value": 6 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": []
+    },
+    {
+      "id": "TaiQingShoe",
+      "name": "太清布鞋",
+      "desc": "太清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Shoe",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 180 },
+        { "key": "DefencePower", "value": 3.6 }
+      ],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "YuQingShoe",
+      "name": "玉清布鞋",
+      "desc": "玉清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Shoe",
+      "rarity": "Rare",
+      "attributes": [
+        { "key": "MaxHp", "value": 100 },
+        { "key": "DefencePower", "value": 2.8 }
+      ],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoShoe",
+      "name": "无我布鞋",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Shoe",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 60 },
+        { "key": "DefencePower", "value": 1.6 }
+      ],
+      "equipmentSetId": "WuWoSet",
+      "actionIds": []
+    },
+    {
+      "id": "TrainingShoe",
+      "name": "比武布鞋",
+      "desc": "在比武场随处可见的防具",
+      "media": "",
+      "price": 100,
+      "slot": "Shoe",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attributes": [
+        { "key": "MaxHp", "value": 30 },
+        { "key": "DefencePower", "value": 1 }
+      ]
+    },
+    {
+      "id": "NoobShoe",
+      "name": "新手布鞋",
+      "desc": "为新手准备的防具",
+      "media": "",
+      "price": 5,
+      "slot": "Shoe",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 15 },
+        { "key": "DefencePower", "value": 0.5 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Belt": [
+    {
+      "id": "DragonBelt",
+      "name": "龙王腰带",
+      "desc": "取龙王之皮、鳞、角，耗时多年铸成",
+      "media": "",
+      "price": 5000,
+      "slot": "Belt",
+      "rarity": "Legendary",
+      "attributes": [
+        { "key": "MaxHp", "value": 225 },
+        { "key": "DefencePower", "value": 6 }
+      ],
+      "equipmentSetId": "DragonSet",
+      "actionIds": []
+    },
+    {
+      "id": "TaiQingBelt",
+      "name": "太清腰带",
+      "desc": "太清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Belt",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 180 },
+        { "key": "DefencePower", "value": 3.6 }
+      ],
+      "equipmentSetId": "TaiQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "YuQingBelt",
+      "name": "玉清腰带",
+      "desc": "玉清境界高手锻造的防具",
+      "media": "",
+      "price": 5000,
+      "slot": "Belt",
+      "rarity": "Rare",
+      "attributes": [
+        { "key": "MaxHp", "value": 100 },
+        { "key": "DefencePower", "value": 2.8 }
+      ],
+      "equipmentSetId": "YuQingSet",
+      "actionIds": []
+    },
+    {
+      "id": "WuWoBelt",
+      "name": "无我腰带",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Belt",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 60 },
+        { "key": "DefencePower", "value": 1.6 }
+      ],
+      "equipmentSetId": "WuWoSet",
+      "actionIds": []
+    },
+    {
+      "id": "TrainingBelt",
+      "name": "比武腰带",
+      "desc": "在比武场随处可见的防具",
+      "media": "",
+      "price": 100,
+      "slot": "Belt",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingSet",
+      "attributes": [
+        { "key": "MaxHp", "value": 30 },
+        { "key": "DefencePower", "value": 1 }
+      ]
+    },
+    {
+      "id": "NoobBelt",
+      "name": "新手腰带",
+      "desc": "为新手准备的防具",
+      "media": "",
+      "price": 5,
+      "slot": "Belt",
+      "rarity": "Common",
+      "attributes": [
+        { "key": "MaxHp", "value": 15 },
+        { "key": "DefencePower", "value": 0.5 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Helmet": [
+    {
+      "id": "LuoXiaHelmet",
+      "name": "落霞之头巾",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Helmet",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 150 },
+        { "key": "DefencePower", "value": 4 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanHelmet",
+      "name": "孤雁之头巾",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Helmet",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 120 },
+        { "key": "DefencePower", "value": 3 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudHairpin",
+      "name": "流云白玉簪",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "Helmet",
+      "attributes": [
+        { "key": "MaxHp", "value": 90 },
+        { "key": "DefencePower", "value": 2.4 }
+      ]
+    },
+    {
+      "id": "TrainingHelmet",
+      "name": "获胜者头盔",
+      "desc": "在比武场随处可见的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "Helmet",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [
+        { "key": "MaxHp", "value": 55 },
+        { "key": "DefencePower", "value": 1.5 }
+      ]
+    },
+    {
+      "id": "ClothHat",
+      "name": "新手布帽",
+      "desc": "用布织成的帽子，可以遮风挡雨",
+      "media": "",
+      "price": 5,
+      "slot": "Helmet",
+      "attributes": [
+        { "key": "MaxHp", "value": 40 },
+        { "key": "DefencePower", "value": 0.8 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "HandGuard": [
+    {
+      "id": "LuoXiaHandGuard",
+      "name": "落霞之护手",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "HandGuard",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 150 },
+        { "key": "DefencePower", "value": 4 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanHandGuard",
+      "name": "孤雁之护手",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "HandGuard",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "MaxHp", "value": 120 },
+        { "key": "DefencePower", "value": 3 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudHandGuard",
+      "name": "流云白玉手",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "HandGuard",
+      "attributes": [
+        { "key": "MaxHp", "value": 90 },
+        { "key": "DefencePower", "value": 2.4 }
+      ]
+    },
+    {
+      "id": "TrainingHandGuard",
+      "name": "获胜者护手",
+      "desc": "在比武场随处可见的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "HandGuard",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [
+        { "key": "MaxHp", "value": 55 },
+        { "key": "DefencePower", "value": 1.5 }
+      ]
+    },
+    {
+      "id": "NoobHandGuard",
+      "name": "新手护腕",
+      "desc": "给新手准备的饰品",
+      "media": "",
+      "price": 5,
+      "slot": "HandGuard",
+      "attributes": [
+        { "key": "MaxHp", "value": 40 },
+        { "key": "DefencePower", "value": 0.8 }
+      ],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Necklace": [
+    {
+      "id": "LuoXiaNecklace",
+      "name": "落霞之链",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Necklace",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 15 },
+        { "key": "DefenceCorruption", "value": 2 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanNecklace",
+      "name": "孤雁之链",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Necklace",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 12 },
+        { "key": "DefenceCorruption", "value": 1 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudNecklace",
+      "name": "流云白玉链",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "Necklace",
+      "attributes": [{ "key": "AttackPower", "value": 9 }]
+    },
+    {
+      "id": "TrainingNecklace",
+      "name": "获胜者项链",
+      "desc": "在比武场胜者佩戴的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "Necklace",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [{ "key": "AttackPower", "value": 6 }]
+    },
+    {
+      "id": "NoobNecklace",
+      "name": "新手项链",
+      "desc": "给新手准备的饰品",
+      "media": "",
+      "price": 5,
+      "slot": "Necklace",
+      "attributes": [{ "key": "AttackPower", "value": 5.4 }],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Earring": [
+    {
+      "id": "LuoXiaEarring",
+      "name": "落霞之耳环",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Earring",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 15 },
+        { "key": "DefenceCorruption", "value": 2 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanEarring",
+      "name": "孤雁之耳环",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Earring",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 12 },
+        { "key": "DefenceCorruption", "value": 1 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudEarring",
+      "name": "流云白玉耳环",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "Earring",
+      "attributes": [{ "key": "AttackPower", "value": 9 }]
+    },
+    {
+      "id": "TrainingEarring",
+      "name": "获胜者耳环",
+      "desc": "在比武场胜者佩戴的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "Earring",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [{ "key": "AttackPower", "value": 6 }]
+    },
+    {
+      "id": "NoobEarring",
+      "name": "新手耳环",
+      "desc": "给新手准备的饰品",
+      "media": "",
+      "price": 5,
+      "slot": "Earring",
+      "attributes": [{ "key": "AttackPower", "value": 5.4 }],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Ring": [
+    {
+      "id": "LuoXiaRing",
+      "name": "落霞之戒",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Ring",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 15 },
+        { "key": "DefenceCorruption", "value": 2 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanRing",
+      "name": "孤雁之戒",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Ring",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 12 },
+        { "key": "DefenceCorruption", "value": 1 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudRing",
+      "name": "流云白玉戒",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "Ring",
+      "attributes": [{ "key": "AttackPower", "value": 9 }]
+    },
+    {
+      "id": "TrainingRing",
+      "name": "获胜者戒指",
+      "desc": "在比武场胜者佩戴的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "Ring",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [{ "key": "AttackPower", "value": 6 }]
+    },
+    {
+      "id": "NoobRing",
+      "name": "新手戒指",
+      "desc": "给新手准备的饰品",
+      "media": "",
+      "price": 5,
+      "slot": "Ring",
+      "attributes": [{ "key": "AttackPower", "value": 5.4 }],
+      "equipmentSetId": "NoobSet"
+    }
+  ],
+  "Bracelet": [
+    {
+      "id": "LuoXiaBracelet",
+      "name": "落霞之手镯",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Bracelet",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 15 },
+        { "key": "DefenceCorruption", "value": 2 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "GuYanBracelet",
+      "name": "孤雁之手镯",
+      "desc": "",
+      "media": "",
+      "price": 5000,
+      "slot": "Bracelet",
+      "rarity": "Epic",
+      "attributes": [
+        { "key": "AttackPower", "value": 12 },
+        { "key": "DefenceCorruption", "value": 1 }
+      ],
+      "actionIds": []
+    },
+    {
+      "id": "JadeCloudBracelet",
+      "name": "流云白玉镯",
+      "desc": "雕工上乘，玉质极佳",
+      "media": "",
+      "price": 5,
+      "rarity": "Rare",
+      "slot": "Bracelet",
+      "attributes": [{ "key": "AttackPower", "value": 9 }]
+    },
+    {
+      "id": "TrainingBracelet",
+      "name": "获胜者手镯",
+      "desc": "在比武场胜者佩戴的饰品",
+      "media": "",
+      "price": 100,
+      "slot": "Bracelet",
+      "rarity": "Common",
+      "equipmentSetId": "TrainingJewelrySet",
+      "attributes": [{ "key": "AttackPower", "value": 6 }]
+    },
+    {
+      "id": "NoobBracelet",
+      "name": "新手手镯",
+      "desc": "给新手准备的饰品",
+      "media": "",
+      "price": 5,
+      "slot": "Bracelet",
+      "rarity": "Common",
+      "attributes": [{ "key": "AttackPower", "value": 5.4 }],
+      "equipmentSetId": "NoobSet"
+    }
+  ]
 }

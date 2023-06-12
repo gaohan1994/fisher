@@ -2,211 +2,506 @@
   "moduleName": "Dungeon",
   "data": [
     {
-      "id": "Dungeon:WoodPile",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
+      "id": "Dungeon:Ruffian",
+      "name": "地痞无赖",
+      "desc": "",
+      "media": "Ruffian",
+      "unlockLevel": 10,
       "enemies": [
         {
-          "id": "SmallWoodPile",
-          "name": "小型木桩",
-          "desc": "训练用的木桩",
-          "media": "",
-          "level": 1
+          "id": "SmallRuffian",
+          "name": "无赖跟班",
+          "desc": "",
+          "media": "Ruffian",
+          "mode": "CommonEnemy",
+          "level": 10,
+          "randomRewards": [
+            { "itemId": "WoodStone", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 }
+          ]
         },
         {
-          "id": "MiddleWoodPile",
-          "name": "中型木桩",
-          "desc": "训练用的木桩",
-          "media": "",
-          "level": 2
+          "id": "MiddleRuffian",
+          "name": "无赖打手",
+          "desc": "",
+          "media": "Ruffian",
+          "mode": "CommonEnemy",
+          "level": 11,
+          "randomRewards": [
+            { "itemId": "WoodStone", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 }
+          ]
         },
         {
-          "id": "LargeWoodPile",
-          "name": "大型木桩",
-          "desc": "训练用的木桩",
-          "media": "",
-          "level": 3
+          "id": "LargeRuffian",
+          "name": "吴赖",
+          "desc": "",
+          "media": "Ruffian",
+          "mode": "CommonEnemy",
+          "level": 12,
+          "randomRewards": [
+            { "itemId": "WoodStone", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 }
+          ]
         }
       ],
       "progressExtraReward": {
-        "2": [
-          {
-            "itemId": "LowSpiritMine",
-            "itemQuantity": 10
-          }
-        ]
+        "2": [{ "itemId": "WoodPileChest", "itemQuantity": 1 }]
       }
     },
     {
       "id": "Dungeon:MartialHall",
       "name": "讲武堂",
       "desc": "大家谈兵论道的地方，实力说话",
-      "media": "",
-      "unlockLevel": 5,
+      "media": "MartialArtist",
+      "rarity": "Common",
+      "unlockLevel": 15,
       "enemies": [
         {
           "id": "LowMartialArtist",
           "name": "低级武师",
           "desc": "在讲武堂中随处可见的武师",
-          "media": "",
-          "level": 4
+          "media": "MartialArtist",
+          "mode": "CommonEnemy",
+          "level": 15,
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "TrainingBelt", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "TrainingShoe", "itemQuantity": 1, "probability": 30 }
+          ]
         },
         {
           "id": "HighMartialArtist",
           "name": "高阶武师",
           "desc": "实力强大的习武人士",
-          "media": "",
-          "level": 6
+          "media": "MartialArtist",
+          "mode": "CommonEnemy",
+          "level": 16,
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "TrainingVest", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "TrainingJacket", "itemQuantity": 1, "probability": 30 }
+          ]
         },
         {
           "id": "XueSan",
-          "name": "薛三",
+          "name": "讲武堂主·薛三",
           "desc": "讲武堂堂主，神秘的高手，可以以一敌三",
-          "media": "",
-          "level": 10
+          "media": "MartialArtist",
+          "mode": "EliteEnemy",
+          "level": 18,
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "TrainingSword", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "TrainingShield", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
         }
-      ]
+      ],
+      "progressExtraReward": {
+        "2": [{ "itemId": "MartialHallChest", "itemQuantity": 1 }]
+      }
     },
     {
-      "id": "青山道",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
+      "id": "GhostCity",
+      "name": "迷雾鬼城",
+      "desc": "",
+      "media": "Ghost",
+      "rarity": "Common",
+      "unlockLevel": 15,
       "enemies": [
         {
           "id": "CryGhost",
           "name": "爱哭鬼",
           "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
-        }
-      ]
-    },
-    {
-      "id": "迷雾鬼城",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
-      "enemies": [
-        {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
+          "media": "Ghost",
+          "mode": "CommonEnemy",
+          "level": 20,
+          "randomRewards": [
+            { "itemId": "TrainingHelmet", "itemQuantity": 1, "probability": 5 },
+            { "itemId": "TrainingHandGuard", "itemQuantity": 1, "probability": 5 }
+          ]
         },
         {
           "id": "DrunkGhost",
           "name": "醉死鬼",
           "desc": "不知道喝了多少酒",
-          "media": "",
-          "level": 10
+          "media": "Ghost",
+          "mode": "CommonEnemy",
+          "level": 20,
+          "randomRewards": [
+            { "itemId": "TrainingNecklace", "itemQuantity": 1, "probability": 5 },
+            { "itemId": "TrainingEarring", "itemQuantity": 1, "probability": 5 }
+          ]
         },
         {
           "id": "LiarGhost",
           "name": "丢谎鬼",
           "desc": "不说谎才是说谎",
-          "media": "",
-          "level": 10
+          "media": "Ghost",
+          "mode": "CommonEnemy",
+          "level": 20,
+          "randomRewards": [
+            { "itemId": "TrainingRing", "itemQuantity": 1, "probability": 5 },
+            { "itemId": "TrainingBracelet", "itemQuantity": 1, "probability": 5 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 }
+          ]
         }
-      ]
+      ],
+      "progressExtraReward": {
+        "4": [{ "itemId": "GoastCityChest", "itemQuantity": 1 }]
+      }
     },
     {
-      "id": "蛇岭",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
+      "id": "SnakeMountain",
+      "name": "蛇岭",
+      "desc": "",
+      "media": "Snake",
+      "rarity": "Rare",
+      "unlockLevel": 20,
       "enemies": [
         {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
-        }
-      ]
-    },
-    {
-      "id": "蜘蛛洞",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
-      "enemies": [
-        {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
-        }
-      ]
-    },
-    {
-      "id": "鲲鹏迷窟",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
-      "enemies": [
-        {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
-        }
-      ]
-    },
-    {
-      "id": "佛家幻境",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
-      "unlockLevel": 5,
-      "enemies": [
-        {
-          "id": "CryGhost",
-          "name": "贪",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
+          "id": "SmallSnake",
+          "name": "蛇妖",
+          "desc": "",
+          "media": "Snake",
+          "level": 20,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "FuDiReiki", "itemQuantity": 1, "probability": 30 }
+          ]
         },
         {
-          "id": "CryGhost",
-          "name": "嗔",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
+          "id": "MiddleSnake",
+          "name": "蛇王",
+          "desc": "",
+          "media": "Snake",
+          "level": 22,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "FuDiReiki", "itemQuantity": 1, "probability": 30 }
+          ]
         },
         {
-          "id": "CryGhost",
-          "name": "痴",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
+          "id": "LargeSnake",
+          "name": "残忍的三头蛇",
+          "desc": "",
+          "media": "Snake",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "LowSpiritMine", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "FuDiReiki", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "SnakeDagger", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
         }
-      ]
+      ],
+      "progressExtraReward": {
+        "2": [{ "itemId": "SnakeMountainChest", "itemQuantity": 1 }]
+      }
     },
     {
-      "id": "东海龙宫大殿",
-      "name": "木桩机关",
-      "desc": "训练用的木桩",
-      "media": "",
+      "id": "FiveElementsArray",
+      "name": "五行大阵",
+      "desc": "",
+      "media": "FiveElements",
+      "unlockLevel": 20,
+      "rarity": "Rare",
       "enemies": [
         {
-          "id": "CryGhost",
-          "name": "爱哭鬼",
-          "desc": "常在夜间听到哭声，生前遭受过很大打击",
-          "media": "",
-          "level": 10
+          "id": "MetalEnemy",
+          "name": "金",
+          "desc": "",
+          "media": "FiveElements",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "MetalSword", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "MetalStone", "itemQuantity": 1, "probability": 30 }
+          ]
+        },
+        {
+          "id": "WoodEnemy",
+          "name": "木",
+          "desc": "",
+          "media": "FiveElements",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "WoodSword", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "WoodStone", "itemQuantity": 1, "probability": 30 }
+          ]
+        },
+        {
+          "id": "WaterEnemy",
+          "name": "水",
+          "desc": "",
+          "media": "FiveElements",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "IceSword", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "IceShield", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "IceDagger", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "WaterStone", "itemQuantity": 1, "probability": 30 }
+          ]
+        },
+        {
+          "id": "FireEnemy",
+          "name": "火",
+          "desc": "",
+          "media": "FiveElements",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "FireSword", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "FireStone", "itemQuantity": 1, "probability": 30 }
+          ]
+        },
+        {
+          "id": "EarthEnemy",
+          "name": "土",
+          "desc": "",
+          "media": "FiveElements",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "randomRewards": [
+            { "itemId": "EarthSword", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "EarthStone", "itemQuantity": 1, "probability": 30 }
+          ]
         }
-      ]
+      ],
+      "progressExtraReward": {
+        "4": [{ "itemId": "FiveElementsArrayChest", "itemQuantity": 1 }]
+      }
+    },
+    {
+      "id": "QingYuGong",
+      "name": "清玉宫",
+      "desc": "",
+      "media": "QingYuGong",
+      "unlockLevel": 20,
+      "rarity": "Rare",
+      "enemies": [
+        {
+          "id": "LiuYun",
+          "name": "流云",
+          "desc": "",
+          "media": "QingYuGong",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki", "itemQuantity": 1 }],
+          "randomRewards": [
+            { "itemId": "JadeCloudHairpin", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudHandGuard", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudNecklace", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudEarring", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudRing", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudBracelet", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
+        },
+        {
+          "id": "BaiYu",
+          "name": "白玉",
+          "desc": "",
+          "media": "QingYuGong",
+          "level": 25,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki", "itemQuantity": 1 }],
+          "randomRewards": [
+            { "itemId": "JadeCloudHairpin", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudHandGuard", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudNecklace", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudEarring", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudRing", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "JadeCloudBracelet", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
+        }
+      ],
+      "progressExtraReward": {
+        "1": [{ "itemId": "QingYuGongChest", "itemQuantity": 1 }]
+      }
+    },
+    {
+      "id": "KunPengMaze",
+      "name": "鲲鹏迷窟",
+      "desc": "",
+      "media": "ShenKun",
+      "rarity": "Epic",
+      "unlockLevel": 30,
+      "enemies": [
+        {
+          "id": "ShenJi",
+          "name": "神鸡",
+          "desc": "",
+          "media": "ShenJi",
+          "level": 35,
+          "mode": "LegendaryEnemy",
+          "itemRewards": [{ "itemId": "DongTianReiki" }, { "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "DongTianReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "GuYanHandGuard", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanNecklace", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanEarring", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanRing", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanBracelet", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 },
+            { "itemId": "LargeGoldChest", "itemQuantity": 1, "probability": 1 }
+          ]
+        },
+        {
+          "id": "ShenKun",
+          "name": "神鲲",
+          "desc": "",
+          "media": "ShenKun",
+          "level": 35,
+          "mode": "LegendaryEnemy",
+          "itemRewards": [{ "itemId": "DongTianReiki" }, { "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "DongTianReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "FuDiReikiChest", "itemQuantity": 1, "probability": 10 },
+            { "itemId": "GuYanHandGuard", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanNecklace", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanEarring", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanRing", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "GuYanBracelet", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 },
+            { "itemId": "LargeGoldChest", "itemQuantity": 1, "probability": 1 }
+          ]
+        }
+      ],
+      "progressExtraReward": {
+        "2": [
+          { "itemId": "FuDiReikiChest", "itemQuantity": 1 },
+          { "itemId": "DongTianReikiChest", "itemQuantity": 1 },
+          { "itemId": "KunPengMazeChest", "itemQuantity": 1 }
+        ]
+      }
+    },
+    {
+      "id": "DaoForbiddenArea",
+      "name": "道门禁地",
+      "desc": "",
+      "media": "YinYang",
+      "rarity": "Epic",
+      "unlockLevel": 40,
+      "enemies": [
+        {
+          "id": "TaiHang",
+          "name": "太行真人",
+          "desc": "",
+          "media": "DaoLowWarror",
+          "level": 40,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "LuoXiaHandGuard", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
+        },
+        {
+          "id": "LingYun",
+          "name": "灵云子",
+          "desc": "",
+          "media": "DaoLowWarror",
+          "level": 40,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "LuoXiaNecklace", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 }
+          ]
+        }
+      ],
+      "progressExtraReward": {
+        "1": [
+          { "itemId": "FuDiReikiChest", "itemQuantity": 1 },
+          { "itemId": "DaoChest", "itemQuantity": 1 }
+        ]
+      }
+    },
+    {
+      "id": "DaoIllusion",
+      "name": "道门幻境",
+      "desc": "",
+      "media": "DaoHighWarror",
+      "rarity": "Epic",
+      "unlockLevel": 40,
+      "enemies": [
+        {
+          "id": "YuanShan",
+          "name": "远山真人",
+          "desc": "",
+          "media": "DaoHighWarror",
+          "level": 40,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "LuoXiaEarring", "itemQuantity": 1, "probability": 1 }
+          ]
+        },
+        {
+          "id": "QingXu",
+          "name": "清虚道人",
+          "desc": "",
+          "media": "DaoHighWarror",
+          "level": 40,
+          "mode": "EliteEnemy",
+          "itemRewards": [{ "itemId": "FuDiReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "LuoXiaRing", "itemQuantity": 1, "probability": 1 }
+          ]
+        },
+        {
+          "id": "LinXu",
+          "name": "凌虚子",
+          "desc": "",
+          "media": "DaoHighWarror",
+          "level": 40,
+          "mode": "LegendaryEnemy",
+          "itemRewards": [{ "itemId": "DongTianReiki" }],
+          "randomRewards": [
+            { "itemId": "FuDiReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "DongTianReiki", "itemQuantity": 3, "probability": 30 },
+            { "itemId": "LuoXiaBracelet", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 },
+            { "itemId": "LargeGoldChest", "itemQuantity": 1, "probability": 1 }
+          ]
+        }
+      ],
+      "progressExtraReward": {
+        "2": [{ "itemId": "DaoChest", "itemQuantity": 1 }]
+      }
     },
     {
       "id": "KuiDragonPalace",
@@ -214,33 +509,32 @@
       "desc": "传说中夔龙王的宫殿",
       "rarity": "Legendary",
       "unlockLevel": 40,
-      "media": "",
+      "media": "KuiDragonKing",
       "enemies": [
         {
           "id": "KuiDragonKing",
           "name": "夔龙",
           "desc": "状如牛，苍身而无角，一足，出入水则必有风雨，其光如日月，其声如雷，其名曰夔",
-          "media": "",
+          "media": "KuiDragonKing",
           "level": 40,
           "mode": "LegendaryEnemy",
-          "randomRewards": [{ "itemId": "DragonBall", "quantity": 1, "probability": 1 }]
+          "itemRewards": [{ "itemId": "DragonSkin" }],
+          "randomRewards": [
+            { "itemId": "DragonBall", "itemQuantity": 1, "probability": 1 },
+            { "itemId": "NormalReiki", "itemQuantity": 20, "probability": 5 },
+            { "itemId": "FuDiReiki", "itemQuantity": 20, "probability": 5 },
+            { "itemId": "DongTianReiki", "itemQuantity": 20, "probability": 5 },
+            { "itemId": "LargeGoldChest", "itemQuantity": 1, "probability": 5 },
+            { "itemId": "DragonScale", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "DragonHorn", "itemQuantity": 1, "probability": 30 },
+            { "itemId": "SmallGoldChest", "itemQuantity": 1, "probability": 6 },
+            { "itemId": "MiddleGoldChest", "itemQuantity": 1, "probability": 3 },
+            { "itemId": "LargeGoldChest", "itemQuantity": 1, "probability": 1 }
+          ]
         }
       ],
       "progressExtraReward": {
-        "0": [
-          {
-            "itemId": "DragonSkin",
-            "itemQuantity": 1
-          },
-          {
-            "itemId": "DragonScale",
-            "itemQuantity": 1
-          },
-          {
-            "itemId": "DragonHorn",
-            "itemQuantity": 1
-          }
-        ]
+        "0": [{ "itemId": "KuiDragonPalaceChest", "itemQuantity": 1 }]
       }
     }
   ]

@@ -1,77 +1,696 @@
 {
   "moduleName": "Forge",
-  "data": {
-    "bluePrints": [
-      {
-        "id": "BluePrint:DragonSword",
-        "name": "图纸：斩龙",
-        "desc": "制作斩龙剑的图纸",
-        "media": "blueprint",
-        "price": 500000
-      },
-      {
-        "id": "BluePrint:EastDragonSword",
-        "name": "图纸：东海龙王之剑",
-        "desc": "制作东海龙王之剑的图纸",
-        "media": "blueprint",
-        "price": 5000
-      }
-    ],
-    "recipes": [
-      {
-        "id": "Forge:DragonSword",
-        "name": "锻造：斩龙",
-        "desc": "制作斩龙剑",
-        "media": "",
-        "interval": 5000,
-        "rarity": "Legendary",
-        "unlockLevel": 40,
-        "rewardExperience": 1,
-        "rewardItems": [{ "itemId": "DragonSword", "itemQuantity": 1 }],
-        "costItems": [
-          { "itemId": "DragonBall", "itemQuantity": 1 },
-          { "itemId": "DragonSkin", "itemQuantity": 100 },
-          { "itemId": "DragonScale", "itemQuantity": 100 },
-          { "itemId": "DragonHorn", "itemQuantity": 100 },
-          { "itemId": "SwordReiki", "itemQuantity": 10000 },
-          { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
-          { "itemId": "BluePrint:DragonSword", "itemQuantity": 1 }
-        ]
-      },
-      {
-        "id": "Forge:WoodSword",
-        "name": "锻造：新手木剑",
-        "desc": "制作新手木剑",
-        "media": "",
-        "interval": 3000,
-        "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItems": [{ "itemId": "WoodSword", "itemQuantity": 1 }],
-        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
-      },
-      {
-        "id": "Forge:ClothHat",
-        "name": "锻造：新手布帽",
-        "desc": "制作新手布帽",
-        "media": "",
-        "interval": 3000,
-        "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItems": [{ "itemId": "ClothHat", "itemQuantity": 1 }],
-        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
-      },
-      {
-        "id": "Forge:EastDragonSword",
-        "name": "锻造：东海龙王之剑",
-        "desc": "制作东海龙王之剑",
-        "media": "",
-        "interval": 5000,
-        "unlockLevel": 1,
-        "rewardExperience": 10,
-        "rewardItems": [{ "itemId": "EastDragonSword", "itemQuantity": 1 }],
-        "randomRewardItems": [{ "probability": 3, "itemId": "DragonSword", "itemQuantity": 1 }],
-        "costItems": [{ "itemId": "LowSpiritMine", "itemQuantity": 5 }]
-      }
-    ]
-  }
+  "bluePrints": [
+    {
+      "id": "BluePrint:DragonSword",
+      "rarity": "Legendary",
+      "name": "图纸：斩龙",
+      "desc": "制作斩龙剑的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonDagger",
+      "rarity": "Legendary",
+      "name": "图纸：龙影",
+      "desc": "制作龙影的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonHelmet",
+      "rarity": "Legendary",
+      "name": "图纸：龙王头盔",
+      "desc": "制作龙王头盔的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonJacket",
+      "rarity": "Legendary",
+      "name": "图纸：龙王上衣",
+      "desc": "制作龙王上衣的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonVest",
+      "rarity": "Legendary",
+      "name": "图纸：龙王背心",
+      "desc": "制作龙王背心的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonShoe",
+      "rarity": "Legendary",
+      "name": "图纸：龙王之鞋",
+      "desc": "制作龙王之鞋的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonHandGuard",
+      "rarity": "Legendary",
+      "name": "图纸：龙王护手",
+      "desc": "制作龙王护手的图纸",
+      "media": "blueprint",
+      "price": 500000
+    },
+    {
+      "id": "BluePrint:DragonBelt",
+      "rarity": "Legendary",
+      "name": "图纸：龙王腰带",
+      "desc": "制作龙王腰带的图纸",
+      "media": "blueprint",
+      "price": 500000
+    }
+  ],
+  "PrimaryWeapon": [
+    {
+      "id": "Forge:DragonSword",
+      "name": "锻造：斩龙",
+      "desc": "制作斩龙剑",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonBall", "itemQuantity": 1 },
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonSword", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:FiveElementsSword",
+      "name": "锻造：五行剑",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "FiveElementsSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "FireSword", "itemQuantity": 1 },
+        { "itemId": "IceSword", "itemQuantity": 1 },
+        { "itemId": "EarthSword", "itemQuantity": 1 },
+        { "itemId": "MetalSword", "itemQuantity": 1 },
+        { "itemId": "WoodSword", "itemQuantity": 1 },
+        { "itemId": "MetalStone", "itemQuantity": 1000 },
+        { "itemId": "WoodStone", "itemQuantity": 10000 },
+        { "itemId": "WaterStone", "itemQuantity": 1000 },
+        { "itemId": "FireStone", "itemQuantity": 1000 },
+        { "itemId": "EarthStone", "itemQuantity": 1000 },
+        { "itemId": "FiveElementsStone", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 300 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingSword",
+      "name": "锻造：太清剑",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingSword",
+      "name": "锻造：玉清剑",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoSword",
+      "name": "锻造：无我剑",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobSword",
+      "name": "锻造：新手木剑",
+      "desc": "制作新手木剑",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobSword", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "SecondaryWeapon": [
+    {
+      "id": "Forge:DragonDagger",
+      "name": "锻造：龙影",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonDagger", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonHeart", "itemQuantity": 1 },
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonDagger", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingDagger",
+      "name": "锻造：太清袖箭",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingDagger", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingDagger",
+      "name": "锻造：玉清袖箭",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingDagger", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoDagger",
+      "name": "锻造：无我短剑",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoDagger", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobDagger",
+      "name": "锻造：新手短刀",
+      "desc": "制作新手短刀",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobDagger", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Jacket": [
+    {
+      "id": "Forge:DragonJacket",
+      "name": "锻造：龙王上衣",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonJacket", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonJacket", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingJacket",
+      "name": "锻造：太清软甲",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingJacket", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingJacket",
+      "name": "锻造：玉清软甲",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingJacket", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoJacket",
+      "name": "锻造：无我软甲",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoJacket", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobJacket",
+      "name": "锻造：新手上衣",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobJacket", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Vest": [
+    {
+      "id": "Forge:DragonVest",
+      "name": "锻造：龙王背心",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonVest", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonVest", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingVest",
+      "name": "锻造：太清背心",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingVest", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingVest",
+      "name": "锻造：玉清背心",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingVest", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoVest",
+      "name": "锻造：无我背心",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoVest", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobVest",
+      "name": "锻造：新手背心",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobVest", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Shoe": [
+    {
+      "id": "Forge:DragonShoe",
+      "name": "锻造：龙王之鞋",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonShoe", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonShoe", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingShoe",
+      "name": "锻造：太清布鞋",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingShoe", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingShoe",
+      "name": "锻造：玉清布鞋",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingShoe", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoShoe",
+      "name": "锻造：无我布鞋",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoShoe", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobShoe",
+      "name": "锻造：新手布鞋",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobShoe", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Belt": [
+    {
+      "id": "Forge:DragonBelt",
+      "name": "锻造：龙王腰带",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Legendary",
+      "unlockLevel": 40,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "DragonBelt", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "DragonSkin", "itemQuantity": 100 },
+        { "itemId": "DragonScale", "itemQuantity": 100 },
+        { "itemId": "DragonHorn", "itemQuantity": 100 },
+        { "itemId": "DragonReiki", "itemQuantity": 10000 },
+        { "itemId": "DragonBloodMine", "itemQuantity": 10000 },
+        { "itemId": "CoolingWater", "itemQuantity": 1000 },
+        { "itemId": "BluePrint:DragonBelt", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "Forge:TaiQingBelt",
+      "name": "锻造：太清腰带",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Epic",
+      "unlockLevel": 20,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "TaiQingBelt", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "TaiQingStone", "itemQuantity": 100 },
+        { "itemId": "DongTianReiki", "itemQuantity": 100 },
+        { "itemId": "CoolingWater", "itemQuantity": 100 }
+      ]
+    },
+    {
+      "id": "Forge:YuQingBelt",
+      "name": "锻造：玉清腰带",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Rare",
+      "unlockLevel": 10,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "YuQingBelt", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "YuQingStone", "itemQuantity": 50 },
+        { "itemId": "FuDiReiki", "itemQuantity": 50 },
+        { "itemId": "CoolingWater", "itemQuantity": 50 }
+      ]
+    },
+    {
+      "id": "Forge:WuWoBelt",
+      "name": "锻造：无我腰带",
+      "desc": "",
+      "media": "",
+      "interval": 5000,
+      "rarity": "Common",
+      "unlockLevel": 1,
+      "rewardExperience": 1,
+      "rewardItems": [{ "itemId": "WuWoBelt", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "ColdReiki", "itemQuantity": 10 },
+        { "itemId": "CoolingWater", "itemQuantity": 10 }
+      ]
+    },
+    {
+      "id": "Forge:NoobBelt",
+      "name": "锻造：新手腰带",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobBelt", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Helmet": [
+    {
+      "id": "Forge:ClothHat",
+      "name": "锻造：新手布帽",
+      "desc": "制作新手布帽",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "ClothHat", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "HandGuard": [
+    {
+      "id": "Forge:NoobHandGuard",
+      "name": "锻造：新手护手",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobHandGuard", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Necklace": [
+    {
+      "id": "Forge:NoobNecklace",
+      "name": "锻造：新手项链",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobNecklace", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Earring": [
+    {
+      "id": "Forge:NoobEarring",
+      "name": "锻造：新手耳环",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobEarring", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Ring": [
+    {
+      "id": "Forge:NoobRing",
+      "name": "锻造：新手戒指",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobRing", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ],
+  "Bracelet": [
+    {
+      "id": "Forge:NoobBracelet",
+      "name": "锻造：新手手镯",
+      "desc": "",
+      "media": "",
+      "interval": 3000,
+      "unlockLevel": 1,
+      "rewardExperience": 10,
+      "rewardItems": [{ "itemId": "NoobBracelet", "itemQuantity": 1 }],
+      "costItems": [
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "NormalReiki", "itemQuantity": 5 }
+      ]
+    }
+  ]
 }
