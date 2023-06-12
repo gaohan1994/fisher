@@ -146,9 +146,12 @@ export const Assets = {
   Hp,
   MaxHp: Hp,
   AttackPower,
+  AttackPowerMultiplier: AttackPower,
   AttackSpeed,
+  AttackSpeedMultiplier: AttackSpeed,
   DefenceCorruption,
   DefencePower,
+  DefencePowerMultiplier: DefencePower,
 
   // item
   Bag,

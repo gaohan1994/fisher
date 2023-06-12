@@ -37,7 +37,7 @@ const FuiMiniMasterHealPotionButton: FC = observer(() => {
     return (
       <Tooltip title="暂未装备药水">
         <IconButton size="large">
-          <Avatar src={Assets.LowHealPotion} {...avatarSx} />
+          <Avatar src={Assets.Potion} {...avatarSx} />
         </IconButton>
       </Tooltip>
     );

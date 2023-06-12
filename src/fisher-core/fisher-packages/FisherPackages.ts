@@ -46,7 +46,7 @@ export function makeNormalData() {
 }
 
 export function makeRewardChestsData() {
-  return generateRewardChests(RewardChestDataJson.data.items);
+  return generateRewardChests(RewardChestDataJson.data.items as IRewardChest[]);
 }
 
 export function makeMiningPackagesData(): ICollectionModuleData {
@@ -123,7 +123,7 @@ export function makeHealPotionData() {
 }
 
 export function makeDungeonData() {
-  return generateDungeonData(DungeonDataJson.data as IDungeonItem[]);
+  return generateDungeonData(DungeonDataJson.data as unknown as IDungeonItem[]);
 }
 
 export function makeBattlePackageData() {

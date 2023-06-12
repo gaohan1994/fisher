@@ -64,7 +64,7 @@ const BackpackFullItemsTab = observer(() => {
   const { activeBackpackItem, setActiveBackpackItem } = backpackStore;
 
   if (backpack.items.size === 0) {
-    return <Typography>暂无物品</Typography>;
+    return <Typography variant="caption">暂无物品</Typography>;
   }
   return (
     <React.Fragment>

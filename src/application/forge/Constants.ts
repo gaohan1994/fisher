@@ -1,7 +1,7 @@
 enum ForgeTabCategories {
+  EquipmentSet,
   Rarity,
   Slot,
-  EquipmentSet,
 }
 
 const ForgeTabCategoryName = {

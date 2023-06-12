@@ -13,12 +13,12 @@ class ForgeStore {
   }
 
   public recipeTabs = [
+    new ForgeRecipeTabCategory(ForgeTabCategories.EquipmentSet),
     new ForgeRecipeTabCategory(ForgeTabCategories.Rarity),
     new ForgeRecipeTabCategory(ForgeTabCategories.Slot),
-    new ForgeRecipeTabCategory(ForgeTabCategories.EquipmentSet),
   ];
 
-  public activeRecipeTab: ForgeTabCategories = ForgeTabCategories.Rarity;
+  public activeRecipeTab: ForgeTabCategories = ForgeTabCategories.EquipmentSet;
 
   constructor(forge: Forge) {
     makeAutoObservable(this);

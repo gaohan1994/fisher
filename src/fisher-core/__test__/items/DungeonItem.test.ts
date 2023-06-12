@@ -60,8 +60,9 @@ describe('DungeonItem', () => {
     expect(dungeonItem.progress).toEqual(1);
     expect(dungeonItem.currentEnemyItem.id).toEqual('FireSpiritMonster');
 
-    const reward = dungeonItem.tryGetProgressExtraReward('LowSpiritMonster');
-    expect(reward![0].hasRewardItems).toBeTruthy();
+    const reward = dungeonItem.tryGetProgressExtraRewards('LowSpiritMonster')!;
+    expect(reward !== undefined).toBeTruthy();
+    expect(reward?.length > 0).toBeTruthy();
   });
 
   test('should return undefined if enemy does not have extra reward', () => {
@@ -78,7 +79,7 @@ describe('DungeonItem', () => {
       })
     );
 
-    const reward = dungeonItem.tryGetProgressExtraReward('LowSpiritMonster');
+    const reward = dungeonItem.tryGetProgressExtraRewards('LowSpiritMonster');
     expect(reward).toBeUndefined();
   });
 });
