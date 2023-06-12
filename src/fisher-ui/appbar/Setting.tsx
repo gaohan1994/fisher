@@ -3,9 +3,11 @@ import { observer } from 'mobx-react';
 import { IconButton, Tooltip, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { core } from '@FisherCore';
+import { useNavigate } from 'react-router';
 
 const FuiSettingButton = observer(() => {
   const { archiveManager, gameReady } = core;
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,6 +44,7 @@ const FuiSettingButton = observer(() => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={() => navigate('/')}>关于</MenuItem>
         <MenuItem
           onClick={() => {
             archiveManager.exitActiveArchive();

@@ -64,8 +64,6 @@ class Store {
 
   public CookBluePrints: NormalItem[] = [];
 
-  public CookShopItems: NormalItem[] = [];
-
   public Equipments: EquipmentItem[] = [];
 
   public EquipmentSets: EquipmentSet[] = [];
@@ -92,7 +90,6 @@ class Store {
       ...this.ForgeBluePrints,
       ...this.Cook,
       ...this.CookBluePrints,
-      ...this.CookShopItems,
       ...this.Equipments,
       ...this.EquipmentSets,
       ...this.BattleAreas,
@@ -150,10 +147,9 @@ class Store {
   };
 
   private initializeCook = () => {
-    const [cookData, cookBluePrintsData, cookShopItems] = makeCookPackagesData();
+    const [cookData, cookBluePrintsData] = makeCookPackagesData();
     this.Cook = cookData;
     this.CookBluePrints = cookBluePrintsData;
-    this.CookShopItems = cookShopItems;
     Store.logger.info('initialize Cook data');
   };
 

@@ -43,7 +43,7 @@ class Dungeon {
 
   public name = '副本';
 
-  public media = Assets.battle;
+  public media = Assets.dungeon;
 
   public fight: Fight | undefined = undefined;
 

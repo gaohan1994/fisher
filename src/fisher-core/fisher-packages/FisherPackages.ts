@@ -110,12 +110,8 @@ export function makeForgePackagesData(): [Recipe[], NormalItem[], Map<EquipmentS
   return [allRecipes, generatePackagesItems(forgeDataJson.bluePrints), slotCategoryRecipeMap, rarityCategoryRecipeMap];
 }
 
-export function makeCookPackagesData(): [Recipe[], NormalItem[], NormalItem[]] {
-  return [
-    generatePackagesRecipes(cookDataJson.data.recipes),
-    generatePackagesItems(cookDataJson.data.bluePrints),
-    generatePackagesItems(cookDataJson.data.shopItems),
-  ];
+export function makeCookPackagesData(): [Recipe[], NormalItem[]] {
+  return [generatePackagesRecipes(cookDataJson.data.recipes), generatePackagesItems(cookDataJson.data.bluePrints)];
 }
 
 export function makeShopData() {

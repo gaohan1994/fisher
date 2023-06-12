@@ -55,7 +55,15 @@ export class EquipmentItem extends Item {
   }
 
   constructor(options: IEquipmentItem) {
-    super(options);
+    let media: string;
+
+    if (options.media && options.media.length > 0) {
+      media = options.media;
+    } else {
+      media = options.slot + (options.rarity ?? 'Common');
+    }
+    super(Object.assign({}, options, { media }));
+
     this.slot = options.slot as EquipmentSlot;
 
     if (options.requirements) this.requirements = options.requirements;
