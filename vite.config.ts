@@ -17,6 +17,9 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  build: {
+    outDir: 'docs',
+  },
   test: {
     environment: 'happy-dom',
     globals: true,
