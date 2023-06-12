@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Card, CardContent, CardHeader, Stack, Divider } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, Grid } from '@mui/material';
 import { core } from '@FisherCore';
 import {
   FuiColor,
@@ -21,13 +21,17 @@ const PageMaster: React.FC = observer(() => {
         <Card sx={{ bgcolor: FuiColor.primary.background }}>
           <CardHeader title={<FuiCardTitle value="人物装备" />} sx={{ pb: 0 }} />
           <CardContent>
-            <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
-              <PersonEquipmentsPanel person={master.person} />
-              <Stack>
+            <Grid container spacing={2}>
+              <Grid item xs>
+                <PersonEquipmentsPanel person={master.person} />
+              </Grid>
+              <Grid item xs>
+                <FuiPersonAttributePanel person={master.person} />
+              </Grid>
+              <Grid item xs>
                 <FuiMasterHealPotionHandler />
-              </Stack>
-              <FuiPersonAttributePanel person={master.person} />
-            </Stack>
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
         <Divider sx={{ mt: 2, mb: 2 }} />

@@ -1,7 +1,7 @@
 import { autorun, makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { range } from '../utils';
+import { getRecordTime, range } from '../utils';
 import { Experience } from '../fisher-experience';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import { AttributePanel } from './AttributePanel';
@@ -106,6 +106,7 @@ class Person {
     this.event.emit(Person.PersonEventKeys.Hurt, {
       value,
       currentHp: this.Hp,
+      time: getRecordTime(),
     });
 
     Person.logger.debug(`${this.mode} hurt damage: ${value}`);
@@ -122,6 +123,7 @@ class Person {
     this.event.emit(Person.PersonEventKeys.Heal, {
       value,
       currentHp: this.Hp,
+      time: getRecordTime(),
     });
 
     Person.logger.debug(`${this.mode} heal hp: ${value}`);

@@ -2,6 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@FisherLogger';
 import { Enemy, Master } from '../fisher-person';
+import { getRecordTime } from '../utils';
 
 interface IFightInfo {
   master: Master;
@@ -80,7 +81,7 @@ class Fight {
     if (isDeath) {
       Fight.logger.info(`Fight end, enemy ${this.enemy!.name} was death, emit ${Fight.EventKeys.MasterWinFight} event`);
 
-      this.event.emit(Fight.EventKeys.MasterWinFight, this.master, this.enemy);
+      this.event.emit(Fight.EventKeys.MasterWinFight, this.master, this.enemy, getRecordTime());
       this.stopFighting();
     }
   };
@@ -89,7 +90,7 @@ class Fight {
     if (isDeath) {
       Fight.logger.info(`Fight end, master was death, emit ${Fight.EventKeys.MasterLostFight} event`);
 
-      this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy);
+      this.event.emit(Fight.EventKeys.MasterLostFight, this.master, this.enemy, getRecordTime());
       this.stopFighting();
     }
   };

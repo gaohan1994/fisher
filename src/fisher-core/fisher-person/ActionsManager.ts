@@ -12,7 +12,7 @@ import {
 } from '../fisher-actions';
 import type { FisherAction } from '../fisher-actions';
 import { Timer } from '../fisher-timer';
-import { roll } from '../utils';
+import { getRecordTime, roll } from '../utils';
 import { Person } from './Person';
 
 namespace IActionManager {
@@ -24,6 +24,7 @@ namespace IActionManager {
     person: Person;
     action: FisherAction;
     lastAction: FisherAction | undefined;
+    time: string;
   }
 }
 
@@ -212,13 +213,14 @@ class ActionManager {
   };
 
   public attackActionHandler = () => {
-    this.action.execute(this.person);
-
     this.event.emit(ActionManager.ActionManagerEventKeys.ExecuteAction, {
       person: this.person,
       action: this.action,
       lastAction: this.lastAction,
+      time: getRecordTime(),
     } as IActionManager.ExecuteActionPayload);
+
+    this.action.execute(this.person);
 
     ActionManager.logger.debug(
       `Person ${this.person.mode} execute ${this.action.id}, the last action: ${
