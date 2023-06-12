@@ -19,6 +19,7 @@ export default defineConfig({
   ],
   build: {
     outDir: 'docs',
+    assetsDir: 'fisher/assets',
   },
   test: {
     environment: 'happy-dom',
