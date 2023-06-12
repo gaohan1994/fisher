@@ -107,3 +107,5 @@ export function debounce(func: any, wait: number, immediate = false) {
     if (callNow) func.apply(null, args);
   };
 }
+
+export const getRecordTime = () => dayjs().format('HH:mm:ss');

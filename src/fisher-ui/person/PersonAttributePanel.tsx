@@ -9,7 +9,7 @@ interface Props {
   person: Person;
 }
 const FuiPersonAttributePanel: FC<Props> = observer(({ person }) => (
-  <List sx={{ width: '100%', maxWidth: 400 }}>
+  <List sx={{ width: '100%' }}>
     <PanelAttribute attribute={IAttributeKeys.MaxHp} value={numeral(person.attributePanel.MaxHp).format('0')} />
     <PanelAttribute
       attribute={IAttributeKeys.AttackSpeed}

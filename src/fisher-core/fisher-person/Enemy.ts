@@ -17,6 +17,8 @@ class Enemy {
 
   public person: Person;
 
+  public enemyItem: EnemyItem;
+
   public get Hp() {
     return this.person.Hp;
   }
@@ -57,19 +59,12 @@ class Enemy {
     return this.randomRewards && this.randomRewards.length > 0;
   }
 
-  constructor({
-    id,
-    mode,
-    media,
-    name,
-    level,
-    actionIds,
-    goldReward,
-    itemRewards,
-    randomRewards,
-    experienceRewards,
-  }: EnemyItem) {
+  constructor(enemyItem: EnemyItem) {
     makeAutoObservable(this);
+
+    this.enemyItem = enemyItem;
+    const { id, mode, media, name, level, actionIds, goldReward, itemRewards, randomRewards, experienceRewards } =
+      enemyItem;
 
     this.key = generateTimestamp();
 

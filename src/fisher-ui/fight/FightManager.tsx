@@ -6,6 +6,7 @@ import { FuiFightPersonInfo } from './FightPersonInfo';
 import { FuiMasterHealPotionHandler, FuiPersonAttributePanel, PersonEquipmentsPanel } from '../person';
 import { useCurrentComponentActive, useFightComponentActions } from './FightHook';
 import { FuiFightEmptyEnemyInfo, FuiFightEmptyMasterInfo } from './EmptyPerson';
+import { FuiFightRecords } from './FightRecords';
 
 const FightPersonStack: React.FC<React.PropsWithChildren> = ({ children }) => (
   <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={1}>
@@ -32,12 +33,10 @@ const FuiFightManager: React.FC<IFuiFightManager> = observer(({ fightComponent }
         {!isCurrentFightComponentActive && <FuiFightEmptyMasterInfo />}
         {isCurrentFightComponentActive && (
           <FuiFightPersonInfo player={core.master} action={core.master.person.isAttacking && retreatButton}>
-            <FightPersonStack>
-              <FuiMasterHealPotionHandler />
-            </FightPersonStack>
+            <FuiPersonAttributePanel person={core.master.person} />
             <FightPersonStack>
               <PersonEquipmentsPanel person={core.master.person} />
-              <FuiPersonAttributePanel person={core.master.person} />
+              <FuiMasterHealPotionHandler />
             </FightPersonStack>
           </FuiFightPersonInfo>
         )}
@@ -46,9 +45,8 @@ const FuiFightManager: React.FC<IFuiFightManager> = observer(({ fightComponent }
         {!fightComponent.enemy && <FuiFightEmptyEnemyInfo />}
         {fightComponent.enemy && (
           <FuiFightPersonInfo player={fightComponent.enemy}>
-            <FightPersonStack>
-              <FuiPersonAttributePanel person={fightComponent.enemy.person} />
-            </FightPersonStack>
+            <FuiPersonAttributePanel person={fightComponent.enemy.person} />
+            {fightComponent.fight && <FuiFightRecords fight={fightComponent.fight} />}
           </FuiFightPersonInfo>
         )}
       </Grid>
