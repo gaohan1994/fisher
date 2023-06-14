@@ -141,8 +141,8 @@ class HangUpBattleManager {
   private onMasterLostFight = (fightId: number, _master: Master, _enemy: Enemy, fakeFightDuration: number) => {
     this.unsubscribeFightEvents(fightId);
     this.accumulateDuration(fakeFightDuration);
-
     this.battleHangUpEnd();
+
     this.realMaster.event.emit(Master.MasterEventKeys.MasterDeath);
   };
 

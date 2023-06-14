@@ -67,6 +67,10 @@ class ArchiveManager {
     await this.refreshActiveArchive();
   };
 
+  public getActiveArchiveValues = () => {
+    return this.activeArchive?.values;
+  };
+
   public onSaveFullArchive = async () => {
     await this.archiveHandler.saveFullArchive(this._core);
   };

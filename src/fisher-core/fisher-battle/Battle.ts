@@ -96,7 +96,7 @@ class Battle {
     new HangUpBattleManager(
       new HangUpTime(this.pauseTime),
       { activeEnemyId: this.activeEnemyItem.id },
-      core.archiveManager.activeArchive?.values!
+      core.archiveManager.getActiveArchiveValues()!
     );
     this.pauseTime = undefined;
     this.start();

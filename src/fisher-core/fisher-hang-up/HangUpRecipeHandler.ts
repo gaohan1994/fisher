@@ -1,19 +1,38 @@
+import { makeAutoObservable } from 'mobx';
 import { core } from '../fisher-core';
 import { Recipe } from '../fisher-item';
+import { store } from '../fisher-packages';
 import { Reward, RewardPool } from '../fisher-reward';
-
-interface ICreateMultipleRewardsOptions {
-  componentId: string;
-}
+import { HangUpTime } from './HangUpTime';
+import { MaxHangUpTimeMs } from './Constants';
+import { ArchiveInterface } from '../fisher-archive';
 
 class HangUpRecipeHandler {
-  private recipe: Recipe;
+  private componentId: string;
 
-  constructor(recipe: Recipe) {
-    this.recipe = recipe;
+  public recipe: Recipe;
+
+  constructor(
+    hangUpTime: HangUpTime,
+    { activeRecipeId }: ArchiveInterface.ArchiveCollection,
+    values: ArchiveInterface.ArchiveValues
+  ) {
+    makeAutoObservable(this);
+
+    const { activeComponentId } = values;
+
+    this.componentId = activeComponentId!;
+    this.recipe = store.findRecipeById(activeRecipeId!);
+
+    const hangUpRecipeTimes = Math.floor(Math.min(MaxHangUpTimeMs, hangUpTime.diff) / this.recipe.interval);
+
+    if (hangUpRecipeTimes > 0) {
+      const rewardPool = this.createMultipleRewards(hangUpRecipeTimes);
+      rewardPool.executeRewardPool(true);
+    }
   }
 
-  public createMultipleRewards = (times: number, { componentId }: ICreateMultipleRewardsOptions) => {
+  private createMultipleRewards = (times: number) => {
     let rewardTimes = times;
 
     const rewardCostTimes = this.calculateRewardCostTimes();
@@ -24,7 +43,7 @@ class HangUpRecipeHandler {
     const rewardPool = new RewardPool();
 
     if (this.recipe.hasExperienceReward) {
-      rewardPool.collectRewards([this.createExperienceReward(componentId, rewardTimes)]);
+      rewardPool.collectRewards([this.createExperienceReward(this.componentId, rewardTimes)]);
     }
 
     if (this.recipe.hasRewardItems) {

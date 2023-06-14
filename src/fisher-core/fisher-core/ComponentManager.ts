@@ -12,26 +12,8 @@ import { Information, InformationMessage, information, informationAlert, informa
 import { ArchiveInterface } from '../fisher-archive';
 import { FisherCoreError } from '../fisher-error';
 import { isBattle, isDungeon, isWithSkillComponent } from './ComponentChecker';
-import { HangUpBattleManager, HangUpDungeonManager, HangUpTime } from '../fisher-hang-up';
-
-type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
-
-type ActiveControlComponent = Mining | Reiki | Forge | Cook | Battle | Dungeon;
-
-type ComponentWithExperience = Mining | Reiki | Forge | Cook | Master;
-
-enum ComponentId {
-  Bank = 'Bank',
-  Backpack = 'Backpack',
-  Mining = 'Mining',
-  Reiki = 'Reiki',
-  Forge = 'Forge',
-  Cook = 'Cook',
-  Battle = 'Battle',
-  Dungeon = 'Dungeon',
-  Master = 'Master',
-  Information = 'Information',
-}
+import { HangUpBattleManager, HangUpDungeonManager, HangUpRecipeHandler, HangUpTime } from '../fisher-hang-up';
+import { ActiveControlComponent, ComponentId, ComponentWithExperience, FisherComponent } from './Constants';
 
 class ComponentManager {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ComponentManager');
@@ -189,8 +171,8 @@ class ComponentManager {
         );
       }
 
-      const { recipe } = await component.hangUp(hangUpTime, archiveComponentValues.activeRecipeId);
-      component.start(recipe);
+      const hangUpRecipeHandler = new HangUpRecipeHandler(hangUpTime, archiveComponentValues, values);
+      component.start(hangUpRecipeHandler.recipe);
     }
 
     if (isBattle(component)) {

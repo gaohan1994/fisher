@@ -2,11 +2,11 @@ import { ArchiveInterface } from '../fisher-archive';
 import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { HangUpRecipeHandler } from '../fisher-hang-up/HangUpRecipeHandler';
-import { Store } from '../fisher-packages';
-import { HangUpTime, MaxHangUpTimeMs } from '../fisher-hang-up';
+import { HangUpTime } from '../fisher-hang-up';
 import { EventKeys, events } from '../fisher-events';
 import { generateTimestamp } from '../utils';
 import { FisherCoreError } from '../fisher-error';
+import { core } from '../fisher-core';
 
 abstract class Collection<CollectionPackages> {
   public abstract id: string;
@@ -77,9 +77,14 @@ abstract class Collection<CollectionPackages> {
       );
     }
 
-    const { recipe } = await this.hangUp(new HangUpTime(this.pauseTime), this.activeRecipe.id);
+    const values = core.archiveManager.getActiveArchiveValues()!;
+    const hangUpRecipeHandler = new HangUpRecipeHandler(
+      new HangUpTime(this.pauseTime),
+      values[this.id.toLocaleLowerCase() as 'mining' | 'reiki' | 'forge' | 'cook']!,
+      values
+    );
     this.pauseTime = undefined;
-    this.start(recipe);
+    this.start(hangUpRecipeHandler.recipe);
   };
 
   public receiveExperience = (value: number) => {
@@ -88,30 +93,6 @@ abstract class Collection<CollectionPackages> {
 
   public setExperience = (value: number) => {
     this.skill.experience.setExperience(value);
-  };
-
-  /**
-   * calculate hang up duration
-   * calculate how many times should execute in hang up duration
-   * execute rewards and return current info
-   *
-   * @author Harper.Gao
-   * @param {HangUpTime} hangUpTime
-   * @param {string} recipeId
-   * @memberof Collection
-   */
-  public hangUp = async (hangUpTime: HangUpTime, recipeId: string) => {
-    const recipe = Store.create().findRecipeById(recipeId);
-    const diff = hangUpTime.diff;
-    const times = Math.floor(Math.min(MaxHangUpTimeMs, diff) / recipe.interval);
-
-    if (times > 0) {
-      const hangUpRecipeHandler = new HangUpRecipeHandler(recipe);
-      const rewardPool = hangUpRecipeHandler.createMultipleRewards(times, { componentId: this.id });
-      rewardPool.executeRewardPool(true);
-    }
-
-    return await { recipe };
   };
 }
 
