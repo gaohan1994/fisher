@@ -13,7 +13,7 @@ const BrowserHiddenDetector = observer(() => {
     }
 
     if (!isHidden && activeComponent !== undefined && activeComponent.isPaused === true) {
-      activeComponent?.continue();
+      activeComponent?.continue(core);
     }
   }, [isHidden, activeComponent]);
 

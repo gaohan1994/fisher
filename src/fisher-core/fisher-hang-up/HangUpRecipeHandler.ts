@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { core } from '../fisher-core';
+import { ComponentManager, FisherCore } from '../fisher-core';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Reward, RewardPool } from '../fisher-reward';
@@ -8,17 +8,20 @@ import { MaxHangUpTimeMs } from './Constants';
 import { ArchiveInterface } from '../fisher-archive';
 
 class HangUpRecipeHandler {
+  private state: ComponentManager | FisherCore;
+
   private componentId: string;
 
   public recipe: Recipe;
 
   constructor(
+    state: ComponentManager | FisherCore,
     hangUpTime: HangUpTime,
     { activeRecipeId }: ArchiveInterface.ArchiveCollection,
     values: ArchiveInterface.ArchiveValues
   ) {
     makeAutoObservable(this);
-
+    this.state = state;
     const { activeComponentId } = values;
 
     this.componentId = activeComponentId!;
@@ -66,6 +69,7 @@ class HangUpRecipeHandler {
    * calculate the max reward times
    */
   private calculateRewardCostTimes = () => {
+    const { backpack } = this.state;
     let result: number | undefined = undefined;
 
     if (!this.recipe.hasCostItems) {
@@ -74,7 +78,7 @@ class HangUpRecipeHandler {
 
     for (let index = 0; index < this.recipe.costItems!.length; index++) {
       const costItem = this.recipe.costItems![index];
-      const backpackItem = core.backpack.getItemById(costItem.itemId);
+      const backpackItem = backpack.getItemById(costItem.itemId);
 
       if (!backpackItem) {
         result = 0;

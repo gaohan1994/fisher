@@ -6,7 +6,7 @@ import { HangUpTime } from '../fisher-hang-up';
 import { EventKeys, events } from '../fisher-events';
 import { generateTimestamp } from '../utils';
 import { FisherCoreError } from '../fisher-error';
-import { core } from '../fisher-core';
+import { FisherCore } from '../fisher-core';
 
 abstract class Collection<CollectionPackages> {
   public abstract id: string;
@@ -62,7 +62,7 @@ abstract class Collection<CollectionPackages> {
     this.pauseTime = generateTimestamp();
   };
 
-  public continue = async () => {
+  public continue = async (core: FisherCore) => {
     if (this.pauseTime === undefined) {
       throw new FisherCoreError(
         `Try to continue component ${this.id}, but pause time was undefined`,
@@ -79,6 +79,7 @@ abstract class Collection<CollectionPackages> {
 
     const values = core.archiveManager.getActiveArchiveValues()!;
     const hangUpRecipeHandler = new HangUpRecipeHandler(
+      core,
       new HangUpTime(this.pauseTime),
       values[this.id.toLocaleLowerCase() as 'mining' | 'reiki' | 'forge' | 'cook']!,
       values
