@@ -84,5 +84,3 @@ export class FisherCore {
 }
 
 export const core = FisherCore.create();
-
-(window as any).core = core;

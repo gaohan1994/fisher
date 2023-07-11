@@ -3,25 +3,21 @@ import { observer } from 'mobx-react';
 import { Divider, Typography, Box, Stack } from '@mui/material';
 import { EquipmentItem, BackpackItem, EquipmentSlot, EquipmentSlotName } from '@FisherCore';
 import { FuiEquipment } from '@Fui';
-import { useBackpackEquipments } from '../hook';
 import { backpackStore } from './BackpackStore';
+import { useBackpackEquipmentsBySlot, useEquipmentSlots } from './Hook';
 
-const FuiSlotBackpackEquipments = observer(() => {
-  const { getBackpackSlotEquipments } = useBackpackEquipments();
-
-  const renderList = [];
-  for (const slot in EquipmentSlot) {
-    renderList.push(
-      <FuiSpareEquipmentRender
-        title={EquipmentSlotName[slot as EquipmentSlot]}
-        backpackEquipments={getBackpackSlotEquipments(slot as EquipmentSlot)}
-      />
-    );
-  }
-
+export const BackpackEquipmentTab = observer(() => {
+  const slots = useEquipmentSlots();
+  const backpackEquipmentsBySlot = useBackpackEquipmentsBySlot(slots);
   return (
     <Stack spacing={1} divider={<Divider />}>
-      {renderList}
+      {backpackEquipmentsBySlot.map(([slot, items]) => (
+        <FuiSpareEquipmentRender
+          key={slot}
+          title={EquipmentSlotName[slot as EquipmentSlot]}
+          backpackEquipments={items}
+        />
+      ))}
     </Stack>
   );
 });
@@ -42,7 +38,7 @@ const FuiSpareEquipmentRender: React.FC<FuiSpareEquipmentRenderProps> = observer
         <Stack direction="row">
           {backpackEquipments.map((backpackItem) => (
             <FuiEquipment
-              key={`${backpackItem.item.id}${backpackItem.quantity}`}
+              key={`${backpackItem.item.id}-${backpackItem.quantity}`}
               showQuantity
               showBorder={activeBackpackItem?.item?.id === backpackItem.item.id}
               equipment={backpackItem.item}
@@ -54,5 +50,3 @@ const FuiSpareEquipmentRender: React.FC<FuiSpareEquipmentRenderProps> = observer
     </Box>
   );
 });
-
-export { FuiSlotBackpackEquipments };
