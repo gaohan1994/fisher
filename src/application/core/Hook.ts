@@ -6,6 +6,11 @@ export const useBank = () => {
   return core.bank;
 };
 
+export const useCart = () => {
+  const bank = useBank();
+  return bank.cart;
+};
+
 export const useBackpack = () => {
   const core = useContext(CoreContext);
   return core.backpack;

@@ -14,13 +14,15 @@ import {
   Tooltip,
   Box,
 } from '@mui/material';
-import { core } from '@FisherCore';
 import { FuiCoin, FuiStickyCard, notifycationStore } from '@Fui';
+
+import { useBank } from '../core';
+
 import { FuiCartItem } from './CartItem';
-import { useCartAvailable } from '../hook';
+import { useCartAvailable } from './Hook';
 
 const FuiCart = observer(() => {
-  const { bank } = core;
+  const bank = useBank();
   const { cart } = bank;
   const { available, reason } = useCartAvailable();
   const [open, setOpen] = React.useState(false);
@@ -76,7 +78,12 @@ const FuiCart = observer(() => {
           <Button onClick={handleClickOpen}>清空</Button>
 
           <Tooltip title={reason}>
-            <Button onClick={onPayCart} variant="contained" color="success" sx={{ width: '100%' }}>
+            <Button
+              onClick={onPayCart}
+              variant="contained"
+              color={available ? 'success' : 'error'}
+              sx={{ width: '100%' }}
+            >
               购买
             </Button>
           </Tooltip>

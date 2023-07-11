@@ -12,15 +12,16 @@ import {
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { observer } from 'mobx-react';
-import { CartItem, core } from '@FisherCore';
+import { CartItem } from '@FisherCore';
 import { FuiShopItemCard } from './ShopItem';
 import React, { Fragment } from 'react';
+import { useCart } from '../core';
 
 interface Props {
   item: CartItem;
 }
 const FuiCartItem: React.FC<Props> = observer(({ item }) => {
-  const { bank } = core;
+  const cart = useCart();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -32,7 +33,7 @@ const FuiCartItem: React.FC<Props> = observer(({ item }) => {
   };
 
   const onDeleteCartItem = () => {
-    bank.cart.deleteItem(item.item);
+    cart.deleteItem(item.item);
     handleClose();
   };
   return (

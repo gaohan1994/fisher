@@ -2,14 +2,15 @@ import React, { PropsWithChildren, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Card, CardContent, CardHeader, IconButton, Stack, TextField } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { core, Item } from '@FisherCore';
+import { Item } from '@FisherCore';
 import { FuiColor, FuiCoin, FuiItem, FuiItemName } from '@Fui';
+import { useBank } from '../core';
 
 interface Props {
   item: Item;
 }
 const FuiShopItem: React.FC<Props> = observer(({ item }) => {
-  const { bank } = core;
+  const bank = useBank();
   const [quantity, setQuantity] = useState('1');
 
   const onAddShopItem = () => {
