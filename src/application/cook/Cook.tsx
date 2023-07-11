@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
-import { core } from '@FisherCore';
 import { FuiContainer, FuiDashboard, FuiRecipeTable, RecipeCardGrid, CookRecipeCard } from '@Fui';
+import { useCook } from '../core';
 
 const PageCook = observer(() => {
-  const { cook } = core;
+  const cook = useCook();
   const { packages } = cook;
   return (
     <FuiContainer>

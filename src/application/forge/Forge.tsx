@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
-import { EquipmentSlotName, RarityName, core } from '@FisherCore';
+import { EquipmentSlotName, RarityName } from '@FisherCore';
 import { FuiContainer, FuiDashboard, FuiRecipeTable } from '@Fui';
 import { ForgeRecipeTabs, TabPanel } from './ForgeRecipeTabs';
 import { ForgeStore } from './ForgeStore';
 import { ForgeTabCategories } from './Constants';
 import { ForgeAccordionRecipes } from './ForgeAccordionRecipes';
+import { useForge } from '../core';
 
 const PageForge: React.FC = observer(() => {
-  const { forge } = core;
-  const { packages, ForgeRarityRecipes, ForgeSlotCategoryRecipes } = forge;
+  const forge = useForge();
+  const { ForgeRarityRecipes, ForgeSlotCategoryRecipes } = forge;
 
   const [forgeStore] = useState(new ForgeStore(forge));
   const { activeRecipeTab, recipeTabs, onChangeRecipeTab, equipmentSetCategoryRecipes } = forgeStore;

@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
-import { core } from '@FisherCore';
 import { FuiContainer, FuiDashboard, RecipeCardGrid, ReikiRecipeCard } from '@Fui';
+import { useReiki } from '../core';
 
 const PageReiki = observer(() => {
-  const { reiki } = core;
+  const reiki = useReiki();
   const {
     packages: { recipes },
   } = reiki;

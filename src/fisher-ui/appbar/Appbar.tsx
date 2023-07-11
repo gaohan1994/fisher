@@ -22,18 +22,19 @@ const FuiArchiveSaveButton = observer(() => {
   );
 });
 
-const GithubButton = () => {
-  const onGithub = () => {
-    window.open('https://github.com/gaohan1994/fisher', 'fisher');
-  };
-  return (
-    <Tooltip title="去gayhub点个赞">
-      <IconButton size="large" onClick={onGithub} color="inherit">
-        <GitHubIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
+const GithubButton = () => (
+  <Tooltip title="去gayhub点个赞">
+    <IconButton
+      size="large"
+      onClick={() => {
+        window.open('https://github.com/gaohan1994/fisher', 'fisher');
+      }}
+      color="inherit"
+    >
+      <GitHubIcon />
+    </IconButton>
+  </Tooltip>
+);
 
 const FuiSlogan = () => (
   <Typography component="div" sx={{ ml: 1, flexGrow: 1 }}>

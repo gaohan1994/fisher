@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { core } from '@FisherCore';
 import useBrowserHidden from './BrowserHiddenHook';
+import { useCore } from '../core';
 
 const BrowserHiddenDetector = observer(() => {
+  const core = useCore();
   const { activeComponent } = core;
   const isHidden = useBrowserHidden();
 
