@@ -143,7 +143,7 @@ export class EquipmentSetExtra {
   }
 }
 
-class EquipmentSetSlotControl {
+export class EquipmentSetSlotControl {
   public slot: number;
   public active: boolean = false;
 

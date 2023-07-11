@@ -1,12 +1,13 @@
-import { FC, Fragment, PropsWithChildren } from 'react';
+import React, { FC, Fragment, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react';
-import { Box, List, ListItem, Typography, TypographyProps } from '@mui/material';
-import { EquipmentItem, EquipmentSlotName, FisherActions, store, ActionId } from '@FisherCore';
-import { FuiColor } from '../../theme';
-import { makeFuiAttributeBonusText } from '../../attribute';
+import { List } from '@mui/material';
+import { EquipmentItem, EquipmentSlotName } from '@FisherCore';
 import { FuiItem, FuiItemProps } from '../Item';
 import { FuiEquipmentSet } from './EquipmentSet';
 import { FuiNormalDivider } from '../../container';
+import { EquipmentAttributes } from './EquipmentAttributes';
+import { FuiEquipmentActions } from './EquipmentAction';
+import { EquipmentText } from './Common';
 
 interface FuiEquipmentProps extends Omit<FuiItemProps, 'item'> {
   equipment: EquipmentItem;
@@ -19,75 +20,36 @@ interface FuiEquipmentDetailProps {
   equipment: EquipmentItem;
 }
 const FuiEquipmentDetail: FC<FuiEquipmentDetailProps> = observer(({ equipment }) => {
-  const { hasAttributes, attributes, hasEquipmentSet, equipmentSetId, hasEquipmentAction, actionIds } = equipment;
-  const listItemSx = { p: 0, mt: 1 };
-
-  const equipmentBaseInfo = <EquipmentText>装备类型：{EquipmentSlotName[equipment.slot]}</EquipmentText>;
-
-  const equipmentAttributes = (
-    <Fragment>
-      <EquipmentText>装备属性：</EquipmentText>
-      {hasAttributes &&
-        attributes.map((attribute) => (
-          <EquipmentText key={attribute.key} color={FuiColor.equipment.attribute}>
-            {makeFuiAttributeBonusText(attribute.key, attribute.value)}
-          </EquipmentText>
-        ))}
-    </Fragment>
-  );
-
-  const renderEquipmentSet = () => {
-    if (!hasEquipmentSet) return null;
-
-    const equipmentSet = store.findEquipmentSetById(equipmentSetId!);
-    return (
-      <Fragment>
-        <FuiNormalDivider space={1} />
-        <EquipmentText>套装属性：</EquipmentText>
-        <ListItem sx={listItemSx} key={equipmentSet.id}>
-          <FuiEquipmentSet equipmentSet={equipmentSet} />
-        </ListItem>
-      </Fragment>
-    );
-  };
-
-  const renderEquipmentActions = () => {
-    if (!hasEquipmentAction) return null;
-
-    return (
-      <Fragment>
-        <FuiNormalDivider space={1} />
-        <EquipmentText>装备特效：</EquipmentText>
-        {actionIds.map(renderEquipmentAction)}
-      </Fragment>
-    );
-  };
-
-  const renderEquipmentAction = (actionId: string) => {
-    const action = new FisherActions[actionId as ActionId]();
-    return (
-      <Box key={actionId}>
-        <EquipmentText color={FuiColor.equipment.action}>{`特效 · ${action.name}`}</EquipmentText>
-        <EquipmentText color={FuiColor.equipment.action}>{action.desc}</EquipmentText>
-      </Box>
-    );
-  };
-
+  const { hasEquipmentSet, hasEquipmentAction } = equipment;
   return (
     <List sx={{ pt: 0, pb: 0 }}>
-      {equipmentBaseInfo}
-      <FuiNormalDivider space={1} />
-      {equipmentAttributes}
-      {renderEquipmentSet()}
-      {renderEquipmentActions()}
+      <EquipmentText>装备类型：{EquipmentSlotName[equipment.slot]}</EquipmentText>
+      <FuiEquipmentContainer title="装备属性：">
+        <EquipmentAttributes equipment={equipment} />
+      </FuiEquipmentContainer>
+      {hasEquipmentSet && (
+        <FuiEquipmentContainer title="套装属性：">
+          <FuiEquipmentSet equipment={equipment} />
+        </FuiEquipmentContainer>
+      )}
+      {hasEquipmentAction && (
+        <FuiEquipmentContainer title="装备特效：">
+          <FuiEquipmentActions equipment={equipment} />
+        </FuiEquipmentContainer>
+      )}
     </List>
   );
 });
 
-const EquipmentText: FC<PropsWithChildren<TypographyProps>> = ({ children, ...rest }) => (
-  <Typography variant="caption" component="div" {...(rest as any)}>
+interface IFuiEquipmentContainer {
+  title: React.ReactNode;
+}
+const FuiEquipmentContainer: FC<PropsWithChildren<IFuiEquipmentContainer>> = ({ title, children }) => (
+  <Fragment>
+    <FuiNormalDivider space={1} />
+    <EquipmentText>{title}</EquipmentText>
     {children}
-  </Typography>
+  </Fragment>
 );
 
 export { FuiEquipment, FuiEquipmentDetail };
