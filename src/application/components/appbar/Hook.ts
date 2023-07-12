@@ -1,4 +1,4 @@
-import { useCore } from '../../core';
+import { useActiveComponent, useCore } from '../../core';
 
 /**
  * Return game version as string
@@ -16,6 +16,6 @@ const DefaultActiveComponentName = '无';
  * @returns
  */
 export const useActiveComponentName = () => {
-  const { activeComponent } = useCore();
+  const activeComponent = useActiveComponent();
   return activeComponent !== undefined ? activeComponent.name : DefaultActiveComponentName;
 };

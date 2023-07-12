@@ -6,6 +6,16 @@ export const useCore = () => {
   return core;
 };
 
+export const useComponentManager = () => {
+  const core = useContext(CoreContext);
+  return core.componentManager;
+};
+
+export const useMaster = () => {
+  const core = useContext(CoreContext);
+  return core.master;
+};
+
 export const useBank = () => {
   const core = useContext(CoreContext);
   return core.bank;
@@ -54,4 +64,9 @@ export const useDungeon = () => {
 export const useArchiveManager = () => {
   const core = useContext(CoreContext);
   return core.archiveManager;
+};
+
+export const useActiveComponent = () => {
+  const core = useContext(CoreContext);
+  return core.activeComponent;
 };
