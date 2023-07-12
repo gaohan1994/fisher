@@ -2,7 +2,6 @@ export * from './notifycation';
 export * from './theme';
 export * from './launcher';
 export * from './person';
-export * from './appbar';
 export * from './menu';
 export * from './container';
 export * from './route';

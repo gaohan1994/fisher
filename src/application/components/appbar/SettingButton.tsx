@@ -1,12 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { useNavigate } from 'react-router';
 import { IconButton, Tooltip, Menu, MenuItem } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { core } from '@FisherCore';
-import { useNavigate } from 'react-router';
+import { useArchiveManager } from '../../core';
 
 const FuiSettingButton = observer(() => {
-  const { archiveManager, gameReady } = core;
+  const archiveManager = useArchiveManager();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -17,10 +17,6 @@ const FuiSettingButton = observer(() => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  if (!gameReady) {
-    return null;
-  }
 
   return (
     <div>

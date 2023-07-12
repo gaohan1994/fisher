@@ -50,3 +50,8 @@ export const useDungeon = () => {
   const core = useContext(CoreContext);
   return core.dungeon;
 };
+
+export const useArchiveManager = () => {
+  const core = useContext(CoreContext);
+  return core.archiveManager;
+};

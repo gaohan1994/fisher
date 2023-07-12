@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { Box, Toolbar } from '@mui/material';
-import { FuiAppbar, FuiMenu, FuiMiniFight } from '@Fui';
+import { FuiMenu, FuiMiniFight } from '@Fui';
 import { BrowserHiddenDetector } from '../detector';
+import { FuiAppbar } from '../components';
 
 const Game = () => (
   <Box sx={{ display: 'flex' }}>
