@@ -18,7 +18,6 @@ export const BackpackTabs = observer(() => {
         <Tab value={FuiBackpackTabs.FullItems} label="全部" wrapped />
         <Tab value={FuiBackpackTabs.Equipments} label="装备" />
       </Tabs>
-
       {activeTab === FuiBackpackTabs.FullItems && <BackpackFullItemsTab />}
       {activeTab === FuiBackpackTabs.Equipments && <BackpackEquipmentTab />}
     </Fragment>

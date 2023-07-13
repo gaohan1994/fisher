@@ -38,10 +38,10 @@ const FuiSpareEquipmentRender: React.FC<FuiSpareEquipmentRenderProps> = observer
         <Stack direction="row">
           {backpackEquipments.map((backpackItem) => (
             <FuiEquipment
-              key={`${backpackItem.item.id}-${backpackItem.quantity}`}
               showQuantity
-              showBorder={activeBackpackItem?.item?.id === backpackItem.item.id}
               equipment={backpackItem.item}
+              key={`${backpackItem.item.id}-${backpackItem.quantity}`}
+              showBorder={activeBackpackItem?.item?.id === backpackItem.item.id}
               onClick={() => setActiveBackpackItem(backpackItem)}
             />
           ))}

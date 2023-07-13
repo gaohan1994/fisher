@@ -1,17 +1,15 @@
-import { Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { FuiBackpackBatchSellAction, FuiItemRender } from '@Fui';
 import { useBackpack } from '../core';
 import { backpackStore } from './BackpackStore';
+import { BackpackTabContainer } from './Styled';
 
 export const BackpackFullItemsTab = () => (
-  <Fragment>
-    <Box sx={{ mt: 2, mb: 2 }}>
-      <FuiBackpackBatchSellAction />
-    </Box>
+  <BackpackTabContainer>
+    <FuiBackpackBatchSellAction />
     <BackpackFullItems />
-  </Fragment>
+  </BackpackTabContainer>
 );
 
 const BackpackFullItems = observer(() => {

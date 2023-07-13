@@ -1,29 +1,41 @@
-import { useCart } from '../core';
+import { useBank, useCart } from '../core';
+import { useCartgoryHandlers, shopStore } from './shop-category';
 
-enum UnavailableReasons {
-  Empty = '请选择您要购买的商品',
-  Quantity = '请设置正确的购买数量',
-  Payment = '余额不足',
-}
-
-export const useCartAvailable = () => {
+/**
+ * Return cart items
+ * @returns
+ */
+export const useCartItems = () => {
   const cart = useCart();
-  let unavailableReason = undefined;
+  return cart.items;
+};
 
-  if (cart.isCartEmpty) {
-    unavailableReason = UnavailableReasons.Empty;
-  }
+/**
+ * Return cart total payment amount
+ * @returns
+ */
+export const useCartPayment = () => {
+  const cart = useCart();
+  return cart.paymentAmount;
+};
 
-  if (!cart.isCartItemQuantityAvailable) {
-    unavailableReason = UnavailableReasons.Quantity;
-  }
+/**
+ * Return bank gold
+ * @returns
+ */
+export const useBankGold = () => {
+  const bank = useBank();
+  return bank.gold;
+};
 
-  if (!cart.canBearPayment) {
-    unavailableReason = UnavailableReasons.Payment;
-  }
+/**
+ * Return current selected category handlers
+ * If all return full category handlers
+ */
+export const useActiveShopCategoryHandlers = () => {
+  const allCategoryHandler = useCartgoryHandlers();
+  const { showAllShopCategories, selectedShopCategoryHandler } = shopStore;
 
-  return {
-    available: cart.payAvailable,
-    reason: unavailableReason,
-  };
+  if (showAllShopCategories) return allCategoryHandler;
+  return [selectedShopCategoryHandler!];
 };

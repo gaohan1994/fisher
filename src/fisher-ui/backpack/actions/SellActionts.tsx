@@ -140,7 +140,13 @@ const FuiBackpackBatchSellAction: React.FC<FuiBackpackSellItemsActionProps> = ob
 
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={() => setOpen(true)} color="warning" startIcon={<BallotIcon />}>
+      <Button
+        id="batch-sell-action"
+        variant="contained"
+        onClick={() => setOpen(true)}
+        color="warning"
+        startIcon={<BallotIcon />}
+      >
         批量出售
       </Button>
       <Dialog open={open} maxWidth="md" fullWidth>

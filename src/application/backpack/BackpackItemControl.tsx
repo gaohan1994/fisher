@@ -1,43 +1,48 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Grid, Divider, Typography, Card, CardContent, CardHeader } from '@mui/material';
-import { core, BackpackItem, isEquipmentItem, isRewardChest, RewardChest, isPotion, Potion } from '@FisherCore';
+import { Grid, Divider, Typography } from '@mui/material';
+import { BackpackItem, isEquipmentItem, isRewardChest, RewardChest, isPotion, Potion } from '@FisherCore';
 import {
   FuiBackpackItemSellAction,
-  FuiColor,
   FuiUseEquipmentButton,
   FuiOpenRewardChestAction,
   FuiSetPotionSlotButton,
   FuiItemDetailRender,
 } from '@Fui';
+
+import { useBackpack } from '../core';
+import { ModuleCard, StackSpaceBetween } from '../components';
+
 import { backpackStore } from './BackpackStore';
 
 const FuiBackpackItemControl: React.FC = observer(() => {
   const { activeBackpackItem } = backpackStore;
   return (
-    <Card sx={{ bgcolor: FuiColor.primary.background }}>
-      <CardHeader
-        title={
-          <Typography sx={{ fontWeight: 'bold' }} variant="h5">
-            物品操作台
-          </Typography>
-        }
-      />
-      <CardContent sx={{ pt: 0 }}>
-        <Typography>选中物品：{activeBackpackItem === undefined ? '无' : activeBackpackItem.item.name}</Typography>
-        <Typography>物品数量：{activeBackpackItem === undefined ? '0' : activeBackpackItem.quantity}</Typography>
-        <Divider sx={{ mt: 2, mb: 2 }} />
-        {activeBackpackItem !== undefined && <FuiItemDetailRender item={activeBackpackItem.item} />}
-        {activeBackpackItem === undefined && <Typography>空</Typography>}
-        <Divider sx={{ mt: 2, mb: 2 }} />
-        {activeBackpackItem !== undefined && <FuiBackpackItemActions />}
-      </CardContent>
-    </Card>
+    <ModuleCard title="物品操作台">
+      <StackSpaceBetween>
+        <Typography>选中物品：</Typography>
+        <Typography>{activeBackpackItem === undefined ? '无' : activeBackpackItem.item.name}</Typography>
+      </StackSpaceBetween>
+
+      <StackSpaceBetween>
+        <Typography>物品数量：</Typography>
+        <Typography>{activeBackpackItem === undefined ? '0' : activeBackpackItem.quantity}</Typography>
+      </StackSpaceBetween>
+
+      <Divider sx={{ mt: 2, mb: 2 }} />
+      {activeBackpackItem !== undefined ? (
+        <FuiItemDetailRender item={activeBackpackItem.item} />
+      ) : (
+        <Typography>空</Typography>
+      )}
+      <Divider sx={{ mt: 2, mb: 2 }} />
+      {activeBackpackItem !== undefined && <FuiBackpackItemActions />}
+    </ModuleCard>
   );
 });
 
 const FuiBackpackItemActions: React.FC = observer(() => {
-  const { backpack } = core;
+  const backpack = useBackpack();
   const { activeBackpackItem, clearActiveBackpackItem } = backpackStore;
 
   const onBackpackItemActionCallback = React.useCallback(() => {
