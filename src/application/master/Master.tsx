@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Avatar, Box, Card, CardContent, CardHeader, Divider, Grid, Stack } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, Divider, Grid, Stack } from '@mui/material';
 import { core } from '@FisherCore';
 import {
   FuiColor,

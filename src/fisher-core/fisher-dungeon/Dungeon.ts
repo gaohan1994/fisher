@@ -12,7 +12,7 @@ import { store } from '../fisher-packages';
 import { ArchiveInterface } from '../fisher-archive';
 import { HangUpDungeonManager, HangUpTime } from '../fisher-hang-up';
 import { generateTimestamp } from '../utils';
-import { core } from '../fisher-core';
+import { FisherCore } from '../fisher-core';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');
@@ -83,7 +83,7 @@ class Dungeon {
     this.pauseTime = generateTimestamp();
   };
 
-  public continue = async () => {
+  public continue = async (core: FisherCore) => {
     if (this.pauseTime === undefined) {
       throw new FisherDungeonError(
         `Try to continue component ${this.id}, but pause time was undefined`,

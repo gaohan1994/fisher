@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
-import { core } from '@FisherCore';
 import { FuiDashboard, FuiContainer, RecipeCardGrid, MiningRecipeCard } from '@Fui';
+import { useMining } from '../core';
 
 const PageMining = observer(() => {
-  const { mining } = core;
+  const mining = useMining();
   const {
     packages: { recipes },
   } = mining;

@@ -11,7 +11,16 @@
         "rewardItems": [
           { "itemId": "NoobSword", "itemQuantity": 1 },
           { "itemId": "NoobDagger", "itemQuantity": 1 },
-          { "itemId": "ClothHat", "itemQuantity": 1 }
+          { "itemId": "ClothHat", "itemQuantity": 1 },
+          { "itemId": "NoobJacket", "itemQuantity": 1 },
+          { "itemId": "NoobVest", "itemQuantity": 1 },
+          { "itemId": "NoobShoe", "itemQuantity": 1 },
+          { "itemId": "NoobBelt", "itemQuantity": 1 },
+          { "itemId": "NoobHandGuard", "itemQuantity": 1 },
+          { "itemId": "NoobNecklace", "itemQuantity": 1 },
+          { "itemId": "NoobEarring", "itemQuantity": 1 },
+          { "itemId": "NoobRing", "itemQuantity": 1 },
+          { "itemId": "NoobBracelet", "itemQuantity": 1 }
         ]
       },
       {

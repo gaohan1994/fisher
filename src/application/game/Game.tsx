@@ -1,19 +1,21 @@
 import { Outlet } from 'react-router-dom';
-import { Box, Toolbar } from '@mui/material';
-import { FuiAppbar, FuiMenu, FuiMiniFight } from '@Fui';
+import { Toolbar } from '@mui/material';
+import { FuiMiniFight } from '@Fui';
 import { BrowserHiddenDetector } from '../detector';
+import { FuiAppbar, FuiMenu } from '../components';
+import { GameContainer, GameMainContainer } from './Styled';
 
 const Game = () => (
-  <Box sx={{ display: 'flex' }}>
+  <GameContainer>
     <BrowserHiddenDetector />
     <FuiAppbar />
     <FuiMenu />
     <FuiMiniFight />
-    <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
+    <GameMainContainer component="main">
       <Toolbar />
       <Outlet />
-    </Box>
-  </Box>
+    </GameMainContainer>
+  </GameContainer>
 );
 
 export { Game };

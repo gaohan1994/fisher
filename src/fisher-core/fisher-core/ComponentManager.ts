@@ -107,7 +107,7 @@ class ComponentManager {
     component.receiveExperience(experience);
     ComponentManager.logger.debug(`'Execute add ${componentId} experience: ${experience}`);
 
-    const message = new Information.ExperienceMessage(componentId, experience);
+    const message = new Information.ExperienceMessage(component, experience);
     events.emit(EventKeys.Information.Messages, [message], shouldAlertInformation);
   };
 
@@ -171,7 +171,7 @@ class ComponentManager {
         );
       }
 
-      const hangUpRecipeHandler = new HangUpRecipeHandler(hangUpTime, archiveComponentValues, values);
+      const hangUpRecipeHandler = new HangUpRecipeHandler(this, hangUpTime, archiveComponentValues, values);
       component.start(hangUpRecipeHandler.recipe);
     }
 

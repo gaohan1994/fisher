@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ComponentId } from '@FisherCore';
-import { fuiRouteHandler } from '@Fui';
 import { Game, Home } from '../game';
 import { PageMining } from '../mining';
 import { PageReiki } from '../reiki';
@@ -12,6 +11,8 @@ import { PageBank } from '../bank';
 import { PageBackpack } from '../backpack';
 import { PageDungeon } from '../dungeon';
 
+const getComponentPath = (componentId: ComponentId) => componentId.toLocaleLowerCase();
+
 const router = createBrowserRouter([
   {
     path: '/fisher',
@@ -22,39 +23,39 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Master)?.path,
+        path: getComponentPath(ComponentId.Master),
         element: <PageMaster />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Backpack)?.path,
+        path: getComponentPath(ComponentId.Backpack),
         element: <PageBackpack />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Bank)?.path,
+        path: getComponentPath(ComponentId.Bank),
         element: <PageBank />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Mining)?.path,
+        path: getComponentPath(ComponentId.Mining),
         element: <PageMining />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Reiki)?.path,
+        path: getComponentPath(ComponentId.Reiki),
         element: <PageReiki />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Forge)?.path,
+        path: getComponentPath(ComponentId.Forge),
         element: <PageForge />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Cook)?.path,
+        path: getComponentPath(ComponentId.Cook),
         element: <PageCook />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Battle)?.path,
+        path: getComponentPath(ComponentId.Battle),
         element: <PageBattle />,
       },
       {
-        path: fuiRouteHandler.getComponentRoute(ComponentId.Dungeon)?.path,
+        path: getComponentPath(ComponentId.Dungeon),
         element: <PageDungeon />,
       },
     ],

@@ -1,88 +1,32 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { Grid, Typography, Card, CardContent, CardHeader, Stack, Tabs, Tab, Box } from '@mui/material';
-import { core } from '@FisherCore';
-import { FuiColor, FuiContainer, FuiCoin, FuiBackpackBatchSellAction, FuiCardTitle, FuiItemRender } from '@Fui';
-import { backpackStore, FuiBackpackTabs } from './BackpackStore';
-import { FuiSlotBackpackEquipments } from './EquipmentRender';
+import { FuiContainer, FuiCoin, FuiCardTitle } from '@Fui';
+
+import { useBank } from '../core';
+import { GridContainer, GridLeft, GridRight, ModuleCard, StackSpaceBetween } from '../components';
+
+import { BackpackTabs } from './BackpackTabs';
 import { FuiBackpackItemControl } from './BackpackItemControl';
 
-const PageBackpack = () => (
+export const PageBackpack = () => (
   <FuiContainer>
-    <Grid container spacing={2}>
-      <Grid item xs={9}>
-        <Card sx={{ bgcolor: FuiColor.primary.background }}>
-          <PageBackpackHeader />
-          <CardContent sx={{ pt: 0 }}>
-            <PageBackpackTabs />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={3}>
+    <GridContainer>
+      <GridLeft>
+        <ModuleCard title={<BackpackCardTitle />}>
+          <BackpackTabs />
+        </ModuleCard>
+      </GridLeft>
+      <GridRight>
         <FuiBackpackItemControl />
-      </Grid>
-    </Grid>
+      </GridRight>
+    </GridContainer>
   </FuiContainer>
 );
 
-const PageBackpackHeader = observer(() => {
-  const { bank } = core;
+const BackpackCardTitle = () => {
+  const bank = useBank();
   return (
-    <CardHeader
-      title={
-        <Stack direction="row" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <FuiCardTitle value="背包" />
-          <FuiCoin price={bank.gold} />
-        </Stack>
-      }
-    />
+    <StackSpaceBetween>
+      <FuiCardTitle value="背包" />
+      <FuiCoin price={bank.gold} />
+    </StackSpaceBetween>
   );
-});
-
-const PageBackpackTabs = observer(() => {
-  const { activeTab, setActiveBackpackTab } = backpackStore;
-
-  const handleChange = (_: React.SyntheticEvent, newValue: string) => {
-    setActiveBackpackTab(newValue as any);
-  };
-
-  return (
-    <React.Fragment>
-      <Tabs value={activeTab} onChange={handleChange} aria-label="wrapped label tabs example">
-        <Tab value={FuiBackpackTabs.FullItems} label="全部" wrapped />
-        <Tab value={FuiBackpackTabs.Equipments} label="装备" />
-      </Tabs>
-
-      {activeTab === FuiBackpackTabs.FullItems && <BackpackFullItemsTab />}
-      {activeTab === FuiBackpackTabs.Equipments && <FuiSlotBackpackEquipments />}
-    </React.Fragment>
-  );
-});
-
-const BackpackFullItemsTab = observer(() => {
-  const { backpack } = core;
-  const { activeBackpackItem, setActiveBackpackItem } = backpackStore;
-
-  if (backpack.items.size === 0) {
-    return <Typography variant="caption">暂无物品</Typography>;
-  }
-  return (
-    <React.Fragment>
-      <Box sx={{ mt: 2, mb: 2 }}>
-        <FuiBackpackBatchSellAction />
-      </Box>
-      <Stack direction="row">
-        {backpack.backpackItems.map((backpackItem) => (
-          <FuiItemRender
-            key={`${backpackItem.item.id}-${backpackItem.quantity}`}
-            item={backpackItem.item}
-            showBorder={activeBackpackItem?.item.id === backpackItem.item.id}
-            onClick={() => setActiveBackpackItem(backpackItem)}
-          />
-        ))}
-      </Stack>
-    </React.Fragment>
-  );
-});
-
-export { PageBackpack };
+};

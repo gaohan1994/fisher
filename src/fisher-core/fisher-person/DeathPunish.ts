@@ -1,31 +1,40 @@
 import { makeAutoObservable } from 'mobx';
-import { Person } from './Person';
 import { EventKeys, events } from '../fisher-events';
-import { core } from '../fisher-core';
 import { Information, informationAlert } from '../fisher-information';
+import { random } from '../utils';
+import { Person } from './Person';
 
-const DeathPunishConfig = {
-  componentId: 'Master',
-  experiencePunishProtectionLevel: 20,
-  experiencePunishPercent: 0.1,
-  goldPunishPercent: 0.1,
-};
+const DeathPunishComponentId = 'Master';
+const DeathExperienceProtectionLevel = 20;
+const DeathExperiencePunishPercent = 0.1;
+const DeathGoldPunishLevelCoe = 10;
 
 class DeathPunish {
-  private goldPunish = 0;
+  private goldPunish: number;
 
-  private experiencePunish = 0;
+  private experiencePunish: number;
 
+  /**
+   * Creates an instance of DeathPunish.
+   * generate gold punish and experience punish.
+   *
+   * @author Harper.Gao
+   * @param {Person} person
+   * @memberof DeathPunish
+   */
   constructor(person: Person) {
     makeAutoObservable(this);
 
-    this.goldPunish = Math.max(0, Math.round(core.bank.gold * DeathPunishConfig.goldPunishPercent));
-
-    if (person.experience.level > DeathPunishConfig.experiencePunishProtectionLevel) {
-      this.experiencePunish = Math.round(person.experience.experience * DeathPunishConfig.experiencePunishPercent);
-    }
+    this.goldPunish = this.createGoldPunish(person);
+    this.experiencePunish = this.createExperiencePunish(person);
   }
 
+  /**
+   * Execute person punish
+   *
+   * @author Harper.Gao
+   * @memberof DeathPunish
+   */
   public executePunish = () => {
     informationAlert([new Information.NormalMessage('您死了', 'error')]);
     this.executeGoldPunish();
@@ -38,8 +47,32 @@ class DeathPunish {
 
   private executeExperiencePunish = () => {
     if (this.experiencePunish > 0) {
-      events.emit(EventKeys.Reward.RewardExperience, DeathPunishConfig.componentId, -this.experiencePunish, true);
+      events.emit(EventKeys.Reward.RewardExperience, DeathPunishComponentId, -this.experiencePunish, true);
     }
+  };
+
+  /**
+   * Return the gold punish that master will lost
+   *
+   * @author Harper.Gao
+   * @private
+   * @memberof DeathPunish
+   */
+  private createGoldPunish = (person: Person): number => {
+    return Math.max(0, person.experience.level * DeathGoldPunishLevelCoe * random(1, 10));
+  };
+
+  /**
+   * Return the experience that master will lost
+   *
+   * @author Harper.Gao
+   * @private
+   * @param {Person} person
+   * @memberof DeathPunish
+   */
+  private createExperiencePunish = (person: Person): number => {
+    if (person.experience.level < DeathExperienceProtectionLevel) return 0;
+    return Math.round(person.experience.experience * DeathExperiencePunishPercent);
   };
 }
 

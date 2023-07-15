@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react';
 import { FC, useEffect } from 'react';
-import { core } from '@FisherCore';
 import useBrowserHidden from './BrowserHiddenHook';
+import { useCore } from '../core';
 
 const DefaultDocumentTitle = 'Fisher';
 
 const DocumentTitleDetector: FC = observer(() => {
-  const { activeComponent } = core;
+  const { activeComponent } = useCore();
   const isHidden = useBrowserHidden();
 
   useEffect(() => {

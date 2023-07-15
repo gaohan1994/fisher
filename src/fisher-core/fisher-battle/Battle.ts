@@ -1,7 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@FisherLogger';
-import { store } from '../fisher-packages';
 import { Assets } from '../assets';
+import { FisherCore } from '../fisher-core';
+import { store } from '../fisher-packages';
 import { EnemyItem } from '../fisher-item';
 import { TimerSpace } from '../fisher-timer';
 import { EventKeys, events } from '../fisher-events';
@@ -12,7 +13,6 @@ import { FisherBattleError } from '../fisher-error';
 import { ArchiveInterface } from '../fisher-archive';
 import { generateTimestamp } from '../utils';
 import { HangUpBattleManager, HangUpTime } from '../fisher-hang-up';
-import { core } from '../fisher-core';
 
 class Battle {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');
@@ -82,7 +82,7 @@ class Battle {
     this.pauseTime = generateTimestamp();
   };
 
-  public continue = async () => {
+  public continue = async (core: FisherCore) => {
     if (this.pauseTime === undefined) {
       throw new FisherBattleError(
         `Try to continue component ${this.id}, but pause time was undefined`,

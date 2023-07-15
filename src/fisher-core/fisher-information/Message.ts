@@ -1,4 +1,4 @@
-import { core } from '../fisher-core';
+import { ComponentWithExperience } from '../fisher-core';
 import { Item } from '../fisher-item';
 import { FisherInformationError } from '../fisher-error';
 import { FisherMessageVariant } from './Constants';
@@ -42,23 +42,24 @@ interface ExperienceMessageDetail {
   prefix: string;
   experience: number;
   componentId: string;
+  component: ComponentWithExperience;
 }
 class ExperienceMessage extends FisherInformationMessage<ExperienceMessageDetail> {
   public variant = FisherMessageVariant.Experience;
 
   public message: ExperienceMessageDetail;
 
-  constructor(componentId: string, experience: number) {
+  constructor(component: ComponentWithExperience, experience: number) {
     super();
-    const component = core.componentManager.componentMap.get(componentId);
     if (component === undefined) {
-      throw new FisherInformationError(`Can not find a component id: ${componentId}`, '没有找到组件');
+      throw new FisherInformationError('Can not find component', '没有找到组件');
     }
 
     this.message = {
       experience,
-      prefix: componentId === 'Master' ? '您' : component.name,
-      componentId: componentId,
+      prefix: component.id === 'Master' ? '您' : component.name,
+      componentId: component.id,
+      component,
     };
   }
 }

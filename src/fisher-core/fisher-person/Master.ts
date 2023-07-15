@@ -102,8 +102,8 @@ class Master {
   };
 
   private deathPunish = () => {
-    const deathPunish = new DeathPunish(this.person);
-    deathPunish.executePunish();
+    const punish = new DeathPunish(this.person);
+    punish.executePunish();
     this.person.refreshHp();
   };
 
