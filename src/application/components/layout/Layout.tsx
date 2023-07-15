@@ -1,5 +1,11 @@
-import { Grid, GridProps } from '@mui/material';
 import { FC, PropsWithChildren } from 'react';
+import { Container, ContainerProps, Grid, GridProps, styled } from '@mui/material';
+
+const MinContainerWidth = 1200;
+export const FuiContainer = styled(({ ...rest }: ContainerProps) => <Container maxWidth="lg" {...rest} />)(() => ({
+  margin: '0 auto',
+  minWidth: MinContainerWidth,
+}));
 
 interface IGridContainer extends GridProps {}
 export const GridContainer: FC<PropsWithChildren<IGridContainer>> = ({ children, ...rest }) => (

@@ -10,7 +10,7 @@ interface IModuleCard extends Omit<CardProps, 'title'> {
 }
 export const ModuleCard = styled(
   ({ header = null, title = null, actions = null, backgroundColor = undefined, children, ...rest }: IModuleCard) => (
-    <Card {...rest}>
+    <Card id="module-card" {...rest}>
       {header}
       {title !== null && (
         <CardHeader title={typeof title === 'string' ? <CardHeaderText>{title}</CardHeaderText> : title} />
