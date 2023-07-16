@@ -8,8 +8,10 @@ export * from './menu';
 
 export * from './level';
 
+export * from './item';
+
 export * from './equipment';
 
 export * from './person-equipment';
 
-export * from './item';
+export * from './person-attributes';

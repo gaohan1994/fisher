@@ -27,20 +27,22 @@ type IBonusAttributesKeys =
   | IAttributeKeys.DefencePowerMultiplier
   | IAttributeKeys.DefenceCorruption;
 
+/**
+ * Generate type
+ * {
+ *  [key: IBonusAttributesKeys]: number
+ * }
+ */
+type AttributesRecordGenerator<T extends IBonusAttributesKeys> = Record<T, number>;
+
 type IBonusEquipmentsAttributesKeys = IBonusAttributesKeys;
-type IBonusEquipmentsAttributes = {
-  [key in IBonusEquipmentsAttributesKeys]: number;
-};
+type IBonusEquipmentsAttributes = AttributesRecordGenerator<IBonusEquipmentsAttributesKeys>;
 
 type IBonusPotionAttributesKeys = IBonusAttributesKeys;
-type IBonusPotionAttributes = {
-  [key in IBonusPotionAttributesKeys]: number;
-};
+type IBonusPotionAttributes = AttributesRecordGenerator<IBonusPotionAttributesKeys>;
 
 type IBonusBuffAttributesKeys = IBonusAttributesKeys;
-type IBonuesBuffAttributes = {
-  [key in IBonusBuffAttributesKeys]: number;
-};
+type IBonuesBuffAttributes = AttributesRecordGenerator<IBonusBuffAttributesKeys>;
 
 export { IAttributeKeys };
 export type {

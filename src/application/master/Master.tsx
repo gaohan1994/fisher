@@ -5,7 +5,14 @@ import { FuiPersonAttributePanel, FuiMasterHealPotionHandler, FuiExperienceDetai
 
 import { PageBackpack } from '../backpack';
 import { useMaster } from '../core';
-import { CardHeaderText, FuiLevel, ItemPopoverVariant, ModuleCard, PersonEquipments } from '../components';
+import {
+  CardHeaderText,
+  FuiLevel,
+  ItemPopoverVariant,
+  ModuleCard,
+  PersonAttributes,
+  PersonEquipments,
+} from '../components';
 import { useMasterDisplayName, useMasterExperience, useMasterPerson } from './Hook';
 import { MasterContainer } from './Styled';
 
@@ -38,7 +45,7 @@ const PageMaster: FC = observer(() => {
               <PersonEquipments person={person} variant={ItemPopoverVariant.Click} />
             </Grid>
             <Grid item xs>
-              <FuiPersonAttributePanel person={person} />
+              <PersonAttributes person={person} />
             </Grid>
             <Grid item xs>
               <FuiMasterHealPotionHandler />

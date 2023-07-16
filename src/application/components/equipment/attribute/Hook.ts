@@ -1,6 +1,6 @@
 import numeral from 'numeral';
 import { IAttributeKeys, IEquipmentAttribute } from '@FisherCore';
-import { AttributeConstants, FuiAttributeVariant } from './Constants';
+import { FuiAttributeVariant, useAttributeConstant } from '../../attribute';
 
 /**
  * Return attribute display value
@@ -8,8 +8,8 @@ import { AttributeConstants, FuiAttributeVariant } from './Constants';
  * @returns
  */
 export const useAttributeDisplayValue = (attribute: IEquipmentAttribute) => {
+  const { label, variant } = useAttributeConstant(attribute);
   const { key, value } = attribute;
-  const { label, variant } = AttributeConstants[attribute.key as IAttributeKeys];
 
   if (key === IAttributeKeys.AttackSpeed) {
     return `${label} ${numeral(value / 1000).format('0.0')}`;

@@ -5,6 +5,7 @@ interface FuiAttribute {
   label: string;
   variant: FuiAttributeVariant;
 }
+
 export enum FuiAttributeVariant {
   Value = 'Value',
   Percent = 'Percent',
