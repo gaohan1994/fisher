@@ -17,3 +17,5 @@ export * from './person-equipment';
 export * from './person-attributes';
 
 export * from './potion';
+
+export * from './recipe';

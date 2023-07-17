@@ -25,3 +25,6 @@ export const GridRight: FC<PropsWithChildren<IGridContainer>> = ({ children, ...
     {children}
   </Grid>
 );
+
+const RecipeGridItemXs = 3;
+export const GridRecipe: FC<GridProps> = ({ ...rest }) => <Grid item xs={RecipeGridItemXs} {...rest} />;
