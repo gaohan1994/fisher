@@ -15,7 +15,7 @@ export const ModuleCard = styled(
       {title !== null && (
         <CardHeader title={typeof title === 'string' ? <CardHeaderText>{title}</CardHeaderText> : title} />
       )}
-      <CardContent>{children}</CardContent>
+      <CardContent id="module-card-content">{children}</CardContent>
       {actions}
     </Card>
   )

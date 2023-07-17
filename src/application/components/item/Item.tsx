@@ -8,6 +8,9 @@ export interface FuiItemProps extends FuiBaseItemProps, PopoverItemProps {
   variant: ItemPopoverVariant;
 }
 export const FuiItem: FC<PropsWithChildren<FuiItemProps>> = ({ variant = ItemPopoverVariant.MouseOver, ...rest }) => {
+  if (variant === ItemPopoverVariant.None) {
+    return <FuiBaseItem {...rest} />;
+  }
   const Hoc = usePopoverHoc(FuiBaseItem, variant);
   return <Hoc {...rest} />;
 };
