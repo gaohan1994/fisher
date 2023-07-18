@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Avatar, AvatarGroup, CardHeader, Tooltip } from '@mui/material';
+import { Avatar, AvatarGroup, CardHeader } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Recipe } from '@FisherCore';
 
