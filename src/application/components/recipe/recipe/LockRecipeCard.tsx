@@ -3,10 +3,9 @@ import { Avatar, AvatarGroup, CardHeader } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Recipe } from '@FisherCore';
 
-import { ModuleCard } from '../layout';
-import { Progress } from '../progress';
-import { RecipeButton } from './Styled';
-import { ExperienceText, IntervalText, RewardsText } from './Common';
+import { ModuleCard } from '../../layout';
+import { Progress } from '../../progress';
+import { RecipeButton, ExperienceText, IntervalText, RewardsText } from '../common';
 
 const UnLockLevelSuffix = '级解锁';
 const LockIntervalText = '采集间隔：？秒';

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
 import { EquipmentSlotName, RarityName } from '@FisherCore';
-import { FuiContainer, FuiDashboard, FuiRecipeTable } from '@Fui';
-import { ForgeRecipeTabs, TabPanel } from './ForgeRecipeTabs';
+import { FuiContainer, FuiDashboard } from '@Fui';
+
+import { useForge } from '../core';
+import { Station } from '../components';
 import { ForgeStore } from './ForgeStore';
 import { ForgeTabCategories } from './Constants';
+import { ForgeRecipeTabs, TabPanel } from './ForgeRecipeTabs';
 import { ForgeAccordionRecipes } from './ForgeAccordionRecipes';
-import { useForge } from '../core';
 
 const PageForge: React.FC = observer(() => {
   const forge = useForge();
@@ -41,7 +43,7 @@ const PageForge: React.FC = observer(() => {
           </TabPanel>
         </Grid>
         <Grid item xs={4}>
-          <FuiRecipeTable coreComponent={forge} />
+          <Station component={forge} />
         </Grid>
       </Grid>
     </FuiContainer>

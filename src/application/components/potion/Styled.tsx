@@ -21,4 +21,4 @@ export const PotionManagerMenu = styled(({ ...rest }: MenuProps) => (
     }}
     {...rest}
   />
-))();
+))(() => ({}));

@@ -3,7 +3,7 @@ import StarIcon from '@mui/icons-material/Star';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
-import { IconText } from '../layout';
+import { IconText } from '../../layout';
 
 export const IntervalText: FC<PropsWithChildren> = ({ children }) => (
   <IconText icon={<AccessAlarmIcon />}>{children}</IconText>

@@ -3,11 +3,10 @@ import { observer } from 'mobx-react';
 import { Avatar, AvatarGroup, CardHeader } from '@mui/material';
 import { Mining, Recipe, Reiki } from '@FisherCore';
 
-import { ActiveText, ModuleCard } from '../layout';
-import { TimerProgess } from '../progress';
-import { RecipeButton } from './Styled';
-import { useRecipeDisplayInterval, useRecipeIcons } from './Hooks';
-import { ExperienceText, IntervalText, RewardsText } from './Common';
+import { TimerProgess } from '../../progress';
+import { ActiveText, ModuleCard } from '../../layout';
+import { ExperienceText, IntervalText, RewardsText, RecipeButton, useRecipeDisplayInterval } from '../common';
+import { useRecipeIcons } from './Hooks';
 
 const ActiveTextLabel = '正在进行中';
 const IntervalPrefix = '采集间隔：';

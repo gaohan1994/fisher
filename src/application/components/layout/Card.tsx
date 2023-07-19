@@ -23,12 +23,11 @@ export const ModuleCard = styled(
   backgroundColor: backgroundColor || FuiColor.primary.background,
 }));
 
-const AppbarHeight = 64;
-const AppContentSpce = 20;
+const StickyTopSpace = 64 + 20;
 /**
  * Wrap ModuleCard and build ModuleStickyCard
  */
 export const ModuleStickyCard = styled(({ ...rest }: IModuleCard) => <ModuleCard {...rest} />)(() => ({
   position: 'sticky',
-  top: AppbarHeight + AppContentSpce,
+  top: StickyTopSpace,
 }));
