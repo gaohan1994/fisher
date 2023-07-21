@@ -4,7 +4,7 @@ import { EquipmentItem } from '@FisherCore';
 import { FuiItem, FuiItemProps, ItemPopoverVariant } from '../item';
 import { EquipmentDetail } from './EquipmentDetail';
 
-interface FuiEquipmentProps extends Omit<FuiItemProps, 'item' | 'variant'> {
+export interface FuiEquipmentProps extends Omit<FuiItemProps, 'item' | 'variant'> {
   item: EquipmentItem;
   variant?: ItemPopoverVariant;
 }

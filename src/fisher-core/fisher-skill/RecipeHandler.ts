@@ -10,12 +10,14 @@ enum RecipeEventKeys {
   UpdateActiveRecipeStatus = 'UpdateActiveRecipeStatus',
 }
 
-class RecipeHandler {
+export type CostControlMap = Map<string, RecipeCostItemControl>;
+
+export class RecipeHandler {
   private skill: Skill;
 
   public activeRecipe: Recipe | undefined = undefined;
 
-  public costControlMap = new Map<string, RecipeCostItemControl>();
+  public costControlMap: CostControlMap = new Map<string, RecipeCostItemControl>();
 
   public recipeEvents = new EventEmitter();
 
@@ -192,5 +194,3 @@ class RecipeCostItemControl {
     this.canBearCost = (this.backpackItem?.quantity ?? 0) >= item.itemQuantity;
   }
 }
-
-export { RecipeHandler };

@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react';
 import { Grid } from '@mui/material';
-import { FuiContainer, FuiDashboard, FuiRecipeTable, RecipeCardGrid, CookRecipeCard } from '@Fui';
+import { FuiContainer, FuiDashboard, RecipeCardGrid, CookRecipeCard } from '@Fui';
 import { useCook } from '../core';
+import { Station } from '../components';
 
 const PageCook = observer(() => {
   const cook = useCook();
@@ -20,7 +21,7 @@ const PageCook = observer(() => {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <FuiRecipeTable coreComponent={cook} />
+          <Station component={cook} />
         </Grid>
       </Grid>
     </FuiContainer>

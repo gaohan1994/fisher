@@ -1,60 +1,59 @@
-import React from 'react';
+import { FC, Fragment } from 'react';
 import { observer } from 'mobx-react';
-import { Avatar, Card, CardContent, CardHeader, Divider, Grid, Stack } from '@mui/material';
-import { core } from '@FisherCore';
-import {
-  FuiColor,
-  FuiContainer,
-  FuiCardTitle,
-  FuiPersonAttributePanel,
-  PersonEquipmentsPanel,
-  FuiMasterHealPotionHandler,
-  FuiExperienceDetail,
-  FuiLevelChip,
-} from '@Fui';
-import { PageBackpack } from '../backpack';
+import { Avatar, CardHeader, Grid, Stack } from '@mui/material';
+import { FuiExperienceDetail } from '@Fui';
 
-const PageMaster: React.FC = observer(() => {
-  const { master } = core;
+import { PageBackpack } from '../backpack';
+import { useMaster } from '../core';
+import {
+  CardHeaderText,
+  FuiLevel,
+  ItemPopoverVariant,
+  ModuleCard,
+  PersonAttributes,
+  PersonEquipments,
+} from '../components';
+import { useMasterDisplayName, useMasterExperience, useMasterPerson } from './Hook';
+import { MasterContainer } from './Styled';
+import { HealPotionManager } from '../components/potion';
+
+const PageMaster: FC = observer(() => {
+  const master = useMaster();
+  const person = useMasterPerson();
+  const name = useMasterDisplayName();
+  const experience = useMasterExperience();
+
+  const title = (
+    <Stack direction="row">
+      <CardHeaderText sx={{ mr: 2 }}>{name}</CardHeaderText>
+      <FuiLevel experience={experience} />
+    </Stack>
+  );
 
   return (
-    <React.Fragment>
-      <FuiContainer>
-        <Card sx={{ bgcolor: FuiColor.primary.background }}>
-          <CardHeader
-            avatar={<Avatar src={master.media} />}
-            title={
-              <Stack direction="row">
-                <FuiCardTitle value="等级" />
-                <FuiLevelChip experience={master.person.experience} sx={{ ml: 2 }} />
-              </Stack>
-            }
-          />
-          <CardContent>
-            <FuiExperienceDetail experience={master.person.experience} />
-          </CardContent>
-        </Card>
-        <Divider sx={{ mt: 2, mb: 2 }} />
-        <Card sx={{ bgcolor: FuiColor.primary.background }}>
-          <CardHeader title={<FuiCardTitle value="装备" />} sx={{ pb: 0 }} />
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item xs>
-                <PersonEquipmentsPanel person={master.person} />
-              </Grid>
-              <Grid item xs>
-                <FuiPersonAttributePanel person={master.person} />
-              </Grid>
-              <Grid item xs>
-                <FuiMasterHealPotionHandler />
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-        <Divider sx={{ mt: 2, mb: 2 }} />
-      </FuiContainer>
+    <Fragment>
+      <MasterContainer>
+        <ModuleCard header={<CardHeader avatar={<Avatar src={master.media} />} title={title} />}>
+          <FuiExperienceDetail experience={experience} />
+        </ModuleCard>
+        <Grid container spacing={2}>
+          <Grid item xs>
+            <ModuleCard title="装备">
+              <PersonEquipments person={person} variant={ItemPopoverVariant.Click} />
+            </ModuleCard>
+          </Grid>
+          <Grid item xs>
+            <ModuleCard title="属性">
+              <PersonAttributes person={person} />
+            </ModuleCard>
+          </Grid>
+          <Grid item xs>
+            <HealPotionManager />
+          </Grid>
+        </Grid>
+      </MasterContainer>
       <PageBackpack />
-    </React.Fragment>
+    </Fragment>
   );
 });
 
