@@ -5,7 +5,7 @@ import { notifycationStore } from '@Fui';
 import { Cook, Forge, Recipe, RecipeHandler } from '@FisherCore';
 
 import { TimerProgess } from '../../progress';
-import { ModuleStickyCard, StackSpaceBetween } from '../../layout';
+import { StackSpaceBetween } from '../../layout';
 import { FuiLevelText } from '../../level';
 import {
   useRecipeCostItems,

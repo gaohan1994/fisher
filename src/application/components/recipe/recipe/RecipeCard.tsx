@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Avatar, AvatarGroup, CardHeader } from '@mui/material';
 import { Mining, Recipe, Reiki } from '@FisherCore';
 
-import { TimerProgess } from '../../progress';
+import { Progress, TimerProgess } from '../../progress';
 import { ActiveText, ModuleCard } from '../../layout';
 import { ExperienceText, IntervalText, RewardsText, RecipeButton, useRecipeDisplayInterval } from '../common';
 import { useRecipeIcons } from './Hooks';
@@ -26,14 +26,11 @@ export const RecipeCard: FC<RecipeCardProps> = observer(({ component, recipe }) 
     activeRecipe,
     skill: { timer },
   } = component;
-  const { rewardExperience } = recipe;
-
+  const { id: recipeId, name, rewardExperience } = recipe;
   const icons = useRecipeIcons(recipe);
+  const [recipeAvatar] = icons;
   const displayInterval = useRecipeDisplayInterval(recipe);
-
-  const recipeAvatar = icons[0];
   const isActive = Boolean(activeRecipe !== undefined && activeRecipe === recipe);
-
   return (
     <ModuleCard
       header={
@@ -55,19 +52,19 @@ export const RecipeCard: FC<RecipeCardProps> = observer(({ component, recipe }) 
       <RewardsText>{RewardsPrefix}</RewardsText>
       <AvatarGroup>
         {icons.map((item) => (
-          <Avatar key={`${recipe.id}-${item}`} src={item} />
+          <Avatar key={`${recipeId}-${item}`} src={item} />
         ))}
       </AvatarGroup>
-      <TimerProgess timer={timer} />
+      {isActive ? <TimerProgess timer={timer} /> : <Progress value={0} />}
       {isActive ? (
         <RecipeButton color="error" onClick={stop}>
           {StopButtonPrefix}
-          {recipe.name}
+          {name}
         </RecipeButton>
       ) : (
         <RecipeButton color="info" onClick={() => start(recipe)}>
           {StartButtonPrefix}
-          {recipe.name}
+          {name}
         </RecipeButton>
       )}
     </ModuleCard>

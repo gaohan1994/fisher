@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { observer } from 'mobx-react';
 import { Avatar, Button, Card, CardContent, CardHeader, Collapse, Divider, Stack, Typography } from '@mui/material';
 import {
   DungeonItem,
@@ -16,7 +17,6 @@ import { FuiColor } from '../theme';
 import { FuiExperienceDetail, FuiLevelChip } from '../experience';
 import { ExpandMore, FuiActiveDashboardText } from '../text';
 import { useFisherComponentExperience } from './Hook';
-import { observer } from 'mobx-react';
 import { BattleEnemySelector } from './BattleEnemySelector';
 import { DungeonSelector } from './DungeonSelector';
 import { FuiEnemyRewardPreview } from '../reward';
