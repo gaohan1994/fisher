@@ -3,10 +3,11 @@
     "module": "esnext",
     "target": "es5",
     "moduleResolution": "node",
+    "declaration": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["dom", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -15,16 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "@": ["./src"],
-      "@FisherCore": ["./src/fisher-core"],
-      "@FisherLogger": ["./src/fisher-logger"],
-      "@Fui": ["./src/fisher-ui"]
-    }
+    "jsx": "preserve"
   },
-  "include": ["src"],
-  "exclude": ["**/node_modules"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["**/node_modules"]
 }
