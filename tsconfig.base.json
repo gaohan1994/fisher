@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "es2015",
     "moduleResolution": "node",
+    "baseUrl": "./",
     "declaration": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
@@ -10,7 +11,7 @@
     "lib": ["dom", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

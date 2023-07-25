@@ -19,12 +19,16 @@
       "default": "./dist/esm/*.js"
     }
   },
-  "devDependencies": {},
   "scripts": {
+    "test": "vitest",
     "build": "rimraf ./dist && npm run build:module && npm run build:commonjs && npm run build:types",
     "build:module": "tsc -b tsconfig.module.json",
     "build:commonjs": "tsc -b tsconfig.commonjs.json",
-    "build:types": "tsc -b tsconfig.types.json"
+    "build:types": "tsc -b tsconfig.types.json",
+    "release": "npm run build && npm publish dist"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@fisher/logger": "^1.0.0"
+  }
 }

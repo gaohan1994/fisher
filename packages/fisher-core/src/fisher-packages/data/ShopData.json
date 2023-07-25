@@ -1,0 +1,28 @@
+{
+  "moduleName": "Shop",
+  "data": [
+    {
+      "id": "ForgeBluePrints",
+      "name": "锻造图纸",
+      "itemIds": [
+        "CoolingWater",
+        "BluePrint:DragonSword",
+        "BluePrint:DragonDagger",
+        "BluePrint:DragonJacket",
+        "BluePrint:DragonVest",
+        "BluePrint:DragonShoe",
+        "BluePrint:DragonBelt"
+      ]
+    },
+    {
+      "id": "CookBluePrints",
+      "name": "炼丹药方",
+      "itemIds": ["DrugBag", "BluePrint:LowHealPotion", "BluePrint:HighHealPotion"]
+    },
+    {
+      "id": "Others",
+      "name": "杂货",
+      "itemIds": ["NoobChest"]
+    }
+  ]
+}

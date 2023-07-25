@@ -1,0 +1,112 @@
+{
+  "moduleName": "Reiki",
+  "data": {
+    "items": [
+      {
+        "id": "NormalReiki",
+        "name": "灵气",
+        "rarity": "Common",
+        "desc": "在有灵气的地方经常看到",
+        "media": "NormalReiki",
+        "price": 1
+      },
+      {
+        "id": "ColdReiki",
+        "name": "寒玉灵气",
+        "rarity": "Common",
+        "desc": "在有寒冷的地方孕育的灵气",
+        "media": "ColdReiki",
+        "price": 2
+      },
+      {
+        "id": "FuDiReiki",
+        "name": "福地灵气",
+        "desc": "在福地中孕育的灵气",
+        "rarity": "Rare",
+        "media": "FuDiReiki",
+        "price": 5
+      },
+      {
+        "id": "DongTianReiki",
+        "name": "洞天灵气",
+        "rarity": "Rare",
+        "desc": "在洞天中孕育的灵气",
+        "media": "DongTianReiki",
+        "price": 10
+      },
+      {
+        "id": "DragonReiki",
+        "name": "巨龙气息",
+        "desc": "巨龙坟墓中含有大量的巨龙气息",
+        "media": "DragonReiki",
+        "rarity": "Epic",
+        "price": 20
+      }
+    ],
+    "recipes": [
+      {
+        "id": "Reiki:Recipe:NormalReiki",
+        "name": "打坐：莲台",
+        "desc": "池边的莲台",
+        "media": "NormalReiki",
+        "interval": 1500,
+        "unlockLevel": 1,
+        "rewardExperience": 5,
+        "rewardItems": [{ "itemId": "NormalReiki", "itemQuantity": 1 }]
+      },
+      {
+        "id": "Reiki:Recipe:ColdReiki",
+        "name": "打坐：寒玉谷",
+        "desc": "一处破败了的小福地，蕴含灵气，有概率获得寒玉灵气",
+        "media": "ColdReiki",
+        "interval": 1500,
+        "unlockLevel": 5,
+        "rewardExperience": 10,
+        "rewardItems": [{ "itemId": "ColdReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 30, "itemId": "NormalReiki", "itemQuantity": 1 }]
+      },
+      {
+        "id": "Reiki:Recipe:WuDang",
+        "name": "打坐：道门福地-武当山",
+        "desc": "相传真武大帝在此飞升，孕育着大量的福地灵气",
+        "media": "FuDiReiki",
+        "interval": 3000,
+        "unlockLevel": 10,
+        "rewardExperience": 15,
+        "rewardItems": [{ "itemId": "FuDiReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [{ "probability": 30, "itemId": "NormalReiki", "itemQuantity": 1 }]
+      },
+      {
+        "id": "Reiki:Recipe:LuoFu",
+        "name": "打坐：道门洞天-罗浮山洞",
+        "desc": "",
+        "media": "DongTianReiki",
+        "interval": 6000,
+        "unlockLevel": 20,
+        "rewardExperience": 20,
+        "rewardItems": [{ "itemId": "DongTianReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [
+          { "probability": 30, "itemId": "DongTianReiki", "itemQuantity": 1 },
+          { "probability": 30, "itemId": "FuDiReiki", "itemQuantity": 2 },
+          { "probability": 30, "itemId": "NormalReiki", "itemQuantity": 2 }
+        ]
+      },
+      {
+        "id": "Reiki:Recipe:DragonReiki",
+        "name": "打坐：巨龙坟墓",
+        "desc": "传说有一个剑道高手斩十八条巨龙，尸体堆积如山，剑气逼人",
+        "media": "DragonReiki",
+        "interval": 10000,
+        "unlockLevel": 30,
+        "rewardExperience": 30,
+        "rewardItems": [{ "itemId": "DragonReiki", "itemQuantity": 1 }],
+        "randomRewardItems": [
+          { "probability": 30, "itemId": "NormalReiki", "itemQuantity": 1 },
+          { "probability": 30, "itemId": "FuDiReiki", "itemQuantity": 1 },
+          { "probability": 30, "itemId": "DongTianReiki", "itemQuantity": 1 },
+          { "probability": 30, "itemId": "DragonReiki", "itemQuantity": 3 }
+        ]
+      }
+    ]
+  }
+}

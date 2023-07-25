@@ -1,0 +1,31 @@
+{
+  "name": "@fisher/logger",
+  "version": "1.0.0",
+  "description": "A logger util for fisher",
+  "author": "Harper Gao",
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/commonjs/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./*": {
+      "import": "./dist/esm/*.js",
+      "require": "./dist/commonjs/*.js",
+      "default": "./dist/esm/*.js"
+    }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "rimraf ./dist && npm run build:module && npm run build:commonjs && npm run build:types",
+    "build:module": "tsc -b tsconfig.module.json",
+    "build:commonjs": "tsc -b tsconfig.commonjs.json",
+    "build:types": "tsc -b tsconfig.types.json",
+    "release": "npm run build && npm publish dist"
+  },
+  "license": "MIT"
+}
