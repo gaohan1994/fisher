@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "types": ["reflect-metadata", "@types/jest", "jest"]
+  },
+  "include": ["src/**/*"]
+}

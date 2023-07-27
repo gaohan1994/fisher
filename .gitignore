@@ -26,3 +26,4 @@ doc/*.js
 
 # build output files
 **/dist
+**/build
