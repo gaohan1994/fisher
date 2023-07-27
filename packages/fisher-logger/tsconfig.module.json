@@ -3,6 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "module": "esnext",
-    "outDir": "./dist/esm"
+    "outDir": "./build/esm"
   }
 }

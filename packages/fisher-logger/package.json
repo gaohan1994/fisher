@@ -4,28 +4,27 @@
   "description": "A logger util for fisher",
   "author": "Harper Gao",
   "type": "module",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./build/commonjs/index.js",
+  "module": "./build/esm/index.js",
+  "types": "./build/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/commonjs/index.js",
-      "default": "./dist/esm/index.js"
+      "import": "./build/esm/index.js",
+      "require": "./build/commonjs/index.js",
+      "default": "./build/esm/index.js"
     },
     "./*": {
-      "import": "./dist/esm/*.js",
-      "require": "./dist/commonjs/*.js",
-      "default": "./dist/esm/*.js"
+      "import": "./build/esm/*.js",
+      "require": "./build/commonjs/*.js",
+      "default": "./build/esm/*.js"
     }
   },
   "devDependencies": {},
   "scripts": {
-    "build": "rimraf ./dist && npm run build:module && npm run build:commonjs && npm run build:types",
+    "build": "rimraf ./build && npm run build:module && npm run build:commonjs",
     "build:module": "tsc -b tsconfig.module.json",
     "build:commonjs": "tsc -b tsconfig.commonjs.json",
-    "build:types": "tsc -b tsconfig.types.json",
-    "release": "npm run build && npm publish dist"
+    "release": "npm run build && npm publish build"
   },
   "license": "MIT"
 }

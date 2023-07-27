@@ -3,6 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "module": "commonjs",
-    "outDir": "./dist/commonjs"
+    "outDir": "./build/commonjs"
   }
 }
