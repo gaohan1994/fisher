@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { EventKeys, events } from '@shared';
-import { Information, informationAlert } from '../fisher-information';
+import { Information, informationAlert } from '@information';
 import { random } from '../utils';
 import { Person } from './Person';
 

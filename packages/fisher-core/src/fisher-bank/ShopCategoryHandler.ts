@@ -1,4 +1,4 @@
-import { ShopCategory } from '../fisher-item';
+import { ShopCategory } from '@item';
 import { store } from '../fisher-packages';
 
 class ShopCategoryHandler {

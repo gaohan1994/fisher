@@ -1,4 +1,4 @@
-import { IAttributeKeys } from '../fisher-person';
+import { IAttributeKeys } from '@person';
 import { BaseDebuffAction, IBuffAttribute } from './BaseAction';
 import { ActionId } from './Constants';
 

@@ -1,4 +1,4 @@
-import { Information, information } from '../fisher-information';
+import { Information, information } from '@information';
 
 class HangUpInformation {
   public static startLoading = (messages: string[] = []) => {

@@ -13,7 +13,7 @@ import {
   DungeonItem,
   EquipmentSlot,
   Rarity,
-} from '../fisher-item';
+} from '@item';
 import { prefixes, prefixLogger } from '@fisher/logger';
 import {
   ICollectionModuleData,

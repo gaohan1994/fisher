@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { ComponentManager, FisherCore } from '../fisher-core';
-import { Recipe } from '../fisher-item';
+import { Recipe } from '@item';
 import { store } from '../fisher-packages';
-import { Reward, RewardPool } from '../fisher-reward';
+import { Reward, RewardPool } from '@reward';
 import { HangUpTime } from './HangUpTime';
 import { MaxHangUpTimeMs } from './Constants';
 import { ArchiveInterface } from '../fisher-archive';

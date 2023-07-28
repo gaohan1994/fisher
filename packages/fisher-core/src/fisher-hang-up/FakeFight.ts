@@ -1,8 +1,8 @@
 import { autorun, makeAutoObservable, reaction } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { Enemy, Master } from '../fisher-person';
-import { fakeClock } from '../fisher-timer';
+import { Enemy, Master } from '@person';
+import { fakeClock } from '@timer';
 
 let fakeFightId = 0;
 

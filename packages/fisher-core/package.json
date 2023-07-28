@@ -19,6 +19,7 @@
     }
   },
   "scripts": {
+    "lint": "tslint -c tslint.json \"{src,test}/**/*.{ts,tsx}\" -e \"src/**/*.{test,spec}.ts\"",
     "test": "vitest",
     "build": "rimraf ./build && npm run build:module && npm run build:commonjs",
     "build:module": "tsc -b tsconfig.module.json",

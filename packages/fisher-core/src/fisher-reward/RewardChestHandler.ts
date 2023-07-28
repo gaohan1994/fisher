@@ -1,6 +1,6 @@
 import { EventKeys, events } from '@shared';
-import { Information, informationAlert } from '../fisher-information';
-import { RewardChest } from '../fisher-item';
+import { Information, informationAlert } from '@information';
+import { RewardChest } from '@item';
 import { roll } from '../utils';
 import { Reward } from './Reward';
 import { RewardCache } from './RewardCache';

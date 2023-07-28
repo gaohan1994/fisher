@@ -1,4 +1,4 @@
-import { Person } from '../fisher-person';
+import { Person } from '@person';
 import { BaseAttackAction } from './BaseAction';
 import { ActionId } from './Constants';
 

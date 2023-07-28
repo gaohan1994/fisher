@@ -4,6 +4,7 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
+      "@assets": ["./src/assets"],
       "@shared": ["./src/shared"],
       "@actions": ["./src/fisher-actions"],
       "@archive": ["./src/fisher-archive"],

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '../fisher-item';
-import { Reward } from '../fisher-reward';
+import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '@item';
+import { Reward } from '@reward';
 import { generateTimestamp } from '../utils';
 import { PersonMode } from './Constants';
 import { Person } from './Person';

@@ -1,7 +1,7 @@
 import { EventKeys, events } from '@shared';
 import { ICollectionModuleData, store } from '../fisher-packages';
-import { Recipe } from '../fisher-item';
-import { Skill } from '../fisher-skill';
+import { Recipe } from '@item';
+import { Skill } from '@skill';
 import { Collection } from './Collection';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';

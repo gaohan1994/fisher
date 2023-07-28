@@ -1,13 +1,13 @@
 import { autorun, makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@fisher/logger';
+import { Experience } from '@experience';
+import { ActionId } from '@actions';
 import { getRecordTime, range } from '../utils';
-import { Experience } from '../fisher-experience';
-import { PersonEquipmentManager } from './PersonEquipmentManager';
-import { AttributePanel } from './AttributePanel';
 import { ActionManager } from './ActionsManager';
+import { AttributePanel } from './AttributePanel';
 import { getPersonFactorConfig, PersonMode } from './Constants';
-import { ActionId } from '../fisher-actions';
+import { PersonEquipmentManager } from './PersonEquipmentManager';
 
 interface PersonEventActionPayload {
   value: number;

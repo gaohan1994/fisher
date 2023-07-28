@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
-import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '../fisher-item';
+import { EmptyEquipment, EquipmentItem, EquipmentSlot } from '@item';
 
 /**
  * 人物装备

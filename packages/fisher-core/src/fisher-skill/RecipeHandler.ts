@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
-import { BackpackItem, IRecipeItem, Recipe } from '../fisher-item';
+import { BackpackItem, IRecipeItem, Recipe } from '@item';
 import { EventKeys, events } from '@shared';
 import { Skill } from './Skill';
-import { Reward } from '../fisher-reward';
-import { Backpack } from '../fisher-backpack';
+import { Reward } from '@reward';
+import { Backpack } from '@backpack';
 
 enum RecipeEventKeys {
   UpdateActiveRecipeStatus = 'UpdateActiveRecipeStatus',

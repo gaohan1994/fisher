@@ -1,13 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 import { service } from '@fisher/ioc';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { ComponentId } from '@shared';
-import { Assets } from '../assets';
-import { EventKeys, events } from '@shared';
+import { ComponentId, EventKeys, events } from '@shared';
+import { Assets } from '@assets';
+import { ShopCategory } from '@item';
+import { Information } from '@information';
 import { ArchiveInterface } from '../fisher-archive';
 import { coinItem, store } from '../fisher-packages';
-import { Information } from '../fisher-information';
-import { ShopCategory } from '../fisher-item';
 import { ShopCategoryHandler } from './ShopCategoryHandler';
 
 @service(ComponentId.Bank)

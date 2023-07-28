@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { ArchiveInterface } from '../fisher-archive';
-import { PotionVariant } from '../fisher-item';
+import { PotionVariant } from '@item';
 import { PotionHandler } from '../fisher-potion/PotionHandler';
 
 class PotionHandlerArchiver {

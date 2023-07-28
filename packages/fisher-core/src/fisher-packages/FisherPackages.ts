@@ -34,7 +34,7 @@ import {
   DungeonItem,
   EquipmentSlot,
   Rarity,
-} from '../fisher-item';
+} from '@item';
 
 export interface ICollectionModuleData {
   items: Array<Item | NormalItem>;

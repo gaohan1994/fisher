@@ -1,4 +1,4 @@
-import { ActionId } from '../fisher-actions';
+import { ActionId } from '@actions';
 import { IItem, Item, ItemType } from './Item';
 
 export interface IEnemyItem extends IItem {

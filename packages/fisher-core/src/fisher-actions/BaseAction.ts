@@ -1,11 +1,11 @@
 import numeral from 'numeral';
 import dayjs from 'dayjs';
 import { prefixes, prefixLogger } from '@fisher/logger';
-import { Timer } from '../fisher-timer';
-import { Assets } from '../assets';
-import { IBonusBuffAttributesKeys, Person } from '../fisher-person';
-import { ActionId, ActionMode } from './Constants';
+import { Timer } from '@timer';
+import { Assets } from '@assets';
 import { FisherActionError } from '@shared';
+import { IBonusBuffAttributesKeys, Person } from '@person';
+import { ActionId, ActionMode } from './Constants';
 import { random } from '../utils';
 
 interface IBaseAction {

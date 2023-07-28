@@ -3,9 +3,9 @@ import { prefixLogger, prefixes } from '@fisher/logger';
 import { EventEmitter } from 'smar-util';
 import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
-import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
+import { EquipmentItem, EquipmentSet, EquipmentSlot } from '@item';
 import { FisherPersonError } from '@shared';
-import { ActionId } from '../fisher-actions';
+import { ActionId } from '@actions';
 
 enum PersonEquipmentEventKeys {
   EquipmentChange = 'EquipmentChange',

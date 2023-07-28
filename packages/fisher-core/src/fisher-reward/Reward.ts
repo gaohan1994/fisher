@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { roll } from '../utils';
-import { Item } from '../fisher-item';
+import { Item } from '@item';
 import { Store } from '../fisher-packages';
 import { EventKeys, events } from '@shared';
 

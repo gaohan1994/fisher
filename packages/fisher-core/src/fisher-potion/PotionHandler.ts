@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
 import { EventKeys, events } from '@shared';
-import { BackpackItem, EmptyPotion, Potion } from '../fisher-item';
-import { Backpack } from '../fisher-backpack';
-import { Person } from '../fisher-person';
+import { BackpackItem, EmptyPotion, Potion } from '@item';
+import { Backpack } from '@backpack';
+import { Person } from '@person';
 import { store } from '../fisher-packages';
 
 class PotionHandler {

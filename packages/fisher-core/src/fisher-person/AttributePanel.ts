@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Experience } from '../fisher-experience';
+import { Experience } from '@experience';
 import { Person } from './Person';
 import { PersonEquipmentManager } from './PersonEquipmentManager';
 import {
@@ -8,7 +8,7 @@ import {
   IBonusEquipmentsAttributes,
   IBonusEquipmentsAttributesKeys,
 } from './Attributes';
-import { EquipmentSlot } from '../fisher-item';
+import { EquipmentSlot } from '@item';
 import { ActionManager } from './ActionsManager';
 import { PersonFactorConfig } from './Constants';
 

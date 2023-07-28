@@ -1,8 +1,8 @@
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { Timer } from '../fisher-timer';
-import { Recipe } from '../fisher-item';
+import { Timer } from '@timer';
+import { Recipe } from '@item';
 import { RecipeHandler } from './RecipeHandler';
-import { Experience } from '../fisher-experience';
+import { Experience } from '@experience';
 import { FisherSkillError } from '@shared';
 
 class Skill {

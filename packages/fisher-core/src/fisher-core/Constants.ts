@@ -1,10 +1,10 @@
-import { Master } from '../fisher-person';
-import { Bank } from '../fisher-bank';
-import { Backpack } from '../fisher-backpack';
+import { Master } from '@person';
+import { Bank } from '@bank';
+import { Backpack } from '@backpack';
 import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
-import { Dungeon } from '../fisher-dungeon';
-import { Battle } from '../fisher-battle';
-import { Information } from '../fisher-information';
+import { Dungeon } from '@dungeon';
+import { Battle } from '@battle';
+import { Information } from '@information';
 
 export type FisherComponent = Bank | Backpack | Mining | Reiki | Forge | Cook | Battle | Dungeon | Master | Information;
 

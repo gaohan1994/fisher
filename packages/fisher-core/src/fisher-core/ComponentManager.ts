@@ -1,18 +1,17 @@
 import invariant from 'invariant';
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { Master } from '../fisher-person';
-import { Bank } from '../fisher-bank';
-import { Backpack } from '../fisher-backpack';
+import { Master } from '@person';
+import { Bank } from '@bank';
+import { Backpack } from '@backpack';
 import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
-import { EventKeys, events } from '@shared';
-import { Dungeon } from '../fisher-dungeon';
-import { Battle } from '../fisher-battle';
-import { Information, InformationMessage, information, informationAlert, informationTip } from '../fisher-information';
+import { EventKeys, events, FisherCoreError } from '@shared';
+import { Dungeon } from '@dungeon';
+import { Battle } from '@battle';
+import { Information, InformationMessage, information, informationAlert, informationTip } from '@information';
 import { ArchiveInterface } from '../fisher-archive';
-import { FisherCoreError } from '@shared';
 import { isBattle, isDungeon, isWithSkillComponent } from './ComponentChecker';
-import { HangUpBattleManager, HangUpDungeonManager, HangUpRecipeHandler, HangUpTime } from '../fisher-hang-up';
+import { HangUpBattleManager, HangUpDungeonManager, HangUpRecipeHandler, HangUpTime } from '@hangUp';
 import { ActiveControlComponent, ComponentId, ComponentWithExperience, FisherComponent } from './Constants';
 
 class ComponentManager {

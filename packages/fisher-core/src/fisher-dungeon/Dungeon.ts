@@ -1,16 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { Assets } from '../assets';
-import { Fight } from '../fisher-fight';
-import { DungeonItem } from '../fisher-item';
-import { Reward, RewardPool } from '../fisher-reward';
-import { Enemy, Master } from '../fisher-person';
-import { TimerSpace } from '../fisher-timer';
-import { FisherDungeonError } from '@shared';
-import { EventKeys, events } from '@shared';
+import { Fight } from '@fight';
+import { DungeonItem } from '@item';
+import { Reward, RewardPool } from '@reward';
+import { Enemy, Master } from '@person';
+import { TimerSpace } from '@timer';
+import { EventKeys, events, FisherDungeonError } from '@shared';
+import { HangUpDungeonManager, HangUpTime } from '@hangUp';
 import { store } from '../fisher-packages';
 import { ArchiveInterface } from '../fisher-archive';
-import { HangUpDungeonManager, HangUpTime } from '../fisher-hang-up';
 import { generateTimestamp } from '../utils';
 import { FisherCore } from '../fisher-core';
 

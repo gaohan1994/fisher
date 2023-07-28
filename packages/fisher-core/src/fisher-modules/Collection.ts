@@ -1,11 +1,9 @@
 import { ArchiveInterface } from '../fisher-archive';
-import { Recipe } from '../fisher-item';
-import { Skill } from '../fisher-skill';
-import { HangUpRecipeHandler } from '../fisher-hang-up/HangUpRecipeHandler';
-import { HangUpTime } from '../fisher-hang-up';
-import { EventKeys, events } from '@shared';
+import { Recipe } from '@item';
+import { Skill } from '@skill';
+import { HangUpTime, HangUpRecipeHandler } from '@hangUp';
+import { FisherCoreError, EventKeys, events } from '@shared';
 import { generateTimestamp } from '../utils';
-import { FisherCoreError } from '@shared';
 import { FisherCore } from '../fisher-core';
 
 abstract class Collection<CollectionPackages> {

@@ -1,4 +1,4 @@
-import { PotionVariant } from '../fisher-item';
+import { PotionVariant } from '@item';
 
 namespace ArchiveInterface {
   export interface ArchiveValues {

@@ -1,11 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
+import { Bank } from '@bank';
+import { Backpack } from '@backpack';
+import { FisherCore } from '@core';
 import { EventKeys, events } from '@shared';
-import { Bank } from '../fisher-bank';
 import { Archive } from './Archive';
-import { Backpack } from '../fisher-backpack';
 import { archiveStore } from './Constants';
-import { FisherCore } from '../fisher-core';
 
 class ArchiveHandler {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'ArchiveHandler');

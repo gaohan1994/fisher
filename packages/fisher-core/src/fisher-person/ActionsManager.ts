@@ -9,9 +9,9 @@ import {
   BaseBuffAction,
   FisherActions,
   BaseDebuffAction,
-} from '../fisher-actions';
-import type { FisherAction } from '../fisher-actions';
-import { Timer } from '../fisher-timer';
+} from '@actions';
+import type { FisherAction } from '@actions';
+import { Timer } from '@timer';
 import { getRecordTime, roll } from '../utils';
 import { Person } from './Person';
 

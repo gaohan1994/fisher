@@ -3,7 +3,7 @@ import { prefixLogger, prefixes } from '@fisher/logger';
 import { random } from '../utils';
 import { Seed, SeedHandler } from './Seed';
 import { EventKeys, events } from '@shared';
-import { Reward } from '../fisher-reward';
+import { Reward } from '@reward';
 
 const BaseWateringIncreaseValue = 10;
 const BaseSpreadManureIncreaseValue = 10;

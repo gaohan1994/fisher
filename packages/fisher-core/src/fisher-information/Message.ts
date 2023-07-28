@@ -1,5 +1,5 @@
 import { ComponentWithExperience } from '../fisher-core';
-import { Item } from '../fisher-item';
+import { Item } from '@item';
 import { FisherInformationError } from '@shared';
 import { FisherMessageVariant } from './Constants';
 

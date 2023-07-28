@@ -1,12 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { BackpackItem, Item, ItemType } from '../fisher-item';
-import { EventKeys, events } from '@shared';
-import { ArchiveInterface } from '../fisher-archive';
+import { Assets } from '@assets';
+import { ArchiveInterface } from '@archive';
+import { EventKeys, events, FisherBackpackError } from '@shared';
+import { BackpackItem, Item, ItemType } from '@item';
+import { Information, informationAlert } from '@information';
 import { store } from '../fisher-packages';
-import { Assets } from '../assets';
-import { Information, informationAlert } from '../fisher-information';
-import { FisherBackpackError } from '@shared';
 
 /**
  * 背包系统

@@ -1,8 +1,8 @@
 import localforage from 'localforage';
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
-import { FisherCore } from '../fisher-core';
-import { Timer } from '../fisher-timer';
+import { Timer } from '@timer';
+import { FisherCore } from '@core';
 import { EventKeys, events } from '@shared';
 import { Archive } from './Archive';
 import { ArchiveInterface } from './Types';

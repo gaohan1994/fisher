@@ -3,16 +3,15 @@ import { prefixes, prefixLogger } from '@fisher/logger';
 import { Assets } from '../assets';
 import { FisherCore } from '../fisher-core';
 import { store } from '../fisher-packages';
-import { EnemyItem } from '../fisher-item';
-import { TimerSpace } from '../fisher-timer';
-import { EventKeys, events } from '@shared';
-import { Enemy, Master } from '../fisher-person';
-import { Fight } from '../fisher-fight';
-import { RewardPool } from '../fisher-reward';
-import { FisherBattleError } from '@shared';
+import { EnemyItem } from '@item';
+import { TimerSpace } from '@timer';
+import { EventKeys, events, FisherBattleError } from '@shared';
+import { Enemy, Master } from '@person';
+import { Fight } from '@fight';
+import { RewardPool } from '@reward';
 import { ArchiveInterface } from '../fisher-archive';
 import { generateTimestamp } from '../utils';
-import { HangUpBattleManager, HangUpTime } from '../fisher-hang-up';
+import { HangUpBattleManager, HangUpTime } from '@hangUp';
 
 class Battle {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Battle');

@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { inject, service } from '@fisher/ioc';
 import { ComponentId } from '@shared';
-import { Reward } from '../fisher-reward';
-import { CartItem, Item } from '../fisher-item';
+import { Reward } from '@reward';
+import { CartItem, Item } from '@item';
 import { CartEventKeys, cartEvents } from './Events';
 import { Bank } from './Bank';
 

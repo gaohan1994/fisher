@@ -3,7 +3,7 @@ import { EventEmitter, UnsubscribeFunctionType } from 'smar-util';
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
 import { EventKeys, events } from '@shared';
-import { EquipmentItem, PotionVariant } from '../fisher-item';
+import { EquipmentItem, PotionVariant } from '@item';
 import { Person } from './Person';
 import { PersonEquipment } from './PersonEquipment';
 import { PersonEquipmentEventKeys } from './PersonEquipmentManager';

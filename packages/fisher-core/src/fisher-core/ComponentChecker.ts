@@ -1,5 +1,5 @@
-import { Battle } from '../fisher-battle';
-import { Dungeon } from '../fisher-dungeon';
+import { Battle } from '@battle';
+import { Dungeon } from '@dungeon';
 import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
 import { ComponentId, FisherComponent } from './Constants';
 
