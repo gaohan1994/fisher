@@ -1,5 +1,5 @@
 import { Assets } from '../assets';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { Person } from '../fisher-person';
 import { PotionVariant } from './Constants';
 import { AbstractItem, IItem, Item, ItemType } from './Item';

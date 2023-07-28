@@ -1,11 +1,14 @@
 import { makeAutoObservable } from 'mobx';
-import { CartItem, Item } from '../fisher-item';
+import { inject, service } from '@fisher/ioc';
+import { ComponentId } from '@shared';
 import { Reward } from '../fisher-reward';
-import { Bank } from './Bank';
+import { CartItem, Item } from '../fisher-item';
 import { CartEventKeys, cartEvents } from './Events';
+import { Bank } from './Bank';
 
+@service(ComponentId.Cart)
 class Cart {
-  private _bank: Bank;
+  public readonly id = ComponentId.Cart;
 
   public itemMap = new Map<string, CartItem>();
 
@@ -44,12 +47,11 @@ class Cart {
   }
 
   public get canBearPayment() {
-    return this._bank.checkGoldBalance(this.paymentAmount);
+    return this.bank.checkGoldBalance(this.paymentAmount);
   }
 
-  constructor(bank: Bank) {
+  constructor(@inject(ComponentId.Bank) private readonly bank: Bank) {
     makeAutoObservable(this);
-    this._bank = bank;
 
     cartEvents.on(CartEventKeys.AddItem, this.addItem);
     cartEvents.on(CartEventKeys.SetItem, this.setItem);

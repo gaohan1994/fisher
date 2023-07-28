@@ -4,7 +4,7 @@ import { EventEmitter } from 'smar-util';
 import { store } from '../fisher-packages';
 import { PersonEquipment } from './PersonEquipment';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '../fisher-item';
-import { FisherPersonError } from '../fisher-error';
+import { FisherPersonError } from '@shared';
 import { ActionId } from '../fisher-actions';
 
 enum PersonEquipmentEventKeys {

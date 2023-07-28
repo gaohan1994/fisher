@@ -4,5 +4,6 @@
     "composite": true,
     "module": "commonjs",
     "outDir": "./build/commonjs"
-  }
+  },
+  "exclude": ["src/**/*.spec.ts*", "src/**/*.test.ts*"]
 }

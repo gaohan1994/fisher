@@ -3,7 +3,7 @@ import { prefixLogger, prefixes } from '@fisher/logger';
 import { roll } from '../utils';
 import { Item } from '../fisher-item';
 import { Store } from '../fisher-packages';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 
 export interface ICreateRewardOptions {
   gold?: number;

@@ -14,10 +14,6 @@ export * from './fisher-battle';
 
 export * from './fisher-dungeon';
 
-export * from './fisher-error';
-
-export * from './fisher-events';
-
 export * from './fisher-experience';
 
 export * from './fisher-fight';

@@ -1,6 +1,6 @@
 import { IItem, Item, ItemType } from './Item';
 import { EnemyItem, IEnemyItem } from './Enemy';
-import { FisherDungeonError } from '../fisher-error';
+import { FisherDungeonError } from '@shared';
 
 interface IDungeonItem extends IItem {
   unlockLevel: number;

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
-import { events } from '../fisher-events';
+import { events } from '@shared';
 import { ArchiveManager } from '../fisher-archive';
 import { ComponentManager } from './ComponentManager';
 

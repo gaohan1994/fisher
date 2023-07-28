@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { random } from '../utils';
 import { Seed, SeedHandler } from './Seed';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { Reward } from '../fisher-reward';
 
 const BaseWateringIncreaseValue = 10;

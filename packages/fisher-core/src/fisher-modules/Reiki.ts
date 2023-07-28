@@ -1,4 +1,4 @@
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { ICollectionModuleData, store } from '../fisher-packages';
 import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';

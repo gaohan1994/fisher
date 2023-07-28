@@ -3,7 +3,7 @@ import { Timer } from '../fisher-timer';
 import { Recipe } from '../fisher-item';
 import { RecipeHandler } from './RecipeHandler';
 import { Experience } from '../fisher-experience';
-import { FisherSkillError } from '../fisher-error';
+import { FisherSkillError } from '@shared';
 
 class Skill {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Skill');

@@ -5,7 +5,7 @@ import { Timer } from '../fisher-timer';
 import { Assets } from '../assets';
 import { IBonusBuffAttributesKeys, Person } from '../fisher-person';
 import { ActionId, ActionMode } from './Constants';
-import { FisherActionError } from '../fisher-error';
+import { FisherActionError } from '@shared';
 import { random } from '../utils';
 
 interface IBaseAction {

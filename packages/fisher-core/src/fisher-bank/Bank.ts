@@ -1,16 +1,18 @@
 import { makeAutoObservable } from 'mobx';
+import { service } from '@fisher/ioc';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { EventKeys, events } from '../fisher-events';
+import { ComponentId } from '@shared';
+import { Assets } from '../assets';
+import { EventKeys, events } from '@shared';
 import { ArchiveInterface } from '../fisher-archive';
 import { coinItem, store } from '../fisher-packages';
+import { Information } from '../fisher-information';
 import { ShopCategory } from '../fisher-item';
 import { ShopCategoryHandler } from './ShopCategoryHandler';
-import { Cart } from './Cart';
-import { Assets } from '../assets';
-import { Information } from '../fisher-information';
 
+@service(ComponentId.Bank)
 class Bank {
-  static logger = prefixLogger(prefixes.FISHER_CORE, 'Bank');
+  static logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Bank);
 
   public static instance: Bank;
 
@@ -27,15 +29,13 @@ class Bank {
     };
   }
 
-  public readonly id = 'Bank';
+  public readonly id = ComponentId.Bank;
 
   public readonly name = '商店';
 
   public readonly media = Assets.bank;
 
   public gold: number = 0;
-
-  public cart = new Cart(this);
 
   public get categoryHandlers() {
     return [...this.categoryHandlerMap.values()];
@@ -50,7 +50,7 @@ class Bank {
     return result;
   }
 
-  private constructor() {
+  constructor() {
     makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);

@@ -1,4 +1,4 @@
-import { FisherPersonError } from '../fisher-error';
+import { FisherPersonError } from '@shared';
 
 enum PersonMode {
   Master = 'Master',

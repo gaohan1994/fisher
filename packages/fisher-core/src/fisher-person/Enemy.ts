@@ -4,7 +4,7 @@ import { Reward } from '../fisher-reward';
 import { generateTimestamp } from '../utils';
 import { PersonMode } from './Constants';
 import { Person } from './Person';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 
 class Enemy {
   public key: number;

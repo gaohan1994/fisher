@@ -27,6 +27,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@fisher/ioc": "^1.0.0",
     "@fisher/logger": "^1.0.0"
   }
 }

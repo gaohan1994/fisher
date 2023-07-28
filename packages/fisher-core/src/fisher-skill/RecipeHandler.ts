@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { BackpackItem, IRecipeItem, Recipe } from '../fisher-item';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { Skill } from './Skill';
 import { Reward } from '../fisher-reward';
 import { Backpack } from '../fisher-backpack';

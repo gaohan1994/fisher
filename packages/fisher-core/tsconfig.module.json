@@ -4,5 +4,6 @@
     "composite": true,
     "module": "esnext",
     "outDir": "./build/esm"
-  }
+  },
+  "exclude": ["src/**/*.spec.ts*", "src/**/*.test.ts*"]
 }

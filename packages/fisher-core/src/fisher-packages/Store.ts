@@ -30,7 +30,7 @@ import {
   makeRewardChestsData,
   makeShopData,
 } from './FisherPackages';
-import { FisherCoreError } from '../fisher-error';
+import { FisherCoreError } from '@shared';
 
 class Store {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'Store');

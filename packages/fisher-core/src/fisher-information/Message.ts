@@ -1,6 +1,6 @@
 import { ComponentWithExperience } from '../fisher-core';
 import { Item } from '../fisher-item';
-import { FisherInformationError } from '../fisher-error';
+import { FisherInformationError } from '@shared';
 import { FisherMessageVariant } from './Constants';
 
 let messageId = 1;

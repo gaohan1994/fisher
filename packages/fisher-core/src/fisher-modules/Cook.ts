@@ -1,6 +1,6 @@
 import { Assets } from '../assets';
 import { ArchiveInterface } from '../fisher-archive';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { Recipe } from '../fisher-item';
 import { store } from '../fisher-packages';
 import { Skill } from '../fisher-skill';

@@ -32,51 +32,38 @@ abstract class FisherError extends Error {
   }
 }
 
-class FisherFightError extends FisherError {
+export class FisherFightError extends FisherError {
   code = FisherError.FisherErrorCode.Fight;
 }
 
-class FisherBattleError extends FisherError {
+export class FisherBattleError extends FisherError {
   code = FisherError.FisherErrorCode.Battle;
 }
 
-class FisherDungeonError extends FisherError {
+export class FisherDungeonError extends FisherError {
   code = FisherError.FisherErrorCode.Dungeon;
 }
 
-class FisherActionError extends FisherError {
+export class FisherActionError extends FisherError {
   code = FisherError.FisherErrorCode.Action;
 }
 
-class FisherPersonError extends FisherError {
+export class FisherPersonError extends FisherError {
   code = FisherError.FisherErrorCode.Person;
 }
 
-class FisherSkillError extends FisherError {
+export class FisherSkillError extends FisherError {
   code = FisherError.FisherErrorCode.Skill;
 }
 
-class FisherInformationError extends FisherError {
+export class FisherInformationError extends FisherError {
   code = FisherError.FisherErrorCode.Information;
 }
 
-class FisherBackpackError extends FisherError {
+export class FisherBackpackError extends FisherError {
   code = FisherError.FisherErrorCode.Backpack;
 }
 
-class FisherCoreError extends FisherError {
+export class FisherCoreError extends FisherError {
   code = FisherError.FisherErrorCode.Core;
 }
-
-export {
-  FisherError,
-  FisherPersonError,
-  FisherFightError,
-  FisherBattleError,
-  FisherDungeonError,
-  FisherActionError,
-  FisherSkillError,
-  FisherInformationError,
-  FisherBackpackError,
-  FisherCoreError,
-};

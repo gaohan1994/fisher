@@ -3,9 +3,9 @@ import { Recipe } from '../fisher-item';
 import { Skill } from '../fisher-skill';
 import { HangUpRecipeHandler } from '../fisher-hang-up/HangUpRecipeHandler';
 import { HangUpTime } from '../fisher-hang-up';
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { generateTimestamp } from '../utils';
-import { FisherCoreError } from '../fisher-error';
+import { FisherCoreError } from '@shared';
 import { FisherCore } from '../fisher-core';
 
 abstract class Collection<CollectionPackages> {

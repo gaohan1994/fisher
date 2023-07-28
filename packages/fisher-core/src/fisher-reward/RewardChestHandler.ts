@@ -1,4 +1,4 @@
-import { EventKeys, events } from '../fisher-events';
+import { EventKeys, events } from '@shared';
 import { Information, informationAlert } from '../fisher-information';
 import { RewardChest } from '../fisher-item';
 import { roll } from '../utils';
