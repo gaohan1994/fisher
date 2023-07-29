@@ -1,6 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
     "rootDir": "./src"
   },
   "include": ["src/**/*"],

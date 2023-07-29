@@ -21,8 +21,8 @@
   "devDependencies": {},
   "scripts": {
     "build": "rimraf ./build && npm run build:module && npm run build:commonjs",
-    "build:module": "tsc -b tsconfig.module.json",
-    "build:commonjs": "tsc -b tsconfig.commonjs.json",
+    "build:module": "tsc -b tsconfig.build.json",
+    "build:commonjs": "tsc -b tsconfig.build.commonjs.json",
     "release": "npm run build && npm publish build"
   },
   "license": "MIT"

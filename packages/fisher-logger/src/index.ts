@@ -1,5 +1,5 @@
-import { Logger } from './logger';
-import { Prefix } from './prefix';
+import { Logger } from './logger.js';
+import { Prefix } from './prefix.js';
 
 export const mainLogger = Logger.create();
 

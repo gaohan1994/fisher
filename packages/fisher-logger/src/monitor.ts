@@ -1,5 +1,5 @@
-import { LoggerStorage } from './storage';
-import { LoggerLevel } from './constants';
+import { LoggerStorage } from './storage.js';
+import { LoggerLevel } from './constants.js';
 
 interface IFormatLog {
   level: LoggerLevel;

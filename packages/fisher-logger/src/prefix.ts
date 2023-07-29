@@ -1,4 +1,4 @@
-import { LoggerLevel } from './constants';
+import { LoggerLevel } from './constants.js';
 
 interface BaseLogInterface {
   (level: LoggerLevel, prefix: string, ...messages: any[]): any;

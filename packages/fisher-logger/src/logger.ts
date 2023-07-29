@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { Prefix } from './prefix';
-import { Monitor } from './monitor';
-import { LoggerLevel, LoggerLevelPriority, colors } from './constants';
+import { Prefix } from './prefix.js';
+import { Monitor } from './monitor.js';
+import { LoggerLevel, LoggerLevelPriority, colors } from './constants.js';
 
 function randomPick<T>(items: Array<T>): T {
   return items[Math.floor(Math.random() * items.length)];
