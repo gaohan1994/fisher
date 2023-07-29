@@ -1,0 +1,21 @@
+{
+  "moduleName": "Potion",
+  "heal": [
+    {
+      "id": "LowHealPotion",
+      "name": "还灵丹",
+      "desc": "生命值恢复100点",
+      "media": "Potion",
+      "price": 5,
+      "healValue": 50
+    },
+    {
+      "id": "HighHealPotion",
+      "name": "回神丹",
+      "desc": "生命值恢复200点",
+      "media": "Potion",
+      "price": 10,
+      "healValue": 200
+    }
+  ]
+}

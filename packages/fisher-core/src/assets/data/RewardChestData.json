@@ -1,0 +1,263 @@
+{
+  "moduleName": "RewardChest",
+  "data": [
+    {
+      "id": "NoobChest",
+      "name": "新手宝箱",
+      "desc": "给新手提供的宝箱，内含一套新手装备",
+      "media": "ChestNormal",
+      "price": 100,
+      "rewardItems": [
+        { "itemId": "NoobSword", "itemQuantity": 1 },
+        { "itemId": "NoobDagger", "itemQuantity": 1 },
+        { "itemId": "ClothHat", "itemQuantity": 1 },
+        { "itemId": "NoobJacket", "itemQuantity": 1 },
+        { "itemId": "NoobVest", "itemQuantity": 1 },
+        { "itemId": "NoobShoe", "itemQuantity": 1 },
+        { "itemId": "NoobBelt", "itemQuantity": 1 },
+        { "itemId": "NoobHandGuard", "itemQuantity": 1 },
+        { "itemId": "NoobNecklace", "itemQuantity": 1 },
+        { "itemId": "NoobEarring", "itemQuantity": 1 },
+        { "itemId": "NoobRing", "itemQuantity": 1 },
+        { "itemId": "NoobBracelet", "itemQuantity": 1 }
+      ]
+    },
+    {
+      "id": "SmallGoldChest",
+      "name": "金袋（小）",
+      "desc": "装满了金币的袋子",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 5000
+    },
+    {
+      "id": "MiddleGoldChest",
+      "name": "金袋（中）",
+      "desc": "装满了金币的袋子",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 8000
+    },
+    {
+      "id": "LargeGoldChest",
+      "name": "金袋（大）",
+      "desc": "装满了金币的袋子",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 10000
+    },
+    {
+      "id": "FuDiReikiChest",
+      "name": "福地灵气袋",
+      "desc": "装满了福地灵气",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardItems": [{ "itemId": "FuDiReiki", "itemQuantity": 100 }]
+    },
+    {
+      "id": "DongTianReikiChest",
+      "name": "洞天灵气袋",
+      "desc": "装满了洞天灵气",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardItems": [{ "itemId": "DongTianReiki", "itemQuantity": 100 }]
+    },
+    {
+      "id": "WoodPileChest",
+      "name": "梅花木桩通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rarity": "Common",
+      "rewardGold": 200,
+      "rewardExperience": 300,
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 10 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20, "probability": 20 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10, "probability": 20 }
+      ]
+    },
+    {
+      "id": "MartialHallChest",
+      "name": "讲武堂通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rarity": "Common",
+      "rewardGold": 300,
+      "rewardExperience": 400,
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 10 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "TrainingSword", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingShield", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingJacket", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingVest", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingShoe", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingBelt", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "NormalReiki", "itemQuantity": 20, "probability": 20 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10, "probability": 20 }
+      ]
+    },
+    {
+      "id": "GoastCityChest",
+      "name": "迷雾鬼城通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 500,
+      "rewardExperience": 500,
+      "rarity": "Common",
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 10 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 10 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "TrainingHelmet", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingHandGuard", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingNecklace", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingEarring", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingRing", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "TrainingBracelet", "itemQuantity": 1, "probability": 10 },
+        { "itemId": "NormalReiki", "itemQuantity": 20, "probability": 20 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 10, "probability": 20 }
+      ]
+    },
+    {
+      "id": "SnakeMountainChest",
+      "name": "蛇岭通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 2000,
+      "rewardExperience": 600,
+      "rarity": "Rare",
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 5 },
+        { "itemId": "LowSpiritMine", "itemQuantity": 5 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 10 },
+        { "itemId": "HighMonsterMaterial", "itemQuantity": 10 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "FireSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "SnakeDagger", "itemQuantity": 1, "probability": 1 }
+      ]
+    },
+    {
+      "id": "FiveElementsArrayChest",
+      "name": "五行大阵通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 3000,
+      "rewardExperience": 700,
+      "rarity": "Rare",
+      "rewardItems": [
+        { "itemId": "FiveElementsStone", "itemQuantity": 1 },
+        { "itemId": "FuDiReiki", "itemQuantity": 20 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "FireSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "IceSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "EarthSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "MetalSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "WoodSword", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "MetalStone", "itemQuantity": 1, "probability": 20 },
+        { "itemId": "WoodStone", "itemQuantity": 1, "probability": 20 },
+        { "itemId": "WaterStone", "itemQuantity": 1, "probability": 20 },
+        { "itemId": "FireStone", "itemQuantity": 1, "probability": 20 },
+        { "itemId": "EarthStone", "itemQuantity": 1, "probability": 20 }
+      ]
+    },
+    {
+      "id": "QingYuGongChest",
+      "name": "清玉宫通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 5000,
+      "rewardExperience": 800,
+      "rarity": "Rare",
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20 },
+        { "itemId": "FuDiReiki", "itemQuantity": 20 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20 },
+        { "itemId": "JadeCloudHairpin", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "JadeCloudHandGuard", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "JadeCloudNecklace", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "JadeCloudEarring", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "JadeCloudRing", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "JadeCloudBracelet", "itemQuantity": 1, "probability": 1 }
+      ]
+    },
+    {
+      "id": "KunPengMazeChest",
+      "name": "鲲鹏迷窟通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 8000,
+      "rewardExperience": 900,
+      "rarity": "Epic",
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20 },
+        { "itemId": "FuDiReiki", "itemQuantity": 20 },
+        { "itemId": "DongTianReiki", "itemQuantity": 20 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 30 },
+        { "itemId": "HighMonsterMaterial", "itemQuantity": 30 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "GuYanHandGuard", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "GuYanNecklace", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "GuYanEarring", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "GuYanRing", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "GuYanBracelet", "itemQuantity": 1, "probability": 1 }
+      ]
+    },
+    {
+      "id": "DaoChest",
+      "name": "道门副本通关宝箱",
+      "media": "ChestNormal",
+      "price": 1,
+      "rewardGold": 10000,
+      "rewardExperience": 900,
+      "rarity": "Epic",
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20 },
+        { "itemId": "FuDiReiki", "itemQuantity": 20 },
+        { "itemId": "DongTianReiki", "itemQuantity": 20 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "LuoXiaNecklace", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaHandGuard", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaEarring", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaRing", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaBracelet", "itemQuantity": 1, "probability": 1 }
+      ]
+    },
+    {
+      "id": "KuiDragonPalaceChest",
+      "name": "夔龙王宫通关宝箱",
+      "media": "ChestNormal",
+      "rarity": "Legendary",
+      "price": 1,
+      "rewardGold": 12000,
+      "rewardExperience": 1000,
+      "rewardItems": [
+        { "itemId": "NormalReiki", "itemQuantity": 20 },
+        { "itemId": "FuDiReiki", "itemQuantity": 20 },
+        { "itemId": "DongTianReiki", "itemQuantity": 20 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 100 },
+        { "itemId": "HighMonsterMaterial", "itemQuantity": 100 }
+      ],
+      "randomRewardItems": [
+        { "itemId": "LuoXiaNecklace", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaHandGuard", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaEarring", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaRing", "itemQuantity": 1, "probability": 1 },
+        { "itemId": "LuoXiaBracelet", "itemQuantity": 1, "probability": 1 }
+      ]
+    }
+  ]
+}

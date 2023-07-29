@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "rootDir": "./src",
+    "types": ["reflect-metadata", "@types/jest", "jest"]
+  },
+  "include": ["src/**/*"]
+}

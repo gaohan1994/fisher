@@ -1,5 +1,5 @@
 {
-  "name": "fisher",
+  "name": "@fisher/monorepo",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -24,6 +24,7 @@
     "dayjs": "^1.11.7",
     "invariant": "^2.2.4",
     "jsdom": "^20.0.3",
+    "lerna": "^7.1.4",
     "localforage": "^1.10.0",
     "mobx": "^6.7.0",
     "mobx-react": "^7.6.0",
@@ -33,8 +34,10 @@
     "react-draggable": "^4.4.5",
     "react-router-dom": "^6.7.0",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.1",
     "smar-util": "^1.2.6",
     "styled-components": "^5.3.6",
+    "tslint": "^6.1.3",
     "vite-tsconfig-paths": "^3.6.0"
   },
   "devDependencies": {
@@ -45,8 +48,11 @@
     "@vitest/coverage-c8": "^0.25.5",
     "@vitest/ui": "latest",
     "happy-dom": "latest",
-    "typescript": "^4.6.4",
+    "typescript": "^4.9.5",
     "vite": "latest",
     "vitest": "latest"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

@@ -1,0 +1,231 @@
+{
+  "moduleName": "Battle",
+  "enemy": [
+    {
+      "id": "YangZhouEarthMonster",
+      "name": "扬州城土地妖",
+      "desc": "霍乱扬州城的土地妖，实力强大",
+      "media": "Monster",
+      "mode": "CommonEnemy",
+      "level": 1,
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 1
+    },
+    {
+      "id": "LowSpiritMonster",
+      "name": "水灵小妖",
+      "desc": "灵力较低的小妖怪，常出现在水源丰富的地界",
+      "media": "Monster",
+      "mode": "CommonEnemy",
+      "level": 4,
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 4
+    },
+    {
+      "id": "FireSpiritMonster",
+      "name": "火灵小妖",
+      "desc": "灵力较低的小妖怪，常出现在火源丰富的地界",
+      "media": "Monster",
+      "level": 8,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 8
+    },
+    {
+      "id": "SmallPigMonster",
+      "name": "小猪妖",
+      "desc": "灵力较低的小猪妖，常出现在农田附近",
+      "media": "Monster",
+      "level": 12,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 12
+    },
+    {
+      "id": "CityGoast",
+      "name": "游魂",
+      "desc": "游荡在城市里的鬼混，常在夜间出现",
+      "media": "Monster",
+      "level": 20,
+      "mode": "EliteEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 40
+    },
+    {
+      "id": "ShrimpSoldier",
+      "name": "虾兵",
+      "desc": "守卫东海的虾兵，在东海随处可见",
+      "media": "Monster",
+      "level": 16,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 16
+    },
+    {
+      "id": "CrabSoldier",
+      "name": "蟹将",
+      "desc": "守卫东海的蟹将，在东海随处可见",
+      "media": "Monster",
+      "level": 20,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 20
+    },
+    {
+      "id": "AngerSeaSoldier",
+      "name": "怒海卫兵",
+      "desc": "守卫东海的士兵，实力不俗",
+      "media": "Monster",
+      "level": 24,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 24
+    },
+    {
+      "id": "AngerSeaKnight",
+      "name": "怒海骑士",
+      "desc": "守卫东海的骑士，实力不俗",
+      "media": "Monster",
+      "level": 26,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 60 }
+      ],
+      "experienceRewards": 26
+    },
+    {
+      "id": "AngerSeaGeneral",
+      "name": "怒海战将",
+      "desc": "守卫东海的战将，实力强劲",
+      "media": "Monster",
+      "level": 30,
+      "goldReward": 1,
+      "mode": "EliteEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 60 }
+      ],
+      "experienceRewards": 60
+    },
+    {
+      "id": "MountainGoast",
+      "name": "山精",
+      "desc": "十万大山里的妖怪",
+      "media": "Monster",
+      "level": 30,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 30
+    },
+    {
+      "id": "ScorpionMonster",
+      "name": "蝎子精",
+      "desc": "十万大山里的妖怪",
+      "media": "Monster",
+      "level": 34,
+      "goldReward": 1,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 34
+    },
+    {
+      "id": "MonsterMonk",
+      "name": "妖僧",
+      "desc": "在十万大山中散教的妖僧，是实力高深的妖怪所化",
+      "media": "Monster",
+      "level": 36,
+      "mode": "CommonEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 30 }
+      ],
+      "experienceRewards": 36
+    },
+    {
+      "id": "BlackBearMonster",
+      "name": "黑熊精",
+      "desc": "实力恐怖的黑熊精",
+      "media": "BlackBearMonster",
+      "level": 40,
+      "mode": "EliteEnemy",
+      "randomRewards": [
+        { "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 },
+        { "itemId": "LowMonsterMaterial", "itemQuantity": 1, "probability": 60 }
+      ],
+      "experienceRewards": 80
+    },
+    {
+      "id": "MountainGod",
+      "name": "兽神残魄",
+      "desc": "十万大山兽神的一律残魄",
+      "media": "MountainGod",
+      "level": 40,
+      "mode": "LegendaryEnemy",
+      "rewardItems": [{ "itemId": "LowMonsterMaterial", "itemQuantity": 1 }],
+      "randomRewards": [{ "itemId": "NormalReiki", "itemQuantity": 1, "probability": 30 }],
+      "experienceRewards": 160
+    }
+  ],
+  "area": [
+    {
+      "id": "Battle:YangZhou",
+      "name": "扬州城",
+      "desc": "",
+      "media": "",
+      "unlockLevel": 0,
+      "enemies": ["LowSpiritMonster", "FireSpiritMonster", "SmallPigMonster", "YangZhouEarthMonster", "CityGoast"]
+    },
+    {
+      "id": "Battle:EastSea",
+      "name": "东海",
+      "desc": "",
+      "media": "",
+      "unlockLevel": 5,
+      "enemies": ["ShrimpSoldier", "CrabSoldier", "AngerSeaKnight"]
+    },
+    {
+      "id": "Battle:HundredThousandMountains",
+      "name": "十万大山",
+      "desc": "",
+      "media": "",
+      "unlockLevel": 10,
+      "enemies": ["MountainGoast", "ScorpionMonster", "MonsterMonk", "BlackBearMonster", "MountainGod"]
+    }
+  ]
+}

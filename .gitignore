@@ -23,3 +23,7 @@ dist-ssr
 *.sw?
 coverage/*
 doc/*.js
+
+# build output files
+**/dist
+**/build

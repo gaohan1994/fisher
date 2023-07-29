@@ -1,0 +1,33 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@assets": ["./src/assets"],
+      "@assets/*": ["./src/assets/*"],
+      "@shared": ["./src/shared"],
+      "@store": ["./src/fisher-store"],
+      "@actions": ["./src/fisher-actions"],
+      "@archive": ["./src/fisher-archive"],
+      "@backpack": ["./src/fisher-backpack"],
+      "@bank": ["./src/fisher-bank"],
+      "@battle": ["./src/fisher-battle"],
+      "@core": ["./src/fisher-core"],
+      "@dungeon": ["./src/fisher-dungeon"],
+      "@experience": ["./src/fisher-experience"],
+      "@fight": ["./src/fisher-fight"],
+      "@hangUp": ["./src/fisher-hang-up"],
+      "@information": ["./src/fisher-information"],
+      "@item": ["./src/fisher-item"],
+      "@person": ["./src/fisher-person"],
+      "@potion": ["./src/fisher-potion"],
+      "@reward": ["./src/fisher-reward"],
+      "@skill": ["./src/fisher-skill"],
+      "@timer": ["./src/fisher-timer"],
+      "@utils": ["./src/fisher-utils"]
+    }
+  },
+  "include": ["src/**/*", "src/**/*.json"]
+}
