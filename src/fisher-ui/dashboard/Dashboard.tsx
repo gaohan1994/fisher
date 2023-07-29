@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { observer } from 'mobx-react';
 import { Avatar, Button, Card, CardContent, CardHeader, Collapse, Divider, Stack, Typography } from '@mui/material';
 import {
   DungeonItem,
@@ -15,9 +16,7 @@ import {
 import { FuiColor } from '../theme';
 import { FuiExperienceDetail, FuiLevelChip } from '../experience';
 import { ExpandMore, FuiActiveDashboardText } from '../text';
-import { useRecipeInterval } from '../recipe/RecipeHook';
 import { useFisherComponentExperience } from './Hook';
-import { observer } from 'mobx-react';
 import { BattleEnemySelector } from './BattleEnemySelector';
 import { DungeonSelector } from './DungeonSelector';
 import { FuiEnemyRewardPreview } from '../reward';
@@ -121,11 +120,11 @@ interface IActiveRecipeInfo {
   recipe: Recipe;
 }
 const ActiveRecipeInfo: FC<IActiveRecipeInfo> = ({ recipe }) => {
-  const { intervalSecond } = useRecipeInterval(recipe);
+  const { interval } = recipe;
   return (
     <React.Fragment>
       <FuiActiveDashboardText text={recipe.name} />
-      <FuiActiveDashboardText text={`${recipe.name} 间隔 ${intervalSecond} 秒`} />
+      <FuiActiveDashboardText text={`${recipe.name} 间隔 ${interval / 1000} 秒`} />
       <FuiActiveDashboardText text={`经验奖励：${recipe.rewardExperience} 点`} />
     </React.Fragment>
   );

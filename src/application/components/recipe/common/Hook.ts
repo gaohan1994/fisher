@@ -38,5 +38,5 @@ export const useRecipeCostItems = (recipe: Recipe) =>
  */
 export const useRecipeDisplayInterval = (recipe: Recipe) => {
   const { interval } = recipe;
-  return `${numeral(interval / 1000).format('0.0')} 秒`;
+  return numeral(interval / 1000).format('0.0');
 };

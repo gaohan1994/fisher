@@ -35,7 +35,6 @@ export const useBankGold = () => {
 export const useActiveShopCategoryHandlers = () => {
   const allCategoryHandler = useCartgoryHandlers();
   const { showAllShopCategories, selectedShopCategoryHandler } = shopStore;
-
   if (showAllShopCategories) return allCategoryHandler;
   return [selectedShopCategoryHandler!];
 };

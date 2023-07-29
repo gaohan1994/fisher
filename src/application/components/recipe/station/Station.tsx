@@ -5,29 +5,27 @@ import { notifycationStore } from '@Fui';
 import { Cook, Forge, Recipe, RecipeHandler } from '@FisherCore';
 
 import { TimerProgess } from '../../progress';
-import { ModuleStickyCard } from '../../layout';
+import { StackSpaceBetween } from '../../layout';
 import { FuiLevelText } from '../../level';
 import {
   useRecipeCostItems,
   useRecipeDisplayInterval,
   useRecipeRewardItems,
   useRecipeRewardRandomItems,
-  ExperienceText,
-  IntervalText,
+  ForgeIntervalText,
+  ForgeExperienceText,
 } from '../common';
 
 import { useUnavaiableReason } from './Hook';
-import { StationButton } from './Styled';
+import { StationButton, StationContainer } from './Styled';
 import { Rewards } from './Rewards';
 import { Costs } from './Costs';
 
 const SkillLevelText = '当前技能等级：';
 const SkillLevelRequireText = '技能等级需求：';
 const StationTitle = '工作台';
-const StationIntervalPrefix = '制作间隔：';
 const RewardTitle = '制作奖励';
 const RandomRewardTitle = '上级作物奖励';
-const StationExperiencePrefix = '经验奖励：';
 const StationButtonText = '开始制作';
 
 export interface StationProps {
@@ -72,19 +70,15 @@ export const Station: FC<StationProps> = observer(
     };
 
     return (
-      <ModuleStickyCard title={StationTitle}>
-        <Stack spacing={1}>
+      <StationContainer title={StationTitle}>
+        <StackSpaceBetween>
           <FuiLevelText preText={SkillLevelRequireText} level={unlockLevel} />
           <FuiLevelText preText={SkillLevelText} level={level} />
-          <IntervalText>
-            {StationIntervalPrefix}
-            {displayInterval}
-          </IntervalText>
-          <ExperienceText>
-            {StationExperiencePrefix}
-            {rewardExperience}
-          </ExperienceText>
-        </Stack>
+        </StackSpaceBetween>
+        <StackSpaceBetween>
+          <ForgeIntervalText>{displayInterval}</ForgeIntervalText>
+          <ForgeExperienceText>{rewardExperience}</ForgeExperienceText>
+        </StackSpaceBetween>
         <Stack spacing={1} divider={<Divider />}>
           <Rewards id="reward-items" header={RewardTitle} items={rewardItems} />
           {hasRandomRewardItems && (
@@ -96,7 +90,7 @@ export const Station: FC<StationProps> = observer(
             {Boolean(reason) ? reason : StationButtonText}
           </StationButton>
         </Stack>
-      </ModuleStickyCard>
+      </StationContainer>
     );
   }
 );

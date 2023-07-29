@@ -5,7 +5,6 @@ export * from './person';
 export * from './container';
 export * from './progress';
 export * from './text';
-export * from './recipe';
 export * from './item';
 export * from './backpack';
 export * from './dashboard';

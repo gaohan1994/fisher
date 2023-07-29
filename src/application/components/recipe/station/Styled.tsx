@@ -1,5 +1,15 @@
 import { ButtonProps, ListItem, ListSubheader, Typography, TypographyProps, styled } from '@mui/material';
 import { RecipeButton } from '../common';
+import { ModuleStickyCard } from '../../layout';
+
+export const StationContainer = styled(ModuleStickyCard)(({ theme }) => ({
+  '& #stack-space-between': {
+    marginBottom: theme.spacing(1),
+  },
+  '& .MuiCardContent-root': {
+    paddingTop: 0,
+  },
+}));
 
 interface StationButtonProps extends ButtonProps {
   reason: string;
