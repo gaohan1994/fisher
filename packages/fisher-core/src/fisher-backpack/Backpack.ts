@@ -1,11 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { Assets } from '@assets';
+import { Store } from '@store';
+import { inject, service } from '@fisher/ioc';
 import { ArchiveInterface } from '@archive';
-import { EventKeys, events, FisherBackpackError } from '@shared';
 import { BackpackItem, Item, ItemType } from '@item';
 import { Information, informationAlert } from '@information';
-import { store } from '../fisher-packages';
+import { ComponentId, EventKeys, events, FisherBackpackError } from '@shared';
 
 /**
  * 背包系统
@@ -20,23 +21,15 @@ import { store } from '../fisher-packages';
  * @export
  * @class Backpack
  */
+@service(ComponentId.Backpack)
 class Backpack {
-  static logger = prefixLogger(prefixes.FISHER_CORE, 'Backpack');
+  static logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Backpack);
 
-  public readonly id = 'Backpack';
+  public readonly id = ComponentId.Backpack;
 
   public name = '背包';
 
   public media = Assets.backpack;
-
-  public static instance: Backpack;
-
-  public static create(): Backpack {
-    if (!Backpack.instance) {
-      Backpack.instance = new Backpack();
-    }
-    return Backpack.instance;
-  }
 
   public items = new Map<Item, BackpackItem>();
 
@@ -60,7 +53,7 @@ class Backpack {
     return result;
   }
 
-  private constructor() {
+  constructor(@inject(ComponentId.Store) private readonly store: Store) {
     makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
@@ -154,7 +147,7 @@ class Backpack {
   };
 
   public addItemById = (itemId: string, quantity: number) => {
-    const item = store.findItemById(itemId);
+    const item = this.store.findItemById(itemId);
     if (item === undefined) {
       return Backpack.logger.error(`Try to add item ${itemId} but can not found this item`);
     }

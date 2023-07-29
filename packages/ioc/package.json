@@ -7,6 +7,7 @@
     "Typescript",
     "IOC"
   ],
+  "type": "module",
   "author": "Harper Gao",
   "license": "MIT",
   "main": "./build/commonjs/index.js",

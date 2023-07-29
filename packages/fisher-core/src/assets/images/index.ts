@@ -19,7 +19,6 @@ import AttackPower from './common/AttackPower.png';
 import AttackSpeed from './common/AttackSpeed.png';
 import DefenceCorruption from './common/DefenceCorruption.png';
 import DefencePower from './common/DefencePower.png';
-
 import Bag from './item/Bag.png';
 import CoolingWater from './item/CoolingWater.png';
 import ChestGold from './item/ChestGold.png';
@@ -43,7 +42,6 @@ import DragonReiki from './item/DragonReiki.png';
 import MonsterMaterial from './item/MonsterMaterial.png';
 import DragonMaterial from './item/DragonMaterial.png';
 import Potion from './item/Potion.png';
-
 import posion from './actions/posion.png';
 import EmptyEquipmentSlot from './equipments/EmptyEquipmentSlot.png';
 import EmptyPrimaryWeapon from './equipments/EmptyPrimaryWeapon.png';
@@ -106,7 +104,6 @@ import BraceletCommon from './equipments/BraceletCommon.png';
 import BraceletRare from './equipments/BraceletRare.png';
 import BraceletEpic from './equipments/BraceletEpic.png';
 import BraceletLegendary from './equipments/BraceletLegendary.png';
-
 import Monster from './enemy/Monster.png';
 import LowSpiritMonster from './enemy/LowSpiritMonster.png';
 import FireSpiritMonster from './enemy/FireSpiritMonster.png';

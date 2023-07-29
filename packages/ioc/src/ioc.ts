@@ -15,9 +15,9 @@ interface ServiceConstructor<T = any, R extends any[] = any[]> {
 
 export const serviceConstructorMap = new Map<ServiceUniqueId, ServiceConstructor>();
 
-const IocServiceId = Symbol.for('IocServiceId');
+export const IocServiceId = '$$IOC$$IocServiceId';
 
-const DependencyMetadataKey = Symbol.for('DependencyMetadataKey');
+export const DependencyMetadataKey = '$$IOC$$DependencyMetadataKey';
 
 export class IocService {
   public readonly serviceStore = new Map<ServiceUniqueId, unknown>();

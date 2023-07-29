@@ -1,11 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "esnext",
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
       "@assets": ["./src/assets"],
+      "@assets/*": ["./src/assets/*"],
       "@shared": ["./src/shared"],
+      "@store": ["./src/fisher-store"],
       "@actions": ["./src/fisher-actions"],
       "@archive": ["./src/fisher-archive"],
       "@backpack": ["./src/fisher-backpack"],

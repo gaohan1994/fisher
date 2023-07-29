@@ -1,10 +1,19 @@
+let storage: Storage = {
+  setItem: () => {},
+  getItem: () => {},
+} as any;
+
+if (typeof window !== undefined && typeof window.localStorage !== undefined) {
+  storage = window.localStorage;
+}
+
 export class LoggerStorage {
   static setValue = (key: string, value: any): void => {
-    localStorage.setItem(key, JSON.stringify(value));
+    storage.setItem(key, JSON.stringify(value));
   };
 
   static getValue = <T>(key: string, defaultValue?: T): T => {
-    const value = localStorage.getItem(key);
+    const value = storage.getItem(key);
     if (!value && defaultValue !== undefined) {
       this.setValue(key, defaultValue);
       return defaultValue;
