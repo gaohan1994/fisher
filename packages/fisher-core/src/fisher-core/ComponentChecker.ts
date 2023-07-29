@@ -1,7 +1,7 @@
 import { Battle } from '@battle';
 import { Dungeon } from '@dungeon';
-import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
-import { ComponentId, FisherComponent } from './Constants';
+import { Cook, Forge, Mining, Reiki } from '../fisher-modules/index.js';
+import { ComponentId, FisherComponent } from './Constants.js';
 
 function isWithSkillComponent(component: FisherComponent): component is Mining | Reiki | Forge | Cook {
   return isMining(component) || isReiki(component) || isForge(component) || isCook(component);

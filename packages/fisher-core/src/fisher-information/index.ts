@@ -5,10 +5,10 @@ import {
   MasterDeathMessage,
   MasterLevelMessage,
   NormalMessage,
-} from './Message';
-import { Information, information } from './Information';
-import { debounce as debounceInformation } from './Util';
-import { debounce } from '../utils';
+} from './Message.js';
+import { Information, information } from './Information.js';
+import { debounce as debounceInformation } from './Util.js';
+import { debounce } from '../utils/index.js';
 
 const informationTip = debounceInformation(information.tip);
 const informationAlert = debounceInformation(information.alert);

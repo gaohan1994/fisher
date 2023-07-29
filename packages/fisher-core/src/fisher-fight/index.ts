@@ -1,1 +1,1 @@
-export * from './Fight';
+export * from './Fight.js';

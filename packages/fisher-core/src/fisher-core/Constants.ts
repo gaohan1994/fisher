@@ -1,7 +1,7 @@
 import { Master } from '@person';
 import { Bank } from '@bank';
 import { Backpack } from '@backpack';
-import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
+import { Cook, Forge, Mining, Reiki } from '../fisher-modules/index.js';
 import { Dungeon } from '@dungeon';
 import { Battle } from '@battle';
 import { Information } from '@information';

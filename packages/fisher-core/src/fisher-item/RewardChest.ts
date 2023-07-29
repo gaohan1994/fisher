@@ -1,4 +1,4 @@
-import { IItem, Item, ItemType } from './Item';
+import { IItem, Item, ItemType } from './Item.js';
 
 interface IRewardChest extends IItem {
   rewardGold?: number;

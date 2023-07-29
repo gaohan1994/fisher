@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Item } from './Item';
+import { Item } from './Item.js';
 
 /**
  * 背包物品类

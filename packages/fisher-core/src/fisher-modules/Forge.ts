@@ -1,10 +1,10 @@
-import { Assets } from '../assets';
-import { ArchiveInterface } from '../fisher-archive';
+import { Assets } from '@assets';
+import { ArchiveInterface } from '@archive';
 import { EventKeys, events } from '@shared';
 import { Recipe } from '@item';
-import { store } from '../fisher-packages';
+import { store } from '../fisher-packages/index.js';
 import { Skill } from '@skill';
-import { Collection } from './Collection';
+import { Collection } from './Collection.js';
 
 class Forge extends Collection<Recipe[]> {
   public static instance: Forge;

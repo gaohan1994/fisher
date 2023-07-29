@@ -1,7 +1,7 @@
-import { ComponentWithExperience } from '../fisher-core';
+import { ComponentWithExperience } from '../fisher-core/index.js';
 import { Item } from '@item';
 import { FisherInformationError } from '@shared';
-import { FisherMessageVariant } from './Constants';
+import { FisherMessageVariant } from './Constants.js';
 
 let messageId = 1;
 abstract class FisherInformationMessage<MessageDetail> {

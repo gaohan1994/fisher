@@ -1,4 +1,4 @@
-import { service, IocService, inject } from '../ioc';
+import { service, IocService, inject } from '../ioc.js';
 
 @service('A')
 class ServiceA {

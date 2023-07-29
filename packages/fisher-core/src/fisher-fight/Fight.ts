@@ -2,7 +2,7 @@ import { makeAutoObservable, reaction } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { Enemy, Master } from '@person';
-import { getRecordTime } from '../utils';
+import { getRecordTime } from '../utils/index.js';
 
 interface IFightInfo {
   master: Master;

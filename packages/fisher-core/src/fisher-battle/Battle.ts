@@ -1,16 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
-import { Assets } from '../assets';
-import { FisherCore } from '../fisher-core';
-import { store } from '../fisher-packages';
+import { Assets } from '@assets';
+import { FisherCore } from '../fisher-core/index.js';
+import { store } from '../fisher-packages/index.js';
 import { EnemyItem } from '@item';
 import { TimerSpace } from '@timer';
 import { EventKeys, events, FisherBattleError } from '@shared';
 import { Enemy, Master } from '@person';
 import { Fight } from '@fight';
 import { RewardPool } from '@reward';
-import { ArchiveInterface } from '../fisher-archive';
-import { generateTimestamp } from '../utils';
+import { ArchiveInterface } from '@archive';
+import { generateTimestamp } from '../utils/index.js';
 import { HangUpBattleManager, HangUpTime } from '@hangUp';
 
 class Battle {

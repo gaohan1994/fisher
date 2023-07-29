@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { generateTimestamp, randomString } from '../utils';
-import { ArchiveInterface } from './Types';
+import { generateTimestamp, randomString } from '../utils/index.js';
+import { ArchiveInterface } from './Types.js';
 
 class Archive {
   public archiveKey: string;

@@ -4,10 +4,10 @@ import { prefixes, prefixLogger } from '@fisher/logger';
 import { Timer } from '@timer';
 import { FisherCore } from '@core';
 import { EventKeys, events } from '@shared';
-import { Archive } from './Archive';
-import { ArchiveInterface } from './Types';
-import { ArchiveHandler } from './ArchiveHandler';
-import { ArchiveConstants, archiveStore } from './Constants';
+import { Archive } from './Archive.js';
+import { ArchiveInterface } from './Types.js';
+import { ArchiveHandler } from './ArchiveHandler.js';
+import { ArchiveConstants, archiveStore } from './Constants.js';
 
 const ArchiveAutoSaveInterval = 1000 * 10;
 

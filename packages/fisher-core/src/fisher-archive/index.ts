@@ -1,3 +1,3 @@
-export * from './Archive';
-export * from './ArchiveManager';
-export * from './Types';
+export * from './Archive.js';
+export * from './ArchiveManager.js';
+export * from './Types.js';

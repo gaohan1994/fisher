@@ -1,5 +1,5 @@
-import { EnemyItem } from './Enemy';
-import { Item, ItemType, IItem } from './Item';
+import { EnemyItem } from './Enemy.js';
+import { Item, ItemType, IItem } from './Item.js';
 
 export interface IBattleAreaItem extends IItem {
   unlockLevel: number;

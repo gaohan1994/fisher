@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { Assets } from '@assets';
-import { Store } from '@store';
-import { inject, service } from '@fisher/ioc';
+import { store } from '../fisher-packages/index.js';
 import { ArchiveInterface } from '@archive';
 import { BackpackItem, Item, ItemType } from '@item';
 import { Information, informationAlert } from '@information';
@@ -21,9 +20,17 @@ import { ComponentId, EventKeys, events, FisherBackpackError } from '@shared';
  * @export
  * @class Backpack
  */
-@service(ComponentId.Backpack)
 class Backpack {
-  static logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Backpack);
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Backpack);
+
+  public static instance: Backpack;
+
+  public static create(): Backpack {
+    if (!Backpack.instance) {
+      Backpack.instance = new Backpack();
+    }
+    return Backpack.instance;
+  }
 
   public readonly id = ComponentId.Backpack;
 
@@ -53,7 +60,7 @@ class Backpack {
     return result;
   }
 
-  constructor(@inject(ComponentId.Store) private readonly store: Store) {
+  constructor() {
     makeAutoObservable(this);
 
     events.on(EventKeys.Archive.LoadArchive, this.onLoadArchive);
@@ -103,7 +110,7 @@ class Backpack {
 
   public getItem = <T extends Item>(item: T): BackpackItem | undefined => {
     if (!this.checkItem(item)) {
-      return Backpack.logger.error(`Try to get item ${item.id} but doesn't exsit in backpack`);
+      throw new FisherBackpackError(`Try to get item ${item.id} but doesn't exsit in backpack`);
     }
 
     return this.items.get(item);
@@ -147,7 +154,7 @@ class Backpack {
   };
 
   public addItemById = (itemId: string, quantity: number) => {
-    const item = this.store.findItemById(itemId);
+    const item = store.findItemById(itemId);
     if (item === undefined) {
       return Backpack.logger.error(`Try to add item ${itemId} but can not found this item`);
     }

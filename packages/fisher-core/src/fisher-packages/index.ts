@@ -1,6 +1,6 @@
-export * from './Store';
-export * from './Common';
+export * from './Store.js';
+export * from './Common.js';
 
-export type { ICollectionModuleData } from './FisherPackages';
+export type { ICollectionModuleData } from './FisherPackages.js';
 
-export * from './FisherPackages';
+export * from './FisherPackages.js';

@@ -1,17 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { Assets } from '../assets';
+import { Assets } from '@assets';
 import { Fight } from '@fight';
+import { FisherCore } from '@core';
 import { DungeonItem } from '@item';
 import { Reward, RewardPool } from '@reward';
 import { Enemy, Master } from '@person';
 import { TimerSpace } from '@timer';
 import { EventKeys, events, FisherDungeonError } from '@shared';
 import { HangUpDungeonManager, HangUpTime } from '@hangUp';
-import { store } from '../fisher-packages';
-import { ArchiveInterface } from '../fisher-archive';
-import { generateTimestamp } from '../utils';
-import { FisherCore } from '../fisher-core';
+import { store } from '../fisher-packages/index.js';
+import { ArchiveInterface } from '../fisher-archive/index.js';
+import { generateTimestamp } from '../utils/index.js';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');

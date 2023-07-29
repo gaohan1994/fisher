@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import { EnemyItemReward, EnemyRandomReward, EnemyItem } from '@item';
 import { Reward } from '@reward';
-import { generateTimestamp } from '../utils';
-import { PersonMode } from './Constants';
-import { Person } from './Person';
+import { generateTimestamp } from '../utils/index.js';
+import { PersonMode } from './Constants.js';
+import { Person } from './Person.js';
 import { EventKeys, events } from '@shared';
 
 class Enemy {

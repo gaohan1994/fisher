@@ -3,6 +3,5 @@
  * Register all moduels dependencies
  */
 
-export * from './graph';
-
-export * from './ioc';
+export * from './graph.js';
+export * from './ioc.js';

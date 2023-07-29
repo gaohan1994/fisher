@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "./build/commonjs"
   },
   "exclude": ["src/**/*.test.ts*"]

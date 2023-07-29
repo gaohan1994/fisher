@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { EventKeys, events } from '@shared';
 import { Information, informationAlert } from '@information';
-import { random } from '../utils';
-import { Person } from './Person';
+import { random } from '../utils/index.js';
+import { Person } from './Person.js';
 
 const DeathPunishComponentId = 'Master';
 const DeathExperienceProtectionLevel = 20;

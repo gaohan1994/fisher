@@ -1,7 +1,4 @@
-export * from './componentId';
-
-export * from './events';
-
-export * from './error';
-
-export * from './equipment';
+export * from './componentId.js';
+export * from './events.js';
+export * from './error.js';
+export * from './equipment.js';

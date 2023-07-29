@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Reward } from './Reward';
+import { Reward } from './Reward.js';
 
 interface ItemRewardCache {
   itemId: string;

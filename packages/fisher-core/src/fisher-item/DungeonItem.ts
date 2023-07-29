@@ -1,5 +1,5 @@
-import { IItem, Item, ItemType } from './Item';
-import { EnemyItem, IEnemyItem } from './Enemy';
+import { IItem, Item, ItemType } from './Item.js';
+import { EnemyItem, IEnemyItem } from './Enemy.js';
 import { FisherDungeonError } from '@shared';
 
 interface IDungeonItem extends IItem {

@@ -18,7 +18,7 @@ enum TimerMode {
 }
 
 export class Timer {
-  static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Timer');
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Timer');
   /**
    * 当前进度 progress
    * 经过 Tick ms 增加一次进度

@@ -1,1 +1,1 @@
-export * from './PotionHandler';
+export * from './PotionHandler.js';

@@ -1,12 +1,9 @@
 import { makeAutoObservable } from 'mobx';
-import { inject, service } from '@fisher/ioc';
 import { ComponentId } from '@shared';
 import { Reward } from '@reward';
 import { CartItem, Item } from '@item';
-import { CartEventKeys, cartEvents } from './Events';
-import { Bank } from './Bank';
+import { CartEventKeys, cartEvents } from './Events.js';
 
-@service(ComponentId.Cart)
 class Cart {
   public readonly id = ComponentId.Cart;
 
@@ -47,10 +44,10 @@ class Cart {
   }
 
   public get canBearPayment() {
-    return this.bank.checkGoldBalance(this.paymentAmount);
+    return true;
   }
 
-  constructor(@inject(ComponentId.Bank) private readonly bank: Bank) {
+  constructor() {
     makeAutoObservable(this);
 
     cartEvents.on(CartEventKeys.AddItem, this.addItem);

@@ -4,7 +4,6 @@
     "target": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "declaration": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

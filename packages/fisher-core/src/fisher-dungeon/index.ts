@@ -1,1 +1,1 @@
-export * from './Dungeon';
+export * from './Dungeon.js';

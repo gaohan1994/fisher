@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Item } from './Item';
+import { Item } from './Item.js';
 
 class CartItem<T = Item> {
   public item: T;

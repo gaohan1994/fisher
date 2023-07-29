@@ -1,15 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 import { EventEmitter, UnsubscribeFunctionType } from 'smar-util';
-import { Assets } from '../assets';
-import { ArchiveInterface } from '../fisher-archive';
+import { Assets } from '@assets';
+import { ArchiveInterface } from '@archive';
 import { EventKeys, events } from '@shared';
 import { EquipmentItem, PotionVariant } from '@item';
-import { Person } from './Person';
-import { PersonEquipment } from './PersonEquipment';
-import { PersonEquipmentEventKeys } from './PersonEquipmentManager';
-import { PotionHandlerManager } from './PotionHandlerManager';
-import { PersonMode } from './Constants';
-import { DeathPunish } from './DeathPunish';
+import { Person } from './Person.js';
+import { PersonEquipment } from './PersonEquipment.js';
+import { PersonEquipmentEventKeys } from './PersonEquipmentManager.js';
+import { PotionHandlerManager } from './PotionHandlerManager.js';
+import { PersonMode } from './Constants.js';
+import { DeathPunish } from './DeathPunish.js';
 
 const EquipmentChangeQuantity = 1;
 

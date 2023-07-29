@@ -1,7 +1,8 @@
-import { EquipmentItem } from './EquipmentItem';
-import { Item } from './Item';
-import { HealPotion, Potion, PotionVariant } from './Potion';
-import { RewardChest } from './RewardChest';
+import { PotionVariant } from './Constants.js';
+import { EquipmentItem } from './EquipmentItem.js';
+import { Item } from './Item.js';
+import { HealPotion, Potion } from './Potion.js';
+import { RewardChest } from './RewardChest.js';
 
 const isEquipmentItem = (item: Item | EquipmentItem): item is EquipmentItem => {
   return item instanceof EquipmentItem;

@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { roll } from '../utils';
+import { roll } from '../utils/index.js';
 import { Item } from '@item';
-import { Store } from '../fisher-packages';
+import { Store } from '../fisher-packages/index.js';
 import { EventKeys, events } from '@shared';
 
 export interface ICreateRewardOptions {

@@ -3,11 +3,11 @@ import { EventEmitter } from 'smar-util';
 import { prefixes, prefixLogger } from '@fisher/logger';
 import { Experience } from '@experience';
 import { ActionId } from '@actions';
-import { getRecordTime, range } from '../utils';
-import { ActionManager } from './ActionsManager';
-import { AttributePanel } from './AttributePanel';
-import { getPersonFactorConfig, PersonMode } from './Constants';
-import { PersonEquipmentManager } from './PersonEquipmentManager';
+import { getRecordTime, range } from '../utils/index.js';
+import { ActionManager } from './ActionsManager.js';
+import { AttributePanel } from './AttributePanel.js';
+import { getPersonFactorConfig, PersonMode } from './Constants.js';
+import { PersonEquipmentManager } from './PersonEquipmentManager.js';
 
 interface PersonEventActionPayload {
   value: number;

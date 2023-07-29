@@ -1,4 +1,4 @@
-import { Item, ItemType, IItem } from './Item';
+import { Item, ItemType, IItem } from './Item.js';
 
 interface IRecipe extends IItem {
   interval: number;

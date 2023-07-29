@@ -1,6 +1,6 @@
-import { Assets } from '../assets';
-import { EquipmentSlot, EquipmentSlotName } from './Constants';
-import { ItemType, AbstractItem } from './Item';
+import { Assets } from '@assets';
+import { EquipmentSlot, EquipmentSlotName } from './Constants.js';
+import { ItemType, AbstractItem } from './Item.js';
 
 class EmptyEquipment extends AbstractItem {
   public type = ItemType.Equipment;

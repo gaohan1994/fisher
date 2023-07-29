@@ -4,8 +4,8 @@ import { Bank } from '@bank';
 import { Backpack } from '@backpack';
 import { FisherCore } from '@core';
 import { EventKeys, events } from '@shared';
-import { Archive } from './Archive';
-import { archiveStore } from './Constants';
+import { Archive } from './Archive.js';
+import { archiveStore } from './Constants.js';
 
 class ArchiveHandler {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'ArchiveHandler');
