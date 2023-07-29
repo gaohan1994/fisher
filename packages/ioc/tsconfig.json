@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "esnext",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
     "rootDir": "./src",
     "types": ["reflect-metadata", "@types/jest", "jest"]
   },

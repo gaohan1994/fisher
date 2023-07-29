@@ -1,4 +1,4 @@
-import { Graph, Node } from '../graph';
+import { Graph, Node } from '../graph.js';
 
 interface TestNodeData {
   id: number;

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Graph } from './graph';
+import { Graph } from './graph.js';
 
 type DependenciesValue = Array<{
   id: string;
