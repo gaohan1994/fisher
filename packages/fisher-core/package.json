@@ -31,7 +31,8 @@
   "dependencies": {
     "@fisher/ioc": "^1.0.0",
     "@fisher/logger": "^1.0.0",
-    "dayjs": "^1.11.9"
+    "dayjs": "^1.11.9",
+    "jest-environment-jsdom": "^29.6.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
