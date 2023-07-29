@@ -1,2 +1,2 @@
-export * from './Skill';
-export * from './RecipeHandler';
+export * from './Skill.js';
+export * from './RecipeHandler.js';

@@ -1,8 +1,8 @@
-import { Assets } from '../assets';
+import { Assets } from '@assets';
 import { EventKeys, events } from '@shared';
 import { Person } from '@person';
-import { PotionVariant } from './Constants';
-import { AbstractItem, IItem, Item, ItemType } from './Item';
+import { PotionVariant } from './Constants.js';
+import { AbstractItem, IItem, Item, ItemType } from './Item.js';
 
 abstract class Potion extends Item {
   public readonly type = ItemType.Potion;
@@ -58,5 +58,5 @@ class EmptyPotion extends AbstractItem {
   public media = Assets[this.id as keyof typeof Assets];
 }
 
-export { EmptyPotion, HealPotion, Potion, PotionVariant };
+export { EmptyPotion, HealPotion, Potion };
 export type { IHealPotion };

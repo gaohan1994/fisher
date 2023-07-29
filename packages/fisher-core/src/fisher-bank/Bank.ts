@@ -5,13 +5,13 @@ import { ComponentId, EventKeys, events } from '@shared';
 import { Assets } from '@assets';
 import { ShopCategory } from '@item';
 import { Information } from '@information';
-import { ArchiveInterface } from '../fisher-archive';
-import { coinItem, store } from '../fisher-packages';
-import { ShopCategoryHandler } from './ShopCategoryHandler';
+import { ArchiveInterface } from '@archive';
+import { coinItem, store } from '../fisher-packages/index.js';
+import { ShopCategoryHandler } from './ShopCategoryHandler.js';
 
 @service(ComponentId.Bank)
 class Bank {
-  static logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Bank);
+  private static readonly logger = prefixLogger(prefixes.FISHER_CORE, ComponentId.Bank);
 
   public static instance: Bank;
 

@@ -29,7 +29,7 @@ import {
   makeReikiPackagesData,
   makeRewardChestsData,
   makeShopData,
-} from './FisherPackages';
+} from './FisherPackages.js';
 import { FisherCoreError } from '@shared';
 
 class Store {

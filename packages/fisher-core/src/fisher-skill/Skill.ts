@@ -1,7 +1,7 @@
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { Timer } from '@timer';
 import { Recipe } from '@item';
-import { RecipeHandler } from './RecipeHandler';
+import { RecipeHandler } from './RecipeHandler.js';
 import { Experience } from '@experience';
 import { FisherSkillError } from '@shared';
 

@@ -1,15 +1,10 @@
-import { inject, IocService } from '@fisher/ioc';
-import { Backpack } from '@backpack';
+import { IocService } from '@fisher/ioc';
 import { ComponentId } from '@shared';
-import { Bank } from '@bank';
 
 export class Core {
   public readonly ioc = new IocService();
 
-  constructor(
-    @inject(ComponentId.Backpack) public readonly backpack: Backpack,
-    @inject(ComponentId.Bank) public readonly bank: Bank
-  ) {}
+  constructor() {}
 
   public init = (): IocService => {
     this.ioc.init();

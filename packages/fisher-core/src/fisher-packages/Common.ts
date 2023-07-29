@@ -1,5 +1,5 @@
 import { NormalItem } from '@item';
-import CommonJson from './data/CommonData.json';
+import CommonJson from '../assets/data/CommonData.json';
 
 export const coinItem = new NormalItem(CommonJson.data.coin);
 

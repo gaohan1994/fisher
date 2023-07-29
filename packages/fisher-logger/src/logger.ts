@@ -7,24 +7,13 @@ function randomPick<T>(items: Array<T>): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-const DefaultLoggerLevel = LoggerLevel.INFO;
-
 export class Logger {
-  static instance: Logger | null;
-
   private map = new Map<string, string>();
 
   private monitor = new Monitor();
 
-  constructor(private level: LoggerLevel) {
+  constructor(private readonly prefix: string, private level: LoggerLevel) {
     makeAutoObservable(this);
-  }
-
-  static create() {
-    if (!this.instance) {
-      this.instance = new Logger(DefaultLoggerLevel);
-    }
-    return this.instance;
   }
 
   public getColor = (prefix: string) => {
@@ -87,5 +76,17 @@ export class Logger {
     // @ts-ignore
     console[level](`%c[${prefix}]`, `color: ${this.getColor(prefix)}`, ...messages);
     this.monitor.record(level, prefix, messages);
+  };
+
+  public error = (...messages: any[]) => {
+    return this.log(LoggerLevel.ERROR, this.prefix, ...messages);
+  };
+
+  public info = (...messages: any[]) => {
+    return this.log(LoggerLevel.INFO, this.prefix, ...messages);
+  };
+
+  public debug = (...messages: any[]) => {
+    return this.log(LoggerLevel.DEBUG, this.prefix, ...messages);
   };
 }

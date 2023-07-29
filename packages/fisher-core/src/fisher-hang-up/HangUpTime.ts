@@ -1,10 +1,10 @@
-import dayjs from 'dayjs';
-import durationPlugin from 'dayjs/plugin/duration';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { MaxHangUpTimeMs } from './Constants';
+import dayjs from 'dayjs/esm/index.js';
+import durationPlugin from 'dayjs/esm/plugin/duration';
+import relativeTimePlugin from 'dayjs/esm/plugin/relativeTime';
+import { MaxHangUpTimeMs } from './Constants.js';
 
 dayjs.extend(durationPlugin);
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTimePlugin);
 
 class HangUpTime {
   public startTime: dayjs.Dayjs;

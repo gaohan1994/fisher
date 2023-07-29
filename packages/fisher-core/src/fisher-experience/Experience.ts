@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { experienceCalculator, MaxLevel } from './ExperienceCalculator';
+import { experienceCalculator, MaxLevel } from './ExperienceCalculator.js';
 
 class Experience {
   public static readonly MaxLevel = MaxLevel;

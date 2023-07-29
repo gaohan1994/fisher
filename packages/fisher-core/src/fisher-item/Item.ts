@@ -1,5 +1,5 @@
-import { Assets } from '../assets';
-import { Rarity } from './Constants';
+import { Assets } from '@assets';
+import { Rarity } from './Constants.js';
 
 export enum ItemType {
   Test = 'Test',

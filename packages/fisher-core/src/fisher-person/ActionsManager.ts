@@ -12,8 +12,8 @@ import {
 } from '@actions';
 import type { FisherAction } from '@actions';
 import { Timer } from '@timer';
-import { getRecordTime, roll } from '../utils';
-import { Person } from './Person';
+import { getRecordTime, roll } from '../utils/index.js';
+import { Person } from './Person.js';
 
 namespace IActionManager {
   export enum ActionManagerEventKeys {

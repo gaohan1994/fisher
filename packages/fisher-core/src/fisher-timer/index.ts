@@ -1,3 +1,3 @@
-export * from './Timer';
-export * from './TimerSpace';
-export * from './FakeClock';
+export * from './Timer.js';
+export * from './TimerSpace.js';
+export * from './FakeClock.js';

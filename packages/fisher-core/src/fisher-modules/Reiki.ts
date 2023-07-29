@@ -1,10 +1,10 @@
 import { EventKeys, events } from '@shared';
-import { ICollectionModuleData, store } from '../fisher-packages';
+import { ICollectionModuleData, store } from '../fisher-packages/index.js';
 import { Recipe } from '@item';
 import { Skill } from '@skill';
-import { Collection } from './Collection';
-import { Assets } from '../assets';
-import { ArchiveInterface } from '../fisher-archive';
+import { Collection } from './Collection.js';
+import { Assets } from '@assets';
+import { ArchiveInterface } from '@archive';
 
 class Reiki extends Collection<ICollectionModuleData> {
   public static instance: Reiki;

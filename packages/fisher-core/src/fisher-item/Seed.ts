@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { IItem, Item, ItemType } from './Item';
+import { IItem, Item, ItemType } from './Item.js';
 
 interface ISeed extends IItem {
   gatherInterval: number;

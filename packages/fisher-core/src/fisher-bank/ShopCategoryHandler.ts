@@ -1,5 +1,5 @@
 import { ShopCategory } from '@item';
-import { store } from '../fisher-packages';
+import { store } from '../fisher-packages/index.js';
 
 class ShopCategoryHandler {
   public readonly shopCategory: ShopCategory;

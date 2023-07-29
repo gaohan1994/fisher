@@ -4,15 +4,15 @@ import { prefixLogger, prefixes } from '@fisher/logger';
 import { Master } from '@person';
 import { Bank } from '@bank';
 import { Backpack } from '@backpack';
-import { Cook, Forge, Mining, Reiki } from '../fisher-modules';
+import { Cook, Forge, Mining, Reiki } from '../fisher-modules/index.js';
 import { EventKeys, events, FisherCoreError } from '@shared';
 import { Dungeon } from '@dungeon';
 import { Battle } from '@battle';
 import { Information, InformationMessage, information, informationAlert, informationTip } from '@information';
-import { ArchiveInterface } from '../fisher-archive';
-import { isBattle, isDungeon, isWithSkillComponent } from './ComponentChecker';
+import { ArchiveInterface } from '@archive';
+import { isBattle, isDungeon, isWithSkillComponent } from './ComponentChecker.js';
 import { HangUpBattleManager, HangUpDungeonManager, HangUpRecipeHandler, HangUpTime } from '@hangUp';
-import { ActiveControlComponent, ComponentId, ComponentWithExperience, FisherComponent } from './Constants';
+import { ActiveControlComponent, ComponentId, ComponentWithExperience, FisherComponent } from './Constants.js';
 
 class ComponentManager {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'ComponentManager');

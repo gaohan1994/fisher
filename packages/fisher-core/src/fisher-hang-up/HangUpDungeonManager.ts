@@ -1,17 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { roll } from '../utils';
-import { store } from '../fisher-packages';
+import { roll } from '../utils/index.js';
+import { store } from '../fisher-packages/index.js';
 import { Enemy, Master } from '@person';
-import { ComponentId } from '../fisher-core';
-import { HangUpTime } from './HangUpTime';
-import { FakeFight } from './FakeFight';
+import { ComponentId } from '../fisher-core/index.js';
+import { HangUpTime } from './HangUpTime.js';
+import { FakeFight } from './FakeFight.js';
 import { fakeClock } from '@timer';
 import { DungeonItem } from '@item';
 import { RewardCache, RewardPool } from '@reward';
 import { Information, informationAlert } from '@information';
-import { ArchiveInterface } from '../fisher-archive';
-import { HangUpInformation } from './HangUpInformation';
+import { ArchiveInterface } from '@archive';
+import { HangUpInformation } from './HangUpInformation.js';
 
 class HangUpDungeonManager {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'HangUpDungeonManager');

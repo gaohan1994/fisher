@@ -1,5 +1,5 @@
-import { EquipmentSlot } from './Constants';
-import { Item, ItemType, IItem } from './Item';
+import { EquipmentSlot } from './Constants.js';
+import { Item, ItemType, IItem } from './Item.js';
 
 export interface IEquipmentItem extends IItem {
   slot: EquipmentSlot[number];

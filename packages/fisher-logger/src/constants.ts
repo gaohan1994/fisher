@@ -1,3 +1,8 @@
+export const prefixes = {
+  MAIN: 'Main',
+  FISHER_CORE: 'FisherCore',
+};
+
 export enum LoggerLevel {
   OFF = 'off',
   INFO = 'info',

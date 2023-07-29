@@ -1,16 +1,16 @@
 import { makeAutoObservable } from 'mobx';
 import { Experience } from '@experience';
-import { Person } from './Person';
-import { PersonEquipmentManager } from './PersonEquipmentManager';
+import { Person } from './Person.js';
+import { PersonEquipmentManager } from './PersonEquipmentManager.js';
 import {
   IBonuesBuffAttributes,
   IBonusBuffAttributesKeys,
   IBonusEquipmentsAttributes,
   IBonusEquipmentsAttributesKeys,
-} from './Attributes';
+} from './Attributes.js';
 import { EquipmentSlot } from '@item';
-import { ActionManager } from './ActionsManager';
-import { PersonFactorConfig } from './Constants';
+import { ActionManager } from './ActionsManager.js';
+import { PersonFactorConfig } from './Constants.js';
 
 const emptyBonusAttributes: IBonusEquipmentsAttributes = {
   MaxHp: 0,

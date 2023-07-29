@@ -1,5 +1,5 @@
 import { ActionId } from '@actions';
-import { IItem, Item, ItemType } from './Item';
+import { IItem, Item, ItemType } from './Item.js';
 
 export interface IEnemyItem extends IItem {
   level: number;

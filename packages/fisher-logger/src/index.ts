@@ -1,14 +1,12 @@
+import { LoggerLevel, prefixes } from './constants.js';
 import { Logger } from './logger.js';
-import { Prefix } from './prefix.js';
 
-export const mainLogger = Logger.create();
+export const mainLogger = new Logger(prefixes.MAIN, LoggerLevel.INFO);
 
-export const prefixLogger = (...prefixes: Array<string>): Prefix => {
-  return mainLogger.byPrefix(prefixes.join(':'));
+export const prefixLogger = (...prefixes: Array<string>) => {
+  return new Logger(prefixes.join(':'), LoggerLevel.INFO);
 };
 
-export const prefixes = {
-  PAGES: 'Pages',
-  COMPONENTS: 'Components',
-  FISHER_CORE: 'FisherCore',
-};
+export * from './logger.js';
+export * from './prefix.js';
+export * from './constants.js';

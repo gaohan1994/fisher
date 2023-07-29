@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
-import { Reward } from './Reward';
+import { Reward } from './Reward.js';
 
 class RewardPool {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'RewardPool');

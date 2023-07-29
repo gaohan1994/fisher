@@ -30,7 +30,7 @@ import {
   makeReikiData,
   makeRewardChestsData,
   makeShopCategoryData,
-} from './serviceDataGenerators';
+} from './serviceDataGenerators.js';
 
 @service(ComponentId.Store)
 class Store {

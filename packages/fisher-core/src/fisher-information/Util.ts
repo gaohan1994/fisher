@@ -1,4 +1,4 @@
-import { InformationMessage } from './Message';
+import { InformationMessage } from './Message.js';
 
 function throttled(fn: any, delay = 500) {
   let timer: any;

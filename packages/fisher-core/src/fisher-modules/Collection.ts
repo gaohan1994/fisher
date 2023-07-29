@@ -1,10 +1,10 @@
-import { ArchiveInterface } from '../fisher-archive';
+import { ArchiveInterface } from '@archive';
 import { Recipe } from '@item';
 import { Skill } from '@skill';
 import { HangUpTime, HangUpRecipeHandler } from '@hangUp';
 import { FisherCoreError, EventKeys, events } from '@shared';
-import { generateTimestamp } from '../utils';
-import { FisherCore } from '../fisher-core';
+import { generateTimestamp } from '../utils/index.js';
+import { FisherCore } from '../fisher-core/index.js';
 
 abstract class Collection<CollectionPackages> {
   public abstract id: string;

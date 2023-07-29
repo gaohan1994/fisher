@@ -1,15 +1,15 @@
-import normalDataJson from './data/NormalData.json';
-import RewardChestDataJson from './data/RewardChestData.json';
-import miningDataJson from './data/MiningData.json';
-import reikiDataJson from './data/ReikiData.json';
-import equipmentDataJson from './data/EquipmentData.json';
-import equipmentSetDataJson from './data/EquipmentSetData.json';
-import battleDataJson from './data/BattleData.json';
-import forgeDataJson from './data/ForgeData.json';
-import cookDataJson from './data/CookData.json';
-import ShopDataJson from './data/ShopData.json';
-import PotionDataJson from './data/PotionData.json';
-import DungeonDataJson from './data/DungeonData.json';
+import normalDataJson from '../assets/data/NormalData.json';
+import RewardChestDataJson from '../assets/data/RewardChestData.json';
+import miningDataJson from '../assets/data/MiningData.json';
+import reikiDataJson from '../assets/data/ReikiData.json';
+import equipmentDataJson from '../assets/data/EquipmentData.json';
+import equipmentSetDataJson from '../assets/data/EquipmentSetData.json';
+import battleDataJson from '../assets/data/BattleData.json';
+import forgeDataJson from '../assets/data/ForgeData.json';
+import cookDataJson from '../assets/data/CookData.json';
+import ShopDataJson from '../assets/data/ShopData.json';
+import PotionDataJson from '../assets/data/PotionData.json';
+import DungeonDataJson from '../assets/data/DungeonData.json';
 import {
   Item,
   IItem,
@@ -46,17 +46,17 @@ export function makeNormalData() {
 }
 
 export function makeRewardChestsData() {
-  return generateRewardChests(RewardChestDataJson.data.items as IRewardChest[]);
+  return generateRewardChests(RewardChestDataJson.data as IRewardChest[]);
 }
 
 export function makeMiningPackagesData(): ICollectionModuleData {
-  const items = generatePackagesItems(miningDataJson.data.items as any[]);
-  const recipes = generatePackagesRecipes(miningDataJson.data.recipes);
+  const items = generatePackagesItems(miningDataJson.items as any[]);
+  const recipes = generatePackagesRecipes(miningDataJson.recipes);
   return { items, recipes };
 }
 export function makeReikiPackagesData(): ICollectionModuleData {
-  const items = generatePackagesItems(reikiDataJson.data.items as any[]);
-  const recipes = generatePackagesRecipes(reikiDataJson.data.recipes);
+  const items = generatePackagesItems(reikiDataJson.items as any[]);
+  const recipes = generatePackagesRecipes(reikiDataJson.recipes);
   return { items, recipes };
 }
 
@@ -69,7 +69,7 @@ export function makeEquipmentPackagesData() {
 }
 
 export function makeEquipmentSetData() {
-  return generateEquipmentSets(equipmentSetDataJson.data.items);
+  return generateEquipmentSets(equipmentSetDataJson.data);
 }
 
 export function makeForgePackagesData(): [Recipe[], NormalItem[], Map<EquipmentSlot, Recipe[]>, Map<Rarity, Recipe[]>] {
@@ -111,7 +111,7 @@ export function makeForgePackagesData(): [Recipe[], NormalItem[], Map<EquipmentS
 }
 
 export function makeCookPackagesData(): [Recipe[], NormalItem[]] {
-  return [generatePackagesRecipes(cookDataJson.data.recipes), generatePackagesItems(cookDataJson.data.bluePrints)];
+  return [generatePackagesRecipes(cookDataJson.recipes), generatePackagesItems(cookDataJson.bluePrints)];
 }
 
 export function makeShopData() {
@@ -119,7 +119,7 @@ export function makeShopData() {
 }
 
 export function makeHealPotionData() {
-  return generateHealPotions(PotionDataJson.data.healPotions);
+  return generateHealPotions(PotionDataJson.heal);
 }
 
 export function makeDungeonData() {

@@ -1,6 +1,6 @@
 import { Person } from '@person';
-import { BaseAttackAction } from './BaseAction';
-import { ActionId } from './Constants';
+import { BaseAttackAction } from './BaseAction.js';
+import { ActionId } from './Constants.js';
 
 class NormalAttackAction extends BaseAttackAction {
   public readonly id = ActionId.NormalAttackAction;

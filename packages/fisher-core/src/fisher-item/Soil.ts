@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { random } from '../utils';
-import { Seed, SeedHandler } from './Seed';
+import { random } from '../utils/index.js';
+import { Seed, SeedHandler } from './Seed.js';
 import { EventKeys, events } from '@shared';
 import { Reward } from '@reward';
 

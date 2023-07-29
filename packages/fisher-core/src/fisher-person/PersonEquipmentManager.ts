@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
 import { EventEmitter } from 'smar-util';
-import { store } from '../fisher-packages';
-import { PersonEquipment } from './PersonEquipment';
+import { store } from '../fisher-packages/index.js';
+import { PersonEquipment } from './PersonEquipment.js';
 import { EquipmentItem, EquipmentSet, EquipmentSlot } from '@item';
 import { FisherPersonError } from '@shared';
 import { ActionId } from '@actions';

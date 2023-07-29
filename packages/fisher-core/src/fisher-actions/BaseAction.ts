@@ -5,8 +5,8 @@ import { Timer } from '@timer';
 import { Assets } from '@assets';
 import { FisherActionError } from '@shared';
 import { IBonusBuffAttributesKeys, Person } from '@person';
-import { ActionId, ActionMode } from './Constants';
-import { random } from '../utils';
+import { ActionId, ActionMode } from './Constants.js';
+import { random } from '../utils/index.js';
 
 interface IBaseAction {
   readonly id: string;

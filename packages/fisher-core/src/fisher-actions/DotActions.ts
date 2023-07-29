@@ -1,5 +1,5 @@
-import { BaseDotAction } from './BaseAction';
-import { ActionId } from './Constants';
+import { BaseDotAction } from './BaseAction.js';
+import { ActionId } from './Constants.js';
 
 class PosionDotAction extends BaseDotAction {
   public override readonly id = ActionId.PosionDotAction;

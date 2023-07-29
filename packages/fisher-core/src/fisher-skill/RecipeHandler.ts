@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { EventEmitter } from 'smar-util';
 import { BackpackItem, IRecipeItem, Recipe } from '@item';
 import { EventKeys, events } from '@shared';
-import { Skill } from './Skill';
+import { Skill } from './Skill.js';
 import { Reward } from '@reward';
 import { Backpack } from '@backpack';
 

@@ -4,21 +4,26 @@
   "description": "A logger util for fisher",
   "author": "Harper Gao",
   "type": "module",
-  "main": "./build/commonjs/index.js",
+  "main": "./build/esm/index.js",
   "module": "./build/esm/index.js",
+  "types": "./build/esm/index.d.ts",
   "exports": {
     ".": {
       "import": "./build/esm/index.js",
       "require": "./build/commonjs/index.js",
-      "default": "./build/esm/index.js"
+      "default": "./build/esm/index.js",
+      "types": "./build/esm/index.d.ts"
     },
     "./*": {
       "import": "./build/esm/*.js",
       "require": "./build/commonjs/*.js",
-      "default": "./build/esm/*.js"
+      "default": "./build/esm/*.js",
+      "types": "./build/esm/*.d.ts"
     }
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  },
   "scripts": {
     "build": "rimraf ./build && npm run build:module && npm run build:commonjs",
     "build:module": "tsc -b tsconfig.build.json",

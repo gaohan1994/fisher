@@ -1,6 +1,6 @@
 import { Person } from '@person';
-import { BaseHealAction } from './BaseAction';
-import { ActionId } from './Constants';
+import { BaseHealAction } from './BaseAction.js';
+import { ActionId } from './Constants.js';
 
 class LowHealAction extends BaseHealAction {
   public hpThreshold = 0.7;

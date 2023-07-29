@@ -1,11 +1,11 @@
 import { makeAutoObservable } from 'mobx';
-import { ComponentManager, FisherCore } from '../fisher-core';
+import { ComponentManager, FisherCore } from '../fisher-core/index.js';
 import { Recipe } from '@item';
-import { store } from '../fisher-packages';
+import { store } from '../fisher-packages/index.js';
 import { Reward, RewardPool } from '@reward';
-import { HangUpTime } from './HangUpTime';
-import { MaxHangUpTimeMs } from './Constants';
-import { ArchiveInterface } from '../fisher-archive';
+import { HangUpTime } from './HangUpTime.js';
+import { MaxHangUpTimeMs } from './Constants.js';
+import { ArchiveInterface } from '@archive';
 
 class HangUpRecipeHandler {
   private state: ComponentManager | FisherCore;

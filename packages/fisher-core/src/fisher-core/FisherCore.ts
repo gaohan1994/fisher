@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixes, prefixLogger } from '@fisher/logger';
 import { events } from '@shared';
-import { ArchiveManager } from '../fisher-archive';
-import { ComponentManager } from './ComponentManager';
+import { ArchiveManager } from '../fisher-archive/index.js';
+import { ComponentManager } from './ComponentManager.js';
 
 export class FisherCore {
   public static logger = prefixLogger(prefixes.FISHER_CORE, 'FisherCore');

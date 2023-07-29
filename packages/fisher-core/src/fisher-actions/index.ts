@@ -1,4 +1,4 @@
-import { ActionId, ActionMode } from './Constants';
+import { ActionId, ActionMode } from './Constants.js';
 import {
   BaseAction,
   BaseAttackAction,
@@ -6,7 +6,7 @@ import {
   BaseDebuffAction,
   BaseDotAction,
   BaseHealAction,
-} from './BaseAction';
+} from './BaseAction.js';
 import {
   NormalAttackAction,
   CritAttackAction,
@@ -14,17 +14,17 @@ import {
   HighFixedDamageAction,
   LowBatterAction,
   HighBatterAction,
-} from './AttackActions';
-import { PosionDotAction, DragonSwordAction } from './DotActions';
-import { LowHealAction, HighHealAction } from './HealActions';
+} from './AttackActions.js';
+import { PosionDotAction, DragonSwordAction } from './DotActions.js';
+import { LowHealAction, HighHealAction } from './HealActions.js';
 import {
   LowBuffAttackPowerAction,
   LowBuffAttackPowerMultiplierAction,
   LowBuffDefenceCorruptionAction,
   LowBuffDefencePowerAction,
   LowBuffDefencePowerMultiplierAction,
-} from './BuffActions';
-import { LowDebuffAttackPowerAction } from './DebuffActions';
+} from './BuffActions.js';
+import { LowDebuffAttackPowerAction } from './DebuffActions.js';
 
 type FisherAction = BaseAttackAction | BaseDotAction | BaseHealAction | BaseBuffAction | BaseDebuffAction;
 

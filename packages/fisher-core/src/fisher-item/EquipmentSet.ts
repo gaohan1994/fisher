@@ -1,6 +1,6 @@
 import { makeAutoObservable, makeObservable, observable, computed, action } from 'mobx';
-import { IItem, Item, ItemType } from './Item';
-import { EquipmentItem, IEquipmentAttribute } from './EquipmentItem';
+import { IItem, Item, ItemType } from './Item.js';
+import { EquipmentItem, IEquipmentAttribute } from './EquipmentItem.js';
 
 export interface IEquipmentSet extends IItem {
   equipmentIds: string[];

@@ -4,7 +4,7 @@ import { EventKeys, events } from '@shared';
 import { BackpackItem, EmptyPotion, Potion } from '@item';
 import { Backpack } from '@backpack';
 import { Person } from '@person';
-import { store } from '../fisher-packages';
+import { store } from '../fisher-packages/index.js';
 
 class PotionHandler {
   static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'PotionHandler');

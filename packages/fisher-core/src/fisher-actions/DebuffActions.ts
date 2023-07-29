@@ -1,6 +1,6 @@
 import { IAttributeKeys } from '@person';
-import { BaseDebuffAction, IBuffAttribute } from './BaseAction';
-import { ActionId } from './Constants';
+import { BaseDebuffAction, IBuffAttribute } from './BaseAction.js';
+import { ActionId } from './Constants.js';
 
 class LowDebuffAttackPowerAction extends BaseDebuffAction {
   public static readonly AttackPower = -15;

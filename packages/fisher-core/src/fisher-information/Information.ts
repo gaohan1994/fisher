@@ -6,8 +6,8 @@ import {
   MasterDeathMessage,
   MasterLevelMessage,
   NormalMessage,
-} from './Message';
-import { FisherMessageVariant } from './Constants';
+} from './Message.js';
+import { FisherMessageVariant } from './Constants.js';
 
 enum InformationEventKeys {
   TipMessage = 'TipMessage',

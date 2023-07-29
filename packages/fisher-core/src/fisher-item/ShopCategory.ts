@@ -1,4 +1,4 @@
-import { ItemType } from './Item';
+import { ItemType } from './Item.js';
 
 interface IShopCategory {
   id: string;

@@ -1,10 +1,10 @@
 import { EventKeys, events } from '@shared';
 import { Information, informationAlert } from '@information';
 import { RewardChest } from '@item';
-import { roll } from '../utils';
-import { Reward } from './Reward';
-import { RewardCache } from './RewardCache';
-import { RewardPool } from './RewardPool';
+import { roll } from '../utils/index.js';
+import { Reward } from './Reward.js';
+import { RewardCache } from './RewardCache.js';
+import { RewardPool } from './RewardPool.js';
 
 class RewardChestHandler {
   public static openRewardChest = (rewardChest: RewardChest) => {
