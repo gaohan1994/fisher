@@ -70,9 +70,7 @@ class Store {
 
   public battleAreas: BattleAreaItem[] = [];
 
-  public battleEnemies: EnemyItem[] = [];
-
-  public dungeons: DungeonItem[] = [];
+  public dungeonItems: DungeonItem[] = [];
 
   public shopCategories: ShopCategory[] = [];
 
@@ -93,8 +91,7 @@ class Store {
       ...this.equipments,
       ...this.equipmentSets,
       ...this.battleAreas,
-      ...this.battleEnemies,
-      ...this.dungeons,
+      ...this.dungeonItems,
       ...this.shopCategories,
       ...this.healPotions,
     ];
@@ -163,12 +160,12 @@ class Store {
   };
 
   private initializeBattle = () => {
-    [this.battleAreas, this.battleEnemies] = makeBattleData();
+    this.battleAreas = makeBattleData();
     Store.logger.info('initialize BattleArea and BattleEnemies data');
   };
 
   private initializeDungeon = () => {
-    this.dungeons = makeDungeonData();
+    this.dungeonItems = makeDungeonData();
     Store.logger.info('initialize Dungeons data');
   };
 

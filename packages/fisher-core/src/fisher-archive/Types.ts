@@ -32,7 +32,7 @@ namespace ArchiveInterface {
 
   export interface ArchiveDungeon {
     activeDungeonItemId?: string;
-    progress?: number;
+    current?: number;
   }
 
   export interface ArchiveCollection {

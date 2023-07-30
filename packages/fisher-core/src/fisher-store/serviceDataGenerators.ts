@@ -24,6 +24,7 @@ import {
   RewardChest,
   HealPotion,
   DungeonItem,
+  IEnemyItem,
 } from '@item';
 
 interface ServiceDataCtor<T = any[], R = any> {
@@ -91,20 +92,17 @@ export function makeDungeonData() {
   return dungeonFacotry(DungeonDataJson.data as any[]);
 }
 
+function findEnemiesOptionsByEnemyIds(datasource: IEnemyItem[], ids: string[]) {
+  const result = ids
+    .map((id) => datasource.find((enemyOptions) => enemyOptions.id === id))
+    .filter(Boolean) as IEnemyItem[];
+  return result;
+}
+
 export function makeBattleData() {
-  const enemies = enemyFacotry(BattleDataJson.enemy);
-  const areas = BattleDataJson.area.map((item) => {
-    const enemies: EnemyItem[] = item.enemies
-      .map((enemyId) => enemies.find((enemy) => enemy.id === enemyId)!)
-      .sort((a, b) => a.level - b.level);
-
-    return new BattleAreaItem({
-      ...item,
-      enemies,
-    });
+  return BattleDataJson.area.map((item) => {
+    return new BattleAreaItem({ ...item, enemies: findEnemiesOptionsByEnemyIds(BattleDataJson.enemy, item.enemies) });
   });
-
-  return [areas, enemies] as const;
 }
 
 /**

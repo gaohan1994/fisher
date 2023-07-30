@@ -17,7 +17,6 @@ describe('Store test', () => {
     expect(store.equipments.length > 0).toBeTruthy();
     expect(store.equipmentSets.length > 0).toBeTruthy();
     expect(store.battleAreas.length > 0).toBeTruthy();
-    expect(store.battleEnemies.length > 0).toBeTruthy();
     expect(store.dungeons.length > 0).toBeTruthy();
     expect(store.shopCategories.length > 0).toBeTruthy();
     expect(store.healPotions.length > 0).toBeTruthy();

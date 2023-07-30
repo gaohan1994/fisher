@@ -4,7 +4,7 @@ import { Assets } from '@assets';
 import { Fight } from '@fight';
 import { FisherCore } from '@core';
 import { DungeonItem } from '@item';
-import { Reward, RewardPool } from '@reward';
+import { RewardPool } from '@reward';
 import { Enemy, Master } from '@person';
 import { TimerSpace } from '@timer';
 import { EventKeys, events, FisherDungeonError } from '@shared';
@@ -12,6 +12,7 @@ import { HangUpDungeonManager, HangUpTime } from '@hangUp';
 import { store } from '../fisher-packages/index.js';
 import { ArchiveInterface } from '../fisher-archive/index.js';
 import { generateTimestamp } from '../utils/index.js';
+import { DungeonItemHandler } from './DungeonItemHandler.js';
 
 class Dungeon {
   private static readonly logger = prefixLogger(prefixes.FISHER_CORE, 'Dungeon');
@@ -28,7 +29,7 @@ class Dungeon {
   public get archive(): ArchiveInterface.ArchiveDungeon {
     return {
       activeDungeonItemId: this.activeDungeonItem?.id,
-      progress: this.activeDungeonItem?.progress,
+      current: this.dungeonItemHandler?.current,
     };
   }
 
@@ -47,6 +48,8 @@ class Dungeon {
   public fight: Fight | undefined = undefined;
 
   public activeDungeonItem: DungeonItem | undefined = undefined;
+
+  private dungeonItemHandler: DungeonItemHandler | undefined = undefined;
 
   public rewardPool = new RewardPool();
 
@@ -95,7 +98,7 @@ class Dungeon {
 
     new HangUpDungeonManager(
       new HangUpTime(this.pauseTime),
-      { activeDungeonItemId: this.activeDungeonItem.id, progress: this.activeDungeonItem.progress },
+      { activeDungeonItemId: this.activeDungeonItem.id, current: this.dungeonItemHandler?.current },
       core.archiveManager.activeArchive?.values!
     );
     this.pauseTime = undefined;
@@ -112,9 +115,15 @@ class Dungeon {
 
   public start = () => {
     const master = Master.create();
-
     if (this.activeDungeonItem === undefined) {
       throw new FisherDungeonError('Fail to start dungeon, please set active dungeon', '请先设置要攻略的副本');
+    }
+
+    if (this.fight !== undefined) {
+      throw new FisherDungeonError(
+        `Current dungeon was active with ${this.activeDungeonItem.id}, should stop dungeon first`,
+        '请先停止当前副本后，在挑战新副本'
+      );
     }
 
     if (this.activeDungeonItem.unlockLevel > master.level) {
@@ -122,15 +131,18 @@ class Dungeon {
     }
 
     events.emit(EventKeys.Core.SetActiveComponent, this);
-    this.fight = this.createDungeonFight(new Enemy(this.activeDungeonItem.currentEnemyItem));
-
+    this.startDungeon(this.activeDungeonItem);
     Dungeon.logger.info(`Start Dungeon ${this.activeDungeonItem.name}`);
+  };
+
+  private startDungeon = (dungeonItem: DungeonItem) => {
+    this.dungeonItemHandler = new DungeonItemHandler(dungeonItem);
+    this.fight = this.createDungeonFight(new Enemy(this.dungeonItemHandler.currentEnemy));
   };
 
   public stop = () => {
     this.clearDungeonFight();
     this.clearActiveDungeonItem();
-
     Dungeon.logger.info('Stop Dungeon');
   };
 
@@ -143,36 +155,19 @@ class Dungeon {
   private onMasterWinFight = async (_: Master, enemy: Enemy) => {
     enemy.executeExperienceRewards();
     this.collectRewards(enemy);
-    this.collectProgressExtraReward(enemy);
-
     await TimerSpace.space(Dungeon.BaseInterval);
-
     this.continueNextFight();
   };
 
   private continueNextFight = () => {
-    if (this.activeDungeonItem !== undefined) {
-      this.fight = this.createDungeonFight(new Enemy(this.activeDungeonItem.nextEnemy()));
+    if (this.dungeonItemHandler === undefined || !this.dungeonItemHandler.hasNextEnemy) {
+      return this.stop();
     }
+    this.fight = this.createDungeonFight(new Enemy(this.dungeonItemHandler.findNextEnemy()!));
   };
 
   private collectRewards = (enemy: Enemy) => {
     this.rewardPool.collectRewards(enemy.provideRewards());
-  };
-
-  private collectProgressExtraReward = (enemy: Enemy) => {
-    if (this.activeDungeonItem === undefined) {
-      throw new FisherDungeonError(
-        'Try to collect progress extra reward without an active dungeon',
-        '请先设置要攻略的副本'
-      );
-    }
-
-    const extraReward = this.activeDungeonItem?.tryGetProgressExtraRewards(enemy.id);
-
-    if (extraReward !== undefined) {
-      this.rewardPool.collectRewards(extraReward.map(Reward.create));
-    }
   };
 
   public executeRewards = () => {
