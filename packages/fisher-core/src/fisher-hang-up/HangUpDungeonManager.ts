@@ -1,16 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 import { prefixLogger, prefixes } from '@fisher/logger';
-import { roll } from '../utils/index.js';
-import { store } from '../fisher-packages/index.js';
-import { Enemy, Master } from '@person';
-import { ComponentId } from '../fisher-core/index.js';
-import { HangUpTime } from './HangUpTime.js';
-import { FakeFight } from './FakeFight.js';
+import { ArchiveInterface } from '@archive';
+import { DungeonItemHandler } from '@dungeon';
 import { fakeClock } from '@timer';
 import { DungeonItem } from '@item';
+import { Enemy, Master } from '@person';
 import { RewardCache, RewardPool } from '@reward';
 import { Information, informationAlert } from '@information';
-import { ArchiveInterface } from '@archive';
+import { roll } from '../utils/index.js';
+import { store } from '../fisher-packages/index.js';
+import { ComponentId } from '../fisher-core/index.js';
+import { FakeFight } from './FakeFight.js';
+import { HangUpTime } from './HangUpTime.js';
 import { HangUpInformation } from './HangUpInformation.js';
 
 class HangUpDungeonManager {
@@ -28,6 +29,8 @@ class HangUpDungeonManager {
 
   public dungeonItem: DungeonItem;
 
+  private readonly dungeonItemHandler: DungeonItemHandler;
+
   private realMaster: Master = Master.create();
 
   private fakeMaster: Master;
@@ -42,7 +45,7 @@ class HangUpDungeonManager {
 
   constructor(
     time: HangUpTime,
-    { activeDungeonItemId, progress }: ArchiveInterface.ArchiveDungeon,
+    { activeDungeonItemId, current }: ArchiveInterface.ArchiveDungeon,
     values: ArchiveInterface.ArchiveValues
   ) {
     makeAutoObservable(this);
@@ -50,9 +53,8 @@ class HangUpDungeonManager {
     this.time = time;
 
     this.dungeonItem = store.findItemById<DungeonItem>(activeDungeonItemId!);
-    if (progress !== undefined && progress > 0) {
-      this.dungeonItem.setProgress(progress);
-    }
+    this.dungeonItemHandler = new DungeonItemHandler(this.dungeonItem);
+    this.dungeonItemHandler.setCurrent(current ?? 0);
 
     /**
      * Make a fake master
@@ -82,7 +84,7 @@ class HangUpDungeonManager {
   };
 
   private createFakeFight = () => {
-    const fight = FakeFight.create(this.fakeMaster, new Enemy(this.dungeonItem.nextEnemy()));
+    const fight = FakeFight.create(this.fakeMaster, new Enemy(this.dungeonItemHandler.findNextEnemy()!));
 
     this.unsubscribeCallbacks.set(fight.id, [
       fight.event.on(FakeFight.EventKeys.MasterWinFight, this.onMasterWinFight),
@@ -122,7 +124,6 @@ class HangUpDungeonManager {
     if (fakeFightDuration < this.availableTimeDuration) {
       this.fightVictoryTimes += 1;
       this.collectEnemyRewards(_enemy);
-      this.collectProgressExtraReward(_enemy);
       this.continueNextFakeFight();
     } else {
       this.dungeonHangUpEnd();
@@ -185,26 +186,6 @@ class HangUpDungeonManager {
         if (!roll(item.probability)) break;
         this.rewardCache.cacheItems([item]);
       }
-    }
-  };
-
-  private collectProgressExtraReward = (enemy: Enemy) => {
-    const extraReward = this.dungeonItem.tryGetProgressExtraRewards(enemy.id);
-
-    if (extraReward !== undefined) {
-      extraReward.forEach((reward) => {
-        if (reward.gold && reward.gold > 0) {
-          this.rewardCache.cacheGold(reward.gold);
-        }
-
-        if (reward.experience && reward.experience > 0) {
-          this.rewardCache.cacheExperience(enemy.experienceRewards);
-        }
-
-        if (reward.itemId !== undefined) {
-          this.rewardCache.cacheItems([{ itemId: reward.itemId, itemQuantity: reward.itemQuantity }]);
-        }
-      });
     }
   };
 

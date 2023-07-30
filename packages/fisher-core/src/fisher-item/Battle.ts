@@ -1,9 +1,9 @@
-import { EnemyItem } from './Enemy.js';
+import { EnemyItem, IEnemyItem } from './Enemy.js';
 import { Item, ItemType, IItem } from './Item.js';
 
 export interface IBattleAreaItem extends IItem {
   unlockLevel: number;
-  enemies?: EnemyItem[];
+  enemies: IEnemyItem[];
 }
 
 export class BattleAreaItem extends Item {
@@ -11,12 +11,12 @@ export class BattleAreaItem extends Item {
 
   public unlockLevel: number;
 
-  public enemies: EnemyItem[] = [];
+  public enemies: EnemyItem[];
 
-  constructor(options: IBattleAreaItem) {
+  constructor(public readonly options: IBattleAreaItem) {
     super(options);
     this.unlockLevel = options.unlockLevel;
-    if (options.enemies) this.enemies = options.enemies;
+    this.enemies = options.enemies.map((enemyOption) => new EnemyItem(enemyOption));
   }
 
   public setEnemies = (value: EnemyItem[]) => {
